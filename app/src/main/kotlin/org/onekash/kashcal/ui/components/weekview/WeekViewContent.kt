@@ -60,6 +60,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -459,16 +460,48 @@ private fun UnifiedTimeGrid(
                     }
                 }
 
-                Row(modifier = Modifier.weight(1f)) {
-                    visibleDates.forEach { date ->
-                        DayHeaderCell(
-                            date = date,
-                            isToday = date == today,
-                            isWeekend = WeekViewUtils.isWeekend(date),
-                            compact = visibleDays == 7,
-                            onClick = { onDayHeaderClick(date) },
-                            modifier = Modifier.weight(1f)
-                        )
+                BoxWithConstraints(modifier = Modifier.weight(1f)) {
+                    val areaWidthPx = with(density) { maxWidth.toPx() }
+                    if (visibleDays == 7) {
+                        PagerSyncedContent(
+                            pagerState = pagerState,
+                            pageWidthPx = areaWidthPx,
+                            visiblePageCount = 1,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { page ->
+                            val weekStart = WeekViewUtils.weekPageToStartDate(page, firstDayOfWeek)
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                for (dayOffset in 0 until 7) {
+                                    val date = weekStart.plusDays(dayOffset.toLong())
+                                    DayHeaderCell(
+                                        date = date,
+                                        isToday = date == today,
+                                        isWeekend = WeekViewUtils.isWeekend(date),
+                                        compact = true,
+                                        onClick = { onDayHeaderClick(date) },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        val columnAreaWidthPx = areaWidthPx / visibleDays
+                        PagerSyncedContent(
+                            pagerState = pagerState,
+                            pageWidthPx = columnAreaWidthPx,
+                            visiblePageCount = visibleDays,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { page ->
+                            val date = WeekViewUtils.pageToDate(page)
+                            DayHeaderCell(
+                                date = date,
+                                isToday = date == today,
+                                isWeekend = WeekViewUtils.isWeekend(date),
+                                compact = false,
+                                onClick = { onDayHeaderClick(date) },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
             }
@@ -478,7 +511,10 @@ private fun UnifiedTimeGrid(
         // its height so the grid starts below it and the earliest hours
         // (midnight onward) are never hidden behind it.
         AllDayEventsPagerRow(
+            pagerState = pagerState,
             visibleDates = visibleDates,
+            visibleDays = visibleDays,
+            firstDayOfWeek = firstDayOfWeek,
             allDayEventsByDate = allDayEventsByDate,
             timeColumnWidth = timeColumnWidth,
             allDayRowsExpanded = allDayRowsExpanded,
@@ -597,6 +633,7 @@ private fun UnifiedTimeGrid(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(totalHeight)
+                                .clipToBounds()
                         ) {
                             // Grid lines
                             GridLines(
@@ -697,21 +734,25 @@ private fun UnifiedTimeGrid(
                                     }
                                 }
 
-                                // Current time indicator (week mode)
-                                val weekStart = remember {
-                                    derivedStateOf {
-                                        WeekViewUtils.weekPageToStartDate(pagerState.currentPage, firstDayOfWeek)
-                                    }
+                                // Current time indicator (week mode). Today lives on a single,
+                                // fixed week page — track that page's continuous distance from
+                                // the pager's live (possibly mid-drag) position so the marker
+                                // slides with the grid instead of jumping only once the page
+                                // settles.
+                                val todayWeekPage = remember(firstDayOfWeek) {
+                                    WeekViewUtils.dateToWeekPage(today, firstDayOfWeek)
+                                }
+                                val todayDayIndexInWeek = remember(todayWeekPage, firstDayOfWeek) {
+                                    val weekStart = WeekViewUtils.weekPageToStartDate(todayWeekPage, firstDayOfWeek)
+                                    WeekViewUtils.dateToPage(today) - WeekViewUtils.dateToPage(weekStart)
                                 }
                                 CurrentTimeIndicator(
                                     hourHeight = hourHeight,
                                     visibleDays = 7,
                                     startHour = startHour,
                                     todayOffset = {
-                                        val ws = weekStart.value
-                                        val todayPage = WeekViewUtils.dateToPage(today)
-                                        val wsPage = WeekViewUtils.dateToPage(ws)
-                                        todayPage - wsPage
+                                        val pagerPosition = pagerState.currentPage + pagerState.currentPageOffsetFraction
+                                        (todayWeekPage - pagerPosition) * 7f + todayDayIndexInWeek
                                     },
                                     columnWidth = columnWidth
                                 )
@@ -795,7 +836,13 @@ private fun UnifiedTimeGrid(
                                     visibleDays = visibleDays,
                                     startHour = startHour,
                                     todayOffset = {
-                                        WeekViewUtils.dateToPage(today) - pagerState.currentPage
+                                        // Day-scale pages sit near CENTER_DAY_PAGE (~1.07e9), which
+                                        // Float can't represent exactly (only up to ~16.7M) — so the
+                                        // page subtraction must happen in exact Int arithmetic first;
+                                        // only the small resulting delta (and the sub-page drag
+                                        // fraction) gets converted to Float.
+                                        val pageDelta = WeekViewUtils.dateToPage(today) - pagerState.currentPage
+                                        pageDelta.toFloat() - pagerState.currentPageOffsetFraction
                                     },
                                     columnWidth = columnWidth
                                 )
@@ -868,6 +915,48 @@ private fun UnifiedTimeGrid(
             }
         }
 
+    }
+}
+
+/**
+ * Renders paged content that tracks [pagerState]'s live drag position rather than only
+ * its settled [PagerState.currentPage] — mirroring how [HorizontalPager] itself lays out
+ * the current page and its neighbour during a drag. Elements outside the pager (day
+ * headers, the all-day strip) that need to visually track the same pages the grid is
+ * paging through should render through this instead of reading `currentPage` alone,
+ * otherwise they sit static through the drag and jump the moment the page settles.
+ *
+ * [content] renders exactly one page's worth of UI for the given absolute page index;
+ * pages from `currentPage - 1` through `currentPage + visiblePageCount` are composed
+ * side by side (each [pageWidthPx] wide) and the whole strip is translated by the
+ * pager's continuous offset, then clipped to [modifier]'s bounds.
+ */
+@Composable
+private fun PagerSyncedContent(
+    pagerState: PagerState,
+    pageWidthPx: Float,
+    visiblePageCount: Int,
+    modifier: Modifier = Modifier,
+    content: @Composable (page: Int) -> Unit
+) {
+    val currentPage = pagerState.currentPage
+    val offsetFraction = pagerState.currentPageOffsetFraction
+    val pageWidthDp = with(LocalDensity.current) { pageWidthPx.toDp() }
+
+    Box(modifier = modifier.clipToBounds()) {
+        Box(
+            modifier = Modifier.graphicsLayer { translationX = -offsetFraction * pageWidthPx }
+        ) {
+            for (i in -1..visiblePageCount) {
+                Box(
+                    modifier = Modifier
+                        .offset(x = pageWidthDp * i)
+                        .width(pageWidthDp)
+                ) {
+                    content(currentPage + i)
+                }
+            }
+        }
     }
 }
 
@@ -998,7 +1087,10 @@ private fun DayHeaderCell(
  */
 @Composable
 private fun AllDayEventsPagerRow(
+    pagerState: PagerState,
     visibleDates: List<LocalDate>,
+    visibleDays: Int,
+    firstDayOfWeek: Int,
     allDayEventsByDate: Map<LocalDate, List<DisplayEvent>>,
     timeColumnWidth: Dp,
     allDayRowsExpanded: Boolean,
@@ -1100,23 +1192,61 @@ private fun AllDayEventsPagerRow(
             }
         }
 
-        // All-day events - one column per visible day (up to 7 in WEEK mode),
-        // derived from visibleDates. No HorizontalPager here to avoid gesture
-        // conflicts with the main time grid.
-        Row(modifier = Modifier.weight(1f)) {
-            visibleDates.forEach { date ->
-                val dayEvents = allDayEventsByDate[date].orEmpty()
+        // All-day events - one column per visible day (up to 7 in WEEK mode). Routed
+        // through PagerSyncedContent (not a HorizontalPager, to avoid gesture conflicts
+        // with the main time grid) so the strip slides with the grid during a swipe
+        // instead of sitting static until the page settles.
+        BoxWithConstraints(modifier = Modifier.weight(1f)) {
+            val density = LocalDensity.current
+            val areaWidthPx = with(density) { maxWidth.toPx() }
+            if (visibleDays == 7) {
+                PagerSyncedContent(
+                    pagerState = pagerState,
+                    pageWidthPx = areaWidthPx,
+                    visiblePageCount = 1,
+                    modifier = Modifier.fillMaxWidth()
+                ) { page ->
+                    val weekStart = WeekViewUtils.weekPageToStartDate(page, firstDayOfWeek)
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        for (dayOffset in 0 until 7) {
+                            val date = weekStart.plusDays(dayOffset.toLong())
+                            val dayEvents = allDayEventsByDate[date].orEmpty()
 
-                CompactEventCell(
-                    events = dayEvents,
-                    expanded = allDayRowsExpanded,
-                    showEventEmojis = showEventEmojis,
-                    onEventClick = onEventClick,
-                    onOverflowClick = onOverflowClick,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 2.dp)
-                )
+                            CompactEventCell(
+                                events = dayEvents,
+                                expanded = allDayRowsExpanded,
+                                showEventEmojis = showEventEmojis,
+                                onEventClick = onEventClick,
+                                onOverflowClick = onOverflowClick,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 2.dp)
+                            )
+                        }
+                    }
+                }
+            } else {
+                val columnAreaWidthPx = areaWidthPx / visibleDays
+                PagerSyncedContent(
+                    pagerState = pagerState,
+                    pageWidthPx = columnAreaWidthPx,
+                    visiblePageCount = visibleDays,
+                    modifier = Modifier.fillMaxWidth()
+                ) { page ->
+                    val date = WeekViewUtils.pageToDate(page)
+                    val dayEvents = allDayEventsByDate[date].orEmpty()
+
+                    CompactEventCell(
+                        events = dayEvents,
+                        expanded = allDayRowsExpanded,
+                        showEventEmojis = showEventEmojis,
+                        onEventClick = onEventClick,
+                        onOverflowClick = onOverflowClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 2.dp)
+                    )
+                }
             }
         }
     }
@@ -1294,7 +1424,9 @@ private fun GridLines(
  * @param hourHeight Height of one hour in the grid
  * @param visibleDays Number of visible day columns (3 or 7)
  * @param startHour First hour of the grid (6 for 3-day, 0 for week)
- * @param todayOffset Lambda returning today's column offset (0-based) from current page
+ * @param todayOffset Lambda returning today's continuous column offset (0-based) from the
+ * pager's live position — a fractional value while a swipe is in progress, so the marker
+ * can slide smoothly instead of snapping only once the page settles.
  * @param columnWidth Width of one day column
  */
 @Composable
@@ -1302,7 +1434,7 @@ private fun CurrentTimeIndicator(
     hourHeight: Dp,
     visibleDays: Int = 3,
     startHour: Int = WeekViewUtils.START_HOUR,
-    todayOffset: () -> Int,
+    todayOffset: () -> Float,
     columnWidth: Dp,
     modifier: Modifier = Modifier
 ) {
@@ -1326,11 +1458,13 @@ private fun CurrentTimeIndicator(
     val endMinutes = endHour * 60
     if (currentMinutes < startMinutes || currentMinutes >= endMinutes) return
 
-    // Calculate today's visible position
+    // Calculate today's visible position — continuous while a swipe is in progress,
+    // so the marker can be partway on/off screen instead of only ever sitting at an
+    // exact column.
     val todayVisibleOffset = todayOffset()
 
-    // Only show if today is in visible range
-    if (todayVisibleOffset !in 0 until visibleDays) return
+    // Only show if today is at least partially in visible range
+    if (todayVisibleOffset <= -1f || todayVisibleOffset >= visibleDays.toFloat()) return
 
     val minutesFromStart = currentMinutes - startMinutes
     val density = LocalDensity.current
