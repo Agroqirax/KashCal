@@ -1397,9 +1397,10 @@ class HomeViewModel(
             // Update DB (source of truth) - UI updates automatically via calendars Flow observation
             eventCoordinator.setCalendarVisibility(calendarId, newVisible)
 
-            // Only rebuild dots (one-shot query needs explicit refresh)
-            // Week/agenda/pager/day views are now reactive via combine() - they auto-update
-            buildEventDots(_uiState.value.viewingYear, _uiState.value.viewingMonth)
+            // Refresh one-shot caches (month dots, year dots, day pager) that don't
+            // auto-update via Flow observation. Week/agenda views are reactive via
+            // combine() and update on their own.
+            reloadCurrentView()
         }
     }
 
@@ -1413,9 +1414,10 @@ class HomeViewModel(
             _uiState.value.calendars.forEach { calendar ->
                 eventCoordinator.setCalendarVisibility(calendar.id, true)
             }
-            // Only rebuild dots (one-shot query needs explicit refresh)
-            // Week/agenda/pager/day views are now reactive via combine() - they auto-update
-            buildEventDots(_uiState.value.viewingYear, _uiState.value.viewingMonth)
+            // Refresh one-shot caches (month dots, year dots, day pager) that don't
+            // auto-update via Flow observation. Week/agenda views are reactive via
+            // combine() and update on their own.
+            reloadCurrentView()
         }
     }
 

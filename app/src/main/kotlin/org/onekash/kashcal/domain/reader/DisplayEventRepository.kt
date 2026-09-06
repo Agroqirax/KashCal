@@ -58,6 +58,23 @@ class DisplayEventRepository @Inject constructor(
     val deviceCalendarChangeSignal: StateFlow<Int> get() = calendarProviderManager.changeSignal
 
     /**
+     * Reactive set of device calendar IDs currently visible (feature enabled,
+     * calendar enabled, and not hidden via the drawer toggle).
+     *
+     * Included as a combine() source in the reactive query methods below so
+     * toggling a device calendar's visibility re-queries immediately, instead
+     * of only taking effect on the next unrelated re-emission (sync, edit,
+     * declined-events toggle).
+     */
+    private val visibleDeviceCalendarIdsFlow: Flow<Set<Long>> = combine(
+        dataStore.deviceCalendarsEnabled,
+        dataStore.enabledDeviceCalendarIds,
+        dataStore.hiddenDeviceCalendarIds
+    ) { enabled, enabledIds, hiddenIds ->
+        if (enabled) enabledIds - hiddenIds else emptySet()
+    }
+
+    /**
      * Signal that the app itself just wrote to a device calendar, so the
      * reactive views (day pager, agenda, week, month dots) re-query device
      * events immediately instead of waiting for the debounced ContentObserver.
@@ -89,10 +106,11 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(rangeStart, rangeEnd),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            visibleDeviceCalendarIdsFlow
+        ) { roomOccurrences, _, showDeclined, _, visibleDeviceIds ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
-            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
+            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode, visibleDeviceIds)
             mergeAndGroupByDay(roomEvents, deviceEvents, startDayCode, endDayCode)
         }
     }
@@ -117,10 +135,11 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(startMs, endMs),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            visibleDeviceCalendarIdsFlow
+        ) { roomOccurrences, _, showDeclined, _, visibleDeviceIds ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
-            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
+            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode, visibleDeviceIds)
             (roomEvents + deviceEvents)
                 .sortedBy { it.startTs }
                 .toPersistentList()
@@ -148,10 +167,11 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(startMs, endMs),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            visibleDeviceCalendarIdsFlow
+        ) { roomOccurrences, _, showDeclined, _, visibleDeviceIds ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
-            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
+            val deviceEvents = queryDeviceEvents(startDayCode, endDayCode, visibleDeviceIds)
             mergeAndGroupByDay(roomEvents, deviceEvents, startDayCode, endDayCode)
         }
     }
@@ -221,7 +241,7 @@ class DisplayEventRepository @Inject constructor(
             .first()
         val showDeclined = dataStore.getShowDeclinedEvents()
         val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
-        val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
+        val deviceEvents = queryDeviceEvents(startDayCode, endDayCode, getVisibleDeviceCalendarIds())
 
         return mergeAndGroupByDay(roomEvents, deviceEvents, startDayCode, endDayCode)
     }
@@ -333,10 +353,10 @@ class DisplayEventRepository @Inject constructor(
      */
     private suspend fun queryDeviceEvents(
         startDayCode: Int,
-        endDayCode: Int
+        endDayCode: Int,
+        visibleIds: Set<Long>
     ): List<DisplayEvent> {
         return try {
-            val visibleIds = getVisibleDeviceCalendarIds()
             if (visibleIds.isNotEmpty()) {
                 val hideDeclined = !dataStore.getShowDeclinedEvents()
                 calendarProviderRepository.getInstancesForDayRange(
