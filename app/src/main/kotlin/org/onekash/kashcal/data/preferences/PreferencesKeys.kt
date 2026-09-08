@@ -33,6 +33,9 @@ object PreferencesKeys {
     /** Show declined events */
     val SHOW_DECLINED_EVENTS = booleanPreferencesKey("show_declined_events")
 
+    /** Show multi-day timed events in the all-day strip instead of the timed grid */
+    val SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP = booleanPreferencesKey("show_multiday_timed_in_allday_strip")
+
     /** Default event duration in minutes */
     val DEFAULT_EVENT_DURATION = intPreferencesKey("default_event_duration")
 

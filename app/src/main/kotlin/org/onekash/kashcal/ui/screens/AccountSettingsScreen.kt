@@ -257,6 +257,8 @@ fun AccountSettingsScreen(
     onFirstDayOfWeekChange: (Int) -> Unit = {},
     showWeekNumbers: Boolean = false,
     onShowWeekNumbersChange: (Boolean) -> Unit = {},
+    showMultiDayTimedInAllDayStrip: Boolean = true,
+    onShowMultiDayTimedInAllDayStripChange: (Boolean) -> Unit = {},
     widgetMaxEventsPerDay: Int = 5,
     onWidgetMaxEventsPerDayChange: (Int) -> Unit = {},
     widgetDetailedRows: Boolean = false,
@@ -537,6 +539,22 @@ fun AccountSettingsScreen(
                                 label = stringResource(R.string.settings_week_numbers),
                                 checked = showWeekNumbers,
                                 onCheckedChange = onShowWeekNumbersChange,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+
+                        val multiDayInAllDayStripInfo = SettingsRowInfo(
+                            title = stringResource(R.string.settings_multiday_in_allday_strip),
+                            text = stringResource(R.string.settings_multiday_in_allday_strip_info)
+                        )
+                        row(label = stringResource(R.string.settings_multiday_in_allday_strip), id = "multiday-in-allday-strip") {
+                            SettingsToggleRow(
+                                icon = Icons.Default.DateRange,
+                                label = stringResource(R.string.settings_multiday_in_allday_strip),
+                                checked = showMultiDayTimedInAllDayStrip,
+                                onCheckedChange = onShowMultiDayTimedInAllDayStripChange,
+                                info = multiDayInAllDayStripInfo,
                                 showDivider = false,
                                 searchQuery = searchQuery
                             )

@@ -128,11 +128,16 @@ data class WeekEventsUiState(
 
         fun ofError(message: String?) = WeekEventsUiState(error = message ?: "Failed to load events")
 
-        fun fromEvents(events: List<DisplayEvent>): WeekEventsUiState = WeekEventsUiState(
-            timedEvents = events.filter { !it.isAllDay && it.endDay == it.startDay }
-                .sortedBy { it.startTs }.toPersistentList(),
-            allDayEvents = events.filter { it.isAllDay || it.endDay > it.startDay }
-                .sortedBy { it.startTs }.toPersistentList(),
+        fun fromEvents(
+            events: List<DisplayEvent>,
+            showMultiDayTimedInAllDayStrip: Boolean = true
+        ): WeekEventsUiState = WeekEventsUiState(
+            timedEvents = events.filter {
+                !it.isAllDay && (!showMultiDayTimedInAllDayStrip || it.endDay == it.startDay)
+            }.sortedBy { it.startTs }.toPersistentList(),
+            allDayEvents = events.filter {
+                it.isAllDay || (showMultiDayTimedInAllDayStrip && it.endDay > it.startDay)
+            }.sortedBy { it.startTs }.toPersistentList(),
             isLoading = false,
             error = null
         )
@@ -493,12 +498,15 @@ class HomeViewModel(
     @Suppress("OPT_IN_USAGE")
     val weekEvents: StateFlow<WeekEventsUiState> =
         timeGridRange
-            .flatMapLatest { range ->
+            .combine(dataStore.showMultiDayTimedInAllDayStrip) { range, showMultiDayTimedInAllDayStrip ->
+                range to showMultiDayTimedInAllDayStrip
+            }
+            .flatMapLatest { (range, showMultiDayTimedInAllDayStrip) ->
                 if (range == null) {
                     flowOf(WeekEventsUiState.EMPTY)
                 } else {
                     displayEventRepository.getDisplayEventsForRange(range.startMs, range.endMs)
-                        .map { events -> WeekEventsUiState.fromEvents(events) }
+                        .map { events -> WeekEventsUiState.fromEvents(events, showMultiDayTimedInAllDayStrip) }
                         .catch { e ->
                             if (e is CancellationException) throw e
                             Log.e(TAG, "Error loading time-grid events", e)
