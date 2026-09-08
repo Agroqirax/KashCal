@@ -225,9 +225,7 @@ fun WeekViewContent(
         groupEventsByDate(timedEvents.toList())
     }
 
-    val allDayEventsByDate = remember(allDayEvents) {
-        groupEventsByDate(allDayEvents.toList())
-    }
+    val allDayEventsList = remember(allDayEvents) { allDayEvents.toList() }
 
     // All timed events go directly to the grid (full 24h range, no overflow separation)
     val normalEventsByDate = timedEventsByDate
@@ -258,7 +256,7 @@ fun WeekViewContent(
             UnifiedTimeGrid(
                 pagerState = pagerState,
                 normalEventsByDate = normalEventsByDate,
-                allDayEventsByDate = allDayEventsByDate,
+                allDayEvents = allDayEventsList,
                 startHour = startHour,
                 endHour = endHour,
                 totalHours = totalHours,
@@ -305,7 +303,7 @@ fun WeekViewContent(
 private fun UnifiedTimeGrid(
     pagerState: PagerState,
     normalEventsByDate: Map<LocalDate, List<DisplayEvent>>,
-    allDayEventsByDate: Map<LocalDate, List<DisplayEvent>>,
+    allDayEvents: List<DisplayEvent>,
     startHour: Int = WeekViewUtils.START_HOUR,
     endHour: Int = WeekViewUtils.END_HOUR,
     totalHours: Int = WeekViewUtils.TOTAL_HOURS,
@@ -479,7 +477,7 @@ private fun UnifiedTimeGrid(
         // (midnight onward) are never hidden behind it.
         AllDayEventsPagerRow(
             visibleDates = visibleDates,
-            allDayEventsByDate = allDayEventsByDate,
+            allDayEvents = allDayEvents,
             timeColumnWidth = timeColumnWidth,
             allDayRowsExpanded = allDayRowsExpanded,
             onAllDayRowsToggle = onAllDayRowsToggle,
@@ -999,7 +997,7 @@ private fun DayHeaderCell(
 @Composable
 private fun AllDayEventsPagerRow(
     visibleDates: List<LocalDate>,
-    allDayEventsByDate: Map<LocalDate, List<DisplayEvent>>,
+    allDayEvents: List<DisplayEvent>,
     timeColumnWidth: Dp,
     allDayRowsExpanded: Boolean,
     onAllDayRowsToggle: () -> Unit,
@@ -1008,22 +1006,43 @@ private fun AllDayEventsPagerRow(
     onOverflowClick: (List<DisplayEvent>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Check if any visible day has all-day events
-    val hasAnyEvents = visibleDates.any { date ->
-        allDayEventsByDate[date]?.isNotEmpty() == true
+    val visibleDayCodes = remember(visibleDates) {
+        visibleDates.map { DayPagerUtils.localDateToDayCode(it) }
     }
 
+    // Per-day raw event counts (each multi-day event counts once per day it
+    // touches) — used only to decide chevron visibility and whether the strip
+    // renders at all, independent of how spans are actually laid out into rows.
+    val perDayCounts = remember(visibleDayCodes, allDayEvents) {
+        visibleDayCodes.map { dayCode ->
+            allDayEvents.count { it.startDay <= dayCode && it.endDay >= dayCode }
+        }
+    }
+
+    val hasAnyEvents = perDayCounts.any { it > 0 }
     if (!hasAnyEvents) return
 
     // Chevron visibility: is there any day with more than one all-day event to
     // expand? Delegated to the unit-tested WeekViewUtils helper (single source of
-    // truth) and memoized so the per-day count pass only re-runs when inputs change.
-    val canToggle by remember(visibleDates, allDayEventsByDate) {
+    // truth).
+    val canToggle by remember(perDayCounts) {
         derivedStateOf {
-            WeekViewUtils.anyAllDayColumnHasOverflowWhenCollapsed(
-                visibleDates.map { allDayEventsByDate[it]?.size ?: 0 }
-            )
+            WeekViewUtils.anyAllDayColumnHasOverflowWhenCollapsed(perDayCounts)
         }
+    }
+
+    val maxRows = if (allDayRowsExpanded) {
+        WeekViewUtils.MAX_ALLDAY_ROWS_EXPANDED
+    } else {
+        WeekViewUtils.MAX_ALLDAY_ROWS_COLLAPSED
+    }
+
+    // Spanning-bar render grid: multi-day events occupy one lane row across every
+    // column they cover (rendered once, not duplicated per day); each column's
+    // remaining rows fill with that day's own single-day events, with any
+    // remainder collapsed into a "+N" badge.
+    val render = remember(visibleDayCodes, allDayEvents, maxRows) {
+        computeAllDayStripRender(visibleDayCodes, allDayEvents, maxRows)
     }
 
     // Chevron points up when expanded (tap to collapse), down when collapsed.
@@ -1100,81 +1119,78 @@ private fun AllDayEventsPagerRow(
             }
         }
 
-        // All-day events - one column per visible day (up to 7 in WEEK mode),
-        // derived from visibleDates. No HorizontalPager here to avoid gesture
-        // conflicts with the main time grid.
-        Row(modifier = Modifier.weight(1f)) {
-            visibleDates.forEach { date ->
-                val dayEvents = allDayEventsByDate[date].orEmpty()
-
-                CompactEventCell(
-                    events = dayEvents,
-                    expanded = allDayRowsExpanded,
-                    showEventEmojis = showEventEmojis,
-                    onEventClick = onEventClick,
-                    onOverflowClick = onOverflowClick,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 2.dp)
-                )
-            }
-        }
-    }
-}
-
-
-/**
- * Compact event cell for all-day rows: renders the visible event chips, then a
- * "+N more" badge for any remainder (which opens the overflow sheet). Collapsed
- * ([expanded] = false) shows one row — the historical behavior; expanded fills up
- * to [WeekViewUtils.MAX_ALLDAY_ROWS_EXPANDED]. Row counts come from the shared
- * [WeekViewUtils] helpers so the unit-tested logic is the single source of truth.
- */
-@Composable
-private fun CompactEventCell(
-    events: List<DisplayEvent>,
-    expanded: Boolean,
-    showEventEmojis: Boolean = true,
-    onEventClick: (DisplayEvent) -> Unit,
-    onOverflowClick: (List<DisplayEvent>) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if (events.isEmpty()) {
-        Box(modifier = modifier)
-        return
-    }
-
-    val visibleRows = WeekViewUtils.allDayVisibleRows(events.size, expanded)
-    val overflowCount = WeekViewUtils.allDayOverflowCount(events.size, expanded)
-
-    Column(modifier = modifier) {
-        events.take(visibleRows).forEach { event ->
-            CompactEventChip(
-                displayEvent = event,
-                onClick = { onEventClick(event) },
-                showEventEmojis = showEventEmojis
-            )
-        }
-
-        if (overflowCount > 0) {
-            // Compact "+N" badge (no "more" text) to fit the narrow all-day
-            // columns. The glyph is small, so the clickable Box carries a
-            // larger min size than the text would occupy, giving a comfortable
-            // tap target to open the overflow sheet.
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable { onOverflowClick(events) }
-                    .defaultMinSize(minWidth = 32.dp, minHeight = 24.dp)
-                    .padding(horizontal = 4.dp, vertical = 2.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.status_more_events_compact, overflowCount),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.primary
-                )
+        // All-day events grid: one row per lane, one column per visible day (up
+        // to 7 in WEEK mode). A multi-day event occupies a single wide cell
+        // spanning every column it covers (rendered once, not duplicated per
+        // day); single-day events fill the remaining per-column slots. No
+        // HorizontalPager here to avoid gesture conflicts with the main time grid.
+        Column(modifier = Modifier.weight(1f)) {
+            render.slots.forEach { row ->
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    var col = 0
+                    while (col < row.size) {
+                        when (val slot = row[col]) {
+                            is AllDaySlot.BarSegment -> {
+                                val span = slot.span
+                                val width = span.endCol - span.startCol + 1
+                                CompactEventChip(
+                                    displayEvent = span.displayEvent,
+                                    onClick = { onEventClick(span.displayEvent) },
+                                    showEventEmojis = showEventEmojis,
+                                    shape = RoundedCornerShape(
+                                        topStart = if (span.leftFlush) 0.dp else 4.dp,
+                                        bottomStart = if (span.leftFlush) 0.dp else 4.dp,
+                                        topEnd = if (span.rightFlush) 0.dp else 4.dp,
+                                        bottomEnd = if (span.rightFlush) 0.dp else 4.dp,
+                                    ),
+                                    modifier = Modifier
+                                        .weight(width.toFloat())
+                                        .padding(horizontal = 2.dp)
+                                )
+                                col = span.endCol + 1
+                            }
+                            is AllDaySlot.CellEvent -> {
+                                CompactEventChip(
+                                    displayEvent = slot.event,
+                                    onClick = { onEventClick(slot.event) },
+                                    showEventEmojis = showEventEmojis,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 2.dp)
+                                )
+                                col++
+                            }
+                            is AllDaySlot.Overflow -> {
+                                // Compact "+N" badge (no "more" text) to fit the narrow
+                                // all-day columns. The glyph is small, so the clickable
+                                // Box carries a larger min size than the text would
+                                // occupy, giving a comfortable tap target.
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 2.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .clickable { onOverflowClick(slot.columnEvents) }
+                                        .defaultMinSize(minWidth = 32.dp, minHeight = 24.dp)
+                                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.status_more_events_compact, slot.count),
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.Medium,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                                col++
+                            }
+                            AllDaySlot.Empty -> {
+                                Box(modifier = Modifier.weight(1f).padding(horizontal = 2.dp))
+                                col++
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -1188,6 +1204,7 @@ private fun CompactEventChip(
     displayEvent: DisplayEvent,
     onClick: () -> Unit,
     showEventEmojis: Boolean = true,
+    shape: RoundedCornerShape = RoundedCornerShape(4.dp),
     modifier: Modifier = Modifier
 ) {
     val color = displayEvent.eventColor ?: displayEvent.calendarColor
@@ -1214,9 +1231,9 @@ private fun CompactEventChip(
             .padding(vertical = 1.dp)
             .alpha(declinedCardAlpha(isPast = false, isDeclined = displayEvent.isDeclinedByMe, isCancelled = displayEvent.isCancelled))
             .then(if (stateLabel != null) Modifier.semantics { stateDescription = stateLabel } else Modifier)
-            .clip(RoundedCornerShape(4.dp))
+            .clip(shape)
             .then(
-                if (isFree) Modifier.border(2.dp, calColor, RoundedCornerShape(4.dp))
+                if (isFree) Modifier.border(2.dp, calColor, shape)
                 else Modifier
             )
             .background(backgroundColor)
