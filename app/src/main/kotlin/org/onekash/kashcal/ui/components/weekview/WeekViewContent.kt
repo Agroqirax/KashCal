@@ -482,6 +482,7 @@ private fun UnifiedTimeGrid(
             allDayRowsExpanded = allDayRowsExpanded,
             onAllDayRowsToggle = onAllDayRowsToggle,
             showEventEmojis = showEventEmojis,
+            timePattern = timePattern,
             onEventClick = onEventClick,
             onOverflowClick = onOverflowClick
         )
@@ -1002,6 +1003,7 @@ private fun AllDayEventsPagerRow(
     allDayRowsExpanded: Boolean,
     onAllDayRowsToggle: () -> Unit,
     showEventEmojis: Boolean = true,
+    timePattern: String = "h:mma",
     onEventClick: (DisplayEvent) -> Unit,
     onOverflowClick: (List<DisplayEvent>) -> Unit,
     modifier: Modifier = Modifier
@@ -1137,6 +1139,11 @@ private fun AllDayEventsPagerRow(
                                     displayEvent = span.displayEvent,
                                     onClick = { onEventClick(span.displayEvent) },
                                     showEventEmojis = showEventEmojis,
+                                    // The start time is only meaningful on the segment that
+                                    // actually contains the event's start day — a leftFlush
+                                    // segment continues from before the visible window.
+                                    showStartTime = !span.displayEvent.isAllDay && !span.leftFlush,
+                                    timePattern = timePattern,
                                     shape = RoundedCornerShape(
                                         topStart = if (span.leftFlush) 0.dp else 4.dp,
                                         bottomStart = if (span.leftFlush) 0.dp else 4.dp,
@@ -1154,6 +1161,11 @@ private fun AllDayEventsPagerRow(
                                     displayEvent = slot.event,
                                     onClick = { onEventClick(slot.event) },
                                     showEventEmojis = showEventEmojis,
+                                    // Only show the time when this cell is the event's actual
+                                    // start day (a multi-day event that spilled out of the
+                                    // spanning lanes is duplicated per day it touches).
+                                    showStartTime = !slot.event.isAllDay && slot.event.startDay == visibleDayCodes[col],
+                                    timePattern = timePattern,
                                     modifier = Modifier
                                         .weight(1f)
                                         .padding(horizontal = 2.dp)
@@ -1204,6 +1216,8 @@ private fun CompactEventChip(
     displayEvent: DisplayEvent,
     onClick: () -> Unit,
     showEventEmojis: Boolean = true,
+    showStartTime: Boolean = false,
+    timePattern: String = "h:mma",
     shape: RoundedCornerShape = RoundedCornerShape(4.dp),
     modifier: Modifier = Modifier
 ) {
@@ -1247,8 +1261,19 @@ private fun CompactEventChip(
             color = textColor,
             textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false)
         )
+        if (showStartTime) {
+            Text(
+                text = ", ${WeekViewUtils.formatTime(displayEvent.startTs, timePattern)}",
+                style = MaterialTheme.typography.labelSmall,
+                color = textColor,
+                textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
+                maxLines = 1,
+                overflow = TextOverflow.Clip
+            )
+        }
     }
 }
 

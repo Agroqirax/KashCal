@@ -845,6 +845,21 @@ object WeekViewUtils {
     }
 
     /**
+     * Format a single point in time for display (e.g., "9:00am" or "09:00").
+     *
+     * @param ts Timestamp in milliseconds
+     * @param timePattern DateTimeFormatter pattern (e.g., "h:mma" for 12h, "HH:mm" for 24h)
+     * @return Formatted time string
+     */
+    fun formatTime(ts: Long, timePattern: String = "h:mma"): String {
+        val formatter = DateTimeFormatter.ofPattern(timePattern, Locale.getDefault())
+        val time = Instant.ofEpochMilli(ts)
+            .atZone(ZoneId.systemDefault())
+            .toLocalTime()
+        return time.format(formatter).lowercase()
+    }
+
+    /**
      * Check if a date is today.
      */
     fun isToday(date: LocalDate): Boolean = date == LocalDate.now()
