@@ -75,6 +75,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -1239,7 +1242,14 @@ private fun CompactEventChip(
     }
 
     val stateLabel = eventStateDescription(isPast = false, isDeclined = displayEvent.isDeclinedByMe, isCancelled = displayEvent.isCancelled)
-    Row(
+    val titleStyle = MaterialTheme.typography.labelSmall
+    val textMeasurer = rememberTextMeasurer()
+    val timeText = if (showStartTime) {
+        ", ${WeekViewUtils.formatTime(displayEvent.startTs, timePattern)}"
+    } else {
+        null
+    }
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 1.dp)
@@ -1252,29 +1262,80 @@ private fun CompactEventChip(
             )
             .background(backgroundColor)
             .clickable(onClick = onClick)
-            .padding(horizontal = 4.dp, vertical = 2.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 4.dp, vertical = 2.dp)
     ) {
-        Text(
-            text = displayText,
-            style = MaterialTheme.typography.labelSmall,
-            color = textColor,
-            textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f, fill = false)
-        )
-        if (showStartTime) {
+        // TextOverflow.Ellipsis can size its box to the full available width
+        // even though the painted glyphs stop short of it, which leaves a
+        // visible gap before sibling text placed right after. Truncating the
+        // title ourselves to the exact pixel budget avoids relying on that
+        // box-sizing behavior, so it sits flush against the time label.
+        val timeWidthPx = remember(timeText, titleStyle) {
+            timeText?.let { measureWidthPx(textMeasurer, it, titleStyle) } ?: 0
+        }
+        val availableTitleWidthPx = (constraints.maxWidth - timeWidthPx).coerceAtLeast(0)
+        val truncatedTitle = remember(displayText, availableTitleWidthPx, titleStyle) {
+            truncateWithEllipsis(textMeasurer, displayText, titleStyle, availableTitleWidthPx)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = ", ${WeekViewUtils.formatTime(displayEvent.startTs, timePattern)}",
-                style = MaterialTheme.typography.labelSmall,
+                text = truncatedTitle,
+                style = titleStyle,
                 color = textColor,
                 textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
                 maxLines = 1,
                 overflow = TextOverflow.Clip
             )
+            if (timeText != null) {
+                Text(
+                    text = timeText,
+                    style = titleStyle,
+                    color = textColor,
+                    textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
+            }
         }
     }
+}
+
+private fun measureWidthPx(measurer: TextMeasurer, text: String, style: TextStyle): Int =
+    measurer.measure(text = text, style = style, maxLines = 1).size.width
+
+/**
+ * Truncates [text] to fit within [maxWidthPx], appending an ellipsis if it
+ * doesn't already fit. Measures with [measurer]/[style] directly instead of
+ * using Text's built-in overflow handling, so the result's rendered width is
+ * exact rather than settling for "some width no larger than the max".
+ */
+private fun truncateWithEllipsis(
+    measurer: TextMeasurer,
+    text: String,
+    style: TextStyle,
+    maxWidthPx: Int
+): String {
+    if (maxWidthPx <= 0) return ""
+    if (measureWidthPx(measurer, text, style) <= maxWidthPx) return text
+
+    val ellipsis = "…"
+    val budget = maxWidthPx - measureWidthPx(measurer, ellipsis, style)
+    if (budget <= 0) return ellipsis
+
+    var lo = 0
+    var hi = text.length
+    while (lo < hi) {
+        val mid = (lo + hi + 1) / 2
+        val candidate = safeSubstring(text, mid)
+        if (measureWidthPx(measurer, candidate, style) <= budget) lo = mid else hi = mid - 1
+    }
+    return safeSubstring(text, lo) + ellipsis
+}
+
+private fun safeSubstring(text: String, length: Int): String = when {
+    length >= text.length -> text
+    length <= 0 -> ""
+    Character.isHighSurrogate(text[length - 1]) -> text.substring(0, length - 1)
+    else -> text.substring(0, length)
 }
 
 /**
