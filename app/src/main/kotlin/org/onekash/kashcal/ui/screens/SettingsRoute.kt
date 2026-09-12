@@ -350,8 +350,10 @@ fun SettingsRoute(
         val backupWriteFailedMessage = stringResource(R.string.backup_error_write_failed)
         val backupReadFailedMessage = stringResource(R.string.backup_error_read_failed)
 
-        // Account connected success sheet state
-        val accountConnectedSheetState = rememberModalBottomSheetState()
+        // Account connected success sheet state. Skip the partial-expansion
+        // anchor: this sheet's content is short and non-scrolling, so a partial
+        // detent leaves no stable resting height and the sheet jitters on drag.
+        val accountConnectedSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
         // Snackbar action (when present) belongs to the subscription
         // delete-with-undo flow: ActionPerformed → undo, Dismissed → commit.

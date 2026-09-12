@@ -27,6 +27,23 @@ data class CardDavServerConfig(
     /** RFC 6764 `/.well-known/carddav` discovery vs. targeting the endpoint directly. */
     val usesWellKnownDiscovery: Boolean = false,
     /**
+     * The server accepts a contact carrying an external-URL photo
+     * (`PHOTO;VALUE=URI`) on write but silently strips the PHOTO on read-back,
+     * while still preserving inline base64 photos. Server policy, not a client
+     * serialization bug — the identical push path preserves URL photos on
+     * conformant servers. Assertions on the URI-photo shape are characterized
+     * (recorded, not failed) for such a server. Open-Xchange (mailbox.org).
+     */
+    val dropsUriPhoto: Boolean = false,
+    /**
+     * The server accepts a contact carrying a vCard `KIND` on write but does not
+     * persist it (reads back null), while preserving every other field. Server
+     * policy — `KIND` survives the identical push path on conformant servers — so
+     * the KIND field assertion is a characterized skip for this server rather than
+     * a lost-field failure. Open-Xchange (mailbox.org).
+     */
+    val dropsKind: Boolean = false,
+    /**
      * The host a real account of this provider has *stored* from CalDAV setup, when
      * it differs from the CardDAV [defaultServerUrl]. Only split-host providers set
      * it (Zoho: contacts on `contacts.zoho.com`, calendars on `calendar.zoho.com`).
@@ -179,18 +196,23 @@ data class CardDavServerConfig(
             davEndpointSuffix = "/carddav/",
             quirksFactory = { url -> DefaultCardDavQuirks(url) },
             usesWellKnownDiscovery = true,
+            dropsUriPhoto = true,
+            dropsKind = true,
         )
 
         fun allServers(): List<CardDavServerConfig> = listOf(
-            ICLOUD, RADICALE, XANDIKOS, BAIKAL, NEXTCLOUD, SOGO, CYRUS
+            ICLOUD, RADICALE, XANDIKOS, BAIKAL, NEXTCLOUD, SOGO, CYRUS, MAILBOX
         )
 
         /**
          * The full set the discovery-characterization probe walks, including the
          * hosted providers deliberately kept out of [allServers] (which gates the
-         * assertion-bearing round-trip tests): Zoho, Fastmail, and mailbox.org.
+         * assertion-bearing round-trip tests): Zoho and Fastmail. mailbox.org is
+         * now part of [allServers] (it serves CardDAV from the same host it serves
+         * CalDAV, and the assertion-bearing round-trip tests exercise it directly),
+         * so it is not re-added here.
          */
         fun allDiscoveryProbeServers(): List<CardDavServerConfig> =
-            allServers() + listOf(ZOHO, FASTMAIL, MAILBOX)
+            allServers() + listOf(ZOHO, FASTMAIL)
     }
 }

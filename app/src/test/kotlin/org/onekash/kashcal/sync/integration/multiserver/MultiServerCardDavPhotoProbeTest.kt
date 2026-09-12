@@ -166,10 +166,17 @@ class MultiServerCardDavPhotoProbeTest(
         // The seed carried a PHOTO in each case; assert the server did not silently
         // drop it. (A server that legitimately does not support PHOTO would surface
         // as no photo on BOTH — caught here and worth recording, not tolerating.)
-        assertTrue(
-            "${config.name}: URI-photo seed lost its PHOTO entirely on round-trip",
-            urlPhoto != null,
-        )
+        // Exception: a server that accepts a contact but strips an external-URL
+        // photo (PHOTO;VALUE=URI) while keeping inline base64 is characterized via
+        // [dropsUriPhoto] and recorded, not failed — Open-Xchange does exactly this.
+        if (config.dropsUriPhoto) {
+            println("=== ${config.name}: URI-photo dropped on round-trip (known server policy; inline photo still asserted) ===")
+        } else {
+            assertTrue(
+                "${config.name}: URI-photo seed lost its PHOTO entirely on round-trip",
+                urlPhoto != null,
+            )
+        }
         assertTrue(
             "${config.name}: inline-photo seed lost its PHOTO entirely on round-trip",
             inlinePhoto != null,
@@ -178,8 +185,9 @@ class MultiServerCardDavPhotoProbeTest(
         // When the server preserved the URI as a URI (the passthrough case), the
         // mapper contract must hold: photoUrl carries the URL and no inline blob is
         // emitted. If a server inlined the URI photo instead, photoUrl is null and
-        // that's recorded above rather than asserted false.
-        if (urlPhoto!!.url != null) {
+        // that's recorded above rather than asserted false. A server that dropped it
+        // outright (dropsUriPhoto) has a null urlPhoto and skips this block.
+        if (urlPhoto?.url != null) {
             assertEquals(
                 "${config.name}: preserved URI photo should round-trip verbatim",
                 EXPECTED_PHOTO_URL,

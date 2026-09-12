@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:" xmlns:APPLE="http://apple.com/ns/ical/" xmlns:CAL="urn:ietf:params:xml:ns:caldav" xmlns:CS="http://calendarserver.org/ns/">
+  <D:response>
+    <D:href>/caldav/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:bind />
+          </D:privilege>
+          <D:privilege>
+            <D:unbind />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <calendar-color xmlns="http://apple.com/ns/ical/" />
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav" />
+        <getctag xmlns="http://calendarserver.org/ns/" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/caldav/Y2FsOi8vMC8zMg/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write />
+          </D:privilege>
+          <D:privilege>
+            <D:write-content />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+          <D:privilege>
+            <D:write-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:bind />
+          </D:privilege>
+          <D:privilege>
+            <D:unbind />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <calendar-color xmlns="http://apple.com/ns/ical/" symbolic-color="custom">#CEE7FFFF</calendar-color>
+        <D:resourcetype>
+          <D:collection />
+          <CAL:calendar />
+          <CS:shared-owner />
+        </D:resourcetype>
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav">
+          <CAL:comp name="VEVENT" />
+        </supported-calendar-component-set>
+        <getctag xmlns="http://calendarserver.org/ns/">cal://0/32-1789169331615.0.17</getctag>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/caldav/Y2FsOi8vMS8w/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <calendar-color xmlns="http://apple.com/ns/ical/" symbolic-color="custom">#CEE7FFFF</calendar-color>
+        <D:resourcetype>
+          <D:collection />
+          <CAL:calendar />
+        </D:resourcetype>
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav">
+          <CAL:comp name="VEVENT" />
+        </supported-calendar-component-set>
+        <getctag xmlns="http://calendarserver.org/ns/">1789168904457-133940</getctag>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/caldav/MzU/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write />
+          </D:privilege>
+          <D:privilege>
+            <D:write-content />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+          <D:privilege>
+            <D:write-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:bind />
+          </D:privilege>
+          <D:privilege>
+            <D:unbind />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>Tasks</D:displayname>
+        <calendar-color xmlns="http://apple.com/ns/ical/" symbolic-color="custom">#CEE7FFFF</calendar-color>
+        <D:resourcetype>
+          <D:collection />
+          <CAL:calendar />
+        </D:resourcetype>
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav">
+          <CAL:comp name="VTODO" />
+        </supported-calendar-component-set>
+        <getctag xmlns="http://calendarserver.org/ns/">35-0</getctag>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/caldav/schedule-outbox/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+          <CAL:schedule-outbox />
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set />
+        <calendar-color xmlns="http://apple.com/ns/ical/" />
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav" />
+        <getctag xmlns="http://calendarserver.org/ns/" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/caldav/schedule-inbox/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+          <CAL:schedule-inbox />
+        </D:resourcetype>
+        <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav">
+          <CAL:comp name="VAVAILABILITY" />
+        </supported-calendar-component-set>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set />
+        <calendar-color xmlns="http://apple.com/ns/ical/" />
+        <getctag xmlns="http://calendarserver.org/ns/" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>

@@ -59,6 +59,7 @@ Family stuff on iCloud. Holidays from some website. Birthdays buried in your con
 - **CalDAV**: Nextcloud, Radicale, Baïkal, Stalwart, Purelymail, FastMail, Zoho, SOGo, and more. Native sync, no middleware.
 - **Device calendar**: See events from your phone's built-in calendar alongside everything else.
 - **Holidays & schedules**: Subscribe to any ICS calendar. Holidays, school schedules, sports seasons.
+- **Contacts**: Two-way CardDAV contact sync, including photos.
 - **Birthdays**: Pulls from your contacts automatically.
 - **Local**: Don't need sync? Works fully offline out of the box.
 
@@ -121,7 +122,8 @@ Found a CalDAV server that doesn't work? [Let us know](https://github.com/KashCa
 
 | Category | Technology |
 |----------|------------|
-| CalDAV/ICS | [iCalDAV](https://github.com/icaldav/icaldav) |
+| CalDAV/ICS | `icaldav-core` (in-tree, wraps ical4j 4.3.0) |
+| CardDAV/contacts | `vcard-core` (in-tree, wraps ez-vcard) |
 | UI | Jetpack Compose, Material 3 |
 | Widgets | Jetpack Glance |
 | Database | Room + FTS4 full-text search |
@@ -141,8 +143,9 @@ cd KashCal
 
 ### Requirements
 - Android Studio (latest stable)
-- JDK 17
-- Android SDK 35
+- JDK 21
+- Android SDK 37 (compile and target)
+- Runs on Android 12 (API 31) and up
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 

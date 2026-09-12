@@ -7,8 +7,8 @@ Thank you for your interest in contributing to KashCal! This document provides g
 ### Prerequisites
 
 - Android Studio (latest stable)
-- JDK 17 or higher
-- Android SDK 35
+- JDK 21 or higher
+- Android SDK 37
 
 ### Development Setup
 
@@ -27,6 +27,10 @@ Thank you for your interest in contributing to KashCal! This document provides g
    ```bash
    ./gradlew test
    ```
+
+### Understanding the Codebase
+
+New to the project? [DeepWiki](https://deepwiki.com/KashCal/KashCal) gives you a browsable overview of KashCal's architecture that you can also ask questions about, which is a good way to see how the pieces fit before starting a larger change. For the layered architecture in short, see [Architecture Guidelines](#architecture-guidelines) below.
 
 ## How to Contribute
 
@@ -95,17 +99,32 @@ Key principles:
 ./gradlew lint
 ```
 
-## Pull Request Process
+## Pull Request Checklist
 
-1. Update documentation if needed
-2. Add tests for new functionality
-3. Ensure CI passes
-4. Disclose AI assistance (see below)
-5. Request review from maintainers
+Before opening a PR, please confirm:
+
+- [ ] Tests cover the change and `./gradlew test` passes. New behavior is driven by a test. Write the failing test first, and when a test fails, fix the code, not the test, unless the test itself is wrong.
+- [ ] No hardcoded user-facing text. New strings go in `app/src/main/res/values/strings.xml` in English only. Maintainers generate the other translations before release, so don't hand-edit the other locale files.
+- [ ] Data access stays in the domain layer. ViewModels use `EventCoordinator` / `EventReader`, never DAOs directly, and sync mutations are queued through `PendingOperation`.
+- [ ] `./gradlew lint` passes.
+- [ ] AI assistance is disclosed (see below).
+
+If your change touches **sync or ICS import/export**:
+
+- [ ] Tested against at least one real CalDAV server (iCloud, Nextcloud, Radicale, Baikal, and so on).
+- [ ] Credentials, sync tokens, and passwords are never logged in full.
+
+If your change touches the **UI**:
+
+- [ ] It follows KashCal's inline-over-interrupting approach: prefer inline banners to blocking dialogs, use undo for reversible actions, and reserve confirmation dialogs for destructive or irreversible ones.
 
 ## AI Assistance
 
 We welcome the use of AI tools (Copilot, ChatGPT, Claude, etc.) in contributions. If you use AI assistance, please disclose it in your pull request so reviewers can calibrate their review accordingly.
+
+If you're building your contribution with AI, we recommend [devloop](https://github.com/KashZod/devloop), a test-driven, review-gated workflow. It has the AI write a failing test first, implement against the project's architecture rules, and run independent review passes before the work is considered done.
+
+At a minimum, if you use AI, run devloop's red-team review over your changes before opening the PR. It is an adversarial pass that checks the diff for correctness bugs and cleanup issues.
 
 Examples:
 

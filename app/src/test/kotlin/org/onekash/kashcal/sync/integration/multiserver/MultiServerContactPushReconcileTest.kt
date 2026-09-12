@@ -431,6 +431,15 @@ class MultiServerContactPushReconcileTest(
                 readBack,
             )
             println("=== ${config.name} push reconcile '$field' (book='${book.displayName}', version=${readBack!!.version}) ===")
+            // Some servers accept a contact but silently drop a specific property by
+            // policy (not a client regression — it survives the identical push path
+            // on conformant servers). Characterize those as a per-(server, field)
+            // skip rather than a lost-field failure. Open-Xchange drops vCard KIND.
+            assumeTrue(
+                "${config.name}: '$field' is a documented server-side drop on this provider " +
+                    "(accepted on write, not persisted) — characterized, not a client regression",
+                !(config.dropsKind && field.toString() == "KIND"),
+            )
             field.verify(readBack, "${config.name} $field:")
         } finally {
             deleteIfPresent(c, book.url, resourceUrl)

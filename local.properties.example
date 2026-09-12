@@ -48,3 +48,11 @@ sdk.dir=/path/to/android/sdk
 # XANDIKOS_SERVER=http://localhost:8999           # auth disabled — any creds
 # XANDIKOS_USERNAME=testuser1
 # XANDIKOS_PASSWORD=testpass1
+
+# mailbox.org (Open-Xchange, hosted test account; serves both CalDAV and CardDAV
+# from dav.mailbox.org). The key is MAILBOX_PASSWORD — NOT MAILBOX_PASS; a wrong
+# key name makes the loader return null and every mailbox test silently skips.
+# MAILBOX_SERVER=https://dav.mailbox.org
+# MAILBOX_USERNAME=your_account@mailbox.org
+# MAILBOX_PASSWORD=your_mailbox_password
+# MAILBOX_PROBE_RECIPIENT=your_own@example.test  # consenting recipient for the outbox iTIP probe
