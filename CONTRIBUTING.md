@@ -1,13 +1,17 @@
 # Contributing to KashCal
 
-Thank you for your interest in contributing to KashCal! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to KashCal!
+
+## Code of Conduct
+
+This project and everyone participating in it is governed by the [KashCal Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold it.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Android Studio (latest stable)
-- JDK 21 or higher
+- JDK 21
 - Android SDK 37
 
 ### Development Setup
@@ -25,18 +29,20 @@ Thank you for your interest in contributing to KashCal! This document provides g
 
 3. Run tests:
    ```bash
-   ./gradlew test
+   ./gradlew testDebugUnitTest
    ```
 
 ### Understanding the Codebase
 
-New to the project? [DeepWiki](https://deepwiki.com/KashCal/KashCal) gives you a browsable overview of KashCal's architecture that you can also ask questions about, which is a good way to see how the pieces fit before starting a larger change. For the layered architecture in short, see [Architecture Guidelines](#architecture-guidelines) below.
+New to the project? [DeepWiki](https://deepwiki.com/KashCal/KashCal) gives you a browsable overview of KashCal's architecture, and you can ask it questions. For the layered architecture in short, see [Architecture Guidelines](#architecture-guidelines) below.
 
 ## How to Contribute
 
 ### Reporting Bugs
 
-- Use the [Bug Report](https://github.com/KashCal/KashCal/issues/new?template=bug_report.md) template
+> **Found a security vulnerability?** Do not open a public issue. Report it privately following our [Security Policy](SECURITY.md).
+
+- Use the [Bug Report](https://github.com/KashCal/KashCal/issues/new?template=bug_report.yml) template
 - Include your Android version, device, and KashCal version
 - Include your sync provider (iCloud, Nextcloud, Radicale, etc.) if the bug involves sync
 - Provide steps to reproduce the issue
@@ -44,17 +50,25 @@ New to the project? [DeepWiki](https://deepwiki.com/KashCal/KashCal) gives you a
 
 ### Suggesting Features
 
-- Use the [Feature Request](https://github.com/KashCal/KashCal/issues/new?template=feature_request.md) template
+- Use the [Feature Request](https://github.com/KashCal/KashCal/issues/new?template=feature_request.yml) template
 - Describe the problem you're trying to solve
 - Explain your proposed solution
 
+**Please open an issue to discuss features and enhancements before writing code.** This avoids wasted effort on changes that don't fit the roadmap. Bug fixes are the exception; you can go straight to a pull request.
+
+### Improving Translations
+
+New user-facing strings are added in English only, and maintainers batch-generate the 67 translations before release (so please don't hand-edit locale files in a PR). If you spot a wrong or awkward translation, [open an issue](https://github.com/KashCal/KashCal/issues) with the language, the current text, and your suggested wording. We'll fold the correction into the next translation pass.
+
 ### Submitting Code
+
+Keep pull requests focused: one logical change per PR. Small, self-contained PRs are easier to review and land faster than large ones. For features and enhancements, [discuss the change in an issue first](#suggesting-features).
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run tests (`./gradlew test`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Run tests (`./gradlew testDebugUnitTest`)
+5. Commit your changes following the [commit convention](#commit-messages) (`git commit -m 'feat: add amazing feature'`)
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
 
@@ -64,6 +78,19 @@ New to the project? [DeepWiki](https://deepwiki.com/KashCal/KashCal) gives you a
 - Use meaningful variable and function names
 - Keep functions small and focused
 - Add comments for non-obvious logic only (don't comment what the code already says)
+
+### Commit Messages
+
+KashCal uses [Conventional Commits](https://www.conventionalcommits.org/). Prefix each commit with a type and an optional scope, followed by a short imperative summary:
+
+```
+feat(sync): add Radicale collection discovery
+fix(widget): stop month grid clipping on small screens
+docs: clarify translation workflow
+build(deps): bump ical4j to 4.3.0
+```
+
+Common types: `feat`, `fix`, `docs`, `refactor`, `test`, `build`, `perf`, `chore`. Keep the summary under about 72 characters and explain the *why* in the body if it isn't obvious.
 
 ### Architecture Guidelines
 
@@ -77,7 +104,7 @@ UI (Compose + ViewModels)
 
 Key principles:
 
-- All data operations go through the domain layer — never access DAOs from ViewModels
+- All data operations go through the domain layer; never access DAOs from ViewModels
 - Use Room's Flow for observable data so the UI updates progressively during sync
 - Queue all sync mutations through PendingOperation (never fire-and-forget)
 - Exception events (modified recurring occurrences) share the master event's UID per RFC 5545
@@ -89,21 +116,27 @@ Key principles:
 - If modifying sync code, test with at least one CalDAV server (iCloud, Nextcloud, Radicale, Baikal, etc.)
 
 ```bash
-# Run all unit tests
-./gradlew test
+# Run all unit tests (~1 min)
+./gradlew testDebugUnitTest
 
-# Run specific test class
-./gradlew test --tests "*EventCoordinatorTest*"
+# Run a specific test class
+./gradlew testDebugUnitTest --tests "*EventCoordinatorTest*"
 
 # Run lint
 ./gradlew lint
+```
+
+If you're changing **sync or ICS import/export**, also run the integration suite against real CalDAV servers with the `-Pintegration` flag (excluded by default because it's slower, ~13 min):
+
+```bash
+./gradlew testDebugUnitTest -Pintegration
 ```
 
 ## Pull Request Checklist
 
 Before opening a PR, please confirm:
 
-- [ ] Tests cover the change and `./gradlew test` passes. New behavior is driven by a test. Write the failing test first, and when a test fails, fix the code, not the test, unless the test itself is wrong.
+- [ ] Tests cover the change and `./gradlew testDebugUnitTest` passes. New behavior is driven by a test. Write the failing test first, and when a test fails, fix the code, not the test, unless the test itself is wrong.
 - [ ] No hardcoded user-facing text. New strings go in `app/src/main/res/values/strings.xml` in English only. Maintainers generate the other translations before release, so don't hand-edit the other locale files.
 - [ ] Data access stays in the domain layer. ViewModels use `EventCoordinator` / `EventReader`, never DAOs directly, and sync mutations are queued through `PendingOperation`.
 - [ ] `./gradlew lint` passes.
@@ -120,7 +153,7 @@ If your change touches the **UI**:
 
 ## AI Assistance
 
-We welcome the use of AI tools (Copilot, ChatGPT, Claude, etc.) in contributions. If you use AI assistance, please disclose it in your pull request so reviewers can calibrate their review accordingly.
+We welcome the use of AI tools (Claude Code, Codex, Copilot, Cursor, etc.) in contributions. If you use AI assistance, please disclose it in your pull request so reviewers can calibrate their review.
 
 If you're building your contribution with AI, we recommend [devloop](https://github.com/KashZod/devloop), a test-driven, review-gated workflow. It has the AI write a failing test first, implement against the project's architecture rules, and run independent review passes before the work is considered done.
 
@@ -138,7 +171,7 @@ Contributions that appear to be bulk AI-generated without human review or testin
 
 ## CalDAV Server Testing
 
-If you find a CalDAV server that doesn't work with KashCal, please [open an issue](https://github.com/KashCal/KashCal/issues) with the server software and version. We actively test against iCloud, Nextcloud, Radicale, Baikal, Stalwart, Zoho, SoGo, and FastMail.
+If you find a CalDAV server that doesn't work with KashCal, please [open an issue](https://github.com/KashCal/KashCal/issues) with the server software and version. We test against iCloud, Nextcloud, Radicale, Baikal, Stalwart, Zoho, SoGo, and FastMail.
 
 KashCal also integrates with Android device calendars (Google Calendar, Samsung Calendar, etc.) via CalendarProvider. If you encounter issues with a specific device calendar app, please include the app name and Android version in your report.
 

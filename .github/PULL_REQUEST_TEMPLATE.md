@@ -24,7 +24,7 @@ Fixes #(issue number)
 
 ## AI Disclosure
 
-If you used AI assistance (Copilot, ChatGPT, Claude, etc.) while working on this PR, please disclose it here. This helps reviewers calibrate their review.
+If you used AI assistance (Claude Code, Codex, Copilot, Cursor, etc.) while working on this PR, please disclose it here. This helps reviewers calibrate their review.
 
 - [ ] No AI assistance was used
 - [ ] AI assisted with: ___
