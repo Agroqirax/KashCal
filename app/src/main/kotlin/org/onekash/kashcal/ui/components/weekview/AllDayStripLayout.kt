@@ -1,6 +1,7 @@
 package org.onekash.kashcal.ui.components.weekview
 
 import org.onekash.kashcal.domain.model.DisplayEvent
+import org.onekash.kashcal.ui.shared.packSpansIntoLanes
 
 /**
  * Layout model for the week/day all-day strip. Multi-day events (whether genuine
@@ -29,11 +30,21 @@ sealed interface AllDaySlot {
     data object Empty : AllDaySlot
     data class BarSegment(val span: AllDaySpan) : AllDaySlot
     data class CellEvent(val event: DisplayEvent) : AllDaySlot
-    data class Overflow(val count: Int, val columnEvents: List<DisplayEvent>) : AllDaySlot
 }
+
+/**
+ * Events for one day column that didn't fit in the grid's rows — surfaced as a
+ * "+N" badge overlaid on that column (see [AllDayStripRender.overflowByColumn]),
+ * rather than as a slot that would itself consume a row. A column can be fully
+ * hidden this way (e.g. every row taken by spanning bars), so the badge must
+ * never depend on a free row existing.
+ */
+data class ColumnOverflow(val count: Int, val events: List<DisplayEvent>)
 
 data class AllDayStripRender(
     val slots: List<List<AllDaySlot>>, // [rowIndex][col]
+    /** Per-column overflow, indexed like [slots]' columns; null = nothing hidden. */
+    val overflowByColumn: List<ColumnOverflow?>,
 )
 
 /**
@@ -66,19 +77,7 @@ internal fun computeAllDaySpans(
         AllDaySpan(e, startCol, endCol, leftFlush, rightFlush)
     }
 
-    val sortedForPlacement = rawSpans.sortedWith(
-        compareBy({ it.startCol }, { -(it.endCol - it.startCol) })
-    )
-
-    val lanes = mutableListOf<MutableList<AllDaySpan>>()
-    for (span in sortedForPlacement) {
-        val laneIndex = lanes.indexOfFirst { lane -> lane.last().endCol < span.startCol }
-        when {
-            laneIndex >= 0 -> lanes[laneIndex].add(span)
-            lanes.size < maxLanes -> lanes.add(mutableListOf(span))
-            else -> { /* Beyond lane capacity — left unplaced, handled as per-day cell content. */ }
-        }
-    }
+    val lanes = packSpansIntoLanes(rawSpans, maxLanes, startCol = { it.startCol }, endCol = { it.endCol })
 
     val placedKeys = lanes.flatten().map { it.displayEvent.stableKey }.toSet()
     return AllDaySpanLayout(lanes = lanes, placedEventKeys = placedKeys)
@@ -86,9 +85,13 @@ internal fun computeAllDaySpans(
 
 /**
  * Builds the full [rowIndex][col] render grid for the all-day strip: multi-day
- * spans occupy their lane's row across every column they cover, and each column's
- * remaining rows are filled with that day's single-day events, with any
- * remainder collapsed into an "+N" [AllDaySlot.Overflow] badge.
+ * spans occupy their lane's row across every column they cover, and each
+ * column's remaining rows are filled with that day's single-day events (and any
+ * multi-day events that didn't fit in a lane). Whatever doesn't fit — whether
+ * because a column ran out of free rows, or every row in a column is taken by
+ * spanning bars — is reported per column in [AllDayStripRender.overflowByColumn]
+ * rather than claiming a row of its own, so a "+N" indicator is never lost even
+ * when a column has zero free rows.
  */
 fun computeAllDayStripRender(
     visibleDayCodes: List<Int>,
@@ -96,7 +99,7 @@ fun computeAllDayStripRender(
     maxRows: Int,
 ): AllDayStripRender {
     val numCols = visibleDayCodes.size
-    if (numCols == 0 || maxRows == 0) return AllDayStripRender(emptyList())
+    if (numCols == 0 || maxRows == 0) return AllDayStripRender(emptyList(), emptyList())
 
     val layout = computeAllDaySpans(visibleDayCodes, allDayEvents, maxRows)
     val grid: Array<Array<AllDaySlot>> = Array(maxRows) { Array(numCols) { AllDaySlot.Empty } }
@@ -109,6 +112,7 @@ fun computeAllDayStripRender(
         }
     }
 
+    val overflowByColumn = arrayOfNulls<ColumnOverflow>(numCols)
     for (col in 0 until numCols) {
         val dayCode = visibleDayCodes[col]
         val allEventsForDay = allDayEvents
@@ -117,23 +121,18 @@ fun computeAllDayStripRender(
         val columnEvents = allEventsForDay.filter { it.stableKey !in layout.placedEventKeys }
 
         val freeSlots = (0 until maxRows).filter { grid[it][col] === AllDaySlot.Empty }
-        if (columnEvents.size <= freeSlots.size) {
-            for ((i, event) in columnEvents.withIndex()) {
-                grid[freeSlots[i]][col] = AllDaySlot.CellEvent(event)
-            }
-        } else if (freeSlots.isNotEmpty()) {
-            val visibleCount = (freeSlots.size - 1).coerceAtLeast(0)
-            for (i in 0 until visibleCount) {
-                grid[freeSlots[i]][col] = AllDaySlot.CellEvent(columnEvents[i])
-            }
-            val overflowCount = columnEvents.size - visibleCount
-            grid[freeSlots.last()][col] = AllDaySlot.Overflow(overflowCount, allEventsForDay)
+        val visibleCount = minOf(columnEvents.size, freeSlots.size)
+        for (i in 0 until visibleCount) {
+            grid[freeSlots[i]][col] = AllDaySlot.CellEvent(columnEvents[i])
         }
-        // If there are no free slots at all, the column's cell events are silently
-        // dropped from this row's grid (lanes-win policy) — unreachable in practice
-        // since maxRows >= 1 and a column with only bars filling all rows has no
-        // events left to place.
+        val hiddenCount = columnEvents.size - visibleCount
+        if (hiddenCount > 0) {
+            overflowByColumn[col] = ColumnOverflow(hiddenCount, allEventsForDay)
+        }
     }
 
-    return AllDayStripRender(slots = grid.map { it.toList() })
+    return AllDayStripRender(
+        slots = grid.map { it.toList() },
+        overflowByColumn = overflowByColumn.toList(),
+    )
 }

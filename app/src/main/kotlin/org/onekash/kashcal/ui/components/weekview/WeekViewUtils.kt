@@ -995,25 +995,6 @@ object WeekViewUtils {
     // ==================== All-Day Strip Expand/Collapse ====================
 
     /**
-     * How many all-day rows to render for a day with [count] events.
-     *
-     * Collapsed keeps today's behavior (at most one row); expanded fills up to
-     * [MAX_ALLDAY_ROWS_EXPANDED] adaptively, so a day with two events shows two,
-     * a day with one shows one, and a day with three or more shows three.
-     */
-    fun allDayVisibleRows(count: Int, expanded: Boolean): Int {
-        val cap = if (expanded) MAX_ALLDAY_ROWS_EXPANDED else MAX_ALLDAY_ROWS_COLLAPSED
-        return count.coerceAtMost(cap)
-    }
-
-    /**
-     * Events beyond the visible rows, surfaced as the "+N more" badge that opens
-     * the overflow sheet. Zero when everything fits.
-     */
-    fun allDayOverflowCount(count: Int, expanded: Boolean): Int =
-        (count - allDayVisibleRows(count, expanded)).coerceAtLeast(0)
-
-    /**
      * Whether the expand/collapse chevron is meaningful for the current window:
      * true only when at least one visible day has more all-day events than the
      * collapsed cap can show. Otherwise there is nothing to expand.

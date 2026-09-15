@@ -36,6 +36,7 @@ import org.onekash.kashcal.data.db.entity.SyncLog
 import org.onekash.kashcal.data.ics.IcsSubscriptionRepository
 import org.onekash.kashcal.data.preferences.DefaultCalendar
 import org.onekash.kashcal.data.preferences.KashCalDataStore
+import org.onekash.kashcal.data.preferences.PreferencesKeys
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
 import org.onekash.kashcal.data.repository.AccountRepository
 import org.onekash.kashcal.data.repository.ContactPurgeOutcome
@@ -367,7 +368,8 @@ class AccountSettingsViewModel @Inject constructor(
     private val _showWeekNumbers = MutableStateFlow(false)
     val showWeekNumbers: StateFlow<Boolean> = _showWeekNumbers.asStateFlow()
 
-    private val _showMultiDayTimedInAllDayStrip = MutableStateFlow(true)
+    private val _showMultiDayTimedInAllDayStrip =
+        MutableStateFlow(PreferencesKeys.DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP)
     val showMultiDayTimedInAllDayStrip: StateFlow<Boolean> = _showMultiDayTimedInAllDayStrip.asStateFlow()
 
     private val _quickAddEnabled = MutableStateFlow(false)

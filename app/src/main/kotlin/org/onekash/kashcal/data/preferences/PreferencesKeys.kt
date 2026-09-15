@@ -36,6 +36,11 @@ object PreferencesKeys {
     /** Show multi-day timed events in the all-day strip instead of the timed grid */
     val SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP = booleanPreferencesKey("show_multiday_timed_in_allday_strip")
 
+    /** Default for [SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP] — shared by the DataStore, the settings
+     * ViewModel/Screen defaults, and [org.onekash.kashcal.ui.viewmodels.HomeViewModel] so all four
+     * agree without being kept in sync by hand. */
+    const val DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP = true
+
     /** Default event duration in minutes */
     val DEFAULT_EVENT_DURATION = intPreferencesKey("default_event_duration")
 

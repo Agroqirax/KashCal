@@ -51,6 +51,7 @@ import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.preferences.DefaultCalendar
 import org.onekash.kashcal.data.preferences.KashCalDataStore
+import org.onekash.kashcal.data.preferences.PreferencesKeys
 import org.onekash.kashcal.ui.components.AppInfoSheet
 import org.onekash.kashcal.ui.components.CalDavSignInSheet
 import org.onekash.kashcal.ui.components.ICloudSignInSheet
@@ -257,7 +258,7 @@ fun AccountSettingsScreen(
     onFirstDayOfWeekChange: (Int) -> Unit = {},
     showWeekNumbers: Boolean = false,
     onShowWeekNumbersChange: (Boolean) -> Unit = {},
-    showMultiDayTimedInAllDayStrip: Boolean = true,
+    showMultiDayTimedInAllDayStrip: Boolean = PreferencesKeys.DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP,
     onShowMultiDayTimedInAllDayStripChange: (Boolean) -> Unit = {},
     widgetMaxEventsPerDay: Int = 5,
     onWidgetMaxEventsPerDayChange: (Int) -> Unit = {},

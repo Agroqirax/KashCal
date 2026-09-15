@@ -167,7 +167,10 @@ class KashCalDataStore(
 
     /** Whether multi-day timed events are shown in the all-day strip instead of the timed grid. */
     val showMultiDayTimedInAllDayStrip: Flow<Boolean>
-        get() = getPreference(PreferencesKeys.SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP, true)
+        get() = getPreference(
+            PreferencesKeys.SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP,
+            PreferencesKeys.DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP
+        )
 
     suspend fun setShowMultiDayTimedInAllDayStrip(show: Boolean) {
         setPreference(PreferencesKeys.SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP, show)
