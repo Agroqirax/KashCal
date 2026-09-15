@@ -125,9 +125,9 @@ fun computeAllDayStripRender(
         for (i in 0 until visibleCount) {
             grid[freeSlots[i]][col] = AllDaySlot.CellEvent(columnEvents[i])
         }
-        val hiddenCount = columnEvents.size - visibleCount
-        if (hiddenCount > 0) {
-            overflowByColumn[col] = ColumnOverflow(hiddenCount, allEventsForDay)
+        val hiddenEvents = columnEvents.drop(visibleCount)
+        if (hiddenEvents.isNotEmpty()) {
+            overflowByColumn[col] = ColumnOverflow(hiddenEvents.size, hiddenEvents)
         }
     }
 

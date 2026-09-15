@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -1153,10 +1154,12 @@ private fun AllDayEventsPagerRow(
                                         onClick = { onEventClick(span.displayEvent) },
                                         textMeasurer = textMeasurer,
                                         showEventEmojis = showEventEmojis,
-                                        // The start time is only meaningful on the segment that
-                                        // actually contains the event's start day — a leftFlush
-                                        // segment continues from before the visible window.
+                                        // The start/end time is only meaningful on the segment that
+                                        // actually contains that day — a leftFlush segment continues
+                                        // from before the visible window, and a rightFlush segment
+                                        // continues past the end of it.
                                         showStartTime = !span.displayEvent.isAllDay && !span.leftFlush,
+                                        showEndTime = !span.displayEvent.isAllDay && !span.rightFlush,
                                         timePattern = timePattern,
                                         shape = RoundedCornerShape(
                                             topStart = if (span.leftFlush) 0.dp else 4.dp,
@@ -1249,6 +1252,7 @@ private fun CompactEventChip(
     textMeasurer: TextMeasurer,
     showEventEmojis: Boolean = true,
     showStartTime: Boolean = false,
+    showEndTime: Boolean = false,
     timePattern: String = "h:mma",
     shape: RoundedCornerShape = RoundedCornerShape(4.dp),
     modifier: Modifier = Modifier
@@ -1277,6 +1281,14 @@ private fun CompactEventChip(
     } else {
         null
     }
+    // Shown at the bar's right cap (see the Spacer-pushed Text below), distinct from
+    // timeText's start time at the left — a bar with no end time reads ambiguously,
+    // e.g. "Sample event, 6:15am" alone doesn't say when it ends.
+    val endTimeText = if (showEndTime) {
+        WeekViewUtils.formatTime(displayEvent.endTs, timePattern)
+    } else {
+        null
+    }
     BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
@@ -1300,7 +1312,11 @@ private fun CompactEventChip(
         val timeWidthPx = remember(timeText, titleStyle) {
             timeText?.let { measureWidthPx(textMeasurer, it, titleStyle) } ?: 0
         }
-        val availableTitleWidthPx = (constraints.maxWidth - timeWidthPx).coerceAtLeast(0)
+        val endTimeWidthPx = remember(endTimeText, titleStyle) {
+            // Leading gap ("  ") so the right-capped time never touches the title.
+            endTimeText?.let { measureWidthPx(textMeasurer, "  $it", titleStyle) } ?: 0
+        }
+        val availableTitleWidthPx = (constraints.maxWidth - timeWidthPx - endTimeWidthPx).coerceAtLeast(0)
         val truncatedTitle = remember(displayText, availableTitleWidthPx, titleStyle) {
             truncateWithEllipsis(textMeasurer, displayText, titleStyle, availableTitleWidthPx)
         }
@@ -1308,7 +1324,7 @@ private fun CompactEventChip(
         // drop timeText's leading ", " separator so the chip doesn't paint a dangling
         // comma before the time with no title before it.
         val displayTimeText = if (truncatedTitle.isEmpty()) timeText?.removePrefix(", ") else timeText
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = truncatedTitle,
                 style = titleStyle,
@@ -1320,6 +1336,17 @@ private fun CompactEventChip(
             if (displayTimeText != null) {
                 Text(
                     text = displayTimeText,
+                    style = titleStyle,
+                    color = textColor,
+                    textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
+            }
+            if (endTimeText != null) {
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = endTimeText,
                     style = titleStyle,
                     color = textColor,
                     textDecoration = declinedTitleDecoration(displayEvent.isDeclinedByMe, displayEvent.isCancelled),

@@ -38,8 +38,10 @@ object PreferencesKeys {
 
     /** Default for [SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP] — shared by the DataStore, the settings
      * ViewModel/Screen defaults, and [org.onekash.kashcal.ui.viewmodels.HomeViewModel] so all four
-     * agree without being kept in sync by hand. */
-    const val DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP = true
+     * agree without being kept in sync by hand. Opt-in (false): flipping it to true by default
+     * would move every existing user's multi-day timed events into the all-day strip on update,
+     * changing established behavior for everyone. */
+    const val DEFAULT_SHOW_MULTIDAY_TIMED_IN_ALLDAY_STRIP = false
 
     /** Default event duration in minutes */
     val DEFAULT_EVENT_DURATION = intPreferencesKey("default_event_duration")

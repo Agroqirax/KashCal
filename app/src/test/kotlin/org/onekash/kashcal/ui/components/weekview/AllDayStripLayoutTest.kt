@@ -201,41 +201,42 @@ class AllDayStripLayoutTest {
     }
 
     @Test
-    fun `overflow badge appears when a column has more single-day events than free rows`() {
-        // 5 single-day events on the same day, expanded cap = 3 rows: 2 fit, badge shows the rest.
+    fun `overflow is reported out-of-band without consuming a row`() {
+        // 5 single-day events on the same day, cap = 3 rows: all 3 free rows show a
+        // cell now that overflow no longer reserves one of them for a badge, with
+        // the remaining 2 reported via overflowByColumn instead.
         val events = (1..5).map { allDayDisplayEvent(it.toLong(), "e$it", monday.plusDays(1)) } // col 1
         val render = computeAllDayStripRender(week, events, maxRows = 3)
         val col1 = render.slots.map { it[1] }
         val cells = col1.filterIsInstance<AllDaySlot.CellEvent>()
-        val overflow = col1.filterIsInstance<AllDaySlot.Overflow>()
-        assertEquals("two rows of events plus one badge row", 2, cells.size)
-        assertEquals(1, overflow.size)
-        // 5 total, 2 shown -> "+3"
-        assertEquals(3, overflow.single().count)
+        assertEquals("all three rows carry a cell now that overflow is out-of-band", 3, cells.size)
+        val overflow = render.overflowByColumn[1]
+        assertEquals(2, overflow?.count)
+        assertEquals(setOf(4L, 5L), overflow?.events?.map { (it as DisplayEvent.Room).event.id }?.toSet())
     }
 
     @Test
-    fun `KNOWN REGRESSION collapsed strip drops single-day events on a span-covered column with no badge`() {
-        // Characterizes a regression, NOT intended behavior: in the 1-row
-        // collapsed strip (the default), a day covered by a spanning bar shows
-        // only the bar; that day's own single-day event is not rendered AND no
-        // "+N" badge is emitted. The pre-PR CompactEventCell always showed a
-        // "+N more" badge in this case, so the event is now silently hidden in
-        // the default view (the expand chevron is the only recovery hint). The
-        // source comment claiming this path is "unreachable in practice" is
-        // wrong: a column can carry both a spanning bar and its own same-day
-        // single-day events. Flip this assertion once the drop is fixed to
-        // surface a badge.
+    fun `collapsed strip surfaces a span-covered column's own event as overflow, not a silent drop`() {
+        // In the 1-row collapsed strip (the default), a day covered by a spanning
+        // bar shows only the bar; that day's own single-day event has no free row
+        // to render in, so it must surface via overflowByColumn instead of
+        // vanishing with no affordance (the regression the old CompactEventCell
+        // never had, since it always fell back to a "+N more" badge).
         val span = multiDayDisplayEvent(1, "span", monday, monday.plusDays(2)) // covers col 0
         val solo = allDayDisplayEvent(2, "hidden", monday)                     // col 0
         val render = computeAllDayStripRender(week, listOf(span, solo), maxRows = 1)
         assertEquals(1, render.slots.size)
         assertTrue(render.slots[0][0] is AllDaySlot.BarSegment)
-        // The solo event appears nowhere in the single collapsed row.
+        // The solo event doesn't appear as a row slot...
         val soloShown = render.slots.flatten().any {
             it is AllDaySlot.CellEvent && (it.event as DisplayEvent.Room).event.id == 2L
         }
         assertFalse(soloShown)
+        // ...but it's surfaced as this column's overflow, and only the solo event —
+        // not the already-visible bar — so the badge count and its sheet agree.
+        val overflow = render.overflowByColumn[0]
+        assertEquals(1, overflow?.count)
+        assertEquals(listOf(2L), overflow?.events?.map { (it as DisplayEvent.Room).event.id })
     }
 
     @Test
