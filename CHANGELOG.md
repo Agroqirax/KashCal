@@ -1,3 +1,15 @@
+## [2026.09.12]
+
+KashCal is stubborn about exactly one thing: it answers to the person holding the phone and nobody else. Not advertisers, not an engagement dashboard, not whoever hands out design awards. It shows you your day and then gets out of your way. That is, in our unabashedly biased opinion, why nothing else on Android feels quite like it. We make the case in full [over here](https://kashcal.onekash.org/features/beautiful-calendar-android).
+
+This release aims the same stubbornness at a new audience: the people who want to help build the thing. Opening the KashCal codebase for the first time used to be a bit like being handed a city with no map. Now there is one, a [browsable guide to how the app fits together](https://deepwiki.com/KashCal/KashCal) you can actually ask questions of, alongside a [recommended workflow](https://github.com/KashZod/devloop) for anyone building a change with an AI in the passenger seat, so contributions turn up tested and reviewed rather than merely well-intentioned. The calendar you rely on improves fastest when its would-be improvers are not lost on arrival.
+
+### Everything in this release
+
+- Fixed the account bottom sheets jittering while you dragged them; they now sit still like well-behaved furniture, #369
+- Added a browsable architecture overview via [DeepWiki](https://deepwiki.com/KashCal/KashCal), so new contributors can learn how the app fits together, and interrogate it, before touching a line
+- Added a recommended test-driven, review-gated workflow, [devloop](https://github.com/KashZod/devloop), for AI-assisted contributions, plus a clearer pull-request checklist
+
 ## [2026.09.05]
 
 ### Everything in this release

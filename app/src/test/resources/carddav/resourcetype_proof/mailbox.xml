@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<D:multistatus xmlns:D="DAV:" xmlns:CARD="urn:ietf:params:xml:ns:carddav" xmlns:MM="http://me.com/_namespace/">
+  <D:response>
+    <D:href>/carddav/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+        </D:resourcetype>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set />
+        <addressbook-description xmlns="urn:ietf:params:xml:ns:carddav" />
+        <getctag xmlns="http://calendarserver.org/ns/" />
+        <supported-address-data xmlns="urn:ietf:params:xml:ns:carddav" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/carddav/43/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write />
+          </D:privilege>
+          <D:privilege>
+            <D:write-content />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+          <D:privilege>
+            <D:write-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:bind />
+          </D:privilege>
+          <D:privilege>
+            <D:unbind />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+          <CARD:addressbook />
+        </D:resourcetype>
+        <getctag xmlns="http://calendarserver.org/ns/">con://0/43-1789169796641.0.1</getctag>
+        <supported-address-data xmlns="urn:ietf:params:xml:ns:carddav">
+          <CARD:address-data-type content-type="text/vcard" version="3.0" />
+        </supported-address-data>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <addressbook-description xmlns="urn:ietf:params:xml:ns:carddav" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/carddav/33/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write />
+          </D:privilege>
+          <D:privilege>
+            <D:write-content />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+          <D:privilege>
+            <D:write-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:bind />
+          </D:privilege>
+          <D:privilege>
+            <D:unbind />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+          <CARD:addressbook />
+        </D:resourcetype>
+        <getctag xmlns="http://calendarserver.org/ns/">con://0/33-0.0.0</getctag>
+        <supported-address-data xmlns="urn:ietf:params:xml:ns:carddav">
+          <CARD:address-data-type content-type="text/vcard" version="3.0" />
+        </supported-address-data>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <addressbook-description xmlns="urn:ietf:params:xml:ns:carddav" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>/carddav/6/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:current-user-privilege-set>
+          <D:privilege>
+            <D:read-acl />
+          </D:privilege>
+          <D:privilege>
+            <D:read-current-user-privilege-set />
+          </D:privilege>
+          <D:privilege>
+            <D:read />
+          </D:privilege>
+          <D:privilege>
+            <D:write />
+          </D:privilege>
+          <D:privilege>
+            <D:write-content />
+          </D:privilege>
+          <D:privilege>
+            <D:write-properties />
+          </D:privilege>
+        </D:current-user-privilege-set>
+        <D:displayname>REDACTED_DISPLAYNAME</D:displayname>
+        <D:resourcetype>
+          <D:collection />
+          <CARD:addressbook />
+        </D:resourcetype>
+        <getctag xmlns="http://calendarserver.org/ns/">con://0/6-1789168904457.0.2</getctag>
+        <supported-address-data xmlns="urn:ietf:params:xml:ns:carddav">
+          <CARD:address-data-type content-type="text/vcard" version="3.0" />
+        </supported-address-data>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+    <D:propstat>
+      <D:prop>
+        <addressbook-description xmlns="urn:ietf:params:xml:ns:carddav" />
+      </D:prop>
+      <D:status>HTTP/1.1 404 NOT FOUND</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>

@@ -19,13 +19,16 @@ Fixes #(issue number)
 - [ ] I have tested my changes locally
 - [ ] New and existing unit tests pass locally (`./gradlew test`)
 - [ ] The app builds successfully (`./gradlew assembleDebug`)
+- [ ] Any new user-facing text uses string resources in `values/strings.xml` (English only), not hardcoded strings
+- [ ] ViewModels access data through the domain layer (`EventCoordinator` / `EventReader`), not DAOs directly
 
 ## AI Disclosure
 
-If you used AI assistance (Copilot, ChatGPT, Claude, etc.) while working on this PR, please disclose it here. This helps reviewers calibrate their review.
+If you used AI assistance (Claude Code, Codex, Copilot, Cursor, etc.) while working on this PR, please disclose it here. This helps reviewers calibrate their review.
 
 - [ ] No AI assistance was used
 - [ ] AI assisted with: ___
+- [ ] If AI assisted, I ran [devloop](https://github.com/KashZod/devloop)'s red-team review over the changes before opening this PR
 
 ## Screenshots (if applicable)
 
