@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">同期の完了とエラーに関する通知</string>
     <string name="channel_event_invitations">予定への招待</string>
     <string name="channel_event_invitations_desc">新しいカレンダー招待を受け取ったときの通知</string>
+    <string name="channel_calendar_updates">カレンダーの更新</string>
     <string name="invite_notification_body">送信元: %1$s · タップして返信</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">回答はシリーズ全体に適用されます。</string>
+    <string name="rsvp_receipt_pending">返信の送信待ち</string>
+    <string name="rsvp_receipt_sent">返信を送信済み</string>
+    <string name="rsvp_receipt_not_delivered">返信を配信できませんでした</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">これ以降のすべて</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">iCloudに接続して予定を表示</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">後で</string>
+    <string name="whats_new_skip">スキップ</string>
+    <string name="whats_new_next">次へ</string>
+    <string name="whats_new_page_of">%2$dページ中%1$dページ目</string>
+    <string name="whats_new_find_it_in">場所</string>
     <string name="whats_new_v598_title">Androidをオープンに保つお手伝いを</string>
     <string name="whats_new_v598_body">Googleは、あなたが端末にアプリをインストールする方法を変更しようとしています。皆さんのご協力が必要です。</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org を開く</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">このリリースは、KashCalを支えてくださる皆さまに捧げます。小さなご支援が、繰り返し大きな力になります。</string>
     <string name="whats_new_v732_caption">まだ支援されていませんか？</string>
     <string name="whats_new_v732_action_label">予定に加える</string>
+    <string name="whats_new_v772_icon_title">アイコンが日付を知っています</string>
+    <string name="whats_new_v772_icon_body">「今日の日付」アイコンを選ぶと、KashCal がホーム画面に今日の日にちを表示します。毎晩、自動で新しい日付に切り替わります。</string>
+    <string name="whats_new_v772_changes_title">変更内容を確認</string>
+    <string name="whats_new_v772_changes_body">iCloud と CalDAV のカレンダーで追加、編集、削除された予定は、7 日間「最近の変更」に表示されます。タップすると開きます。</string>
+    <string name="whats_new_v772_notifications_body">バックグラウンド同期で iCloud または CalDAV の予定の変更が見つかったときに通知を受け取れます。オンにするまではオフのままです。</string>
+    <string name="whats_new_hero_sample_lunch">チームランチ</string>
+    <string name="whats_new_hero_sample_review">デザインレビュー</string>
+    <string name="whats_new_hero_sample_book_club">読書会</string>
+    <string name="whats_new_hero_sample_calendar">仕事</string>
+    <string name="whats_new_hero_now">今</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloudに接続</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">コンパクトな1行表示、または終了時刻付きの詳細な2行表示。</string>
     <string name="settings_sync_lookback">同期の遡り期間</string>
     <string name="settings_sync_lookback_hint">予定を同期する遡り期間</string>
+    <string name="settings_change_notifications">変更の通知</string>
+    <string name="settings_change_notifications_info">バックグラウンド同期で予定の変更が見つかったときに通知を送信します。iCloud と CalDAV のカレンダーで利用できます。</string>
     <string name="settings_not_set">未設定</string>
     <string name="settings_on">オン</string>
     <string name="settings_off">オフ</string>
@@ -743,6 +762,51 @@
     <plurals name="imported_events">
         <item quantity="other">%1$d件の予定をインポートしました</item>
     </plurals>
+    <string name="ics_import_preview_loading">このカレンダーを確認しています…</string>
+    <string name="ics_import_preview_failed">このカレンダーでこれらの予定を確認できませんでした。インポートは引き続き可能です。</string>
+    <string name="ics_import_will_cancel">%1$s(主催者: %2$s)をキャンセルします</string>
+    <string name="ics_import_will_cancel_no_organizer">%1$s をキャンセルします</string>
+    <string name="ics_import_will_update">%1$s を更新します</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="other">%1$d件の予定はすでに最新です</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="other">%1$d件をスキップ: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">招待への返信のため、カレンダーには何も追加されません</string>
+    <string name="ics_import_reason_unsupported">この種類の招待メッセージには対応していません</string>
+    <string name="ics_import_reason_organizer_mismatch">会議の主催者以外から送られています</string>
+    <string name="ics_import_reason_cancel_no_match">キャンセルされた会議がこのカレンダーにありません</string>
+    <string name="ics_import_reason_cancel_not_for_you">このキャンセルは他のゲスト宛てです</string>
+    <string name="ics_import_reason_deletion_pending">この予定は削除中です</string>
+    <string name="ics_import_reason_cancelled_in_file">ファイル内ですでにキャンセルされています</string>
+    <string name="ics_import_reason_this_and_future">これ以降の繰り返しへの変更には対応していません</string>
+    <string name="ics_import_reason_own_cancel">あなたが主催する会議のため、予定からキャンセルしてください</string>
+    <string name="ics_import_reason_on_another_calendar">このアカウントの別のカレンダーにすでにあります</string>
+    <string name="ics_import_notice_unverified">招待ファイルの送信者は確認できません。主催者から届いたものか確認してください。</string>
+    <string name="ics_import_notice_answer_notifies">この招待に回答すると、主催者に通知される場合があります。</string>
+    <string name="ics_import_notice_guests_again">あなたが主催者のため、ゲストにこの招待が再度届く場合があります。</string>
+    <string name="cd_dismiss_notice">お知らせを閉じる</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="other">%1$d件追加</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="other">%1$d件更新</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="other">%1$d件キャンセル</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="other">%1$d件は最新</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="other">%1$d件スキップ</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="other">%1$d件失敗</item>
+    </plurals>
+    <string name="ics_import_summary_separator">"、"</string>
+    <string name="ics_import_summary_nothing">インポートするものはありません</string>
     <plurals name="exported_events">
         <item quantity="other">%1$d件の予定をエクスポートしました</item>
     </plurals>

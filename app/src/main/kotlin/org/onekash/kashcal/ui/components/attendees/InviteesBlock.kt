@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.onekash.kashcal.domain.scheduling.ReplyReceipt
 import org.onekash.kashcal.R
 
 /**
@@ -64,6 +65,8 @@ import org.onekash.kashcal.R
  * @param seriesDisclosure optional line below the cards or band for a recurring event ("This
  *   RSVP applies to the whole series"), shown in both modes so it stays after a response.
  * @param alwaysExpanded keeps the cards after a response; the read-only event form sets it.
+ * @param replyReceipt what the server reported for the user's reply, shown under the block
+ *   while the Respond section is; null shows nothing.
  */
 @Composable
 fun InviteesBlock(
@@ -76,6 +79,7 @@ fun InviteesBlock(
     suppressRsvp: Boolean = false,
     seriesDisclosure: String? = null,
     alwaysExpanded: Boolean = false,
+    replyReceipt: ReplyReceipt? = null,
 ) {
     if (attendees.isEmpty()) return
 
@@ -101,38 +105,55 @@ fun InviteesBlock(
         else -> InviteesBlockMode.Expanded
     }
 
-    when (mode) {
-        InviteesBlockMode.SummaryOnly -> SummaryOnlyBlock(
-            attendees = attendees,
-            isCurrentUserOnList = isCurrentUserOnList,
-            isCurrentUserOrganizer = isCurrentUserOrganizer,
-            onClick = onDrillIntoAttendees,
-            modifier = modifier,
-        )
-        is InviteesBlockMode.Collapsed -> CollapsedStateBand(
-            partstat = mode.partstat,
-            attendees = attendees,
-            onChange = { changing = true },
-            onDrillIntoAttendees = onDrillIntoAttendees,
-            seriesDisclosure = seriesDisclosure,
-            modifier = modifier,
-        )
-        InviteesBlockMode.Expanded -> ExpandedBlock(
-            attendees = attendees,
-            isCurrentUserOnList = isCurrentUserOnList,
-            isCurrentUserOrganizer = isCurrentUserOrganizer,
-            currentUserPartstat = currentUserPartstat,
-            onRsvp = { status ->
-                // onRsvp first, so the new partstat arrives before the collapse and the
-                // remember keyed on it resets `changing`. Clearing `changing` first would
-                // render the band with the old partstat for one frame.
-                onRsvp(status)
-                changing = false
-            },
-            onDrillIntoAttendees = onDrillIntoAttendees,
-            seriesDisclosure = seriesDisclosure,
-            modifier = modifier,
-        )
+    Column(modifier) {
+        when (mode) {
+            InviteesBlockMode.SummaryOnly -> SummaryOnlyBlock(
+                attendees = attendees,
+                isCurrentUserOnList = isCurrentUserOnList,
+                isCurrentUserOrganizer = isCurrentUserOrganizer,
+                onClick = onDrillIntoAttendees,
+                modifier = Modifier,
+            )
+            is InviteesBlockMode.Collapsed -> CollapsedStateBand(
+                partstat = mode.partstat,
+                attendees = attendees,
+                onChange = { changing = true },
+                onDrillIntoAttendees = onDrillIntoAttendees,
+                seriesDisclosure = seriesDisclosure,
+                modifier = Modifier,
+            )
+            InviteesBlockMode.Expanded -> ExpandedBlock(
+                attendees = attendees,
+                isCurrentUserOnList = isCurrentUserOnList,
+                isCurrentUserOrganizer = isCurrentUserOrganizer,
+                currentUserPartstat = currentUserPartstat,
+                onRsvp = { status ->
+                    // onRsvp first, so the new partstat arrives before the collapse and the
+                    // remember keyed on it resets `changing`. Clearing `changing` first would
+                    // render the band with the old partstat for one frame.
+                    onRsvp(status)
+                    changing = false
+                },
+                onDrillIntoAttendees = onDrillIntoAttendees,
+                seriesDisclosure = seriesDisclosure,
+                modifier = Modifier,
+            )
+        }
+        if (rsvpVisible && replyReceipt != null) {
+            Text(
+                text = stringResource(
+                    when (replyReceipt) {
+                        ReplyReceipt.Pending -> R.string.rsvp_receipt_pending
+                        ReplyReceipt.Sent -> R.string.rsvp_receipt_sent
+                        ReplyReceipt.NotDelivered -> R.string.rsvp_receipt_not_delivered
+                    }
+                ),
+                style = MaterialTheme.typography.bodySmall,
+                color = if (replyReceipt == ReplyReceipt.NotDelivered) MaterialTheme.colorScheme.error
+                else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp),
+            )
+        }
     }
 }
 

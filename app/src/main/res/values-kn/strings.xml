@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">ಸಿಂಕ್ ಪೂರ್ಣಗೊಂಡಿರುವುದು ಮತ್ತು ದೋಷಗಳ ಬಗ್ಗೆ ಅಧಿಸೂಚನೆಗಳು</string>
     <string name="channel_event_invitations">ಈವೆಂಟ್ ಆಹ್ವಾನಗಳು</string>
     <string name="channel_event_invitations_desc">ನೀವು ಹೊಸ ಕ್ಯಾಲೆಂಡರ್ ಆಹ್ವಾನವನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="channel_calendar_updates">ಕ್ಯಾಲೆಂಡರ್ ಬದಲಾವಣೆಗಳು</string>
     <string name="invite_notification_body">%1$s ಇಂದ · ಪ್ರತಿಕ್ರಿಯಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ಸಂಪೂರ್ಣ ಸರಣಿಗೆ ಅನ್ವಯಿಸುತ್ತದೆ.</string>
+    <string name="rsvp_receipt_pending">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲು ಬಾಕಿ ಇದೆ</string>
+    <string name="rsvp_receipt_sent">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗಿದೆ</string>
+    <string name="rsvp_receipt_not_delivered">ಪ್ರತಿಕ್ರಿಯೆ ತಲುಪಿಲ್ಲ</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">ಇದು ಮತ್ತು ಎಲ್ಲಾ ಭವಿಷ್ಯದವು</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">ನಿಮ್ಮ ಈವೆಂಟ್‌ಗಳನ್ನು ಇಲ್ಲಿ ನೋಡಲು iCloud ಸಂಪರ್ಕಿಸಿ</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">ನಂತರ</string>
+    <string name="whats_new_skip">ಬಿಟ್ಟುಬಿಡಿ</string>
+    <string name="whats_new_next">ಮುಂದೆ</string>
+    <string name="whats_new_page_of">%2$d ರಲ್ಲಿ ಪುಟ %1$d</string>
+    <string name="whats_new_find_it_in">ಇಲ್ಲಿ ಹುಡುಕಿ</string>
     <string name="whats_new_v598_title">Android ತೆರೆದಿರಲು ಸಹಾಯ ಮಾಡಿ</string>
     <string name="whats_new_v598_body">Google ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಸ್ಥಾಪಿಸುವ ವಿಧಾನವನ್ನು ಬದಲಾಯಿಸುತ್ತಿದೆ. ನಮಗೆ ನಿಮ್ಮ ಸಹಾಯ ಬೇಕು.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org ಭೇಟಿ ನೀಡಿ</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">ಈ ಬಿಡುಗಡೆಯನ್ನು KashCal ಬೆಂಬಲಿಗರಿಗೆ ಅರ್ಪಿಸಲಾಗಿದೆ. ಒಂದು ಚಿಕ್ಕ ಕೊಡುಗೆ, ಮತ್ತೆ ಮತ್ತೆ ಸಿಗುವ ದೊಡ್ಡ ಪ್ರತಿಫಲ.</string>
     <string name="whats_new_v732_caption">ಇನ್ನೂ ಬೆಂಬಲಿಗರಾಗಿಲ್ಲವೇ?</string>
     <string name="whats_new_v732_action_label">ನಿಮ್ಮ ಯೋಜನೆಗಳಿಗೆ ನಮ್ಮನ್ನು ಸೇರಿಸಿ</string>
+    <string name="whats_new_v772_icon_title">ನಿಮ್ಮ ಐಕಾನ್‌ಗೆ ದಿನಾಂಕ ಗೊತ್ತು</string>
+    <string name="whats_new_v772_icon_body">ಇಂದಿನ ದಿನಾಂಕ ಐಕಾನ್ ಆಯ್ಕೆಮಾಡಿ, KashCal ನಿಮ್ಮ ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ತಿಂಗಳ ದಿನಾಂಕವನ್ನು ತೋರಿಸುತ್ತದೆ. ಪ್ರತಿ ರಾತ್ರಿ ಅದು ತಾನಾಗಿಯೇ ಬದಲಾಗುತ್ತದೆ.</string>
+    <string name="whats_new_v772_changes_title">ಏನು ಬದಲಾಗಿದೆ ನೋಡಿ</string>
+    <string name="whats_new_v772_changes_body">ನಿಮ್ಮ iCloud ಮತ್ತು CalDAV ಕ್ಯಾಲೆಂಡರ್‌ಗಳ ಹೊಸ, ಸಂಪಾದಿಸಿದ ಮತ್ತು ತೆಗೆದುಹಾಕಿದ ಈವೆಂಟ್‌ಗಳು 7 ದಿನಗಳವರೆಗೆ ಇತ್ತೀಚಿನ ಬದಲಾವಣೆಗಳು ಪಟ್ಟಿಯಲ್ಲಿ ಸಂಗ್ರಹವಾಗುತ್ತವೆ. ಒಂದನ್ನು ತೆರೆಯಲು ಅದರ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
+    <string name="whats_new_v772_notifications_body">ಹಿನ್ನೆಲೆ ಸಿಂಕ್ ನಿಮ್ಮ iCloud ಅಥವಾ CalDAV ಈವೆಂಟ್‌ಗಳಲ್ಲಿ ಬದಲಾವಣೆಗಳನ್ನು ಕಂಡುಕೊಂಡಾಗ ಅಧಿಸೂಚನೆ ಪಡೆಯಿರಿ. ನೀವು ಆನ್ ಮಾಡುವವರೆಗೆ ಇದು ಆಫ್ ಆಗಿರುತ್ತದೆ.</string>
+    <string name="whats_new_hero_sample_lunch">ತಂಡದ ಊಟ</string>
+    <string name="whats_new_hero_sample_review">ವಿನ್ಯಾಸ ಪರಿಶೀಲನೆ</string>
+    <string name="whats_new_hero_sample_book_club">ಪುಸ್ತಕ ಕ್ಲಬ್</string>
+    <string name="whats_new_hero_sample_calendar">ಕೆಲಸ</string>
+    <string name="whats_new_hero_now">ಈಗ</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud ಸಂಪರ್ಕಿಸಿ</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">ಸಂಕ್ಷಿಪ್ತ ಒಂದೇ ಸಾಲು, ಅಥವಾ ಅಂತ್ಯ ಸಮಯದೊಂದಿಗೆ ವಿವರವಾದ ಎರಡು ಸಾಲುಗಳು.</string>
     <string name="settings_sync_lookback">ಸಿಂಕ್ ಲುಕ್‌ಬ್ಯಾಕ್</string>
     <string name="settings_sync_lookback_hint">ಎಷ್ಟು ಹಿಂದಿನವರೆಗೆ ಈವೆಂಟ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಬೇಕು</string>
+    <string name="settings_change_notifications">ಬದಲಾವಣೆ ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="settings_change_notifications_info">ಹಿನ್ನೆಲೆ ಸಿಂಕ್ ನಿಮ್ಮ ಈವೆಂಟ್‌ಗಳಲ್ಲಿ ಬದಲಾವಣೆಗಳನ್ನು ಕಂಡುಕೊಂಡಾಗ ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸುತ್ತದೆ. iCloud ಮತ್ತು CalDAV ಕ್ಯಾಲೆಂಡರ್‌ಗಳಿಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.</string>
     <string name="settings_not_set">ಸೆಟ್ ಆಗಿಲ್ಲ</string>
     <string name="settings_on">ಆನ್</string>
     <string name="settings_off">ಆಫ್</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d ಈವೆಂಟ್ ಆಮದು ಮಾಡಲಾಗಿದೆ</item>
         <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಿದೆ</item>
     </plurals>
+    <string name="ics_import_preview_loading">ಈ ಕ್ಯಾಲೆಂಡರ್ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…</string>
+    <string name="ics_import_preview_failed">ಈ ಈವೆಂಟ್‌ಗಳಿಗಾಗಿ ಈ ಕ್ಯಾಲೆಂಡರ್ ಪರಿಶೀಲಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಆದರೂ ನೀವು ಆಮದು ಮಾಡಬಹುದು.</string>
+    <string name="ics_import_will_cancel">ಇದು %1$s ಅನ್ನು ರದ್ದುಗೊಳಿಸುತ್ತದೆ, ಆಯೋಜಕರು: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">ಇದು %1$s ಅನ್ನು ರದ್ದುಗೊಳಿಸುತ್ತದೆ</string>
+    <string name="ics_import_will_update">ಇದು %1$s ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡುತ್ತದೆ</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d ಈವೆಂಟ್ ಈಗಾಗಲೇ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ</item>
+        <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳು ಈಗಾಗಲೇ ಅಪ್‌ಡೇಟ್ ಆಗಿವೆ</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d ಬಿಟ್ಟುಹಾಕಲಾಗಿದೆ: %2$s</item>
+        <item quantity="other">%1$d ಬಿಟ್ಟುಹಾಕಲಾಗಿದೆ: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ಇದು ಆಹ್ವಾನವೊಂದಕ್ಕೆ ಪ್ರತಿಕ್ರಿಯೆ, ಇದು ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಏನನ್ನೂ ಸೇರಿಸುವುದಿಲ್ಲ</string>
+    <string name="ics_import_reason_unsupported">ಈ ರೀತಿಯ ಆಹ್ವಾನ ಸಂದೇಶಕ್ಕೆ ಬೆಂಬಲವಿಲ್ಲ</string>
+    <string name="ics_import_reason_organizer_mismatch">ಇದು ಮೀಟಿಂಗ್‌ನ ಆಯೋಜಕರಲ್ಲದ ಬೇರೊಬ್ಬರಿಂದ ಬಂದಿದೆ</string>
+    <string name="ics_import_reason_cancel_no_match">ರದ್ದಾದ ಮೀಟಿಂಗ್ ಈ ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿ ಇಲ್ಲ</string>
+    <string name="ics_import_reason_cancel_not_for_you">ಈ ರದ್ದತಿ ಇತರ ಅತಿಥಿಗಳಿಗಾಗಿ</string>
+    <string name="ics_import_reason_deletion_pending">ಈವೆಂಟ್ ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="ics_import_reason_cancelled_in_file">ಇದು ಫೈಲ್‌ನಲ್ಲಿ ಈಗಾಗಲೇ ರದ್ದಾಗಿದೆ</string>
+    <string name="ics_import_reason_this_and_future">ಇದಕ್ಕೆ ಮತ್ತು ಮುಂದಿನ ಪುನರಾವರ್ತನೆಗಳಿಗೆ ಮಾಡಿದ ಬದಲಾವಣೆಗಳಿಗೆ ಬೆಂಬಲವಿಲ್ಲ</string>
+    <string name="ics_import_reason_own_cancel">ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ನೀವೇ ಆಯೋಜಿಸುತ್ತೀರಿ, ಆದ್ದರಿಂದ ಈವೆಂಟ್‌ನಿಂದಲೇ ಇದನ್ನು ರದ್ದುಗೊಳಿಸಿ</string>
+    <string name="ics_import_reason_on_another_calendar">ಇದು ಈಗಾಗಲೇ ಈ ಖಾತೆಯ ಮತ್ತೊಂದು ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿದೆ</string>
+    <string name="ics_import_notice_unverified">ಆಹ್ವಾನ ಫೈಲ್ ಕಳುಹಿಸಿದವರನ್ನು ಪರಿಶೀಲಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಇದು ಆಯೋಜಕರಿಂದ ಬಂದಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.</string>
+    <string name="ics_import_notice_answer_notifies">ಈ ಆಹ್ವಾನಕ್ಕೆ ಉತ್ತರಿಸಿದರೆ ಆಯೋಜಕರಿಗೆ ತಿಳಿಸಬಹುದು.</string>
+    <string name="ics_import_notice_guests_again">ನೀವು ಆಯೋಜಕರು, ಆದ್ದರಿಂದ ಅತಿಥಿಗಳು ಈ ಆಹ್ವಾನವನ್ನು ಮತ್ತೆ ಸ್ವೀಕರಿಸಬಹುದು.</string>
+    <string name="cd_dismiss_notice">ಸೂಚನೆಯನ್ನು ವಜಾಮಾಡಿ</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d ಸೇರಿಸಲಾಗಿದೆ</item>
+        <item quantity="other">%1$d ಸೇರಿಸಲಾಗಿದೆ</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗಿದೆ</item>
+        <item quantity="other">%1$d ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗಿದೆ</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</item>
+        <item quantity="other">%1$d ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ಈಗಾಗಲೇ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ</item>
+        <item quantity="other">%1$d ಈಗಾಗಲೇ ಅಪ್‌ಡೇಟ್ ಆಗಿವೆ</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d ಬಿಟ್ಟುಹಾಕಲಾಗಿದೆ</item>
+        <item quantity="other">%1$d ಬಿಟ್ಟುಹಾಕಲಾಗಿದೆ</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d ವಿಫಲವಾಗಿದೆ</item>
+        <item quantity="other">%1$d ವಿಫಲವಾಗಿವೆ</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">ಆಮದು ಮಾಡಲು ಏನೂ ಇಲ್ಲ</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d ಈವೆಂಟ್ ರಫ್ತು ಮಾಡಲಾಗಿದೆ</item>
         <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡಲಾಗಿದೆ</item>

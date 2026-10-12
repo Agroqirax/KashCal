@@ -276,7 +276,7 @@ class ImportExportTest {
             createTestEvent(title = "Imported Event 2")
         )
 
-        // EventCoordinator.importIcsEvents isn't called; the events go through EventWriter.
+        // Saved straight through EventWriter, not EventCoordinator.importIcsFile.
         val savedEvents = events.map { eventWriter.createEvent(it, isLocal = true) }
 
         assertEquals(2, savedEvents.size)

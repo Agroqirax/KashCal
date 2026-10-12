@@ -144,6 +144,16 @@ class PullStrategy @Inject constructor(
         }
     }
 
+    /**
+     * Returns the ORGANIZER SCHEDULE-STATUS to store for [existing] after a pull read [pulled]:
+     * null for an imported row with an answer still queued, whose stored receipt would otherwise
+     * describe the previous answer (the push reads the new one back); [pulled] otherwise.
+     */
+    private suspend fun receiptAfterPull(existing: Event, pulled: String?): String? {
+        if (existing.importSource != Event.IMPORT_SOURCE_ICS_FILE) return pulled
+        return if (database.pendingOperationsDao().hasActiveAnswer(listOf(existing.id))) null else pulled
+    }
+
     companion object {
         private const val TAG = "PullStrategy"
 
@@ -1020,6 +1030,8 @@ class PullStrategy @Inject constructor(
         // First pass: parse every resource and split masters from exceptions.
         val masterEvents = mutableListOf<ParsedEventWithMeta>()
         val exceptionEvents = mutableListOf<ParsedEventWithMeta>()
+        // UIDs whose series the master pass held for a pending attendee-side cancel.
+        val heldUids = mutableSetOf<String>()
 
         for (serverEvent in serverEvents) {
             val parseResult = try {
@@ -1124,6 +1136,16 @@ class PullStrategy @Inject constructor(
                 continue
             }
 
+            // An imported CANCEL not yet sent holds the whole series, exceptions included, so
+            // the server's older copy can't undo it (or drop an exception it added) first.
+            if (existingEvent != null && database.pendingOperationsDao().hasActiveAttendeeCancel(existingEvent.id)) {
+                Log.d(TAG, "Skipping ${meta.caldavUrl} - attendee-side cancel pending")
+                sessionBuilder?.incrementSkipPendingLocal()
+                uidToMasterEvent[meta.parsed.uid] = existingEvent
+                heldUids += meta.parsed.uid
+                continue
+            }
+
             // iCloud's CDN may return stale data for an event pushed moments ago, so an event
             // pushed in this sync cycle keeps its local version, unless the push merged a server
             // change its rows lack.
@@ -1171,7 +1193,8 @@ class PullStrategy @Inject constructor(
                     continue
                 }
 
-                // Keeps the row id, timestamps and a local color when the server sends none.
+                // Keeps the row id, timestamps, a local color when the server sends none, and
+                // the import fields, which no server copy carries.
                 if (existingEvent != null) {
                     event = event.copy(
                         id = existingEvent.id,
@@ -1180,7 +1203,10 @@ class PullStrategy @Inject constructor(
                         // RFC 4791 says the response SHOULD include <getetag>, but some servers
                         // and CDNs omit it; the stored etag is kept then.
                         etag = meta.etag ?: existingEvent.etag,
-                        color = event.color ?: existingEvent.color
+                        color = event.color ?: existingEvent.color,
+                        importSource = existingEvent.importSource,
+                        itipDtstamp = existingEvent.itipDtstamp,
+                        organizerScheduleStatus = receiptAfterPull(existingEvent, event.organizerScheduleStatus)
                     )
                 }
 
@@ -1263,7 +1289,8 @@ class PullStrategy @Inject constructor(
             // with PARTSTAT=NEEDS-ACTION and notified_at IS NULL, so it is a no-op for other
             // events. With no account (orphan calendar) there is no identity to match, so it
             // is skipped.
-            if (accountForInvites != null) {
+            // An imported invite gets none: the user imported it themselves.
+            if (accountForInvites != null && savedEvent.importSource != Event.IMPORT_SOURCE_ICS_FILE) {
                 try {
                     inviteNotifier.notifyNew(savedEvent, accountForInvites)
                 } catch (e: Exception) {
@@ -1322,6 +1349,7 @@ class PullStrategy @Inject constructor(
 
         // Third pass: upsert and link exceptions, skipping those with pending local changes.
         for (meta in exceptionEvents) {
+            if (meta.parsed.uid in heldUids) continue
             // Pass 2's map covers a master bundled with its exceptions; the UID query covers a
             // master saved in an earlier sync. It also returns a synthetic placeholder
             // (rrule null, `original_event_id IS NULL`), so exceptions keep linking to one row
@@ -1489,7 +1517,10 @@ class PullStrategy @Inject constructor(
                         createdAt = existingException.createdAt,
                         localModifiedAt = existingException.localModifiedAt,
                         etag = meta.etag ?: existingException.etag,
-                        color = event.color ?: existingException.color
+                        color = event.color ?: existingException.color,
+                        importSource = existingException.importSource,
+                        itipDtstamp = existingException.itipDtstamp,
+                        organizerScheduleStatus = receiptAfterPull(existingException, event.organizerScheduleStatus)
                     )
                 }
 

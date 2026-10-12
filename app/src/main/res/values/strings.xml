@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Do NOT translate — brand name -->
+    <!-- Brand name: keep "KashCal" in every locale except zh-rCN (开序历) and zh-rTW (開序曆) -->
     <string name="app_name">KashCal</string>
 
     <!-- ==================== Widget ==================== -->
@@ -56,6 +56,8 @@
     <string name="channel_sync_status_desc">Notifications about sync completion and errors</string>
     <string name="channel_event_invitations">Event Invitations</string>
     <string name="channel_event_invitations_desc">Notifications when you receive a new calendar invitation</string>
+    <!-- Notification channel for calendar changes found by a background sync; also the lock-screen text of those notifications -->
+    <string name="channel_calendar_updates">Calendar updates</string>
     <!-- Body of the invite notification. %1$s is the organizer's email or name. -->
     <string name="invite_notification_body">From %1$s · Tap to respond</string>
 
@@ -145,6 +147,10 @@
          supported mode, so this disclosure prevents the surprise of "I declined Friday and now every
          Friday is gone from my calendar." -->
     <string name="rsvp_series_disclosure">Your reply applies to the whole series.</string>
+    <!-- Under the RSVP section of an imported invitation: what the server reported for the user's reply. -->
+    <string name="rsvp_receipt_pending">Reply pending</string>
+    <string name="rsvp_receipt_sent">Reply sent</string>
+    <string name="rsvp_receipt_not_delivered">Reply not delivered</string>
     <!-- Snackbar shown when an RSVP write is rejected because the organizer concurrently edited the event. %1$s is the event title. -->
 
     <!-- ==================== Recurring Event Actions ==================== -->
@@ -362,8 +368,14 @@
     <string name="onboarding_connect_prompt">Connect iCloud to see your events here</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <!-- Dismiss button on the post-update sheet; defers the ask without committing to it. -->
-    <string name="whats_new_later">Later</string>
+    <!-- Top-right button on the post-update pager; closes it without reading the rest. -->
+    <string name="whats_new_skip">Skip</string>
+    <!-- Bottom button on the post-update pager; goes to the next page. -->
+    <string name="whats_new_next">Next</string>
+    <!-- Spoken position of the post-update pager's page dots. %1$d = this page, %2$d = number of pages. -->
+    <string name="whats_new_page_of">Page %1$d of %2$d</string>
+    <!-- Label above a menu path (for example "Make it yours > App Icon") telling the user where an option lives. -->
+    <string name="whats_new_find_it_in">Find it in</string>
 
     <!-- v23.7.80 release-note: signal-boost for the keep-Android-open campaign. -->
     <!-- Section title. "Android" is a brand name; keep untranslated. -->
@@ -386,6 +398,26 @@
     <string name="whats_new_v732_action_label">Add us to your plans</string>
     <!-- URL the support button opens. Don\'t translate. -->
     <string name="whats_new_v732_action_url" translatable="false">https://kashcal.onekash.org/donate/</string>
+
+    <!-- Release-note pages announcing three features; each page also shows the menu path to the option. -->
+    <!-- Page heading for the launcher icon that shows the day of the month. -->
+    <string name="whats_new_v772_icon_title">Your icon knows the date</string>
+    <!-- Page body. "Today's date" is the icon option's name: use the same words as app_icon_todays_date. "KashCal" is a brand name; keep untranslated. -->
+    <string name="whats_new_v772_icon_body">Pick the Today\'s date icon and KashCal shows the day of the month on your home screen. It turns over on its own each night.</string>
+    <!-- Page heading for the Recent changes list. -->
+    <string name="whats_new_v772_changes_title">See what changed</string>
+    <!-- Page body. "Recent changes" is the list's name: use the same words as recent_changes_title. Keep "iCloud" and "CalDAV" untranslated. -->
+    <string name="whats_new_v772_changes_body">New, edited and removed events from your iCloud and CalDAV calendars collect in Recent changes for 7 days. Tap one to open it.</string>
+    <!-- Page body for the Change notifications setting (the page heading is settings_change_notifications). Keep "iCloud" and "CalDAV" untranslated. -->
+    <string name="whats_new_v772_notifications_body">Get a notification when a background sync finds changes to your iCloud or CalDAV events. It stays off until you switch it on.</string>
+    <!-- Sample event names shown in an illustration of the Recent changes list and a notification; they are not the user's events. Translate as ordinary event titles. -->
+    <string name="whats_new_hero_sample_lunch">Team lunch</string>
+    <string name="whats_new_hero_sample_review">Design review</string>
+    <string name="whats_new_hero_sample_book_club">Book club</string>
+    <!-- Sample calendar name in the same illustration. -->
+    <string name="whats_new_hero_sample_calendar">Work</string>
+    <!-- Time label in an illustrated notification's header, as Android shows a notification that just arrived. -->
+    <string name="whats_new_hero_now">now</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <!-- Keep "iCloud" and "CalDAV" untranslated -->
@@ -836,9 +868,9 @@
     <string name="change_password_label_default">Password</string>
 
     <!-- ==================== System Account ==================== -->
-    <!-- Do NOT translate — brand name used as system account label -->
+    <!-- System account label: the brand name, localised only in zh-rCN and zh-rTW -->
     <string name="kashcal_account_label">KashCal</string>
-    <!-- Do NOT translate — brand name used as system account label for the contacts source -->
+    <!-- Contacts source account label: the brand name, localised only in zh-rCN and zh-rTW -->
     <string name="kashcal_contacts_account_label">KashCal Contacts</string>
 
     <!-- ==================== Settings Screen ==================== -->
@@ -874,6 +906,10 @@
     <string name="settings_sync_lookback">Sync lookback</string>
     <!-- Subtitle hint under the Sync lookback row -->
     <string name="settings_sync_lookback_hint">How far back to sync events</string>
+    <!-- Settings toggle: post a system notification when a background sync finds calendar changes -->
+    <string name="settings_change_notifications">Change notifications</string>
+    <!-- Info tooltip for the Change notifications toggle; also the description of its notification channel -->
+    <string name="settings_change_notifications_info">Sends a notification when a background sync finds changes to your events. Works for iCloud and CalDAV calendars.</string>
     <string name="settings_not_set">Not set</string>
     <!-- Toggle state: feature is turned on -->
     <string name="settings_on">On</string>
@@ -1102,6 +1138,66 @@
         <item quantity="one">Imported %1$d event</item>
         <item quantity="other">Imported %1$d events</item>
     </plurals>
+    <!-- Import sheet, before the tap: what importing this file into the chosen calendar does. -->
+    <string name="ics_import_preview_loading">Checking this calendar…</string>
+    <string name="ics_import_preview_failed">Couldn\'t check this calendar for these events. You can still import.</string>
+    <!-- %1$s is the event title, %2$s the organizer's address. -->
+    <string name="ics_import_will_cancel">This cancels %1$s, organized by %2$s</string>
+    <!-- %1$s is the event title. -->
+    <string name="ics_import_will_cancel_no_organizer">This cancels %1$s</string>
+    <!-- %1$s is the event title. -->
+    <string name="ics_import_will_update">This updates %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d event is already up to date</item>
+        <item quantity="other">%1$d events are already up to date</item>
+    </plurals>
+    <!-- %1$d is how many events the import leaves out, %2$s the reason (one of the ics_import_reason_* strings). -->
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d skipped: %2$s</item>
+        <item quantity="other">%1$d skipped: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">it\'s a reply to an invitation, which adds nothing to your calendar</string>
+    <string name="ics_import_reason_unsupported">this kind of invitation message isn\'t supported</string>
+    <string name="ics_import_reason_organizer_mismatch">it comes from someone other than the meeting\'s organizer</string>
+    <string name="ics_import_reason_cancel_no_match">the cancelled meeting isn\'t in this calendar</string>
+    <string name="ics_import_reason_cancel_not_for_you">the cancellation is for other guests</string>
+    <string name="ics_import_reason_deletion_pending">the event is being deleted</string>
+    <string name="ics_import_reason_cancelled_in_file">it\'s already cancelled in the file</string>
+    <string name="ics_import_reason_this_and_future">changes to this and later occurrences aren\'t supported</string>
+    <string name="ics_import_reason_own_cancel">you organize this meeting, so cancel it from the event</string>
+    <string name="ics_import_reason_on_another_calendar">it\'s already in another calendar of this account</string>
+    <!-- Inline notices in the import sheet; each can be dismissed. -->
+    <string name="ics_import_notice_unverified">The sender of an invitation file can\'t be verified. Check it came from the organizer.</string>
+    <string name="ics_import_notice_answer_notifies">Answering this invitation may notify the organizer.</string>
+    <string name="ics_import_notice_guests_again">You\'re the organizer, so guests may receive this invitation again.</string>
+    <string name="cd_dismiss_notice">Dismiss notice</string>
+    <!-- Snackbar after an import: the ics_import_summary_* parts joined with ics_import_summary_separator. -->
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d added</item>
+        <item quantity="other">%1$d added</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d updated</item>
+        <item quantity="other">%1$d updated</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d cancelled</item>
+        <item quantity="other">%1$d cancelled</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d already up to date</item>
+        <item quantity="other">%1$d already up to date</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d skipped</item>
+        <item quantity="other">%1$d skipped</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d failed</item>
+        <item quantity="other">%1$d failed</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nothing to import</string>
     <plurals name="exported_events">
         <item quantity="one">Exported %1$d event</item>
         <item quantity="other">Exported %1$d events</item>

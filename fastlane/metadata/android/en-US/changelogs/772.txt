@@ -1,0 +1,3 @@
+• Change notifications: an optional alert when a background sync finds changes to your iCloud or CalDAV events
+• Invitations: importing an invitation .ics keeps the organizer and guests so you can reply (#364)
+• Fixes: Quick Add when the default calendar is gone or read-only (#388); Chinese app name 开序历 / 開序曆 (#387)

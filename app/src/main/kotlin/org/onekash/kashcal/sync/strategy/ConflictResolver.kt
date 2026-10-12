@@ -151,11 +151,13 @@ class ConflictResolver @Inject constructor(
             caldavUrl = serverEvent.url,
             etag = serverEvent.etag
         )
-        // Keep the local row id and timestamps.
+        // Keep the local row id, timestamps and the import fields, which no server copy carries.
         var updatedEvent = mapped.event.copy(
             id = event.id,
             createdAt = event.createdAt,
-            localModifiedAt = event.localModifiedAt
+            localModifiedAt = event.localModifiedAt,
+            importSource = event.importSource,
+            itipDtstamp = event.itipDtstamp
         )
 
         // Upsert, attendee replace and occurrence regeneration must run in one transaction: a

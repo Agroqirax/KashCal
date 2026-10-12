@@ -4,10 +4,12 @@ import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.onekash.kashcal.data.db.dao.AttendeesDao
@@ -169,5 +171,23 @@ class InviteNotifierTest {
         notifier.notifyNew(anonEvent, account)
 
         coVerify(exactly = 0) { notificationManager.showInvite(any(), any(), any()) }
+    }
+
+    @Test
+    fun `eventsNotifiedSince keeps the given events that had an invite notification`() = runTest {
+        every { notificationManager.areNotificationsEnabled() } returns true
+        coEvery { attendeesDao.getEventIdsNotifiedSince(1_000L) } returns listOf(100L, 300L)
+
+        assertEquals(setOf(100L), notifier.eventsNotifiedSince(listOf(100L, 200L), since = 1_000L))
+    }
+
+    @Test
+    fun `eventsNotifiedSince is empty without reading when invite notifications are off`() = runTest {
+        // notifyNew still sets notified_at when the invite channel is off, so the column alone
+        // doesn't prove a notification was shown.
+        every { notificationManager.areNotificationsEnabled() } returns false
+
+        assertEquals(emptySet<Long>(), notifier.eventsNotifiedSince(listOf(100L), since = 1_000L))
+        coVerify(exactly = 0) { attendeesDao.getEventIdsNotifiedSince(any()) }
     }
 }

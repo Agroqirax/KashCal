@@ -841,6 +841,9 @@ interface EventsDao {
      *    SELECT);
      * 2. an exception without reminders whose master has some, returned as the master's row
      *    with the exception as target (second SELECT).
+     *
+     * A row an ICS import created or cancelled ([Event.importSource], or its master's) that is
+     * CANCELLED is left out, so an imported CANCEL keeps its reminders off.
      */
     @Query("""
         SELECT e.*, o.start_ts as occurrence_start_ts, o.end_ts as occurrence_end_ts,
@@ -855,6 +858,8 @@ interface EventsDao {
           AND o.start_ts <= :toTime
           AND o.is_cancelled = 0
           AND c.is_visible = 1
+          AND NOT (e.status = 'CANCELLED' AND (e.import_source IS NOT NULL OR EXISTS (
+              SELECT 1 FROM events m WHERE m.id = e.original_event_id AND m.import_source IS NOT NULL)))
         UNION
         SELECT master.*, o.start_ts as occurrence_start_ts, o.end_ts as occurrence_end_ts,
                c.color as calendar_color,
@@ -871,6 +876,8 @@ interface EventsDao {
           AND o.start_ts <= :toTime
           AND o.is_cancelled = 0
           AND c.is_visible = 1
+          AND NOT (exc.status = 'CANCELLED' AND (exc.import_source IS NOT NULL OR master.import_source IS NOT NULL))
+          AND NOT (master.status = 'CANCELLED' AND master.import_source IS NOT NULL)
         ORDER BY occurrence_start_ts ASC
     """)
     suspend fun getEventsWithRemindersInRange(

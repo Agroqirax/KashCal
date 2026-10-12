@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Ειδοποιήσεις για την ολοκλήρωση και τα σφάλματα συγχρονισμού</string>
     <string name="channel_event_invitations">Προσκλήσεις Συμβάντων</string>
     <string name="channel_event_invitations_desc">Ειδοποιήσεις όταν λαμβάνετε νέα πρόσκληση ημερολογίου</string>
+    <string name="channel_calendar_updates">Αλλαγές ημερολογίου</string>
     <string name="invite_notification_body">Από %1$s · Πατήστε για απάντηση</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Η απάντηση ισχύει για ολόκληρη τη σειρά.</string>
+    <string name="rsvp_receipt_pending">Απάντηση σε αναμονή</string>
+    <string name="rsvp_receipt_sent">Η απάντηση στάλθηκε</string>
+    <string name="rsvp_receipt_not_delivered">Η απάντηση δεν παραδόθηκε</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Αυτό και όλα τα μελλοντικά</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Συνδέστε το iCloud για να δείτε τα συμβάντα σας εδώ</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Ίσως αργότερα</string>
+    <string name="whats_new_skip">Παράλειψη</string>
+    <string name="whats_new_next">Επόμενο</string>
+    <string name="whats_new_page_of">Σελίδα %1$d από %2$d</string>
+    <string name="whats_new_find_it_in">Πού θα το βρείτε</string>
     <string name="whats_new_v598_title">Βοηθήστε να παραμείνει το Android ανοιχτό</string>
     <string name="whats_new_v598_body">Η Google αλλάζει τον τρόπο με τον οποίο εγκαθιστάτε εφαρμογές στη συσκευή σας. Χρειαζόμαστε τη βοήθειά σας.</string>
     <string name="whats_new_v598_action_label">Επίσκεψη στο keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Αυτή η έκδοση είναι αφιερωμένη στους υποστηρικτές του KashCal. Μια μικρή συνεισφορά με μεγάλο και διαρκές αντίκρισμα.</string>
     <string name="whats_new_v732_caption">Δεν είστε ακόμη υποστηρικτής;</string>
     <string name="whats_new_v732_action_label">Προσθέστε μας στα σχέδιά σας</string>
+    <string name="whats_new_v772_icon_title">Το εικονίδιό σας ξέρει την ημερομηνία</string>
+    <string name="whats_new_v772_icon_body">Επιλέξτε το εικονίδιο Σημερινή ημερομηνία και το KashCal θα δείχνει την ημέρα του μήνα στην αρχική σας οθόνη. Αλλάζει μόνο του κάθε βράδυ.</string>
+    <string name="whats_new_v772_changes_title">Δείτε τι άλλαξε</string>
+    <string name="whats_new_v772_changes_body">Τα νέα, επεξεργασμένα και διαγραμμένα συμβάντα από τα ημερολόγιά σας iCloud και CalDAV συγκεντρώνονται στις Πρόσφατες αλλαγές για 7 ημέρες. Πατήστε ένα για να το ανοίξετε.</string>
+    <string name="whats_new_v772_notifications_body">Λάβετε ειδοποίηση όταν ο συγχρονισμός στο παρασκήνιο εντοπίσει αλλαγές στα συμβάντα σας iCloud ή CalDAV. Η λειτουργία παραμένει απενεργοποιημένη μέχρι να την ενεργοποιήσετε.</string>
+    <string name="whats_new_hero_sample_lunch">Γεύμα ομάδας</string>
+    <string name="whats_new_hero_sample_review">Ανασκόπηση σχεδίασης</string>
+    <string name="whats_new_hero_sample_book_club">Λέσχη ανάγνωσης</string>
+    <string name="whats_new_hero_sample_calendar">Εργασία</string>
+    <string name="whats_new_hero_now">τώρα</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Σύνδεση iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Συμπαγής μονή γραμμή ή λεπτομερείς δύο γραμμές με την ώρα λήξης.</string>
     <string name="settings_sync_lookback">Αναδρομικός συγχρονισμός</string>
     <string name="settings_sync_lookback_hint">Πόσο παλιά συμβάντα να συγχρονίζονται</string>
+    <string name="settings_change_notifications">Ειδοποιήσεις αλλαγών</string>
+    <string name="settings_change_notifications_info">Στέλνει ειδοποίηση όταν ο συγχρονισμός στο παρασκήνιο εντοπίσει αλλαγές στα συμβάντα σας. Λειτουργεί για ημερολόγια iCloud και CalDAV.</string>
     <string name="settings_not_set">Δεν έχει οριστεί</string>
     <string name="settings_on">Ενεργό</string>
     <string name="settings_off">Ανενεργό</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Εισήχθη %1$d συμβάν</item>
         <item quantity="other">Εισήχθησαν %1$d συμβάντα</item>
     </plurals>
+    <string name="ics_import_preview_loading">Έλεγχος αυτού του ημερολογίου…</string>
+    <string name="ics_import_preview_failed">Δεν ήταν δυνατός ο έλεγχος αυτού του ημερολογίου για αυτά τα συμβάντα. Μπορείτε να κάνετε εισαγωγή ούτως ή άλλως.</string>
+    <string name="ics_import_will_cancel">Αυτό ακυρώνει το %1$s, με διοργανωτή %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Αυτό ακυρώνει το %1$s</string>
+    <string name="ics_import_will_update">Αυτό ενημερώνει το %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d συμβάν είναι ήδη ενημερωμένο</item>
+        <item quantity="other">%1$d συμβάντα είναι ήδη ενημερωμένα</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d παραλείφθηκε: %2$s</item>
+        <item quantity="other">%1$d παραλείφθηκαν: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">είναι απάντηση σε πρόσκληση, η οποία δεν προσθέτει τίποτα στο ημερολόγιό σας</string>
+    <string name="ics_import_reason_unsupported">αυτό το είδος μηνύματος πρόσκλησης δεν υποστηρίζεται</string>
+    <string name="ics_import_reason_organizer_mismatch">προέρχεται από κάποιον άλλο και όχι από τον διοργανωτή της σύσκεψης</string>
+    <string name="ics_import_reason_cancel_no_match">η ακυρωμένη σύσκεψη δεν υπάρχει σε αυτό το ημερολόγιο</string>
+    <string name="ics_import_reason_cancel_not_for_you">η ακύρωση αφορά άλλους προσκεκλημένους</string>
+    <string name="ics_import_reason_deletion_pending">το συμβάν διαγράφεται</string>
+    <string name="ics_import_reason_cancelled_in_file">είναι ήδη ακυρωμένο στο αρχείο</string>
+    <string name="ics_import_reason_this_and_future">οι αλλαγές σε αυτή και τις επόμενες επαναλήψεις δεν υποστηρίζονται</string>
+    <string name="ics_import_reason_own_cancel">είστε ο διοργανωτής αυτής της σύσκεψης, οπότε ακυρώστε την από το συμβάν</string>
+    <string name="ics_import_reason_on_another_calendar">υπάρχει ήδη σε άλλο ημερολόγιο αυτού του λογαριασμού</string>
+    <string name="ics_import_notice_unverified">Ο αποστολέας ενός αρχείου πρόσκλησης δεν μπορεί να επαληθευτεί. Ελέγξτε ότι προέρχεται από τον διοργανωτή.</string>
+    <string name="ics_import_notice_answer_notifies">Η απάντηση σε αυτή την πρόσκληση μπορεί να ειδοποιήσει τον διοργανωτή.</string>
+    <string name="ics_import_notice_guests_again">Είστε ο διοργανωτής, οπότε οι προσκεκλημένοι ενδέχεται να λάβουν ξανά αυτή την πρόσκληση.</string>
+    <string name="cd_dismiss_notice">Κλείσιμο μηνύματος</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d προστέθηκε</item>
+        <item quantity="other">%1$d προστέθηκαν</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ενημερώθηκε</item>
+        <item quantity="other">%1$d ενημερώθηκαν</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d ακυρώθηκε</item>
+        <item quantity="other">%1$d ακυρώθηκαν</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ήδη ενημερωμένο</item>
+        <item quantity="other">%1$d ήδη ενημερωμένα</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d παραλείφθηκε</item>
+        <item quantity="other">%1$d παραλείφθηκαν</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d απέτυχε</item>
+        <item quantity="other">%1$d απέτυχαν</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Τίποτα για εισαγωγή</string>
     <plurals name="exported_events">
         <item quantity="one">Εξήχθη %1$d συμβάν</item>
         <item quantity="other">Εξήχθησαν %1$d συμβάντα</item>

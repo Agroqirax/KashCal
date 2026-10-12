@@ -9,6 +9,8 @@ import org.junit.Test
  * - A lastShown of 0 (nothing stored or seeded) returns empty, so a first launch shows nothing.
  * - Otherwise it returns every release with a versionCode above lastShown and at most
  *   currentVersion, ascending so the sheet reads oldest to newest.
+ * - Releases sharing a versionCode keep the order they are listed in, so one release can announce
+ *   several features as consecutive pages.
  *
  * The caller seeds lastShown before the check ([WhatsNewSeeder]) and stores it on dismissal.
  */
@@ -140,5 +142,18 @@ class WhatsNewGateTest {
         )
         // 280 already seen, 294 + 295 unseen and reachable, 310 not yet shipped
         assertEquals(listOf(r294, r295), out)
+    }
+
+    @Test
+    fun `notes sharing a versionCode keep their declared order`() {
+        val first = ReleaseNote(versionCode = 300, titleRes = 1)
+        val second = ReleaseNote(versionCode = 300, titleRes = 2)
+        val third = ReleaseNote(versionCode = 300, titleRes = 3)
+        val out = WhatsNewGate.releasesToShow(
+            releases = listOf(rel(310), first, second, rel(295), third),
+            lastShownVersion = 290,
+            currentVersion = 305,
+        )
+        assertEquals(listOf(rel(295), first, second, third), out)
     }
 }

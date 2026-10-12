@@ -1,6 +1,8 @@
 package org.onekash.kashcal.sync.scheduler
 
+import android.app.NotificationManager
 import android.content.Context
+import androidx.core.app.NotificationCompat
 import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.work.Configuration
@@ -22,6 +24,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.R
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
@@ -40,6 +44,7 @@ class SyncSchedulerTest {
     private lateinit var context: Context
     private lateinit var workManager: WorkManager
     private lateinit var scheduler: SyncScheduler
+    private lateinit var changeNotificationChannels: ChangeNotificationChannels
 
     @Before
     fun setup() {
@@ -58,7 +63,8 @@ class SyncSchedulerTest {
         WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
         workManager = WorkManager.getInstance(context)
 
-        scheduler = SyncScheduler(context)
+        changeNotificationChannels = ChangeNotificationChannels(context)
+        scheduler = SyncScheduler(context, changeNotificationChannels)
     }
 
     @After
@@ -577,5 +583,21 @@ class SyncSchedulerTest {
         scheduler.setShowBannerForSync(true)
         scheduler.resetBannerFlag()
         assertFalse(scheduler.showBannerForSync.first())
+    }
+
+    @Test
+    fun `cancelChangeNotification removes the change notification`() {
+        changeNotificationChannels.createChannels()
+        changeNotificationChannels.post(
+            NotificationCompat.Builder(context, ChangeNotificationChannels.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .build()
+        )
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        assertEquals(1, notificationManager.activeNotifications.size)
+
+        scheduler.cancelChangeNotification()
+
+        assertEquals(0, notificationManager.activeNotifications.size)
     }
 }

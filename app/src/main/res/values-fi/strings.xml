@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Ilmoitukset synkronoinnin valmistumisesta ja virheistä</string>
     <string name="channel_event_invitations">Tapahtumakutsut</string>
     <string name="channel_event_invitations_desc">Ilmoitukset uusista kalenterikutsuista</string>
+    <string name="channel_calendar_updates">Kalenterin muutokset</string>
     <string name="invite_notification_body">Lähettäjä %1$s · Vastaa napauttamalla</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Vastaus koskee koko sarjaa.</string>
+    <string name="rsvp_receipt_pending">Vastaus odottaa lähetystä</string>
+    <string name="rsvp_receipt_sent">Vastaus lähetetty</string>
+    <string name="rsvp_receipt_not_delivered">Vastausta ei toimitettu</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Tämä ja kaikki tulevat</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Yhdistä iCloud nähdäksesi tapahtumasi täällä</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Myöhemmin</string>
+    <string name="whats_new_skip">Ohita</string>
+    <string name="whats_new_next">Seuraava</string>
+    <string name="whats_new_page_of">Sivu %1$d/%2$d</string>
+    <string name="whats_new_find_it_in">Löydät sen täältä</string>
     <string name="whats_new_v598_title">Auta pitämään Android avoimena</string>
     <string name="whats_new_v598_body">Google muuttaa tapaa, jolla asennat sovelluksia laitteellesi. Tarvitsemme apuasi.</string>
     <string name="whats_new_v598_action_label">Vieraile keepandroidopen.org-sivustolla</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Tämä julkaisu on omistettu KashCalin tukijoille. Pieni panostus, suuri toistuva hyöty.</string>
     <string name="whats_new_v732_caption">Etkö ole vielä tukija?</string>
     <string name="whats_new_v732_action_label">Lisää meidät suunnitelmiisi</string>
+    <string name="whats_new_v772_icon_title">Kuvakkeesi tietää päivämäärän</string>
+    <string name="whats_new_v772_icon_body">Valitse Tämän päivän päivämäärä -kuvake, niin KashCal näyttää kuukauden päivän aloitusnäytölläsi. Se vaihtuu itsestään joka yö.</string>
+    <string name="whats_new_v772_changes_title">Katso, mikä muuttui</string>
+    <string name="whats_new_v772_changes_body">Uudet, muokatut ja poistetut tapahtumat iCloud- ja CalDAV-kalentereistasi kerääntyvät 7 päiväksi Viimeisimmät muutokset -listaan. Avaa tapahtuma napauttamalla sitä.</string>
+    <string name="whats_new_v772_notifications_body">Saat ilmoituksen, kun taustasynkronointi löytää muutoksia iCloud- tai CalDAV-tapahtumiisi. Asetus on pois päältä, kunnes otat sen käyttöön.</string>
+    <string name="whats_new_hero_sample_lunch">Tiimin lounas</string>
+    <string name="whats_new_hero_sample_review">Suunnittelukatselmointi</string>
+    <string name="whats_new_hero_sample_book_club">Lukupiiri</string>
+    <string name="whats_new_hero_sample_calendar">Työ</string>
+    <string name="whats_new_hero_now">nyt</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Yhdistä iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Tiivis yksi rivi tai yksityiskohtaiset kaksi riviä päättymisajan kanssa.</string>
     <string name="settings_sync_lookback">Synkronoinnin takaisinkatse</string>
     <string name="settings_sync_lookback_hint">Kuinka kauas taakse tapahtumia synkronoidaan</string>
+    <string name="settings_change_notifications">Muutosilmoitukset</string>
+    <string name="settings_change_notifications_info">Lähettää ilmoituksen, kun taustasynkronointi löytää muutoksia tapahtumiisi. Toimii iCloud- ja CalDAV-kalentereissa.</string>
     <string name="settings_not_set">Ei asetettu</string>
     <string name="settings_on">Päällä</string>
     <string name="settings_off">Pois</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Tuotiin %1$d tapahtuma</item>
         <item quantity="other">Tuotiin %1$d tapahtumaa</item>
     </plurals>
+    <string name="ics_import_preview_loading">Tarkistetaan tätä kalenteria…</string>
+    <string name="ics_import_preview_failed">Ei voitu tarkistaa, onko nämä tapahtumat tässä kalenterissa. Voit silti tuoda ne.</string>
+    <string name="ics_import_will_cancel">Tämä peruu: %1$s (järjestäjä: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Tämä peruu: %1$s</string>
+    <string name="ics_import_will_update">Tämä päivittää: %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d tapahtuma on jo ajan tasalla</item>
+        <item quantity="other">%1$d tapahtumaa on jo ajan tasalla</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d ohitettu: %2$s</item>
+        <item quantity="other">%1$d ohitettu: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">se on vastaus kutsuun, eikä se lisää kalenteriisi mitään</string>
+    <string name="ics_import_reason_unsupported">tämäntyyppistä kutsuviestiä ei tueta</string>
+    <string name="ics_import_reason_organizer_mismatch">sen on lähettänyt joku muu kuin kokouksen järjestäjä</string>
+    <string name="ics_import_reason_cancel_no_match">peruttua kokousta ei ole tässä kalenterissa</string>
+    <string name="ics_import_reason_cancel_not_for_you">peruutus koskee muita osallistujia</string>
+    <string name="ics_import_reason_deletion_pending">tapahtumaa poistetaan</string>
+    <string name="ics_import_reason_cancelled_in_file">se on jo peruttu tiedostossa</string>
+    <string name="ics_import_reason_this_and_future">tämän ja myöhempien toistojen muutoksia ei tueta</string>
+    <string name="ics_import_reason_own_cancel">olet tämän kokouksen järjestäjä, joten peru se tapahtumasta</string>
+    <string name="ics_import_reason_on_another_calendar">se on jo tämän tilin toisessa kalenterissa</string>
+    <string name="ics_import_notice_unverified">Kutsutiedoston lähettäjää ei voi varmistaa. Tarkista, että se tuli järjestäjältä.</string>
+    <string name="ics_import_notice_answer_notifies">Tähän kutsuun vastaaminen voi ilmoittaa järjestäjälle.</string>
+    <string name="ics_import_notice_guests_again">Olet järjestäjä, joten osallistujat voivat saada tämän kutsun uudelleen.</string>
+    <string name="cd_dismiss_notice">Sulje ilmoitus</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d lisätty</item>
+        <item quantity="other">%1$d lisätty</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d päivitetty</item>
+        <item quantity="other">%1$d päivitetty</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d peruttu</item>
+        <item quantity="other">%1$d peruttu</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d jo ajan tasalla</item>
+        <item quantity="other">%1$d jo ajan tasalla</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d ohitettu</item>
+        <item quantity="other">%1$d ohitettu</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d epäonnistui</item>
+        <item quantity="other">%1$d epäonnistui</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Ei tuotavaa</string>
     <plurals name="exported_events">
         <item quantity="one">Vietiin %1$d tapahtuma</item>
         <item quantity="other">Vietiin %1$d tapahtumaa</item>

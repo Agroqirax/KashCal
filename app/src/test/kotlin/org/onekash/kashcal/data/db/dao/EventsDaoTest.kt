@@ -1007,6 +1007,75 @@ class EventsDaoTest {
         assertEquals(0, results.size)
     }
 
+    /** Seeds a series with an occurrence on the 15th and a changed one on the 16th. */
+    private suspend fun seedSeriesWithException(
+        masterStatus: String = "CONFIRMED",
+        masterSource: String? = null,
+        exceptionStatus: String = "CONFIRMED",
+        exceptionSource: String? = null,
+        exceptionReminders: List<String>? = null,
+    ): Pair<Long, Long> {
+        val first = parseDate("2025-01-15 10:00")
+        val second = parseDate("2025-01-16 10:00")
+        val masterId = eventsDao.insert(createTestEvent(
+            uid = "series@example.test", startTs = first, endTs = first + 3600000,
+            rrule = "FREQ=DAILY;COUNT=2", reminders = listOf("-PT15M"),
+        ).copy(status = masterStatus, importSource = masterSource))
+        val exceptionId = eventsDao.insert(createTestEvent(
+            uid = "series@example.test", startTs = second, endTs = second + 3600000,
+            originalEventId = masterId, originalInstanceTime = second, reminders = exceptionReminders,
+        ).copy(status = exceptionStatus, importSource = exceptionSource))
+        database.occurrencesDao().insert(Occurrence(
+            eventId = masterId, calendarId = calendarId, startTs = first, endTs = first + 3600000,
+            startDay = toDayCode("2025-01-15"), endDay = toDayCode("2025-01-15"),
+        ))
+        database.occurrencesDao().insert(Occurrence(
+            eventId = masterId, calendarId = calendarId, startTs = second, endTs = second + 3600000,
+            startDay = toDayCode("2025-01-16"), endDay = toDayCode("2025-01-16"), exceptionEventId = exceptionId,
+        ))
+        return masterId to exceptionId
+    }
+
+    private suspend fun remindersFor15th16th() = eventsDao.getEventsWithRemindersInRange(
+        parseDate("2025-01-15 00:00"), parseDate("2025-01-16 23:59")
+    )
+
+    @Test
+    fun `getEventsWithRemindersInRange leaves out a series an imported CANCEL cancelled`() = runTest {
+        seedSeriesWithException(
+            masterStatus = "CANCELLED", masterSource = Event.IMPORT_SOURCE_ICS_CANCEL,
+            exceptionStatus = "CANCELLED", exceptionSource = Event.IMPORT_SOURCE_ICS_CANCEL,
+        )
+
+        assertEquals(emptyList<Long>(), remindersFor15th16th().map { it.targetEventId })
+    }
+
+    @Test
+    fun `getEventsWithRemindersInRange leaves out a cancelled exception of an imported series`() = runTest {
+        val (masterId, _) = seedSeriesWithException(
+            masterSource = Event.IMPORT_SOURCE_ICS_FILE, exceptionStatus = "CANCELLED", exceptionReminders = listOf("-PT5M"),
+        )
+
+        assertEquals(listOf(masterId), remindersFor15th16th().map { it.targetEventId })
+    }
+
+    @Test
+    fun `getEventsWithRemindersInRange leaves out a cancelled exception inheriting an imported master's reminders`() =
+        runTest {
+            val (masterId, _) = seedSeriesWithException(
+                exceptionStatus = "CANCELLED", exceptionSource = Event.IMPORT_SOURCE_ICS_CANCEL,
+            )
+
+            assertEquals(listOf(masterId), remindersFor15th16th().map { it.targetEventId })
+        }
+
+    @Test
+    fun `getEventsWithRemindersInRange keeps a cancelled series no import touched`() = runTest {
+        val (masterId, exceptionId) = seedSeriesWithException(masterStatus = "CANCELLED", exceptionStatus = "CANCELLED")
+
+        assertEquals(listOf(masterId, exceptionId), remindersFor15th16th().map { it.targetEventId })
+    }
+
     @Test
     fun `getEventsWithRemindersInRange excludes hidden calendars`() = runTest {
         database.calendarsDao().setVisible(calendarId, false)

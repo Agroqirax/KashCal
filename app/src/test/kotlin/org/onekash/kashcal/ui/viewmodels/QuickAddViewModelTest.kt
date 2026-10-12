@@ -21,6 +21,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.preferences.DefaultCalendar
 import org.onekash.kashcal.data.preferences.KashCalDataStore
@@ -67,6 +68,9 @@ class QuickAddViewModelTest {
         // the fallback when the preference is null.
         coEvery { dataStore.getDefaultCalendar() } returns DefaultCalendar.Room(1L)
         coEvery { eventCoordinator.getLocalCalendarId() } returns 1L
+        // Room defaults resolve against the writable calendars, like the event form.
+        every { eventCoordinator.getAllCalendars() } returns
+            flowOf(listOf(writableCalendar(1L), writableCalendar(7L)))
 
         // createEvent returns the event passed in with id 42. Like EventWriter, it replaces a
         // blank uid with one in the @kashcal.onekash.org domain, so the returned event always
@@ -710,6 +714,48 @@ class QuickAddViewModelTest {
         assertEquals(7L, event.calendarId)
         coVerify { eventCoordinator.createEvent(any(), eq(7L)) }
     }
+
+    @Test
+    fun `save falls back to the first writable calendar when the Room default is gone`() = runTest {
+        coEvery { dataStore.getDefaultCalendar() } returns DefaultCalendar.Room(99L)
+        every { eventCoordinator.getAllCalendars() } returns
+            flowOf(listOf(writableCalendar(7L), writableCalendar(1L)))
+
+        viewModel.onInputChanged("Coffee tomorrow at 3pm")
+        advanceUntilIdle()
+
+        val result = viewModel.save()
+        advanceUntilIdle()
+
+        // 7 is listed first; the local calendar (1) must not be picked instead.
+        assertEquals(7L, result.getOrThrow().calendarId)
+        coVerify { eventCoordinator.createEvent(any(), eq(7L)) }
+    }
+
+    @Test
+    fun `save falls back to the local calendar when no calendar is writable`() = runTest {
+        coEvery { dataStore.getDefaultCalendar() } returns DefaultCalendar.Room(7L)
+        every { eventCoordinator.getAllCalendars() } returns
+            flowOf(listOf(writableCalendar(7L).copy(isReadOnly = true)))
+        coEvery { eventCoordinator.getLocalCalendarId() } returns 5L
+
+        viewModel.onInputChanged("Coffee tomorrow at 3pm")
+        advanceUntilIdle()
+
+        val result = viewModel.save()
+        advanceUntilIdle()
+
+        assertEquals(5L, result.getOrThrow().calendarId)
+        coVerify { eventCoordinator.createEvent(any(), eq(5L)) }
+    }
+
+    private fun writableCalendar(id: Long) = Calendar(
+        id = id,
+        accountId = 1L,
+        caldavUrl = "https://dav.example.test/cal/$id/",
+        displayName = "Calendar $id",
+        color = 0
+    )
 
     // ==================== save(): isSaving flag ====================
 

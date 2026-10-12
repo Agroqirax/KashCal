@@ -4,7 +4,10 @@ import org.onekash.kashcal.data.calendar_provider.CalendarProviderRepository
 import org.onekash.kashcal.data.calendar_provider.DeviceAttendee
 import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
 import org.onekash.kashcal.data.calendar_provider.DeviceEvent
+import org.onekash.kashcal.data.ics.IcsImportFile
+import org.onekash.kashcal.domain.ics.GroupPlan
 import org.onekash.kashcal.util.DateTimeUtils
+import org.onekash.kashcal.util.planDeviceImport
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,6 +29,13 @@ import javax.inject.Singleton
 class DeviceEventReader @Inject constructor(
     private val repository: CalendarProviderRepository,
 ) {
+
+    /**
+     * Returns what [org.onekash.kashcal.domain.writer.DeviceEventWriter.importIcsFile] would do
+     * with each group of [file] in device calendar [calendarId], writing nothing.
+     */
+    suspend fun previewIcsImport(file: IcsImportFile, calendarId: Long): List<GroupPlan> =
+        planDeviceImport(file, calendarId, repository)
 
     /** One provider event row, or null when it doesn't exist. */
     suspend fun getDeviceEvent(eventId: Long): DeviceEvent? = repository.getDeviceEvent(eventId)

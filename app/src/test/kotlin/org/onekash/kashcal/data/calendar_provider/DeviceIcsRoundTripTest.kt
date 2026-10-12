@@ -73,7 +73,7 @@ class DeviceIcsRoundTripTest {
 
     /** Imports [ics] into the local calendar the way a picked ICS file is imported. */
     private suspend fun importIcs(ics: String): Int =
-        f.writer.importIcsEvents(IcsParserService.parseIcsContent(ics, calendarId = 0, subscriptionId = 0), LOCAL_CAL)
+        f.writer.importIcsFile(requireNotNull(IcsParserService.parseForImport(ics)), LOCAL_CAL).created
 
     private suspend fun occurrences(calendarId: Long, startDay: Int = 20240301, endDay: Int = 20240331) =
         f.repository.getInstancesForDayRange(startDay, endDay, setOf(calendarId)).sortedBy { it.startTs }
@@ -192,6 +192,22 @@ class DeviceIcsRoundTripTest {
         assertEquals("Standup (moved)", exceptions.getValue(occ(1))[Events.TITLE])
         assertEquals(Events.STATUS_CANCELED.toString(), exceptions.getValue(occ(2))[Events.STATUS])
         assertEquals("nothing else was imported", exceptions.size + 1, imported.size)
+    }
+
+    @Test
+    fun `a series with a deleted occurrence adds no event for the deletion`() = runTest {
+        val id = create(f.draft(title = "Standup", rrule = "FREQ=WEEKLY;BYDAY=TU;COUNT=4", startTs = T0, endTs = T0 + HOUR, reminders = listOf(10)))
+        f.markSynced(id, "series-$id")
+        f.writer.editSingleOccurrence(id, occ(1), f.draft(title = "Standup (moved)", startTs = occ(1) + 2 * HOUR, endTs = occ(1) + 3 * HOUR, reminders = listOf(10)))
+        f.writer.deleteSingleOccurrence(id, occ(2), isAllDay = false)
+
+        importIcs(exportIcs(id))
+
+        // The moved occurrence comes back standalone (the gap the ignored test above records);
+        // the cancelled one comes back as nothing.
+        val imported = f.provider.rows(SqliteCalendarProvider.EVENTS, "${Events.CALENDAR_ID} = ?", LOCAL_CAL.toString())
+        assertEquals(listOf("Standup", "Standup (moved)"), imported.map { it[Events.TITLE] }.sortedBy { it })
+        assertTrue(imported.none { it[Events.STATUS] == Events.STATUS_CANCELED.toString() })
     }
 
     // ---- import defaults ----

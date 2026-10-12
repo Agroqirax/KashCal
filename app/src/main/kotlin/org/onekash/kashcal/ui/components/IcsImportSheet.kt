@@ -1,5 +1,6 @@
 package org.onekash.kashcal.ui.components
 
+import android.provider.CalendarContract
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.BottomSheetDefaults
@@ -33,6 +35,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -41,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +64,11 @@ import androidx.compose.ui.unit.dp
 import org.onekash.kashcal.R
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.data.ics.IcsImportFile
+import org.onekash.kashcal.domain.ics.GroupPlan
+import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
 import org.onekash.kashcal.ui.model.CalendarGroup
+import org.onekash.kashcal.ui.model.PickerCalendar
 import org.onekash.kashcal.ui.model.localizedDisplayName
 import org.onekash.kashcal.util.DateTimeUtils
 
@@ -68,27 +76,31 @@ import org.onekash.kashcal.util.DateTimeUtils
 const val ICS_IMPORT_BUTTON_TAG = "ics_import_button"
 
 /**
- * Shows the events parsed from an ICS file, a target calendar picker (Room or device) and the
- * Import action.
+ * Shows the events parsed from an ICS file, a target calendar picker (Room or device), what the
+ * import will do in the chosen calendar with inline notices, and the Import action.
  *
  * @param calendars Room calendars; the sheet offers only the writable ones.
  * @param deviceCalendarGroups device calendars by account; the sheet offers only the writable
  *   ones.
- * @param onImport called once with the target calendar ID, the events and whether the target
- *   is a device calendar.
+ * @param loadPreview reads the import plan for a calendar, writing nothing; called again for
+ *   each calendar picked. A failure leaves Import available.
+ * @param onImport called once with the target calendar ID and whether it is a device calendar.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IcsImportSheet(
-    events: List<Event>,
+    file: IcsImportFile,
     calendars: List<Calendar>,
     defaultCalendarId: Long?,
     deviceCalendarGroups: List<CalendarGroup>,
     defaultDeviceCalendarId: Long?,
+    loadPreview: suspend (calendarId: Long, isDevice: Boolean) -> List<GroupPlan>,
     onDismiss: () -> Unit,
-    onImport: (calendarId: Long, events: List<Event>, isDeviceCalendar: Boolean) -> Unit
+    onImport: (calendarId: Long, isDeviceCalendar: Boolean) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val events = remember(file) { file.events }
+    val previewState = remember(file) { IcsImportSheetState(loadPreview) }
 
     val writableCalendars = remember(calendars) {
         calendars.filter { !it.isReadOnly }
@@ -141,6 +153,18 @@ fun IcsImportSheet(
     }
 
     var showCalendarPicker by remember { mutableStateOf(false) }
+
+    LaunchedEffect(selectedCalendarId, selectedIsDevice) {
+        if (selectedCalendarId > 0) previewState.select(selectedCalendarId, selectedIsDevice)
+    }
+    // Nothing leaves the phone from the on-phone calendar or an unsynced device calendar.
+    val targetCanSend = if (selectedIsDevice) {
+        (writableDeviceCalendars.find { it.id == selectedCalendarId } as? PickerCalendar.Device)
+            ?.calendar?.accountType != CalendarContract.ACCOUNT_TYPE_LOCAL
+    } else {
+        writableCalendars.find { it.id == selectedCalendarId }?.caldavUrl != LocalCalendarInitializer.LOCAL_CALENDAR_URL
+    }
+    var dismissedNotices by remember { mutableStateOf(emptySet<ImportNotice>()) }
 
     val hasAnyWritableCalendar = writableCalendars.isNotEmpty() || writableDeviceCalendars.isNotEmpty()
 
@@ -212,6 +236,15 @@ fun IcsImportSheet(
                 )
             }
 
+            if (hasAnyWritableCalendar && selectedCalendarId > 0) {
+                ImportPreviewSection(
+                    state = previewState.preview,
+                    targetCanSend = targetCanSend,
+                    dismissedNotices = dismissedNotices,
+                    onDismissNotice = { dismissedNotices = dismissedNotices + it },
+                )
+            }
+
             Spacer(modifier = Modifier.height(24.dp))
 
             // Action buttons
@@ -230,7 +263,7 @@ fun IcsImportSheet(
                         // not the faded disabled color.
                         if (selectedCalendarId > 0 && !isImporting) {
                             isImporting = true
-                            onImport(selectedCalendarId, events, selectedIsDevice)
+                            onImport(selectedCalendarId, selectedIsDevice)
                         }
                     },
                     enabled = selectedCalendarId > 0 && hasAnyWritableCalendar,
@@ -249,6 +282,72 @@ fun IcsImportSheet(
                     }
                 }
             }
+        }
+    }
+}
+
+/** Shows what the import does in the chosen calendar, then its inline, dismissible notices. */
+@Composable
+private fun ImportPreviewSection(
+    state: ImportPreviewState,
+    targetCanSend: Boolean,
+    dismissedNotices: Set<ImportNotice>,
+    onDismissNotice: (ImportNotice) -> Unit,
+) {
+    val resources = LocalResources.current
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        when (state) {
+            ImportPreviewState.Loading -> Text(
+                text = stringResource(R.string.ics_import_preview_loading),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            ImportPreviewState.Failed -> Text(
+                text = stringResource(R.string.ics_import_preview_failed),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            is ImportPreviewState.Ready -> {
+                val preview = remember(state, targetCanSend) { buildImportPreview(state.plans, targetCanSend) }
+                previewLines(preview, resources).forEach { line ->
+                    Text(text = line, style = MaterialTheme.typography.bodyMedium)
+                }
+                preview.notices.filterNot { it in dismissedNotices }.forEach { notice ->
+                    ImportNoticeRow(text = stringResource(notice.textRes()), onDismiss = { onDismissNotice(notice) })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ImportNoticeRow(text: String, onDismiss: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.small)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(start = 12.dp, top = 4.dp, bottom = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            modifier = Modifier.weight(1f)
+        )
+        IconButton(onClick = onDismiss) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = stringResource(R.string.cd_dismiss_notice),
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
+            )
         }
     }
 }

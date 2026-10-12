@@ -28,6 +28,7 @@ import org.onekash.kashcal.network.NetworkMonitor
 import org.onekash.kashcal.sync.scheduler.SyncScheduler
 import org.onekash.kashcal.sync.scheduler.SyncStatus
 import org.onekash.kashcal.ui.components.EventFormState
+import org.onekash.kashcal.testutil.plainImportFile
 
 /**
  * Tests the immediate-refresh contract for device-calendar writes.
@@ -165,7 +166,7 @@ class HomeViewModelDeviceViewRefreshTest {
         advanceUntilIdle()
 
         viewModel.importIcsToDeviceCalendar(
-            events = listOf(
+            file = plainImportFile(listOf(
                 org.onekash.kashcal.data.db.entity.Event(
                     id = 0L,
                     calendarId = 0L,
@@ -175,7 +176,7 @@ class HomeViewModelDeviceViewRefreshTest {
                     endTs = 2_000L,
                     dtstamp = 0L,
                 ),
-            ),
+            )),
             calendarId = 5L,
         )
         advanceUntilIdle()
@@ -200,13 +201,13 @@ class HomeViewModelDeviceViewRefreshTest {
         val viewModel = createViewModel()
         advanceUntilIdle()
 
-        val count = viewModel.importIcsToDeviceCalendar(
-            events = listOf(importedEvent("timed"), importedEvent("all-day", isAllDay = true)),
+        val result = viewModel.importIcsToDeviceCalendar(
+            file = plainImportFile(listOf(importedEvent("timed"), importedEvent("all-day", isAllDay = true))),
             calendarId = 5L,
         )
         advanceUntilIdle()
 
-        assertEquals(2, count)
+        assertEquals(2, result.created)
         val created = fakeCalendarProviderRepository.createdEvents
         assertEquals(listOf(5L, 5L), created.map { it.calendarId })
         assertEquals("timed default", listOf(15), created[0].reminders)
@@ -220,10 +221,10 @@ class HomeViewModelDeviceViewRefreshTest {
         val viewModel = createViewModel()
         advanceUntilIdle()
 
-        val count = viewModel.importIcsToDeviceCalendar(listOf(importedEvent("x")), calendarId = 5L)
+        val result = viewModel.importIcsToDeviceCalendar(plainImportFile(listOf(importedEvent("x"))), calendarId = 5L)
         advanceUntilIdle()
 
-        assertEquals(0, count)
+        assertEquals(0, result.created)
         verify(exactly = 0) { deviceManager.notifyDeviceCalendarChanged() }
     }
 

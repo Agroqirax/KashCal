@@ -94,3 +94,32 @@ fun routeDelivery(state: DeliveryState, hasOutboxUrl: Boolean): DeliveryAction =
         if (hasOutboxUrl) DeliveryAction.ClientOutboxPost else DeliveryAction.NoRemedy
     DeliveryState.NoReceipt -> DeliveryAction.NoRemedy
 }
+
+/**
+ * What the server recorded about delivering the user's own reply, read from the `SCHEDULE-STATUS`
+ * on the ORGANIZER line after an attendee's PARTSTAT change (RFC 6638 §3.2.2.3, §3.2.9).
+ */
+enum class ReplyReceipt {
+    /** 1.0: the server queued the reply. */
+    Pending,
+
+    /** 1.1 or 1.2: the server sent or delivered it. */
+    Sent,
+
+    /** 3.x or 5.x: the server could not deliver it. */
+    NotDelivered,
+}
+
+/**
+ * Classifies the leading code of an ORGANIZER `SCHEDULE-STATUS`; null for none or a code that
+ * says nothing about delivery. Absence proves nothing: many servers never stamp a reply.
+ */
+fun classifyReplyReceipt(scheduleStatus: String?): ReplyReceipt? {
+    val code = scheduleStatus?.substringBefore(',')?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+    return when {
+        code == "1.0" -> ReplyReceipt.Pending
+        code == "1.1" || code == "1.2" -> ReplyReceipt.Sent
+        code.startsWith("3.") || code.startsWith("5.") -> ReplyReceipt.NotDelivered
+        else -> null
+    }
+}

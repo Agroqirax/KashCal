@@ -52,3 +52,18 @@ data class DeviceEvent(
      */
     val categories: List<String> = emptyList()
 )
+
+/**
+ * A live Events row found by its iCalendar UID (`Events.UID_2445`), as an ICS import compares
+ * it. [organizer] is the bare address the row stores; [status] is `Events.STATUS`.
+ */
+data class DeviceUidRow(
+    val eventId: Long,
+    val calendarId: Long,
+    val uid: String,
+    val originalId: Long?,
+    val originalInstanceTime: Long?,
+    val organizer: String?,
+    val status: Int,
+    val isAllDay: Boolean,
+)

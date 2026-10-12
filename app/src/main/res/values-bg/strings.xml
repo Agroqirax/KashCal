@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Известия за завършване на синхронизацията и грешки</string>
     <string name="channel_event_invitations">Покани за събития</string>
     <string name="channel_event_invitations_desc">Известия при получаване на нова покана за календар</string>
+    <string name="channel_calendar_updates">Промени в календара</string>
     <string name="invite_notification_body">От %1$s · Докоснете, за да отговорите</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Отговорът важи за цялата серия.</string>
+    <string name="rsvp_receipt_pending">Отговорът чака изпращане</string>
+    <string name="rsvp_receipt_sent">Отговорът е изпратен</string>
+    <string name="rsvp_receipt_not_delivered">Отговорът не е доставен</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Това и всички бъдещи</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Свържи iCloud, за да виждаш събитията си тук</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Може би по-късно</string>
+    <string name="whats_new_skip">Пропускане</string>
+    <string name="whats_new_next">Напред</string>
+    <string name="whats_new_page_of">Страница %1$d от %2$d</string>
+    <string name="whats_new_find_it_in">Къде да го намерите</string>
     <string name="whats_new_v598_title">Помогни Android да остане отворен</string>
     <string name="whats_new_v598_body">Google променя начина, по който инсталираш приложения на устройството си. Нуждаем се от твоята помощ.</string>
     <string name="whats_new_v598_action_label">Посети keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Тази версия е посветена на поддръжниците на KashCal. Малък принос с голяма и постоянна възвръщаемост.</string>
     <string name="whats_new_v732_caption">Още не сте поддръжник?</string>
     <string name="whats_new_v732_action_label">Добавете ни в плановете си</string>
+    <string name="whats_new_v772_icon_title">Вашата икона знае датата</string>
+    <string name="whats_new_v772_icon_body">Изберете иконата Днешна дата и KashCal ще показва деня от месеца на началния ви екран. Тя се сменя сама всяка нощ.</string>
+    <string name="whats_new_v772_changes_title">Вижте какво се промени</string>
+    <string name="whats_new_v772_changes_body">Новите, редактираните и премахнатите събития от вашите календари в iCloud и CalDAV се събират в Последни промени за 7 дни. Докоснете някое, за да го отворите.</string>
+    <string name="whats_new_v772_notifications_body">Получавайте известие, когато синхронизирането във фонов режим открие промени във вашите събития в iCloud или CalDAV. Остава изключено, докато не го включите.</string>
+    <string name="whats_new_hero_sample_lunch">Обяд с екипа</string>
+    <string name="whats_new_hero_sample_review">Преглед на дизайна</string>
+    <string name="whats_new_hero_sample_book_club">Книжен клуб</string>
+    <string name="whats_new_hero_sample_calendar">Работа</string>
+    <string name="whats_new_hero_now">сега</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Свържи iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Компактен единичен ред или подробни два реда с крайния час.</string>
     <string name="settings_sync_lookback">Период за синхронизиране назад</string>
     <string name="settings_sync_lookback_hint">Колко назад да се синхронизират събитията</string>
+    <string name="settings_change_notifications">Известия за промени</string>
+    <string name="settings_change_notifications_info">Изпраща известие, когато синхронизирането във фонов режим открие промени във вашите събития. Работи за календари в iCloud и CalDAV.</string>
     <string name="settings_not_set">Не е зададено</string>
     <string name="settings_on">Вкл.</string>
     <string name="settings_off">Изкл.</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Импортирано %1$d събитие</item>
         <item quantity="other">Импортирани %1$d събития</item>
     </plurals>
+    <string name="ics_import_preview_loading">Проверява се този календар…</string>
+    <string name="ics_import_preview_failed">Този календар не можа да бъде проверен за тези събития. Все пак можете да импортирате.</string>
+    <string name="ics_import_will_cancel">Това отменя %1$s (организатор: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Това отменя %1$s</string>
+    <string name="ics_import_will_update">Това актуализира %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d събитие вече е актуално</item>
+        <item quantity="other">%1$d събития вече са актуални</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d пропуснато: %2$s</item>
+        <item quantity="other">%1$d пропуснати: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">това е отговор на покана, който не добавя нищо към календара ви</string>
+    <string name="ics_import_reason_unsupported">този вид съобщение с покана не се поддържа</string>
+    <string name="ics_import_reason_organizer_mismatch">идва от човек, различен от организатора на срещата</string>
+    <string name="ics_import_reason_cancel_no_match">отменената среща не е в този календар</string>
+    <string name="ics_import_reason_cancel_not_for_you">отмяната е за други гости</string>
+    <string name="ics_import_reason_deletion_pending">събитието се изтрива</string>
+    <string name="ics_import_reason_cancelled_in_file">вече е отменено във файла</string>
+    <string name="ics_import_reason_this_and_future">промени в това и следващите повторения не се поддържат</string>
+    <string name="ics_import_reason_own_cancel">вие организирате тази среща, затова я отменете от събитието</string>
+    <string name="ics_import_reason_on_another_calendar">вече е в друг календар на този акаунт</string>
+    <string name="ics_import_notice_unverified">Подателят на файл с покана не може да бъде потвърден. Проверете дали идва от организатора.</string>
+    <string name="ics_import_notice_answer_notifies">Отговорът на тази покана може да уведоми организатора.</string>
+    <string name="ics_import_notice_guests_again">Вие сте организаторът, затова гостите може да получат тази покана отново.</string>
+    <string name="cd_dismiss_notice">Затвори съобщението</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d добавено</item>
+        <item quantity="other">%1$d добавени</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d актуализирано</item>
+        <item quantity="other">%1$d актуализирани</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d отменено</item>
+        <item quantity="other">%1$d отменени</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d вече актуално</item>
+        <item quantity="other">%1$d вече актуални</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d пропуснато</item>
+        <item quantity="other">%1$d пропуснати</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d неуспешно</item>
+        <item quantity="other">%1$d неуспешни</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Няма нищо за импортиране</string>
     <plurals name="exported_events">
         <item quantity="one">Експортирано %1$d събитие</item>
         <item quantity="other">Експортирани %1$d събития</item>

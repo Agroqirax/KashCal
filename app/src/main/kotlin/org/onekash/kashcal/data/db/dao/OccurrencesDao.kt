@@ -90,6 +90,7 @@ interface OccurrencesDao {
                e.extra_properties AS e_extra_properties, NULL AS e_raw_ical, e.dtstamp AS e_dtstamp,
                e.last_sync_error AS e_last_sync_error, e.sync_retry_count AS e_sync_retry_count,
                e.server_modified_at AS e_server_modified_at,
+               e.import_source AS e_import_source, e.itip_dtstamp AS e_itip_dtstamp,
                e.priority AS e_priority, e.geo_lat AS e_geo_lat, e.geo_lon AS e_geo_lon,
                e.color AS e_color, e.url AS e_url, e.categories AS e_categories,
                e.created_at AS e_created_at, e.updated_at AS e_updated_at, e.local_modified_at AS e_local_modified_at
@@ -123,6 +124,7 @@ interface OccurrencesDao {
                e.extra_properties AS e_extra_properties, NULL AS e_raw_ical, e.dtstamp AS e_dtstamp,
                e.last_sync_error AS e_last_sync_error, e.sync_retry_count AS e_sync_retry_count,
                e.server_modified_at AS e_server_modified_at,
+               e.import_source AS e_import_source, e.itip_dtstamp AS e_itip_dtstamp,
                e.priority AS e_priority, e.geo_lat AS e_geo_lat, e.geo_lon AS e_geo_lon,
                e.color AS e_color, e.url AS e_url, e.categories AS e_categories,
                e.created_at AS e_created_at, e.updated_at AS e_updated_at, e.local_modified_at AS e_local_modified_at
@@ -161,6 +163,7 @@ interface OccurrencesDao {
                e.extra_properties AS e_extra_properties, NULL AS e_raw_ical, e.dtstamp AS e_dtstamp,
                e.last_sync_error AS e_last_sync_error, e.sync_retry_count AS e_sync_retry_count,
                e.server_modified_at AS e_server_modified_at,
+               e.import_source AS e_import_source, e.itip_dtstamp AS e_itip_dtstamp,
                e.priority AS e_priority, e.geo_lat AS e_geo_lat, e.geo_lon AS e_geo_lon,
                e.color AS e_color, e.url AS e_url, e.categories AS e_categories,
                e.created_at AS e_created_at, e.updated_at AS e_updated_at, e.local_modified_at AS e_local_modified_at

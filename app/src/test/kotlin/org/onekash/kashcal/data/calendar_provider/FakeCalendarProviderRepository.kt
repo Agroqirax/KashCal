@@ -20,6 +20,7 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
 
     private companion object {
         const val ONE_DAY_MS = 24L * 60L * 60L * 1000L
+        const val STATUS_CONFIRMED = android.provider.CalendarContract.Events.STATUS_CONFIRMED
     }
 
     var calendars: List<DeviceCalendar> = emptyList()
@@ -137,6 +138,9 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
         val eventColor: Int? = null,
         val attendees: List<DeviceAttendee>? = null,
         val categories: List<String>? = null,
+        val uid: String? = null,
+        val organizer: String? = null,
+        val status: Int? = null,
     )
 
     /** Records the arguments of one updateEvent call. */
@@ -361,7 +365,8 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
         availability: Int,
         eventColor: Int?,
         attendees: List<DeviceAttendee>?,
-        categories: List<String>?
+        categories: List<String>?,
+        uid: String?
     ): Result<Long> {
         createCallCount++
         if (createCallCount == failCreateOnCall) {
@@ -392,9 +397,77 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
                 eventColor = eventColor,
                 attendees = attendees,
                 categories = categories,
+                uid = uid,
+            )
+        )
+        uid?.let { uidRows[eventId] = DeviceUidRow(eventId, calendarId, it, null, null, null, STATUS_CONFIRMED, isAllDay) }
+        return Result.success(eventId)
+    }
+
+    /**
+     * The `UID_2445` rows [findEventsByUid] reads, by event id: seeded by tests, and written by
+     * [createEvent] with a UID, [createInvitation] and [setEventStatus].
+     */
+    val uidRows: MutableMap<Long, DeviceUidRow> = mutableMapOf()
+
+    /** Status writes by [setEventStatus], in call order. */
+    val statusUpdates = mutableListOf<Pair<Long, Int>>()
+
+    override suspend fun createInvitation(
+        calendarId: Long,
+        title: String,
+        description: String?,
+        location: String?,
+        startTs: Long,
+        endTs: Long?,
+        isAllDay: Boolean,
+        rrule: String?,
+        duration: String?,
+        timezone: String,
+        reminders: List<Int>,
+        uid: String,
+        organizer: String,
+        status: Int,
+        attendees: List<DeviceAttendee>
+    ): Result<Long> {
+        writeFailure?.let { return Result.failure(it.toException()) }
+        if (shouldThrowSecurityException) {
+            return Result.failure(CalendarError.DeviceCalendar.PermissionDenied.toException())
+        }
+        val eventId = createdEventId++
+        reminderRows[eventId] = alertRows(reminders)
+        val stored = attendees.filterNot { it.email.isNullOrBlank() }
+        deviceAttendees[eventId] = stored.mapIndexed { i, a -> a.copy(id = eventId * 100 + i) }
+        uidRows[eventId] = DeviceUidRow(eventId, calendarId, uid, null, null, organizer, status, isAllDay)
+        createdEvents.add(
+            CreatedEvent(
+                calendarId = calendarId, title = title, resultId = eventId, description = description,
+                location = location, startTs = startTs, endTs = endTs, isAllDay = isAllDay, rrule = rrule,
+                duration = duration, timezone = timezone, reminders = reminders, attendees = stored,
+                uid = uid, organizer = organizer, status = status,
             )
         )
         return Result.success(eventId)
+    }
+
+    override suspend fun findEventsByUid(uid: String, calendarIds: Collection<Long>): Result<List<DeviceUidRow>> {
+        if (shouldThrowSecurityException) {
+            return Result.failure(CalendarError.DeviceCalendar.PermissionDenied.toException())
+        }
+        return Result.success(
+            uidRows.values.filter { it.uid == uid && it.calendarId in calendarIds && it.eventId !in softDeletedEventIds }
+        )
+    }
+
+    override suspend fun setEventStatus(eventId: Long, status: Int): Result<Unit> {
+        writeFailure?.let { return Result.failure(it.toException()) }
+        if (shouldThrowSecurityException) {
+            return Result.failure(CalendarError.DeviceCalendar.PermissionDenied.toException())
+        }
+        statusUpdates += eventId to status
+        uidRows[eventId]?.let { uidRows[eventId] = it.copy(status = status) }
+        deviceEvents[eventId]?.let { deviceEvents[eventId] = it.copy(status = status) }
+        return Result.success(Unit)
     }
 
     override suspend fun updateEvent(

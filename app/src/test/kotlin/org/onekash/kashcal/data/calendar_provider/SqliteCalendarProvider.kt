@@ -105,7 +105,10 @@ import org.robolectric.Robolectric
  *     replaces that series' occurrence at ORIGINAL_INSTANCE_TIME, or just
  *     removes it when cancelled or deleted; an exception without a sync id
  *     is a plain event to the view, so the series keeps its occurrence;
- *   - deleted rows and deleted or cancelled series yield nothing;
+ *   - deleted rows and deleted or cancelled series yield nothing, and so does
+ *     a one-off an update set to STATUS_CANCELED (the platform deletes its
+ *     instances on that update; a one-off inserted already cancelled keeps its
+ *     instance);
  *   - the window keeps occurrences with BEGIN <= end AND END >= begin, both
  *     ends inclusive, as the platform does;
  *   - search splits the query into words (quoted phrases kept whole) and
@@ -350,8 +353,19 @@ class SqliteCalendarProvider : ContentProvider() {
             appEventUpdates.add(EventUpdate(storedRows.map { it.getAsLong(Events._ID) }, sent.keySet().toSet()))
             v.put(Events.DIRTY, 1)
         }
+        v.getAsInteger(Events.STATUS)?.let { status ->
+            val ids = idsOf(EVENTS, sel, args)
+            if (status == Events.STATUS_CANCELED) instancesDroppedByCancel += ids else instancesDroppedByCancel -= ids.toSet()
+        }
         return db.update(EVENTS, v, sel, args)
     }
+
+    /**
+     * Rows an update set to STATUS_CANCELED. The platform deletes such a row's instances
+     * (CalendarProvider2 updateInternal), which matters for a one-off: its expansion pass
+     * keeps a cancelled one-off that no update cancelled.
+     */
+    private val instancesDroppedByCancel = mutableSetOf<Long>()
 
     /**
      * The platform pairs ORIGINAL_ID and ORIGINAL_SYNC_ID on every Events
@@ -683,7 +697,7 @@ class SqliteCalendarProvider : ContentProvider() {
                 if (originalSyncId != null && originalTime != null) {
                     overrides += "$calendarId:$originalSyncId" to originalTime
                     if (!deleted && !cancelled) plain += Occurrence(row, dtstart, stop)
-                } else if (!deleted) {
+                } else if (!deleted && row[Events._ID] as Long !in instancesDroppedByCancel) {
                     plain += Occurrence(row, dtstart, stop)
                 }
             }
@@ -1165,7 +1179,7 @@ class SqliteCalendarProvider : ContentProvider() {
             Calendars.ACCOUNT_NAME, Calendars.ACCOUNT_TYPE, Calendars.OWNER_ACCOUNT, Calendars.CALENDAR_DISPLAY_NAME,
             Events.TITLE, Events.DESCRIPTION, Events.EVENT_LOCATION, Events.DURATION, Events.RRULE, Events.RDATE,
             Events.EXDATE, Events.EXRULE, Events.EVENT_TIMEZONE, Events.ORIGINAL_SYNC_ID, Events._SYNC_ID,
-            Events.ORGANIZER,
+            Events.ORGANIZER, Events.UID_2445,
             Attendees.ATTENDEE_NAME, Attendees.ATTENDEE_EMAIL, Attendees.ATTENDEE_IDENTITY,
             Attendees.ATTENDEE_ID_NAMESPACE, ExtendedProperties.NAME, ExtendedProperties.VALUE,
         )
@@ -1183,7 +1197,7 @@ class SqliteCalendarProvider : ContentProvider() {
                 Events.ORIGINAL_INSTANCE_TIME, Events.ORIGINAL_SYNC_ID, Events.ORIGINAL_ALL_DAY, Events.STATUS,
                 Events.AVAILABILITY, Events.ACCESS_LEVEL, Events.CALENDAR_COLOR, Events.EVENT_COLOR,
                 Events._SYNC_ID, Events.DELETED, Events.HAS_ATTENDEE_DATA, Events.ORGANIZER,
-                Events.SELF_ATTENDEE_STATUS, Events.HAS_ALARM, Events.DIRTY,
+                Events.SELF_ATTENDEE_STATUS, Events.HAS_ALARM, Events.DIRTY, Events.UID_2445,
             ),
             REMINDERS to listOf(Reminders._ID, Reminders.EVENT_ID, Reminders.MINUTES, Reminders.METHOD),
             ATTENDEES to listOf(

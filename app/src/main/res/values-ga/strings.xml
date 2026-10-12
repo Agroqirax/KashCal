@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Fógraí faoi chríochnú agus earráidí sioncronaithe</string>
     <string name="channel_event_invitations">Cuirí imeachtaí</string>
     <string name="channel_event_invitations_desc">Fógraí nuair a fhaigheann tú cuireadh féilire nua</string>
+    <string name="channel_calendar_updates">Athruithe féilire</string>
     <string name="invite_notification_body">Ó %1$s · Tapáil chun freagra a thabhairt</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Baineann an freagra leis an tsraith ar fad.</string>
+    <string name="rsvp_receipt_pending">Freagra ar feitheamh</string>
+    <string name="rsvp_receipt_sent">Freagra seolta</string>
+    <string name="rsvp_receipt_not_delivered">Níor seachadadh an freagra</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">An ceann seo agus gach ceann amach anseo</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Ceangail iCloud le d\'imeachtaí a fheiceáil anseo</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Níos déanaí</string>
+    <string name="whats_new_skip">Scipeáil</string>
+    <string name="whats_new_next">Ar aghaidh</string>
+    <string name="whats_new_page_of">Leathanach %1$d de %2$d</string>
+    <string name="whats_new_find_it_in">Tá sé le fáil anseo</string>
     <string name="whats_new_v598_title">Cabhraigh le Android a choinneáil oscailte</string>
     <string name="whats_new_v598_body">Tá Google ag athrú an tslí a ndéanann tú feidhmchláir a shuiteáil ar do ghléas. Tá do chabhair de dhíth orainn.</string>
     <string name="whats_new_v598_action_label">Tabhair cuairt ar keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Tá an eisiúint seo tiomnaithe do lucht tacaíochta KashCal. Ranníocaíocht bheag le sochar mór leanúnach.</string>
     <string name="whats_new_v732_caption">Nach tacaí thú fós?</string>
     <string name="whats_new_v732_action_label">Cuir sinn le do phleananna</string>
+    <string name="whats_new_v772_icon_title">Tá an dáta ar eolas ag do dheilbhín</string>
+    <string name="whats_new_v772_icon_body">Roghnaigh an deilbhín Dáta an lae inniu agus taispeánfaidh KashCal lá na míosa ar do scáileán baile. Athraíonn sé leis féin gach oíche.</string>
+    <string name="whats_new_v772_changes_title">Féach cad a d\'athraigh</string>
+    <string name="whats_new_v772_changes_body">Bailítear imeachtaí nua, imeachtaí curtha in eagar agus imeachtaí bainte ó d\'fhéilirí iCloud agus CalDAV in Athruithe le déanaí ar feadh 7 lá. Tapáil ceann acu chun é a oscailt.</string>
+    <string name="whats_new_v772_notifications_body">Faigh fógra nuair a aimsíonn sioncronú cúlra athruithe ar d\'imeachtaí iCloud nó CalDAV. Fanann sé múchta go dtí go gcasann tú air é.</string>
+    <string name="whats_new_hero_sample_lunch">Lón foirne</string>
+    <string name="whats_new_hero_sample_review">Athbhreithniú dearaidh</string>
+    <string name="whats_new_hero_sample_book_club">Club leabhar</string>
+    <string name="whats_new_hero_sample_calendar">Obair</string>
+    <string name="whats_new_hero_now">anois</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ceangail iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Líne shingil dhlúth, nó dhá líne mhionsonraithe le ham deiridh.</string>
     <string name="settings_sync_lookback">Féachaint Siar Sioncronúithe</string>
     <string name="settings_sync_lookback_hint">Cé chomh fada siar is a shioncronaítear imeachtaí</string>
+    <string name="settings_change_notifications">Fógraí athruithe</string>
+    <string name="settings_change_notifications_info">Seolann sé fógra nuair a aimsíonn sioncronú cúlra athruithe ar d\'imeachtaí. Oibríonn sé le féilirí iCloud agus CalDAV.</string>
     <string name="settings_not_set">Gan socrú</string>
     <string name="settings_on">Air</string>
     <string name="settings_off">As</string>
@@ -811,6 +830,83 @@
         <item quantity="many">%1$d n-imeacht iompórtáilte</item>
         <item quantity="other">%1$d imeacht iompórtáilte</item>
     </plurals>
+    <string name="ics_import_preview_loading">Ag seiceáil an fhéilire seo…</string>
+    <string name="ics_import_preview_failed">Níorbh fhéidir an féilire seo a sheiceáil do na himeachtaí seo. Is féidir leat iompórtáil fós.</string>
+    <string name="ics_import_will_cancel">Cealaíonn sé seo %1$s, eagraithe ag %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Cealaíonn sé seo %1$s</string>
+    <string name="ics_import_will_update">Nuashonraíonn sé seo %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">Tá %1$d imeacht cothrom le dáta cheana</item>
+        <item quantity="two">Tá %1$d imeacht cothrom le dáta cheana</item>
+        <item quantity="few">Tá %1$d imeacht cothrom le dáta cheana</item>
+        <item quantity="many">Tá %1$d n-imeacht cothrom le dáta cheana</item>
+        <item quantity="other">Tá %1$d imeacht cothrom le dáta cheana</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d scipeáilte: %2$s</item>
+        <item quantity="two">%1$d scipeáilte: %2$s</item>
+        <item quantity="few">%1$d scipeáilte: %2$s</item>
+        <item quantity="many">%1$d scipeáilte: %2$s</item>
+        <item quantity="other">%1$d scipeáilte: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">is freagra ar chuireadh é, rud nach gcuireann aon rud le d\'fhéilire</string>
+    <string name="ics_import_reason_unsupported">ní thacaítear leis an gcineál seo teachtaireachta cuiridh</string>
+    <string name="ics_import_reason_organizer_mismatch">is ó dhuine éigin seachas eagraí an chruinnithe é</string>
+    <string name="ics_import_reason_cancel_no_match">níl an cruinniú cealaithe san fhéilire seo</string>
+    <string name="ics_import_reason_cancel_not_for_you">is d\'fhreastalaithe eile an cealú</string>
+    <string name="ics_import_reason_deletion_pending">tá an t-imeacht á scriosadh</string>
+    <string name="ics_import_reason_cancelled_in_file">tá sé cealaithe cheana sa chomhad</string>
+    <string name="ics_import_reason_this_and_future">ní thacaítear le hathruithe ar an tarlú seo agus ar tharluithe níos déanaí</string>
+    <string name="ics_import_reason_own_cancel">is tusa eagraí an chruinnithe seo, mar sin cealaigh é ón imeacht</string>
+    <string name="ics_import_reason_on_another_calendar">tá sé i bhféilire eile den chuntas seo cheana</string>
+    <string name="ics_import_notice_unverified">Ní féidir seoltóir comhaid chuiridh a fhíorú. Seiceáil gur ón eagraí a tháinig sé.</string>
+    <string name="ics_import_notice_answer_notifies">D\'fhéadfadh fógra dul chuig an eagraí má fhreagraíonn tú an cuireadh seo.</string>
+    <string name="ics_import_notice_guests_again">Is tusa an t-eagraí, mar sin d\'fhéadfadh na freastalaithe an cuireadh seo a fháil arís.</string>
+    <string name="cd_dismiss_notice">Dún an fógra</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d curtha leis</item>
+        <item quantity="two">%1$d curtha leis</item>
+        <item quantity="few">%1$d curtha leis</item>
+        <item quantity="many">%1$d curtha leis</item>
+        <item quantity="other">%1$d curtha leis</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d nuashonraithe</item>
+        <item quantity="two">%1$d nuashonraithe</item>
+        <item quantity="few">%1$d nuashonraithe</item>
+        <item quantity="many">%1$d nuashonraithe</item>
+        <item quantity="other">%1$d nuashonraithe</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d cealaithe</item>
+        <item quantity="two">%1$d cealaithe</item>
+        <item quantity="few">%1$d cealaithe</item>
+        <item quantity="many">%1$d cealaithe</item>
+        <item quantity="other">%1$d cealaithe</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d cothrom le dáta cheana</item>
+        <item quantity="two">%1$d cothrom le dáta cheana</item>
+        <item quantity="few">%1$d cothrom le dáta cheana</item>
+        <item quantity="many">%1$d cothrom le dáta cheana</item>
+        <item quantity="other">%1$d cothrom le dáta cheana</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d scipeáilte</item>
+        <item quantity="two">%1$d scipeáilte</item>
+        <item quantity="few">%1$d scipeáilte</item>
+        <item quantity="many">%1$d scipeáilte</item>
+        <item quantity="other">%1$d scipeáilte</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d teipthe</item>
+        <item quantity="two">%1$d teipthe</item>
+        <item quantity="few">%1$d teipthe</item>
+        <item quantity="many">%1$d teipthe</item>
+        <item quantity="other">%1$d teipthe</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Níl aon rud le hiompórtáil</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d imeacht eas-phortáilte</item>
         <item quantity="two">%1$d imeacht eas-phortáilte</item>

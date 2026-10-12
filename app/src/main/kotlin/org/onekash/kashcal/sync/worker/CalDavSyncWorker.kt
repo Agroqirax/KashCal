@@ -31,6 +31,7 @@ import org.onekash.kashcal.sync.engine.SyncResult
 import org.onekash.kashcal.sync.model.ChangeType
 import org.onekash.kashcal.sync.model.SyncChange
 import org.onekash.kashcal.sync.notification.ExpiredCalendarScope
+import org.onekash.kashcal.sync.notification.ChangeNotifier
 import org.onekash.kashcal.sync.notification.SyncNotificationManager
 import org.onekash.kashcal.sync.provider.ProviderRegistry
 import org.onekash.kashcal.sync.provider.icloud.ICloudUrlMigration
@@ -52,7 +53,8 @@ import java.util.concurrent.TimeUnit
  * user-visible; only a user-visible run goes foreground with a progress notification. After the
  * sync it refreshes widgets when anything changed, schedules reminders for synced events, records
  * them in Recent changes ([RecentChangesRecorder]) and prunes old sync logs. Results go to
- * WorkManager output data; the recorded entries go to [SyncScheduler.setSyncChanges].
+ * WorkManager output data. The recorded entries go to [SyncScheduler.setSyncChanges] for the
+ * in-app snackbar, unless [ChangeNotifier] announced them after a background run.
  * The worker adds its own sync-history entries ([SyncSessionStore]) only for a throw, an account
  * it couldn't set up, or no account to sync. A periodic run (always the all-accounts scope) never
  * returns failure, which would stop the periodic spec for good; the catch in [doWork] says why.
@@ -77,7 +79,8 @@ class CalDavSyncWorker @AssistedInject constructor(
     private val iCloudUrlMigration: ICloudUrlMigration,
     private val eventsDao: EventsDao,
     private val dataStore: KashCalDataStore,
-    private val recentChangesRecorder: RecentChangesRecorder
+    private val recentChangesRecorder: RecentChangesRecorder,
+    private val changeNotifier: ChangeNotifier
 ) : CoroutineWorker(context, params) {
 
     companion object {
@@ -168,6 +171,8 @@ class CalDavSyncWorker @AssistedInject constructor(
         val forceFullSync = inputData.getBoolean(KEY_FORCE_FULL_SYNC, false)
         val showNotification = inputData.getBoolean(KEY_SHOW_NOTIFICATION, false)
         val trigger = parseTrigger(inputData)
+        // Invite notifications fired during this run are marked at or after this time.
+        val syncStartedAt = System.currentTimeMillis()
 
         Log.i(TAG, "Starting sync: type=$syncType, force=$forceFullSync, trigger=${trigger.name}, attempt=${runAttemptCount + 1}")
 
@@ -300,7 +305,7 @@ class CalDavSyncWorker @AssistedInject constructor(
             }
             if (changes.isNotEmpty()) {
                 scheduleRemindersForSyncedEvents(changes)
-                recordRecentChanges(changes)
+                recordRecentChanges(changes, trigger, syncStartedAt)
             }
 
             // Delete sync logs past the 7-day retention; a cleanup failure doesn't fail the sync.
@@ -808,20 +813,39 @@ class CalDavSyncWorker @AssistedInject constructor(
     }
 
     /**
-     * Records [changes] in the Recent changes log and publishes what was recorded for the sync
-     * snackbar. A failure is logged and skipped; it never fails the sync.
+     * Records [changes] in the Recent changes log, then announces what was recorded: a background
+     * run ([isBackgroundRun]) asks [ChangeNotifier], and the sync snackbar gets the entries unless
+     * the notifier announced them. A failure is logged and skipped; it never fails the sync.
      */
-    private suspend fun recordRecentChanges(changes: List<SyncChange>) {
+    private suspend fun recordRecentChanges(changes: List<SyncChange>, trigger: SyncTrigger, syncStartedAt: Long) {
+        val batchAt = System.currentTimeMillis()
         val recorded = try {
-            recentChangesRecorder.record(changes)
+            recentChangesRecorder.record(changes, batchAt)
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e
         } catch (e: Exception) {
             Log.w(TAG, "Recording recent changes failed, continuing", e)
             return
         }
-        if (recorded.isNotEmpty()) syncScheduler.setSyncChanges(recorded)
+        if (recorded.isEmpty()) return
+        val notified = isBackgroundRun(trigger) && try {
+            changeNotifier.notify(batchAt, syncStartedAt)
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w(TAG, "Change notification failed, using the snackbar", e)
+            false
+        }
+        if (!notified) syncScheduler.setSyncChanges(recorded)
     }
+
+    /**
+     * Returns whether no one asked for this run: the periodic job or a widget refresh. The
+     * expedited sync after a local edit and the per-account and per-calendar syncs inherit the
+     * [SyncTrigger.BACKGROUND_PERIODIC] default, so the trigger alone can't tell ([isPeriodicRun]).
+     */
+    private fun isBackgroundRun(trigger: SyncTrigger): Boolean =
+        isPeriodicRun() || trigger == SyncTrigger.BACKGROUND_WIDGET
 
     /**
      * Schedules reminders for events the sync added or modified.

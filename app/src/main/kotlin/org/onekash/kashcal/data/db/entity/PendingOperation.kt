@@ -27,7 +27,7 @@ data class PendingOperation(
     @ColumnInfo(name = "event_id")
     val eventId: Long,
 
-    /** One of the OPERATION_ constants: CREATE, UPDATE, DELETE or MOVE. */
+    /** One of the OPERATION_ constants: CREATE, UPDATE, DELETE, MOVE or ATTENDEE_CANCEL. */
     @ColumnInfo(name = "operation")
     val operation: String,
 
@@ -155,6 +155,13 @@ data class PendingOperation(
         const val OPERATION_UPDATE = "UPDATE"
         const val OPERATION_DELETE = "DELETE"
         const val OPERATION_MOVE = "MOVE"  // Same-account move; phases on movePhase
+
+        /**
+         * An imported CANCEL applied to the user's attendee copy: STATUS:CANCELLED patched into
+         * the stored copy and PUT (#364). [eventId] is the series row, or the exception row for
+         * one occurrence. Never folded into another operation, nor another into it.
+         */
+        const val OPERATION_ATTENDEE_CANCEL = "ATTENDEE_CANCEL"
 
         const val STATUS_PENDING = "PENDING"
         const val STATUS_IN_PROGRESS = "IN_PROGRESS"

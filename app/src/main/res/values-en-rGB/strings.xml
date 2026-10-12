@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Notifications about sync completion and errors</string>
     <string name="channel_event_invitations">Event Invitations</string>
     <string name="channel_event_invitations_desc">Notifications when you receive a new calendar invitation</string>
+    <string name="channel_calendar_updates">Calendar updates</string>
     <string name="invite_notification_body">From %1$s · Tap to respond</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Your reply applies to the whole series.</string>
+    <string name="rsvp_receipt_pending">Reply pending</string>
+    <string name="rsvp_receipt_sent">Reply sent</string>
+    <string name="rsvp_receipt_not_delivered">Reply not delivered</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">This and all future</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Connect iCloud to see your events here</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Later</string>
+    <string name="whats_new_skip">Skip</string>
+    <string name="whats_new_next">Next</string>
+    <string name="whats_new_page_of">Page %1$d of %2$d</string>
+    <string name="whats_new_find_it_in">Find it in</string>
     <string name="whats_new_v598_title">Help keep Android open</string>
     <string name="whats_new_v598_body">Google is changing the way you install apps on your device. We need your help.</string>
     <string name="whats_new_v598_action_label">Visit keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">This release is dedicated to KashCal\'s supporters. A small entry with a big recurring payoff.</string>
     <string name="whats_new_v732_caption">Not a supporter yet?</string>
     <string name="whats_new_v732_action_label">Add us to your plans</string>
+    <string name="whats_new_v772_icon_title">Your icon knows the date</string>
+    <string name="whats_new_v772_icon_body">Pick the Today\'s date icon and KashCal shows the day of the month on your home screen. It turns over on its own each night.</string>
+    <string name="whats_new_v772_changes_title">See what changed</string>
+    <string name="whats_new_v772_changes_body">New, edited and removed events from your iCloud and CalDAV calendars collect in Recent changes for 7 days. Tap one to open it.</string>
+    <string name="whats_new_v772_notifications_body">Get a notification when a background sync finds changes to your iCloud or CalDAV events. It stays off until you switch it on.</string>
+    <string name="whats_new_hero_sample_lunch">Team lunch</string>
+    <string name="whats_new_hero_sample_review">Design review</string>
+    <string name="whats_new_hero_sample_book_club">Book club</string>
+    <string name="whats_new_hero_sample_calendar">Work</string>
+    <string name="whats_new_hero_now">now</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Connect iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Compact single line, or detailed two lines with end time.</string>
     <string name="settings_sync_lookback">Sync Lookback</string>
     <string name="settings_sync_lookback_hint">How far back to sync events</string>
+    <string name="settings_change_notifications">Change notifications</string>
+    <string name="settings_change_notifications_info">Sends a notification when a background sync finds changes to your events. Works for iCloud and CalDAV calendars.</string>
     <string name="settings_not_set">Not set</string>
     <string name="settings_on">On</string>
     <string name="settings_off">Off</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Imported %1$d event</item>
         <item quantity="other">Imported %1$d events</item>
     </plurals>
+    <string name="ics_import_preview_loading">Checking this calendar…</string>
+    <string name="ics_import_preview_failed">Couldn\'t check this calendar for these events. You can still import.</string>
+    <string name="ics_import_will_cancel">This cancels %1$s, organised by %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">This cancels %1$s</string>
+    <string name="ics_import_will_update">This updates %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d event is already up to date</item>
+        <item quantity="other">%1$d events are already up to date</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d skipped: %2$s</item>
+        <item quantity="other">%1$d skipped: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">it\'s a reply to an invitation, which adds nothing to your calendar</string>
+    <string name="ics_import_reason_unsupported">this kind of invitation message isn\'t supported</string>
+    <string name="ics_import_reason_organizer_mismatch">it comes from someone other than the meeting\'s organiser</string>
+    <string name="ics_import_reason_cancel_no_match">the cancelled meeting isn\'t in this calendar</string>
+    <string name="ics_import_reason_cancel_not_for_you">the cancellation is for other guests</string>
+    <string name="ics_import_reason_deletion_pending">the event is being deleted</string>
+    <string name="ics_import_reason_cancelled_in_file">it\'s already cancelled in the file</string>
+    <string name="ics_import_reason_this_and_future">changes to this and later occurrences aren\'t supported</string>
+    <string name="ics_import_reason_own_cancel">you organise this meeting, so cancel it from the event</string>
+    <string name="ics_import_reason_on_another_calendar">it\'s already in another calendar of this account</string>
+    <string name="ics_import_notice_unverified">The sender of an invitation file can\'t be verified. Check it came from the organiser.</string>
+    <string name="ics_import_notice_answer_notifies">Answering this invitation may notify the organiser.</string>
+    <string name="ics_import_notice_guests_again">You\'re the organiser, so guests may receive this invitation again.</string>
+    <string name="cd_dismiss_notice">Dismiss notice</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d added</item>
+        <item quantity="other">%1$d added</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d updated</item>
+        <item quantity="other">%1$d updated</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d cancelled</item>
+        <item quantity="other">%1$d cancelled</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d already up to date</item>
+        <item quantity="other">%1$d already up to date</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d skipped</item>
+        <item quantity="other">%1$d skipped</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d failed</item>
+        <item quantity="other">%1$d failed</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nothing to import</string>
     <plurals name="exported_events">
         <item quantity="one">Exported %1$d event</item>
         <item quantity="other">Exported %1$d events</item>

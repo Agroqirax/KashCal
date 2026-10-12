@@ -343,6 +343,13 @@ class KashCalDataStore(
         setPreference(PreferencesKeys.NOTIFICATION_VIBRATE, enabled)
     }
 
+    val changeNotificationsEnabled: Flow<Boolean>
+        get() = getPreference(PreferencesKeys.CHANGE_NOTIFICATIONS_ENABLED, false)
+
+    suspend fun setChangeNotificationsEnabled(enabled: Boolean) {
+        setPreference(PreferencesKeys.CHANGE_NOTIFICATIONS_ENABLED, enabled)
+    }
+
     val quickAddEnabled: Flow<Boolean>
         get() = getPreference(PreferencesKeys.QUICK_ADD_ENABLED, false)
 

@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">有关同步完成和错误的通知</string>
     <string name="channel_event_invitations">活动邀请</string>
     <string name="channel_event_invitations_desc">收到新日历邀请时的通知</string>
+    <string name="channel_calendar_updates">日历更新</string>
     <string name="invite_notification_body">来自 %1$s · 点按以回复</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">您的回复将应用于整个系列。</string>
+    <string name="rsvp_receipt_pending">回复待发送</string>
+    <string name="rsvp_receipt_sent">回复已发送</string>
+    <string name="rsvp_receipt_not_delivered">回复未送达</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">此次及所有未来</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">连接 iCloud 查看你的事件</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">以后再说</string>
+    <string name="whats_new_skip">跳过</string>
+    <string name="whats_new_next">下一步</string>
+    <string name="whats_new_page_of">第 %1$d 页，共 %2$d 页</string>
+    <string name="whats_new_find_it_in">位置</string>
     <string name="whats_new_v598_title">帮助保持 Android 开放</string>
     <string name="whats_new_v598_body">Google 正在改变你在设备上安装应用的方式。我们需要你的帮助。</string>
     <string name="whats_new_v598_action_label">访问 keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">本次更新献给开序历的支持者。小小的付出，却能带来长久的回报。</string>
     <string name="whats_new_v732_caption">还不是支持者吗？</string>
     <string name="whats_new_v732_action_label">加入你的计划</string>
+    <string name="whats_new_v772_icon_title">你的图标知道今天几号</string>
+    <string name="whats_new_v772_icon_body">选择“今天的日期”图标后，开序历会在主屏幕上显示今天是几号，每晚自动换成新的日期。</string>
+    <string name="whats_new_v772_changes_title">看看有哪些更改</string>
+    <string name="whats_new_v772_changes_body">你的 iCloud 和 CalDAV 日历中新建、编辑和删除的事件会在“最近更改”中保留 7 天。点按即可打开。</string>
+    <string name="whats_new_v772_notifications_body">后台同步发现你的 iCloud 或 CalDAV 事件有变更时，向你发送通知。此功能默认关闭，需手动开启。</string>
+    <string name="whats_new_hero_sample_lunch">团队午餐</string>
+    <string name="whats_new_hero_sample_review">设计评审</string>
+    <string name="whats_new_hero_sample_book_club">读书会</string>
+    <string name="whats_new_hero_sample_calendar">工作</string>
+    <string name="whats_new_hero_now">现在</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">连接 iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">紧凑单行显示，或包含结束时间的详细两行显示。</string>
     <string name="settings_sync_lookback">同步回溯范围</string>
     <string name="settings_sync_lookback_hint">同步事件的回溯时长</string>
+    <string name="settings_change_notifications">变更通知</string>
+    <string name="settings_change_notifications_info">后台同步发现事件有变更时发送通知。适用于 iCloud 和 CalDAV 日历。</string>
     <string name="settings_not_set">未设置</string>
     <string name="settings_on">开</string>
     <string name="settings_off">关</string>
@@ -743,6 +762,51 @@
     <plurals name="imported_events">
         <item quantity="other">已导入 %1$d 个事件</item>
     </plurals>
+    <string name="ics_import_preview_loading">正在检查此日历…</string>
+    <string name="ics_import_preview_failed">无法在此日历中检查这些事件。您仍可以导入。</string>
+    <string name="ics_import_will_cancel">这将取消 %1$s（组织者：%2$s）</string>
+    <string name="ics_import_will_cancel_no_organizer">这将取消 %1$s</string>
+    <string name="ics_import_will_update">这将更新 %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="other">%1$d 个事件已是最新</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="other">已跳过 %1$d 个：%2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">这是对邀请的回复，不会向日历添加任何内容</string>
+    <string name="ics_import_reason_unsupported">不支持此类邀请消息</string>
+    <string name="ics_import_reason_organizer_mismatch">发送者不是会议的组织者</string>
+    <string name="ics_import_reason_cancel_no_match">已取消的会议不在此日历中</string>
+    <string name="ics_import_reason_cancel_not_for_you">此取消通知针对其他嘉宾</string>
+    <string name="ics_import_reason_deletion_pending">该事件正在删除</string>
+    <string name="ics_import_reason_cancelled_in_file">文件中已将其取消</string>
+    <string name="ics_import_reason_this_and_future">不支持对此次及以后重复的更改</string>
+    <string name="ics_import_reason_own_cancel">您是此会议的组织者，请从事件中取消</string>
+    <string name="ics_import_reason_on_another_calendar">已在此账户的另一个日历中</string>
+    <string name="ics_import_notice_unverified">无法验证邀请文件的发件人。请确认它来自组织者。</string>
+    <string name="ics_import_notice_answer_notifies">回复此邀请可能会通知组织者。</string>
+    <string name="ics_import_notice_guests_again">您是组织者，因此嘉宾可能会再次收到此邀请。</string>
+    <string name="cd_dismiss_notice">关闭提示</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="other">已添加 %1$d 个</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="other">已更新 %1$d 个</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="other">已取消 %1$d 个</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="other">%1$d 个已是最新</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="other">已跳过 %1$d 个</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="other">%1$d 个失败</item>
+    </plurals>
+    <string name="ics_import_summary_separator">"、"</string>
+    <string name="ics_import_summary_nothing">没有可导入的内容</string>
     <plurals name="exported_events">
         <item quantity="other">已导出 %1$d 个事件</item>
     </plurals>

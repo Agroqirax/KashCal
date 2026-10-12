@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Паведамленні пра завяршэнне сінхранізацыі і памылкі</string>
     <string name="channel_event_invitations">Запрашэнні на падзеі</string>
     <string name="channel_event_invitations_desc">Паведамленні пра новыя запрашэнні ў календары</string>
+    <string name="channel_calendar_updates">Змены ў календары</string>
     <string name="invite_notification_body">Ад %1$s · Націсніце, каб адказаць</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Адказ распаўсюджваецца на ўсю серыю.</string>
+    <string name="rsvp_receipt_pending">Адказ чакае адпраўкі</string>
+    <string name="rsvp_receipt_sent">Адказ адпраўлены</string>
+    <string name="rsvp_receipt_not_delivered">Адказ не дастаўлены</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Гэта і ўсе наступныя</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Падключыце iCloud, каб бачыць свае падзеі тут</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Пазней</string>
+    <string name="whats_new_skip">Прапусціць</string>
+    <string name="whats_new_next">Далей</string>
+    <string name="whats_new_page_of">Старонка %1$d з %2$d</string>
+    <string name="whats_new_find_it_in">Дзе знайсці</string>
     <string name="whats_new_v598_title">Дапамажы захаваць Android адкрытым</string>
     <string name="whats_new_v598_body">Google змяняе спосаб усталявання праграм на прыладзе. Нам патрэбна твая дапамога.</string>
     <string name="whats_new_v598_action_label">Перайсці на keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Гэты выпуск прысвечаны тым, хто падтрымлівае KashCal. Невялікі ўнёсак з вялікай рэгулярнай аддачай.</string>
     <string name="whats_new_v732_caption">Яшчэ не падтрымліваеш нас?</string>
     <string name="whats_new_v732_action_label">Дадай нас у свае планы</string>
+    <string name="whats_new_v772_icon_title">Твой значок ведае дату</string>
+    <string name="whats_new_v772_icon_body">Выберы значок «Сённяшняя дата», і KashCal будзе паказваць дзень месяца на галоўным экране. Кожную ноч ён мяняецца сам.</string>
+    <string name="whats_new_v772_changes_title">Даведайся, што змянілася</string>
+    <string name="whats_new_v772_changes_body">Новыя, змененыя і выдаленыя падзеі з тваіх календароў iCloud і CalDAV 7 дзён захоўваюцца ў раздзеле «Апошнія змены». Націсні на падзею, каб адкрыць яе.</string>
+    <string name="whats_new_v772_notifications_body">Атрымлівай апавяшчэнне, калі фонавая сінхранізацыя знаходзіць змены ў тваіх падзеях iCloud або CalDAV. Функцыя выключана, пакуль ты яе не ўключыш.</string>
+    <string name="whats_new_hero_sample_lunch">Абед з камандай</string>
+    <string name="whats_new_hero_sample_review">Агляд дызайну</string>
+    <string name="whats_new_hero_sample_book_club">Кніжны клуб</string>
+    <string name="whats_new_hero_sample_calendar">Праца</string>
+    <string name="whats_new_hero_now">зараз</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Падключыць iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Кампактны адзін радок або падрабязныя два радкі з часам заканчэння.</string>
     <string name="settings_sync_lookback">Глыбіня сінхранізацыі</string>
     <string name="settings_sync_lookback_hint">Наколькі даўнія падзеі сінхранізаваць</string>
+    <string name="settings_change_notifications">Апавяшчэнні пра змены</string>
+    <string name="settings_change_notifications_info">Адпраўляе апавяшчэнне, калі фонавая сінхранізацыя знаходзіць змены ў тваіх падзеях. Працуе з календарамі iCloud і CalDAV.</string>
     <string name="settings_not_set">Не зададзена</string>
     <string name="settings_on">Укл.</string>
     <string name="settings_off">Выкл.</string>
@@ -794,6 +813,75 @@
         <item quantity="many">Імпартавана %1$d падзей</item>
         <item quantity="other">Імпартавана %1$d падзей</item>
     </plurals>
+    <string name="ics_import_preview_loading">Праверка гэтага календара…</string>
+    <string name="ics_import_preview_failed">Не ўдалося праверыць гэты каляндар на наяўнасць гэтых падзей. Імпартаваць усё роўна можна.</string>
+    <string name="ics_import_will_cancel">Гэта скасуе %1$s (арганізатар: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Гэта скасуе %1$s</string>
+    <string name="ics_import_will_update">Гэта абновіць %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d падзея ўжо актуальная</item>
+        <item quantity="few">%1$d падзеі ўжо актуальныя</item>
+        <item quantity="many">%1$d падзей ужо актуальныя</item>
+        <item quantity="other">%1$d падзеі ўжо актуальныя</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d прапушчана: %2$s</item>
+        <item quantity="few">%1$d прапушчана: %2$s</item>
+        <item quantity="many">%1$d прапушчана: %2$s</item>
+        <item quantity="other">%1$d прапушчана: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">гэта адказ на запрашэнне, ён нічога не дадае ў каляндар</string>
+    <string name="ics_import_reason_unsupported">такі тып запрашэння не падтрымліваецца</string>
+    <string name="ics_import_reason_organizer_mismatch">яго даслаў не арганізатар сустрэчы</string>
+    <string name="ics_import_reason_cancel_no_match">скасаванай сустрэчы няма ў гэтым календары</string>
+    <string name="ics_import_reason_cancel_not_for_you">скасаванне адрасавана іншым удзельнікам</string>
+    <string name="ics_import_reason_deletion_pending">падзея выдаляецца</string>
+    <string name="ics_import_reason_cancelled_in_file">яна ўжо скасавана ў файле</string>
+    <string name="ics_import_reason_this_and_future">змены гэтага і наступных паўтарэнняў не падтрымліваюцца</string>
+    <string name="ics_import_reason_own_cancel">ты арганізатар гэтай сустрэчы, таму скасуй яе ў самой падзеі</string>
+    <string name="ics_import_reason_on_another_calendar">яна ўжо ёсць у іншым календары гэтага ўліковага запісу</string>
+    <string name="ics_import_notice_unverified">Адпраўніка файла запрашэння немагчыма праверыць. Пераканайся, што файл прыйшоў ад арганізатара.</string>
+    <string name="ics_import_notice_answer_notifies">Адказ на гэта запрашэнне можа апавясціць арганізатара.</string>
+    <string name="ics_import_notice_guests_again">Ты арганізатар, таму ўдзельнікі могуць зноў атрымаць гэта запрашэнне.</string>
+    <string name="cd_dismiss_notice">Закрыць апавяшчэнне</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d дададзена</item>
+        <item quantity="few">%1$d дададзена</item>
+        <item quantity="many">%1$d дададзена</item>
+        <item quantity="other">%1$d дададзена</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d абноўлена</item>
+        <item quantity="few">%1$d абноўлена</item>
+        <item quantity="many">%1$d абноўлена</item>
+        <item quantity="other">%1$d абноўлена</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d скасавана</item>
+        <item quantity="few">%1$d скасавана</item>
+        <item quantity="many">%1$d скасавана</item>
+        <item quantity="other">%1$d скасавана</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ужо актуальна</item>
+        <item quantity="few">%1$d ужо актуальна</item>
+        <item quantity="many">%1$d ужо актуальна</item>
+        <item quantity="other">%1$d ужо актуальна</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d прапушчана</item>
+        <item quantity="few">%1$d прапушчана</item>
+        <item quantity="many">%1$d прапушчана</item>
+        <item quantity="other">%1$d прапушчана</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d з памылкай</item>
+        <item quantity="few">%1$d з памылкай</item>
+        <item quantity="many">%1$d з памылкай</item>
+        <item quantity="other">%1$d з памылкай</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Няма чаго імпартаваць</string>
     <plurals name="exported_events">
         <item quantity="one">Экспартавана %1$d падзея</item>
         <item quantity="few">Экспартавана %1$d падзеі</item>

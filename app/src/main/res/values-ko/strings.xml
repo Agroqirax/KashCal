@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">동기화 완료 및 오류 알림</string>
     <string name="channel_event_invitations">일정 초대</string>
     <string name="channel_event_invitations_desc">새 캘린더 초대를 받았을 때의 알림</string>
+    <string name="channel_calendar_updates">캘린더 변경 사항</string>
     <string name="invite_notification_body">보낸 사람: %1$s · 탭하여 응답하세요</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">응답이 반복 일정 전체에 적용돼요.</string>
+    <string name="rsvp_receipt_pending">응답 전송 대기 중</string>
+    <string name="rsvp_receipt_sent">응답 전송됨</string>
+    <string name="rsvp_receipt_not_delivered">응답이 전달되지 않음</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">이후 모두</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">iCloud를 연결하여 일정을 확인하세요</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">나중에</string>
+    <string name="whats_new_skip">건너뛰기</string>
+    <string name="whats_new_next">다음</string>
+    <string name="whats_new_page_of">%2$d페이지 중 %1$d페이지</string>
+    <string name="whats_new_find_it_in">위치</string>
     <string name="whats_new_v598_title">Android를 열린 상태로 유지하도록 도와주세요</string>
     <string name="whats_new_v598_body">Google이 사용자가 기기에 앱을 설치하는 방식을 변경하고 있어요. 여러분의 도움이 필요해요.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org 방문하기</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">이번 업데이트는 KashCal을 후원해 주시는 분들께 바칩니다. 작은 후원이 두고두고 큰 힘이 돼요.</string>
     <string name="whats_new_v732_caption">아직 후원하지 않으셨나요?</string>
     <string name="whats_new_v732_action_label">일정에 추가하기</string>
+    <string name="whats_new_v772_icon_title">아이콘이 날짜를 알아요</string>
+    <string name="whats_new_v772_icon_body">‘오늘 날짜’ 아이콘을 선택하면 KashCal이 홈 화면에 오늘이 며칠인지 보여줘요. 매일 밤 저절로 다음 날짜로 바뀌어요.</string>
+    <string name="whats_new_v772_changes_title">무엇이 바뀌었는지 확인하세요</string>
+    <string name="whats_new_v772_changes_body">iCloud 및 CalDAV 캘린더에서 새로 추가되거나 수정되거나 삭제된 일정은 7일 동안 ‘최근 변경 사항’에 모여요. 탭하면 열 수 있어요.</string>
+    <string name="whats_new_v772_notifications_body">백그라운드 동기화에서 iCloud 또는 CalDAV 일정의 변경 사항이 발견되면 알림을 받을 수 있어요. 직접 켜기 전까지는 꺼져 있어요.</string>
+    <string name="whats_new_hero_sample_lunch">팀 점심</string>
+    <string name="whats_new_hero_sample_review">디자인 리뷰</string>
+    <string name="whats_new_hero_sample_book_club">독서 모임</string>
+    <string name="whats_new_hero_sample_calendar">업무</string>
+    <string name="whats_new_hero_now">지금</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud 연결</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">한 줄로 간단하게, 또는 종료 시간이 포함된 두 줄로 자세하게 표시해요.</string>
     <string name="settings_sync_lookback">동기화 조회 기간</string>
     <string name="settings_sync_lookback_hint">일정을 동기화할 기간</string>
+    <string name="settings_change_notifications">변경 알림</string>
+    <string name="settings_change_notifications_info">백그라운드 동기화에서 일정 변경 사항이 발견되면 알림을 보내요. iCloud 및 CalDAV 캘린더에서 작동해요.</string>
     <string name="settings_not_set">설정 안 됨</string>
     <string name="settings_on">켜짐</string>
     <string name="settings_off">꺼짐</string>
@@ -743,6 +762,51 @@
     <plurals name="imported_events">
         <item quantity="other">일정 %1$d개를 가져왔어요</item>
     </plurals>
+    <string name="ics_import_preview_loading">이 캘린더를 확인하는 중…</string>
+    <string name="ics_import_preview_failed">이 캘린더에서 이 일정들을 확인할 수 없어요. 그래도 가져올 수 있어요.</string>
+    <string name="ics_import_will_cancel">%1$s 일정을 취소해요. 주최자: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">%1$s 일정을 취소해요</string>
+    <string name="ics_import_will_update">%1$s 일정을 업데이트해요</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="other">일정 %1$d개는 이미 최신 상태예요</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="other">%1$d개 건너뜀: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">초대에 대한 응답이라 캘린더에 추가되는 내용이 없어요</string>
+    <string name="ics_import_reason_unsupported">지원되지 않는 종류의 초대 메시지예요</string>
+    <string name="ics_import_reason_organizer_mismatch">회의 주최자가 아닌 다른 사람이 보냈어요</string>
+    <string name="ics_import_reason_cancel_no_match">취소된 회의가 이 캘린더에 없어요</string>
+    <string name="ics_import_reason_cancel_not_for_you">다른 게스트에 대한 취소예요</string>
+    <string name="ics_import_reason_deletion_pending">일정을 삭제하는 중이에요</string>
+    <string name="ics_import_reason_cancelled_in_file">파일에서 이미 취소되어 있어요</string>
+    <string name="ics_import_reason_this_and_future">이 일정 및 이후 반복에 대한 변경은 지원되지 않아요</string>
+    <string name="ics_import_reason_own_cancel">내가 주최하는 회의이므로 일정에서 취소하세요</string>
+    <string name="ics_import_reason_on_another_calendar">이 계정의 다른 캘린더에 이미 있어요</string>
+    <string name="ics_import_notice_unverified">초대 파일의 발신자는 확인할 수 없어요. 주최자가 보낸 것인지 확인하세요.</string>
+    <string name="ics_import_notice_answer_notifies">이 초대에 응답하면 주최자에게 알림이 갈 수 있어요.</string>
+    <string name="ics_import_notice_guests_again">내가 주최자이므로 게스트가 이 초대를 다시 받을 수 있어요.</string>
+    <string name="cd_dismiss_notice">안내 닫기</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="other">%1$d개 추가됨</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="other">%1$d개 업데이트됨</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="other">%1$d개 취소됨</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="other">%1$d개 이미 최신</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="other">%1$d개 건너뜀</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="other">%1$d개 실패</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">가져올 항목이 없어요</string>
     <plurals name="exported_events">
         <item quantity="other">일정 %1$d개를 내보냈어요</item>
     </plurals>

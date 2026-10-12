@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Aviseringar om synkronisering slutförd och fel</string>
     <string name="channel_event_invitations">Händelseinbjudningar</string>
     <string name="channel_event_invitations_desc">Aviseringar när du får en ny kalenderinbjudan</string>
+    <string name="channel_calendar_updates">Kalenderändringar</string>
     <string name="invite_notification_body">Från %1$s · Tryck för att svara</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Svaret gäller hela serien.</string>
+    <string name="rsvp_receipt_pending">Svar väntar</string>
+    <string name="rsvp_receipt_sent">Svar skickat</string>
+    <string name="rsvp_receipt_not_delivered">Svar levererades inte</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Denna och alla framtida</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Anslut iCloud för att se dina händelser här</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Senare</string>
+    <string name="whats_new_skip">Hoppa över</string>
+    <string name="whats_new_next">Nästa</string>
+    <string name="whats_new_page_of">Sida %1$d av %2$d</string>
+    <string name="whats_new_find_it_in">Hitta det under</string>
     <string name="whats_new_v598_title">Hjälp till att hålla Android öppet</string>
     <string name="whats_new_v598_body">Google ändrar hur du installerar appar på din enhet. Vi behöver din hjälp.</string>
     <string name="whats_new_v598_action_label">Besök keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Den här versionen är tillägnad dem som stöder KashCal. Ett litet bidrag med stor, återkommande utdelning.</string>
     <string name="whats_new_v732_caption">Inte supporter än?</string>
     <string name="whats_new_v732_action_label">Lägg till oss i dina planer</string>
+    <string name="whats_new_v772_icon_title">Din ikon har koll på datumet</string>
+    <string name="whats_new_v772_icon_body">Välj ikonen Dagens datum så visar KashCal dagen i månaden på din startskärm. Den byts av sig själv varje natt.</string>
+    <string name="whats_new_v772_changes_title">Se vad som har ändrats</string>
+    <string name="whats_new_v772_changes_body">Nya, redigerade och borttagna händelser från dina iCloud- och CalDAV-kalendrar samlas i Senaste ändringar i 7 dagar. Tryck på en för att öppna den.</string>
+    <string name="whats_new_v772_notifications_body">Få en avisering när en synkronisering i bakgrunden hittar ändringar i dina iCloud- eller CalDAV-händelser. Funktionen är avstängd tills du slår på den.</string>
+    <string name="whats_new_hero_sample_lunch">Teamlunch</string>
+    <string name="whats_new_hero_sample_review">Designgenomgång</string>
+    <string name="whats_new_hero_sample_book_club">Bokklubb</string>
+    <string name="whats_new_hero_sample_calendar">Jobb</string>
+    <string name="whats_new_hero_now">nu</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Anslut iCloud</string>
@@ -583,6 +600,8 @@
     <string name="settings_detailed_widget_rows_info">Kompakt på en rad, eller detaljerat på två rader med sluttid.</string>
     <string name="settings_sync_lookback">Synk-tillbakablick</string>
     <string name="settings_sync_lookback_hint">Hur långt tillbaka händelser synkroniseras</string>
+    <string name="settings_change_notifications">Ändringsaviseringar</string>
+    <string name="settings_change_notifications_info">Skickar en avisering när en synkronisering i bakgrunden hittar ändringar i dina händelser. Fungerar för iCloud- och CalDAV-kalendrar.</string>
     <string name="settings_not_set">Ej inställd</string>
     <string name="settings_on">På</string>
     <string name="settings_off">Av</string>
@@ -759,6 +778,59 @@
         <item quantity="one">%1$d händelse importerad</item>
         <item quantity="other">%1$d händelser importerade</item>
     </plurals>
+    <string name="ics_import_preview_loading">Kontrollerar den här kalendern…</string>
+    <string name="ics_import_preview_failed">Kunde inte kontrollera den här kalendern efter de här händelserna. Du kan ändå importera.</string>
+    <string name="ics_import_will_cancel">Detta ställer in %1$s, arrangerat av %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Detta ställer in %1$s</string>
+    <string name="ics_import_will_update">Detta uppdaterar %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d händelse är redan uppdaterad</item>
+        <item quantity="other">%1$d händelser är redan uppdaterade</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d hoppades över: %2$s</item>
+        <item quantity="other">%1$d hoppades över: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">det är ett svar på en inbjudan, vilket inte lägger till något i din kalender</string>
+    <string name="ics_import_reason_unsupported">den här typen av inbjudningsmeddelande stöds inte</string>
+    <string name="ics_import_reason_organizer_mismatch">det kommer från någon annan än mötets arrangör</string>
+    <string name="ics_import_reason_cancel_no_match">det inställda mötet finns inte i den här kalendern</string>
+    <string name="ics_import_reason_cancel_not_for_you">avbokningen gäller andra gäster</string>
+    <string name="ics_import_reason_deletion_pending">händelsen håller på att tas bort</string>
+    <string name="ics_import_reason_cancelled_in_file">händelsen är redan inställd i filen</string>
+    <string name="ics_import_reason_this_and_future">ändringar av denna och senare förekomster stöds inte</string>
+    <string name="ics_import_reason_own_cancel">du arrangerar det här mötet, så ställ in det från händelsen</string>
+    <string name="ics_import_reason_on_another_calendar">händelsen finns redan i en annan kalender i det här kontot</string>
+    <string name="ics_import_notice_unverified">Avsändaren av en inbjudningsfil kan inte verifieras. Kontrollera att den kom från arrangören.</string>
+    <string name="ics_import_notice_answer_notifies">Om du svarar på den här inbjudan kan arrangören få ett meddelande.</string>
+    <string name="ics_import_notice_guests_again">Du är arrangör, så gästerna kan få den här inbjudan igen.</string>
+    <string name="cd_dismiss_notice">Stäng meddelande</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d tillagd</item>
+        <item quantity="other">%1$d tillagda</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d uppdaterad</item>
+        <item quantity="other">%1$d uppdaterade</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d inställd</item>
+        <item quantity="other">%1$d inställda</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d redan uppdaterad</item>
+        <item quantity="other">%1$d redan uppdaterade</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d överhoppad</item>
+        <item quantity="other">%1$d överhoppade</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d misslyckades</item>
+        <item quantity="other">%1$d misslyckades</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Inget att importera</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d händelse exporterad</item>
         <item quantity="other">%1$d händelser exporterade</item>

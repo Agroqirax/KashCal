@@ -260,6 +260,28 @@ data class Event(
     @ColumnInfo(name = "server_modified_at")
     val serverModifiedAt: Long? = null,
 
+    // ========== ICS File Import ==========
+
+    /**
+     * How an ICS file import touched this row: [IMPORT_SOURCE_ICS_FILE] when an import created it,
+     * [IMPORT_SOURCE_ICS_CANCEL] when an imported CANCEL cancelled it; null for every other row.
+     * The import rules in push, pull and reminders apply only to marked rows; push and the
+     * reminder checks also read an exception's master. Kept when a pull or conflict resolution
+     * rewrites the row.
+     */
+    @ColumnInfo(name = "import_source")
+    val importSource: String? = null,
+
+    /**
+     * The imported invitation's own DTSTAMP in epoch ms, null when none was imported.
+     *
+     * Not [dtstamp]: with a METHOD, DTSTAMP is when the iTIP message was made; without one,
+     * when the stored copy was last revised (RFC 5545 §3.8.7.2). [dtstamp] holds the second
+     * and a pull overwrites it; ordering iTIP messages needs the first (RFC 5546 §2.1.5).
+     */
+    @ColumnInfo(name = "itip_dtstamp")
+    val itipDtstamp: Long? = null,
+
     // ========== RFC 5545/7986 Extended Properties ==========
 
     /** RFC 5545 PRIORITY: 0 undefined, 1 highest, 9 lowest. */
@@ -349,4 +371,15 @@ data class Event(
         exdate = null,
         rdate = null
     )
+
+    companion object {
+        /** [importSource] of a row an ICS file import created. */
+        const val IMPORT_SOURCE_ICS_FILE = "ics_file"
+
+        /**
+         * [importSource] of a row an imported CANCEL cancelled. The reminder checks treat it as
+         * imported; a refused cancel deletes the changed occurrences it inserted.
+         */
+        const val IMPORT_SOURCE_ICS_CANCEL = "ics_cancel"
+    }
 }

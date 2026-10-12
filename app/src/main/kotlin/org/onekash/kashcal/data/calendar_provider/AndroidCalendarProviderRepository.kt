@@ -544,12 +544,14 @@ class AndroidCalendarProviderRepository @Inject constructor(
         availability: Int,
         eventColor: Int?,
         attendees: List<DeviceAttendee>?,
-        categories: List<String>?
+        categories: List<String>?,
+        uid: String?
     ): Result<Long> = withContext(Dispatchers.IO) {
         try {
             val guests = attendees.orEmpty()
             val values = buildEventValues(title, description, location, startTs, endTs, isAllDay, rrule, duration, timezone)
             values.put(CalendarContract.Events.CALENDAR_ID, calendarId)
+            uid?.let { values.put(CalendarContract.Events.UID_2445, it) }
             values.put(CalendarContract.Events.AVAILABILITY, availability)
             eventColor?.let { values.put(CalendarContract.Events.EVENT_COLOR, it) }
             // Set only when there are guests. Without it the sync adapter treats the event as
@@ -610,6 +612,129 @@ class AndroidCalendarProviderRepository @Inject constructor(
             Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.PermissionDenied))
         } catch (e: Exception) {
             Log.e(TAG, "Error creating event", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.WriteFailed(e.message ?: "Unknown error")))
+        }
+    }
+
+    override suspend fun createInvitation(
+        calendarId: Long,
+        title: String,
+        description: String?,
+        location: String?,
+        startTs: Long,
+        endTs: Long?,
+        isAllDay: Boolean,
+        rrule: String?,
+        duration: String?,
+        timezone: String,
+        reminders: List<Int>,
+        uid: String,
+        organizer: String,
+        status: Int,
+        attendees: List<DeviceAttendee>
+    ): Result<Long> = withContext(Dispatchers.IO) {
+        try {
+            val values = buildEventValues(title, description, location, startTs, endTs, isAllDay, rrule, duration, timezone)
+            values.put(CalendarContract.Events.CALENDAR_ID, calendarId)
+            values.put(CalendarContract.Events.UID_2445, uid)
+            // Without ORGANIZER the provider stores the calendar's owner, which would make the
+            // user the organizer of someone else's meeting.
+            values.put(CalendarContract.Events.ORGANIZER, organizer)
+            values.put(CalendarContract.Events.STATUS, status)
+            values.put(CalendarContract.Events.HAS_ATTENDEE_DATA, 1)
+
+            val ops = ArrayList<android.content.ContentProviderOperation>()
+            ops.add(
+                android.content.ContentProviderOperation.newInsert(CalendarContract.Events.CONTENT_URI)
+                    .withValues(values)
+                    .build()
+            )
+            ops.addAll(reminderInsertOps(alertRows(reminders), eventBackReference = 0))
+            for (attendee in attendees) {
+                if (attendee.email.isNullOrBlank()) continue
+                ops.add(
+                    android.content.ContentProviderOperation.newInsert(Attendees.CONTENT_URI)
+                        .withValueBackReference(Attendees.EVENT_ID, 0)
+                        .withValues(buildImportedAttendeeValues(attendee))
+                        .build()
+                )
+            }
+
+            val results = contentResolver.applyBatch(CalendarContract.AUTHORITY, ops)
+            val eventId = ContentUris.parseId(results[0].uri!!)
+            Log.d(TAG, "Created imported invitation: id=$eventId")
+            Result.success(eventId)
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Permission denied creating invitation", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.PermissionDenied))
+        } catch (e: Exception) {
+            Log.e(TAG, "Error creating invitation", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.WriteFailed(e.message ?: "Unknown error")))
+        }
+    }
+
+    override suspend fun findEventsByUid(
+        uid: String,
+        calendarIds: Collection<Long>
+    ): Result<List<DeviceUidRow>> = withContext(Dispatchers.IO) {
+        if (calendarIds.isEmpty()) return@withContext Result.success(emptyList())
+        try {
+            val placeholders = calendarIds.joinToString(",") { "?" }
+            val rows = contentResolver.query(
+                CalendarContract.Events.CONTENT_URI,
+                arrayOf(
+                    CalendarContract.Events._ID, CalendarContract.Events.CALENDAR_ID,
+                    CalendarContract.Events.ORIGINAL_ID, CalendarContract.Events.ORIGINAL_INSTANCE_TIME,
+                    CalendarContract.Events.ORGANIZER, CalendarContract.Events.STATUS,
+                    CalendarContract.Events.ALL_DAY,
+                ),
+                "${CalendarContract.Events.UID_2445} = ? AND ${CalendarContract.Events.DELETED} = 0 AND " +
+                    "${CalendarContract.Events.CALENDAR_ID} IN ($placeholders)",
+                arrayOf(uid) + calendarIds.map { it.toString() },
+                null
+            )?.use { c ->
+                buildList<DeviceUidRow> {
+                    while (c.moveToNext()) {
+                        add(
+                            DeviceUidRow(
+                                eventId = c.getLong(0),
+                                calendarId = c.getLong(1),
+                                uid = uid,
+                                originalId = if (c.isNull(2)) null else c.getLong(2),
+                                originalInstanceTime = if (c.isNull(3)) null else c.getLong(3),
+                                organizer = c.getString(4),
+                                status = if (c.isNull(5)) CalendarContract.Events.STATUS_CONFIRMED else c.getInt(5),
+                                isAllDay = c.getInt(6) != 0,
+                            )
+                        )
+                    }
+                }
+            } ?: return@withContext Result.failure(
+                CalendarErrorException(CalendarError.DeviceCalendar.WriteFailed("UID lookup returned no cursor"))
+            )
+            Result.success(rows)
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Permission denied looking up a UID", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.PermissionDenied))
+        } catch (e: Exception) {
+            Log.w(TAG, "UID lookup failed", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.WriteFailed(e.message ?: "Unknown error")))
+        }
+    }
+
+    override suspend fun setEventStatus(eventId: Long, status: Int): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val values = android.content.ContentValues().apply { put(CalendarContract.Events.STATUS, status) }
+            val updated = contentResolver.update(
+                ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId), values, null, null
+            )
+            if (updated == 0) Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.EventNotFound))
+            else Result.success(Unit)
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Permission denied setting event status", e)
+            Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.PermissionDenied))
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting event status", e)
             Result.failure(CalendarErrorException(CalendarError.DeviceCalendar.WriteFailed(e.message ?: "Unknown error")))
         }
     }
@@ -2324,6 +2449,19 @@ internal fun buildGuestAttendeeValues(attendee: DeviceAttendee): android.content
             android.provider.CalendarContract.Attendees.ATTENDEE_STATUS,
             android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_NONE
         )
+    }
+
+/** Builds an imported attendee's row: its relationship and status as given, type required. */
+internal fun buildImportedAttendeeValues(attendee: DeviceAttendee): android.content.ContentValues =
+    android.content.ContentValues().apply {
+        attendee.name?.let { put(android.provider.CalendarContract.Attendees.ATTENDEE_NAME, it) }
+        put(android.provider.CalendarContract.Attendees.ATTENDEE_EMAIL, attendee.email)
+        put(android.provider.CalendarContract.Attendees.ATTENDEE_RELATIONSHIP, attendee.relationship)
+        put(
+            android.provider.CalendarContract.Attendees.ATTENDEE_TYPE,
+            android.provider.CalendarContract.Attendees.TYPE_REQUIRED
+        )
+        put(android.provider.CalendarContract.Attendees.ATTENDEE_STATUS, attendee.status)
     }
 
 /**

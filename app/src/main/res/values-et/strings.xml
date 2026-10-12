@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Teated sünkroonimise lõpetamise ja vigade kohta</string>
     <string name="channel_event_invitations">Sündmuste kutsed</string>
     <string name="channel_event_invitations_desc">Teated uute kalendrikutsete saamise kohta</string>
+    <string name="channel_calendar_updates">Kalendri muudatused</string>
     <string name="invite_notification_body">Saatja: %1$s · Puuduta, et vastata</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Vastus kehtib kogu seeriale.</string>
+    <string name="rsvp_receipt_pending">Vastus ootab saatmist</string>
+    <string name="rsvp_receipt_sent">Vastus saadetud</string>
+    <string name="rsvp_receipt_not_delivered">Vastust ei edastatud</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">See ja kõik tulevased</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Ühenda iCloud, et näha siin oma sündmusi</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Hiljem</string>
+    <string name="whats_new_skip">Jäta vahele</string>
+    <string name="whats_new_next">Edasi</string>
+    <string name="whats_new_page_of">Leht %1$d %2$d-st</string>
+    <string name="whats_new_find_it_in">Leiad selle siit</string>
     <string name="whats_new_v598_title">Aita hoida Android avatuna</string>
     <string name="whats_new_v598_body">Google muudab seda, kuidas sa rakendusi seadmesse paigaldad. Vajame sinu abi.</string>
     <string name="whats_new_v598_action_label">Külasta keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">See versioon on pühendatud KashCali toetajatele. Väike panus suure korduva tuluga.</string>
     <string name="whats_new_v732_caption">Kas sa pole veel toetaja?</string>
     <string name="whats_new_v732_action_label">Lisa meid oma plaanidesse</string>
+    <string name="whats_new_v772_icon_title">Sinu ikoon teab kuupäeva</string>
+    <string name="whats_new_v772_icon_body">Vali ikoon „Tänane kuupäev“ ja KashCal näitab avaekraanil kuupäeva numbrit. See vahetub igal ööl iseenesest.</string>
+    <string name="whats_new_v772_changes_title">Vaata, mis muutus</string>
+    <string name="whats_new_v772_changes_body">Uued, muudetud ja eemaldatud sündmused sinu iCloudi ja CalDAV kalendritest kogunevad 7 päevaks jaotisesse „Viimased muudatused“. Puuduta sündmust, et see avada.</string>
+    <string name="whats_new_v772_notifications_body">Saa teavitus, kui taustasünkroonimine leiab muudatusi sinu iCloudi või CalDAV sündmustes. See on välja lülitatud, kuni sa selle sisse lülitad.</string>
+    <string name="whats_new_hero_sample_lunch">Meeskonna lõuna</string>
+    <string name="whats_new_hero_sample_review">Disaini ülevaatus</string>
+    <string name="whats_new_hero_sample_book_club">Raamatuklubi</string>
+    <string name="whats_new_hero_sample_calendar">Töö</string>
+    <string name="whats_new_hero_now">praegu</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ühenda iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompaktne üks rida või üksikasjalikud kaks rida lõpuajaga.</string>
     <string name="settings_sync_lookback">Sünkroonimise tagasivaade</string>
     <string name="settings_sync_lookback_hint">Kui kaugele tagasi sündmusi sünkroonida</string>
+    <string name="settings_change_notifications">Muudatuste teavitused</string>
+    <string name="settings_change_notifications_info">Saadab teavituse, kui taustasünkroonimine leiab sinu sündmustes muudatusi. Töötab iCloudi ja CalDAV kalendritega.</string>
     <string name="settings_not_set">Pole seatud</string>
     <string name="settings_on">Sees</string>
     <string name="settings_off">Väljas</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Imporditud %1$d sündmus</item>
         <item quantity="other">Imporditud %1$d sündmust</item>
     </plurals>
+    <string name="ics_import_preview_loading">Selle kalendri kontrollimine…</string>
+    <string name="ics_import_preview_failed">Ei õnnestunud kontrollida, kas need sündmused on selles kalendris. Saad siiski importida.</string>
+    <string name="ics_import_will_cancel">See tühistab %1$s (korraldaja: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">See tühistab %1$s</string>
+    <string name="ics_import_will_update">See uuendab %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d sündmus on juba ajakohane</item>
+        <item quantity="other">%1$d sündmust on juba ajakohased</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d vahele jäetud: %2$s</item>
+        <item quantity="other">%1$d vahele jäetud: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">see on vastus kutsele ega lisa sinu kalendrisse midagi</string>
+    <string name="ics_import_reason_unsupported">seda tüüpi kutsesõnumit ei toetata</string>
+    <string name="ics_import_reason_organizer_mismatch">selle saatis keegi muu kui koosoleku korraldaja</string>
+    <string name="ics_import_reason_cancel_no_match">tühistatud koosolekut pole selles kalendris</string>
+    <string name="ics_import_reason_cancel_not_for_you">tühistamine on mõeldud teistele osalejatele</string>
+    <string name="ics_import_reason_deletion_pending">sündmust kustutatakse</string>
+    <string name="ics_import_reason_cancelled_in_file">see on failis juba tühistatud</string>
+    <string name="ics_import_reason_this_and_future">selle ja hilisemate korduste muudatusi ei toetata</string>
+    <string name="ics_import_reason_own_cancel">sina korraldad seda koosolekut, seega tühista see sündmuse juurest</string>
+    <string name="ics_import_reason_on_another_calendar">see on juba selle konto teises kalendris</string>
+    <string name="ics_import_notice_unverified">Kutsefaili saatjat ei saa kontrollida. Veendu, et fail tuli korraldajalt.</string>
+    <string name="ics_import_notice_answer_notifies">Sellele kutsele vastamine võib korraldajat teavitada.</string>
+    <string name="ics_import_notice_guests_again">Sina oled korraldaja, seega võivad osalejad selle kutse uuesti saada.</string>
+    <string name="cd_dismiss_notice">Sulge teade</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d lisatud</item>
+        <item quantity="other">%1$d lisatud</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d uuendatud</item>
+        <item quantity="other">%1$d uuendatud</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d tühistatud</item>
+        <item quantity="other">%1$d tühistatud</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d juba ajakohane</item>
+        <item quantity="other">%1$d juba ajakohased</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d vahele jäetud</item>
+        <item quantity="other">%1$d vahele jäetud</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d ebaõnnestus</item>
+        <item quantity="other">%1$d ebaõnnestus</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Pole midagi importida</string>
     <plurals name="exported_events">
         <item quantity="one">Eksporditud %1$d sündmus</item>
         <item quantity="other">Eksporditud %1$d sündmust</item>

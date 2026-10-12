@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Értesítések a szinkronizálás befejezéséről és hibákról</string>
     <string name="channel_event_invitations">Eseménymeghívók</string>
     <string name="channel_event_invitations_desc">Értesítések, amikor új naptármeghívót kap</string>
+    <string name="channel_calendar_updates">Naptárváltozások</string>
     <string name="invite_notification_body">Feladó: %1$s · Koppintson a válaszhoz</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">A válasz a teljes sorozatra érvényes.</string>
+    <string name="rsvp_receipt_pending">Válasz küldésre vár</string>
+    <string name="rsvp_receipt_sent">Válasz elküldve</string>
+    <string name="rsvp_receipt_not_delivered">A válasz nem lett kézbesítve</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Ezt és az összes jövőbelit</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Csatlakozz az iCloud-hoz, hogy itt lásd az eseményeidet</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Talán később</string>
+    <string name="whats_new_skip">Kihagyás</string>
+    <string name="whats_new_next">Tovább</string>
+    <string name="whats_new_page_of">%1$d. oldal / %2$d</string>
+    <string name="whats_new_find_it_in">Itt találod</string>
     <string name="whats_new_v598_title">Segíts nyitva tartani az Androidot</string>
     <string name="whats_new_v598_body">A Google megváltoztatja, ahogyan alkalmazásokat telepítesz a készülékedre. Szükségünk van a segítségedre.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org megnyitása</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Ez a kiadás a KashCal támogatóinak szól. Kis hozzájárulás, nagy és visszatérő haszonnal.</string>
     <string name="whats_new_v732_caption">Még nem vagy támogató?</string>
     <string name="whats_new_v732_action_label">Vegyél fel minket a terveidbe</string>
+    <string name="whats_new_v772_icon_title">Az ikonod tudja, hányadika van</string>
+    <string name="whats_new_v772_icon_body">Válaszd a Mai dátum ikont, és a KashCal megmutatja a hónap napját a kezdőképernyődön. Minden éjjel magától vált az új napra.</string>
+    <string name="whats_new_v772_changes_title">Nézd meg, mi változott</string>
+    <string name="whats_new_v772_changes_body">Az iCloud- és CalDAV-naptáraid új, szerkesztett és törölt eseményei 7 napig a Legutóbbi változások listában gyűlnek. Koppints egyre a megnyitásához.</string>
+    <string name="whats_new_v772_notifications_body">Kapj értesítést, ha a háttérben futó szinkronizálás változásokat talál az iCloud- vagy CalDAV-eseményeidben. Kikapcsolva marad, amíg be nem kapcsolod.</string>
+    <string name="whats_new_hero_sample_lunch">Csapatebéd</string>
+    <string name="whats_new_hero_sample_review">Tervezési áttekintés</string>
+    <string name="whats_new_hero_sample_book_club">Könyvklub</string>
+    <string name="whats_new_hero_sample_calendar">Munka</string>
+    <string name="whats_new_hero_now">most</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud csatlakoztatása</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompakt egy sor, vagy részletes két sor a befejezés idejével.</string>
     <string name="settings_sync_lookback">Szinkronizálási visszatekintés</string>
     <string name="settings_sync_lookback_hint">Milyen messzire szinkronizálja az eseményeket visszamenőleg</string>
+    <string name="settings_change_notifications">Változásértesítések</string>
+    <string name="settings_change_notifications_info">Értesítést küld, ha a háttérben futó szinkronizálás változásokat talál az eseményeidben. iCloud- és CalDAV-naptárakkal működik.</string>
     <string name="settings_not_set">Nincs beállítva</string>
     <string name="settings_on">Be</string>
     <string name="settings_off">Ki</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d esemény importálva</item>
         <item quantity="other">%1$d esemény importálva</item>
     </plurals>
+    <string name="ics_import_preview_loading">Naptár ellenőrzése…</string>
+    <string name="ics_import_preview_failed">Nem sikerült ellenőrizni, hogy ezek az események szerepelnek-e ebben a naptárban. Ettől még importálhatod őket.</string>
+    <string name="ics_import_will_cancel">Ez lemondja a következőt: %1$s, szervező: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Ez lemondja a következőt: %1$s</string>
+    <string name="ics_import_will_update">Ez frissíti a következőt: %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d esemény már naprakész</item>
+        <item quantity="other">%1$d esemény már naprakész</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d kihagyva: %2$s</item>
+        <item quantity="other">%1$d kihagyva: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ez egy meghívóra adott válasz, amely semmit sem ad hozzá a naptáradhoz</string>
+    <string name="ics_import_reason_unsupported">ez a fajta meghívóüzenet nem támogatott</string>
+    <string name="ics_import_reason_organizer_mismatch">nem a megbeszélés szervezőjétől származik</string>
+    <string name="ics_import_reason_cancel_no_match">a lemondott megbeszélés nincs ebben a naptárban</string>
+    <string name="ics_import_reason_cancel_not_for_you">a lemondás más vendégeknek szól</string>
+    <string name="ics_import_reason_deletion_pending">az esemény törlése folyamatban van</string>
+    <string name="ics_import_reason_cancelled_in_file">a fájlban már le van mondva</string>
+    <string name="ics_import_reason_this_and_future">az erre és a későbbi előfordulásokra vonatkozó módosítások nem támogatottak</string>
+    <string name="ics_import_reason_own_cancel">te szervezed ezt a megbeszélést, ezért az eseményből mondd le</string>
+    <string name="ics_import_reason_on_another_calendar">már szerepel a fiók egy másik naptárában</string>
+    <string name="ics_import_notice_unverified">A meghívófájl feladója nem ellenőrizhető. Győződj meg róla, hogy a szervezőtől érkezett.</string>
+    <string name="ics_import_notice_answer_notifies">Ha válaszolsz erre a meghívóra, a szervező értesítést kaphat.</string>
+    <string name="ics_import_notice_guests_again">Te vagy a szervező, ezért a vendégek újra megkaphatják ezt a meghívót.</string>
+    <string name="cd_dismiss_notice">Üzenet bezárása</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d hozzáadva</item>
+        <item quantity="other">%1$d hozzáadva</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d frissítve</item>
+        <item quantity="other">%1$d frissítve</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d lemondva</item>
+        <item quantity="other">%1$d lemondva</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d már naprakész</item>
+        <item quantity="other">%1$d már naprakész</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d kihagyva</item>
+        <item quantity="other">%1$d kihagyva</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d sikertelen</item>
+        <item quantity="other">%1$d sikertelen</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nincs mit importálni</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d esemény exportálva</item>
         <item quantity="other">%1$d esemény exportálva</item>

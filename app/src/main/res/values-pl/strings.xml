@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Powiadomienia o zakończeniu synchronizacji i błędach</string>
     <string name="channel_event_invitations">Zaproszenia na wydarzenia</string>
     <string name="channel_event_invitations_desc">Powiadomienia o otrzymaniu nowego zaproszenia kalendarzowego</string>
+    <string name="channel_calendar_updates">Zmiany w kalendarzu</string>
     <string name="invite_notification_body">Od %1$s · Dotknij, aby odpowiedzieć</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Odpowiedź dotyczy całej serii.</string>
+    <string name="rsvp_receipt_pending">Odpowiedź czeka na wysłanie</string>
+    <string name="rsvp_receipt_sent">Odpowiedź wysłana</string>
+    <string name="rsvp_receipt_not_delivered">Odpowiedź nie została dostarczona</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">To i wszystkie przyszłe</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Połącz z iCloud, aby zobaczyć swoje wydarzenia</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Później</string>
+    <string name="whats_new_skip">Pomiń</string>
+    <string name="whats_new_next">Dalej</string>
+    <string name="whats_new_page_of">Strona %1$d z %2$d</string>
+    <string name="whats_new_find_it_in">Znajdziesz to w</string>
     <string name="whats_new_v598_title">Pomóż zachować otwartość Androida</string>
     <string name="whats_new_v598_body">Google zmienia sposób instalowania aplikacji na Twoim urządzeniu. Potrzebujemy Twojej pomocy.</string>
     <string name="whats_new_v598_action_label">Odwiedź keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Tę wersję poświęcamy osobom wspierającym KashCal. Niewielki wkład, który wciąż procentuje.</string>
     <string name="whats_new_v732_caption">Jeszcze nie wspierasz?</string>
     <string name="whats_new_v732_action_label">Dodaj nas do swoich planów</string>
+    <string name="whats_new_v772_icon_title">Twoja ikona zna datę</string>
+    <string name="whats_new_v772_icon_body">Wybierz ikonę \"Dzisiejsza data\", a KashCal pokaże dzień miesiąca na ekranie głównym. Każdej nocy zmienia się sama.</string>
+    <string name="whats_new_v772_changes_title">Zobacz, co się zmieniło</string>
+    <string name="whats_new_v772_changes_body">Nowe, edytowane i usunięte wydarzenia z Twoich kalendarzy iCloud i CalDAV trafiają na 7 dni do listy \"Ostatnie zmiany\". Dotknij wydarzenia, aby je otworzyć.</string>
+    <string name="whats_new_v772_notifications_body">Otrzymuj powiadomienie, gdy synchronizacja w tle wykryje zmiany w Twoich wydarzeniach iCloud lub CalDAV. Ta opcja jest wyłączona, dopóki jej nie włączysz.</string>
+    <string name="whats_new_hero_sample_lunch">Lunch z zespołem</string>
+    <string name="whats_new_hero_sample_review">Przegląd projektu</string>
+    <string name="whats_new_hero_sample_book_club">Klub książki</string>
+    <string name="whats_new_hero_sample_calendar">Praca</string>
+    <string name="whats_new_hero_now">teraz</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Połącz iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompaktowy pojedynczy wiersz lub szczegółowe dwa wiersze z czasem zakończenia.</string>
     <string name="settings_sync_lookback">Zakres synchronizacji wstecz</string>
     <string name="settings_sync_lookback_hint">Jak daleko wstecz synchronizować wydarzenia</string>
+    <string name="settings_change_notifications">Powiadomienia o zmianach</string>
+    <string name="settings_change_notifications_info">Wysyła powiadomienie, gdy synchronizacja w tle wykryje zmiany w Twoich wydarzeniach. Działa z kalendarzami iCloud i CalDAV.</string>
     <string name="settings_not_set">Nie ustawiono</string>
     <string name="settings_on">Wł.</string>
     <string name="settings_off">Wył.</string>
@@ -794,6 +813,75 @@
         <item quantity="many">Zaimportowano %1$d wydarzeń</item>
         <item quantity="other">Zaimportowano %1$d wydarzenia</item>
     </plurals>
+    <string name="ics_import_preview_loading">Sprawdzanie tego kalendarza…</string>
+    <string name="ics_import_preview_failed">Nie udało się sprawdzić tych wydarzeń w tym kalendarzu. Nadal możesz je zaimportować.</string>
+    <string name="ics_import_will_cancel">Spowoduje to odwołanie %1$s (organizator: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Spowoduje to odwołanie %1$s</string>
+    <string name="ics_import_will_update">Spowoduje to aktualizację %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d wydarzenie jest już aktualne</item>
+        <item quantity="few">%1$d wydarzenia są już aktualne</item>
+        <item quantity="many">%1$d wydarzeń jest już aktualnych</item>
+        <item quantity="other">%1$d wydarzenia są już aktualne</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">Pominięto %1$d: %2$s</item>
+        <item quantity="few">Pominięto %1$d: %2$s</item>
+        <item quantity="many">Pominięto %1$d: %2$s</item>
+        <item quantity="other">Pominięto %1$d: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">to odpowiedź na zaproszenie, która nic nie dodaje do kalendarza</string>
+    <string name="ics_import_reason_unsupported">ten rodzaj wiadomości z zaproszeniem nie jest obsługiwany</string>
+    <string name="ics_import_reason_organizer_mismatch">pochodzi od kogoś innego niż organizator spotkania</string>
+    <string name="ics_import_reason_cancel_no_match">odwołanego spotkania nie ma w tym kalendarzu</string>
+    <string name="ics_import_reason_cancel_not_for_you">odwołanie dotyczy innych gości</string>
+    <string name="ics_import_reason_deletion_pending">wydarzenie jest właśnie usuwane</string>
+    <string name="ics_import_reason_cancelled_in_file">jest już odwołane w pliku</string>
+    <string name="ics_import_reason_this_and_future">zmiany tego i kolejnych wystąpień nie są obsługiwane</string>
+    <string name="ics_import_reason_own_cancel">to Ty organizujesz to spotkanie, więc odwołaj je z poziomu wydarzenia</string>
+    <string name="ics_import_reason_on_another_calendar">jest już w innym kalendarzu tego konta</string>
+    <string name="ics_import_notice_unverified">Nie można zweryfikować nadawcy pliku z zaproszeniem. Sprawdź, czy pochodzi od organizatora.</string>
+    <string name="ics_import_notice_answer_notifies">Odpowiedź na to zaproszenie może powiadomić organizatora.</string>
+    <string name="ics_import_notice_guests_again">Jesteś organizatorem, więc goście mogą ponownie otrzymać to zaproszenie.</string>
+    <string name="cd_dismiss_notice">Zamknij komunikat</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d dodane</item>
+        <item quantity="few">%1$d dodane</item>
+        <item quantity="many">%1$d dodanych</item>
+        <item quantity="other">%1$d dodanego</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d zaktualizowane</item>
+        <item quantity="few">%1$d zaktualizowane</item>
+        <item quantity="many">%1$d zaktualizowanych</item>
+        <item quantity="other">%1$d zaktualizowanego</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d odwołane</item>
+        <item quantity="few">%1$d odwołane</item>
+        <item quantity="many">%1$d odwołanych</item>
+        <item quantity="other">%1$d odwołanego</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d już aktualne</item>
+        <item quantity="few">%1$d już aktualne</item>
+        <item quantity="many">%1$d już aktualnych</item>
+        <item quantity="other">%1$d już aktualnego</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d pominięte</item>
+        <item quantity="few">%1$d pominięte</item>
+        <item quantity="many">%1$d pominiętych</item>
+        <item quantity="other">%1$d pominiętego</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d nieudane</item>
+        <item quantity="few">%1$d nieudane</item>
+        <item quantity="many">%1$d nieudanych</item>
+        <item quantity="other">%1$d nieudanego</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nic do zaimportowania</string>
     <plurals name="exported_events">
         <item quantity="one">Wyeksportowano %1$d wydarzenie</item>
         <item quantity="few">Wyeksportowano %1$d wydarzenia</item>

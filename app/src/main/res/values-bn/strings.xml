@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">সিংক সম্পূর্ণতা এবং ত্রুটি সম্পর্কে বিজ্ঞপ্তি</string>
     <string name="channel_event_invitations">ইভেন্ট আমন্ত্রণ</string>
     <string name="channel_event_invitations_desc">আপনি একটি নতুন ক্যালেন্ডার আমন্ত্রণ পেলে বিজ্ঞপ্তি</string>
+    <string name="channel_calendar_updates">ক্যালেন্ডারের পরিবর্তন</string>
     <string name="invite_notification_body">%1$s থেকে · প্রতিক্রিয়া জানাতে ট্যাপ করুন</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">আপনার প্রতিক্রিয়া সম্পূর্ণ সিরিজে প্রযোজ্য।</string>
+    <string name="rsvp_receipt_pending">উত্তর পাঠানো বাকি</string>
+    <string name="rsvp_receipt_sent">উত্তর পাঠানো হয়েছে</string>
+    <string name="rsvp_receipt_not_delivered">উত্তর পৌঁছায়নি</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">এটি ও সব ভবিষ্যতের</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">আপনার ইভেন্ট এখানে দেখতে iCloud সংযোগ করুন</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">পরে</string>
+    <string name="whats_new_skip">এড়িয়ে যান</string>
+    <string name="whats_new_next">পরবর্তী</string>
+    <string name="whats_new_page_of">%2$d-এর মধ্যে পৃষ্ঠা %1$d</string>
+    <string name="whats_new_find_it_in">যেখানে পাবেন</string>
     <string name="whats_new_v598_title">Android-কে উন্মুক্ত রাখতে সাহায্য করুন</string>
     <string name="whats_new_v598_body">Google আপনার ডিভাইসে অ্যাপ ইনস্টল করার পদ্ধতি পরিবর্তন করছে। আমাদের আপনার সাহায্য দরকার।</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org-এ যান</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">এই রিলিজটি KashCal-এর সমর্থকদের উৎসর্গ করা হলো। একটি ছোট অবদান, বড় ও বারবার ফিরে পাওয়া প্রতিদান।</string>
     <string name="whats_new_v732_caption">এখনও সমর্থক হননি?</string>
     <string name="whats_new_v732_action_label">আমাদের আপনার পরিকল্পনায় যোগ করুন</string>
+    <string name="whats_new_v772_icon_title">আপনার আইকন তারিখ জানে</string>
+    <string name="whats_new_v772_icon_body">আজকের তারিখ আইকনটি বেছে নিন, KashCal আপনার হোম স্ক্রিনে মাসের দিনটি দেখাবে। প্রতি রাতে এটি নিজে থেকেই বদলে যায়।</string>
+    <string name="whats_new_v772_changes_title">কী বদলেছে দেখুন</string>
+    <string name="whats_new_v772_changes_body">আপনার iCloud ও CalDAV ক্যালেন্ডারের নতুন, সম্পাদিত ও সরানো ইভেন্ট ৭ দিন ধরে সাম্প্রতিক পরিবর্তন তালিকায় জমা থাকে। কোনোটি খুলতে তাতে ট্যাপ করুন।</string>
+    <string name="whats_new_v772_notifications_body">ব্যাকগ্রাউন্ড সিংক আপনার iCloud বা CalDAV ইভেন্টে পরিবর্তন খুঁজে পেলে একটি বিজ্ঞপ্তি পান। আপনি চালু না করা পর্যন্ত এটি বন্ধ থাকে।</string>
+    <string name="whats_new_hero_sample_lunch">টিম লাঞ্চ</string>
+    <string name="whats_new_hero_sample_review">ডিজাইন রিভিউ</string>
+    <string name="whats_new_hero_sample_book_club">বুক ক্লাব</string>
+    <string name="whats_new_hero_sample_calendar">কাজ</string>
+    <string name="whats_new_hero_now">এখন</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud সংযোগ করুন</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">সংক্ষিপ্ত একটি লাইন, বা শেষ সময় সহ বিস্তারিত দুটি লাইন।</string>
     <string name="settings_sync_lookback">সিংক লুকব্যাক</string>
     <string name="settings_sync_lookback_hint">কত আগের ইভেন্ট সিংক করা হবে</string>
+    <string name="settings_change_notifications">পরিবর্তনের বিজ্ঞপ্তি</string>
+    <string name="settings_change_notifications_info">ব্যাকগ্রাউন্ড সিংক আপনার ইভেন্টে পরিবর্তন খুঁজে পেলে একটি বিজ্ঞপ্তি পাঠায়। iCloud এবং CalDAV ক্যালেন্ডারের জন্য কাজ করে।</string>
     <string name="settings_not_set">সেট করা হয়নি</string>
     <string name="settings_on">চালু</string>
     <string name="settings_off">বন্ধ</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d ইভেন্ট ইমপোর্ট হয়েছে</item>
         <item quantity="other">%1$d ইভেন্ট ইমপোর্ট হয়েছে</item>
     </plurals>
+    <string name="ics_import_preview_loading">এই ক্যালেন্ডার যাচাই করা হচ্ছে…</string>
+    <string name="ics_import_preview_failed">এই ইভেন্টগুলোর জন্য এই ক্যালেন্ডার যাচাই করা যায়নি। আপনি তবুও ইমপোর্ট করতে পারেন।</string>
+    <string name="ics_import_will_cancel">এটি %1$s বাতিল করবে, যার আয়োজক %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">এটি %1$s বাতিল করবে</string>
+    <string name="ics_import_will_update">এটি %1$s আপডেট করবে</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$dটি ইভেন্ট আগে থেকেই হালনাগাদ</item>
+        <item quantity="other">%1$dটি ইভেন্ট আগে থেকেই হালনাগাদ</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$dটি এড়ানো হয়েছে: %2$s</item>
+        <item quantity="other">%1$dটি এড়ানো হয়েছে: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">এটি একটি আমন্ত্রণের উত্তর, যা আপনার ক্যালেন্ডারে কিছু যোগ করে না</string>
+    <string name="ics_import_reason_unsupported">এই ধরনের আমন্ত্রণ বার্তা সমর্থিত নয়</string>
+    <string name="ics_import_reason_organizer_mismatch">এটি মিটিংয়ের আয়োজক ছাড়া অন্য কারও কাছ থেকে এসেছে</string>
+    <string name="ics_import_reason_cancel_no_match">বাতিল হওয়া মিটিংটি এই ক্যালেন্ডারে নেই</string>
+    <string name="ics_import_reason_cancel_not_for_you">বাতিলের বার্তাটি অন্য অতিথিদের জন্য</string>
+    <string name="ics_import_reason_deletion_pending">ইভেন্টটি মুছে ফেলা হচ্ছে</string>
+    <string name="ics_import_reason_cancelled_in_file">এটি ফাইলে আগেই বাতিল করা আছে</string>
+    <string name="ics_import_reason_this_and_future">এটি এবং পরবর্তী পুনরাবৃত্তিগুলোর পরিবর্তন সমর্থিত নয়</string>
+    <string name="ics_import_reason_own_cancel">আপনি এই মিটিংয়ের আয়োজক, তাই ইভেন্ট থেকেই এটি বাতিল করুন</string>
+    <string name="ics_import_reason_on_another_calendar">এটি এই অ্যাকাউন্টের অন্য একটি ক্যালেন্ডারে আগে থেকেই আছে</string>
+    <string name="ics_import_notice_unverified">আমন্ত্রণ ফাইলের প্রেরককে যাচাই করা যায় না। এটি আয়োজকের কাছ থেকে এসেছে কিনা দেখে নিন।</string>
+    <string name="ics_import_notice_answer_notifies">এই আমন্ত্রণের উত্তর দিলে আয়োজককে জানানো হতে পারে।</string>
+    <string name="ics_import_notice_guests_again">আপনি আয়োজক, তাই অতিথিরা এই আমন্ত্রণ আবার পেতে পারেন।</string>
+    <string name="cd_dismiss_notice">বিজ্ঞপ্তি খারিজ করুন</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$dটি যোগ হয়েছে</item>
+        <item quantity="other">%1$dটি যোগ হয়েছে</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$dটি আপডেট হয়েছে</item>
+        <item quantity="other">%1$dটি আপডেট হয়েছে</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$dটি বাতিল হয়েছে</item>
+        <item quantity="other">%1$dটি বাতিল হয়েছে</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$dটি আগে থেকেই হালনাগাদ</item>
+        <item quantity="other">%1$dটি আগে থেকেই হালনাগাদ</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$dটি এড়ানো হয়েছে</item>
+        <item quantity="other">%1$dটি এড়ানো হয়েছে</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$dটি ব্যর্থ</item>
+        <item quantity="other">%1$dটি ব্যর্থ</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">ইমপোর্ট করার মতো কিছু নেই</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d ইভেন্ট এক্সপোর্ট হয়েছে</item>
         <item quantity="other">%1$d ইভেন্ট এক্সপোর্ট হয়েছে</item>

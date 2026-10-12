@@ -365,6 +365,7 @@ class AccountSettingsLookbackNarrowTest {
             backupExporter = mockk(),
             backupImporter = mockk(),
             permissionChecker = FakePermissionChecker(),
+            changeNotificationChannels = org.onekash.kashcal.sync.notification.blockedChangeNotificationChannels(),
             context = context,
             applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Unconfined),
         )

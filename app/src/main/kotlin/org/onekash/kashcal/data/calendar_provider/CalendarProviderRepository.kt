@@ -120,6 +120,7 @@ interface CalendarProviderRepository {
      *   owner address is a valid organizer; guests without an email are skipped.
      * @param categories tag names, stored as one extended-property row; null or a list with no
      *   usable name writes no row. A failed tag write leaves the event saved without tags.
+     * @param uid the iCalendar UID to store in `UID_2445`, or null to leave it to the sync adapter
      */
     suspend fun createEvent(
         calendarId: Long,
@@ -136,8 +137,46 @@ interface CalendarProviderRepository {
         availability: Int = 0,
         eventColor: Int? = null,
         attendees: List<DeviceAttendee>? = null,
-        categories: List<String>? = null
+        categories: List<String>? = null,
+        uid: String? = null
     ): Result<Long>
+
+    /**
+     * Creates an imported invitation and returns its id: the event with `UID_2445` = [uid],
+     * `ORGANIZER` = [organizer], `STATUS` = [status] and `HAS_ATTENDEE_DATA` = 1, its reminders,
+     * and [attendees] written as given (relationship and status included), all in one batch.
+     * No organizer row is added for the calendar's owner, so the user stays a guest; a guest
+     * without an email is skipped. Other parameters are as in [createEvent].
+     */
+    suspend fun createInvitation(
+        calendarId: Long,
+        title: String,
+        description: String?,
+        location: String?,
+        startTs: Long,
+        endTs: Long?,
+        isAllDay: Boolean,
+        rrule: String?,
+        duration: String?,
+        timezone: String,
+        reminders: List<Int>,
+        uid: String,
+        organizer: String,
+        status: Int,
+        attendees: List<DeviceAttendee>
+    ): Result<Long>
+
+    /**
+     * Returns the live rows (`DELETED = 0`) of [calendarIds] whose `UID_2445` is [uid], a master
+     * and its exceptions alike; an empty [calendarIds] matches nothing.
+     */
+    suspend fun findEventsByUid(uid: String, calendarIds: Collection<Long>): Result<List<DeviceUidRow>>
+
+    /**
+     * Sets a whole event row's `STATUS`. The provider drops a cancelled row's instances, so a
+     * `STATUS_CANCELED` event shows no occurrence and fires no reminder.
+     */
+    suspend fun setEventStatus(eventId: Long, status: Int): Result<Unit>
 
     /**
      * Updates an event row, then its reminders, guests and tags as given; these steps aren't one

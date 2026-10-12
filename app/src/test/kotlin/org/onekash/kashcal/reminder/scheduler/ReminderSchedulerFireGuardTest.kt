@@ -16,6 +16,8 @@ import org.onekash.kashcal.data.db.dao.CalendarsDao
 import org.onekash.kashcal.data.db.dao.OccurrencesDao
 import org.onekash.kashcal.data.db.dao.ScheduledRemindersDao
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.data.db.entity.Occurrence
+import org.onekash.kashcal.data.db.entity.ScheduledReminder
 import org.onekash.kashcal.data.db.entity.SyncStatus
 import org.onekash.kashcal.domain.reader.EventReader
 import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
@@ -74,7 +76,13 @@ class ReminderSchedulerFireGuardTest {
         occurrencesDao = occurrencesDao
     )
 
-    private fun event(id: Long, syncStatus: SyncStatus = SyncStatus.SYNCED): Event = Event(
+    private fun event(
+        id: Long,
+        syncStatus: SyncStatus = SyncStatus.SYNCED,
+        status: String = "CONFIRMED",
+        importSource: String? = null,
+        originalEventId: Long? = null,
+    ): Event = Event(
         id = id,
         uid = "uid-$id",
         calendarId = 10L,
@@ -82,7 +90,21 @@ class ReminderSchedulerFireGuardTest {
         startTs = tomorrow,
         endTs = tomorrow + 60_000,
         dtstamp = 0L,
-        syncStatus = syncStatus
+        syncStatus = syncStatus,
+        status = status,
+        importSource = importSource,
+        originalEventId = originalEventId,
+        originalInstanceTime = if (originalEventId != null) tomorrow else null,
+    )
+
+    private fun reminderFor(eventId: Long) = ScheduledReminder(
+        eventId = eventId,
+        occurrenceTime = tomorrow,
+        triggerTime = tomorrow - 900_000,
+        reminderOffset = "-PT15M",
+        eventTitle = "Event",
+        isAllDay = false,
+        calendarColor = 0,
     )
 
     @Test
@@ -104,5 +126,67 @@ class ReminderSchedulerFireGuardTest {
         coEvery { eventReader.getEventById(100L) } returns event(100L, SyncStatus.SYNCED)
 
         assertTrue(newScheduler().shouldFireReminder(100L))
+    }
+
+    @Test
+    fun `shouldFireReminder returns false for a cancelled series an ICS import touched`() = runTest {
+        eventReader = mockk()
+        for (source in listOf(Event.IMPORT_SOURCE_ICS_FILE, Event.IMPORT_SOURCE_ICS_CANCEL)) {
+            coEvery { eventReader.getEventById(100L) } returns event(100L, status = "CANCELLED", importSource = source)
+
+            assertFalse(source, newScheduler().shouldFireReminder(100L))
+        }
+    }
+
+    @Test
+    fun `shouldFireReminder keeps firing for a cancelled event no import touched`() = runTest {
+        eventReader = mockk()
+        coEvery { eventReader.getEventById(100L) } returns event(100L, status = "CANCELLED")
+
+        assertTrue(newScheduler().shouldFireReminder(100L))
+    }
+
+    @Test
+    fun `shouldFireReminder keeps firing for an imported event that is not cancelled`() = runTest {
+        eventReader = mockk()
+        coEvery { eventReader.getEventById(100L) } returns
+            event(100L, status = "CONFIRMED", importSource = Event.IMPORT_SOURCE_ICS_CANCEL)
+
+        assertTrue(newScheduler().shouldFireReminder(100L))
+    }
+
+    @Test
+    fun `hasLiveOccurrenceForReminder is false for a cancelled exception an import touched`() = runTest {
+        eventReader = mockk()
+        occurrencesDao = mockk()
+        coEvery { eventReader.getEventById(1L) } returns event(1L)
+        coEvery { eventReader.getEventById(2L) } returns
+            event(2L, status = "CANCELLED", importSource = Event.IMPORT_SOURCE_ICS_CANCEL, originalEventId = 1L)
+
+        assertFalse(newScheduler().hasLiveOccurrenceForReminder(reminderFor(2L)))
+    }
+
+    @Test
+    fun `hasLiveOccurrenceForReminder is false for a cancelled exception under an imported series`() = runTest {
+        eventReader = mockk()
+        occurrencesDao = mockk()
+        coEvery { eventReader.getEventById(1L) } returns event(1L, importSource = Event.IMPORT_SOURCE_ICS_FILE)
+        coEvery { eventReader.getEventById(2L) } returns event(2L, status = "CANCELLED", originalEventId = 1L)
+
+        assertFalse(newScheduler().hasLiveOccurrenceForReminder(reminderFor(2L)))
+    }
+
+    @Test
+    fun `hasLiveOccurrenceForReminder reads the occurrence for a cancelled exception no import touched`() = runTest {
+        eventReader = mockk()
+        occurrencesDao = mockk()
+        coEvery { eventReader.getEventById(1L) } returns event(1L)
+        coEvery { eventReader.getEventById(2L) } returns event(2L, status = "CANCELLED", originalEventId = 1L)
+        coEvery { occurrencesDao.getByExceptionEventId(2L) } returns Occurrence(
+            eventId = 1L, calendarId = 10L, startTs = tomorrow, endTs = tomorrow + 60_000,
+            startDay = 0, endDay = 0, exceptionEventId = 2L,
+        )
+
+        assertTrue(newScheduler().hasLiveOccurrenceForReminder(reminderFor(2L)))
     }
 }

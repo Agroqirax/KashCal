@@ -10,6 +10,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -204,6 +205,68 @@ class ConflictResolverTest {
             "SERVER_WINS should not apply default reminders when server has no VALARM",
             capturedEvent.captured.reminders
         )
+    }
+
+    @Test
+    fun `resolveServerWins keeps import_source and itip_dtstamp of an imported row`() = runTest {
+        // The server copy carries neither field; dropping them would switch the import rules
+        // off for this row after the first conflict.
+        val event = Event(
+            id = 51L,
+            uid = "imported-uid",
+            calendarId = 1L,
+            title = "Local Version",
+            startTs = System.currentTimeMillis(),
+            endTs = System.currentTimeMillis() + 3600_000,
+            dtstamp = System.currentTimeMillis(),
+            caldavUrl = "https://caldav.example.com/cal/imported.ics",
+            etag = "etag-old",
+            syncStatus = SyncStatus.PENDING_UPDATE,
+            importSource = Event.IMPORT_SOURCE_ICS_FILE,
+            itipDtstamp = 1_700_000_000_000L
+        )
+        val operation = PendingOperation(
+            id = 21L,
+            eventId = event.id,
+            operation = PendingOperation.OPERATION_UPDATE,
+            status = PendingOperation.STATUS_PENDING
+        )
+        val serverIcal = """
+            BEGIN:VCALENDAR
+            VERSION:2.0
+            PRODID:-//Test//Test//EN
+            BEGIN:VEVENT
+            UID:imported-uid
+            DTSTAMP:20240101T120000Z
+            DTSTART:20240101T100000Z
+            DTEND:20240101T110000Z
+            SUMMARY:Server Version
+            END:VEVENT
+            END:VCALENDAR
+        """.trimIndent()
+        val calendar = Calendar(
+            id = 1L,
+            accountId = 1L,
+            caldavUrl = "https://caldav.example.com/cal/",
+            displayName = "Test Calendar",
+            color = 0xFF0000
+        )
+        coEvery { eventsDao.getById(event.id) } returns event
+        coEvery { client.fetchEvent(event.caldavUrl!!) } returns CalDavResult.success(
+            CalDavEvent("imported.ics", event.caldavUrl!!, "etag-server", serverIcal)
+        )
+        coEvery { calendarRepository.getCalendarById(event.calendarId) } returns calendar
+        val capturedEvent = slot<Event>()
+        coEvery { eventsDao.upsert(capture(capturedEvent)) } returns 1L
+        coEvery { occurrenceGenerator.regenerateOccurrences(any()) } returns 1
+        coEvery { pendingOperationsDao.deleteById(operation.id) } returns Unit
+
+        val result = conflictResolver.resolve(operation, strategy = ConflictStrategy.SERVER_WINS, client = client)
+
+        assert(result == ConflictResult.ServerVersionKept)
+        assertEquals("Server Version", capturedEvent.captured.title)
+        assertEquals(Event.IMPORT_SOURCE_ICS_FILE, capturedEvent.captured.importSource)
+        assertEquals(1_700_000_000_000L, capturedEvent.captured.itipDtstamp)
     }
 
     // ========== Attendee Persistence ==========

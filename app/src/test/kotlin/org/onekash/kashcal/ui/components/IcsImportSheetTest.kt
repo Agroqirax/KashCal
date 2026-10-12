@@ -2,6 +2,8 @@ package org.onekash.kashcal.ui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -11,12 +13,21 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.data.ics.ImportGroup
+import org.onekash.kashcal.data.ics.ImportedAttendee
+import org.onekash.kashcal.data.ics.ImportedComponent
+import org.onekash.kashcal.domain.ics.GroupPlan
+import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
+import org.onekash.kashcal.domain.ics.ImportAction
+import org.onekash.kashcal.domain.ics.StoredComponent
+import org.onekash.kashcal.testutil.plainImportFile
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.util.Locale
 
 /**
- * Tests the Import button of [IcsImportSheet], the ICS-file import bottom sheet.
+ * Tests [IcsImportSheet], the ICS-file import bottom sheet: its Import button, and the preview
+ * and inline notices it shows for the chosen calendar before the tap.
  *
  * A large import runs for seconds while the sheet stays open. If each tap started an import,
  * repeated taps would enqueue one full import each and duplicate every event (#309), so tapping
@@ -35,7 +46,7 @@ class IcsImportSheetTest {
     private val calendar = Calendar(
         id = 1L,
         accountId = 100L,
-        caldavUrl = "local://d",
+        caldavUrl = LocalCalendarInitializer.LOCAL_CALENDAR_URL,
         displayName = "Personal",
         color = 0xFF4CAF50.toInt(),
         isVisible = true,
@@ -46,16 +57,24 @@ class IcsImportSheetTest {
         Event(uid = "b", calendarId = 1L, title = "Dentist", startTs = 5_000, endTs = 9_600_000, timezone = "UTC", dtstamp = 1_000),
     )
 
-    private fun render(onImport: (Long, List<Event>, Boolean) -> Unit) {
+    private val syncedCalendar = calendar.copy(id = 2L, caldavUrl = "https://dav.example.test/cal/", displayName = "Work")
+
+    private fun render(
+        target: Calendar = calendar,
+        plans: List<GroupPlan> = emptyList(),
+        loadPreview: suspend (Long, Boolean) -> List<GroupPlan> = { _, _ -> plans },
+        onImport: (Long, Boolean) -> Unit = { _, _ -> },
+    ) {
         Locale.setDefault(Locale.US)
         composeTestRule.setContent {
             MaterialTheme {
                 IcsImportSheet(
-                    events = events,
-                    calendars = listOf(calendar),
-                    defaultCalendarId = calendar.id,
+                    file = plainImportFile(events),
+                    calendars = listOf(target),
+                    defaultCalendarId = target.id,
                     deviceCalendarGroups = emptyList(),
                     defaultDeviceCalendarId = null,
+                    loadPreview = loadPreview,
                     onDismiss = {},
                     onImport = onImport,
                 )
@@ -63,10 +82,24 @@ class IcsImportSheetTest {
         }
     }
 
+    private val invitation = ImportedComponent(
+        events[0].copy(organizerEmail = "boss@example.test"),
+        listOf(ImportedAttendee("mailto:me@example.test", null, null, "NEEDS-ACTION", null, true)),
+    )
+
+    private fun plan(action: ImportAction, isInvitation: Boolean = true, attendee: Boolean = true) =
+        GroupPlan(uid = "a", actions = listOf(action), isInvitation = isInvitation, userIsOrganizer = false, userIsAttendee = attendee)
+
+    private fun cancelPlan() = plan(
+        ImportAction.CancelSeries(
+            StoredComponent(1L, null, "boss@example.test", 0, null, "CONFIRMED", false), emptyList(), invitation,
+        )
+    )
+
     @Test
     fun `tapping Import twice fires the import callback exactly once`() {
         var importCount = 0
-        render { _, _, _ -> importCount++ }
+        render(onImport = { _, _ -> importCount++ })
 
         // Locate by tag, not label: the first tap relabels the button to "Importing…",
         // so a text locator would miss it on the second tap and mask a regression.
@@ -78,12 +111,46 @@ class IcsImportSheetTest {
 
     @Test
     fun `Import button shows the in-progress label after the first tap`() {
-        render { _, _, _ -> }
+        render()
 
         composeTestRule.onNodeWithTag(ICS_IMPORT_BUTTON_TAG).performClick()
 
         // The button stays visually enabled (so its spinner keeps full contrast); the
         // label swaps to the in-progress status and the onClick latch blocks re-taps.
         composeTestRule.onNodeWithText("Importing…").assertExists()
+    }
+
+    @Test
+    fun `the sheet says what it cancels before the tap`() {
+        render(target = syncedCalendar, plans = listOf(cancelPlan()))
+
+        composeTestRule.onNodeWithText("This cancels Standup, organized by boss@example.test").assertExists()
+    }
+
+    @Test
+    fun `an invitation into a synced calendar shows dismissible notices`() {
+        render(target = syncedCalendar, plans = listOf(plan(ImportAction.Create(ImportGroup("a", listOf(invitation), emptyList()), false))))
+
+        composeTestRule.onNodeWithText("Answering this invitation may notify the organizer.").assertExists()
+        composeTestRule.onNodeWithText("The sender of an invitation file can't be verified. Check it came from the organizer.").assertExists()
+        composeTestRule.onAllNodesWithContentDescription("Dismiss notice")[0].performClick()
+        composeTestRule.onNodeWithText("The sender of an invitation file can't be verified. Check it came from the organizer.").assertDoesNotExist()
+    }
+
+    @Test
+    fun `the on-phone calendar shows no notices`() {
+        render(plans = listOf(plan(ImportAction.Create(ImportGroup("a", listOf(invitation), emptyList()), false))))
+
+        composeTestRule.onAllNodesWithContentDescription("Dismiss notice").assertCountEquals(0)
+    }
+
+    @Test
+    fun `a preview that fails still leaves Import available`() {
+        var imported = false
+        render(loadPreview = { _, _ -> error("unreadable") }, onImport = { _, _ -> imported = true })
+
+        composeTestRule.onNodeWithText("Couldn't check this calendar for these events. You can still import.").assertExists()
+        composeTestRule.onNodeWithTag(ICS_IMPORT_BUTTON_TAG).performClick()
+        assertEquals(true, imported)
     }
 }

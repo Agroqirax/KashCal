@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Arifa kuhusu ukamilishaji na makosa ya usawazishaji</string>
     <string name="channel_event_invitations">Mialiko ya Tukio</string>
     <string name="channel_event_invitations_desc">Arifa unapopokea mwaliko mpya wa kalenda</string>
+    <string name="channel_calendar_updates">Mabadiliko ya kalenda</string>
     <string name="invite_notification_body">Kutoka kwa %1$s · Gusa ili kujibu</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Jibu hili linatumika kwa mfululizo wote.</string>
+    <string name="rsvp_receipt_pending">Jibu linasubiri</string>
+    <string name="rsvp_receipt_sent">Jibu limetumwa</string>
+    <string name="rsvp_receipt_not_delivered">Jibu halikuwasilishwa</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Hili na yote yajayo</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Unganisha iCloud ili uone matukio yako hapa</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Baadaye</string>
+    <string name="whats_new_skip">Ruka</string>
+    <string name="whats_new_next">Endelea</string>
+    <string name="whats_new_page_of">Ukurasa %1$d kati ya %2$d</string>
+    <string name="whats_new_find_it_in">Ipate katika</string>
     <string name="whats_new_v598_title">Saidia kuhakikisha Android inabaki wazi</string>
     <string name="whats_new_v598_body">Google inabadilisha jinsi unavyoweka programu kwenye kifaa chako. Tunahitaji msaada wako.</string>
     <string name="whats_new_v598_action_label">Tembelea keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Toleo hili limetolewa kwa wafadhili wa KashCal. Mchango mdogo wenye manufaa makubwa yanayoendelea.</string>
     <string name="whats_new_v732_caption">Bado hujawa mfadhili?</string>
     <string name="whats_new_v732_action_label">Tuongeze kwenye mipango yako</string>
+    <string name="whats_new_v772_icon_title">Aikoni yako inajua tarehe</string>
+    <string name="whats_new_v772_icon_body">Chagua aikoni ya Tarehe ya leo na KashCal itaonyesha tarehe ya mwezi kwenye skrini yako ya kwanza. Hujibadilisha yenyewe kila usiku.</string>
+    <string name="whats_new_v772_changes_title">Ona kilichobadilika</string>
+    <string name="whats_new_v772_changes_body">Matukio mapya, yaliyohaririwa na yaliyoondolewa kutoka kalenda zako za iCloud na CalDAV hukusanywa katika Mabadiliko ya hivi karibuni kwa siku 7. Gusa moja ili kulifungua.</string>
+    <string name="whats_new_v772_notifications_body">Pata arifa usawazishaji wa chinichini unapopata mabadiliko kwenye matukio yako ya iCloud au CalDAV. Hubaki imezimwa hadi utakapoiwasha.</string>
+    <string name="whats_new_hero_sample_lunch">Chakula cha mchana cha timu</string>
+    <string name="whats_new_hero_sample_review">Tathmini ya muundo</string>
+    <string name="whats_new_hero_sample_book_club">Klabu ya vitabu</string>
+    <string name="whats_new_hero_sample_calendar">Kazi</string>
+    <string name="whats_new_hero_now">sasa</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Unganisha iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Mstari mmoja mfupi, au mistari miwili ya kina yenye saa ya kumalizika.</string>
     <string name="settings_sync_lookback">Muda wa Kusawazisha Nyuma</string>
     <string name="settings_sync_lookback_hint">Kiasi cha nyuma cha kusawazisha matukio</string>
+    <string name="settings_change_notifications">Arifa za mabadiliko</string>
+    <string name="settings_change_notifications_info">Hutuma arifa usawazishaji wa chinichini unapopata mabadiliko kwenye matukio yako. Inafanya kazi kwa kalenda za iCloud na CalDAV.</string>
     <string name="settings_not_set">Haijawekwa</string>
     <string name="settings_on">Washa</string>
     <string name="settings_off">Zima</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Tukio %1$d limeingizwa</item>
         <item quantity="other">Matukio %1$d yameingizwa</item>
     </plurals>
+    <string name="ics_import_preview_loading">Inakagua kalenda hii…</string>
+    <string name="ics_import_preview_failed">Imeshindwa kukagua kalenda hii kwa matukio haya. Bado unaweza kuingiza.</string>
+    <string name="ics_import_will_cancel">Hii inaghairi %1$s, iliyoratibiwa na %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Hii inaghairi %1$s</string>
+    <string name="ics_import_will_update">Hii inasasisha %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">Tukio %1$d tayari limesasishwa</item>
+        <item quantity="other">Matukio %1$d tayari yamesasishwa</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d limerukwa: %2$s</item>
+        <item quantity="other">%1$d yamerukwa: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ni jibu kwa mwaliko, ambalo haliongezi chochote kwenye kalenda yako</string>
+    <string name="ics_import_reason_unsupported">aina hii ya ujumbe wa mwaliko haitumiki</string>
+    <string name="ics_import_reason_organizer_mismatch">linatoka kwa mtu mwingine asiye mratibu wa mkutano</string>
+    <string name="ics_import_reason_cancel_no_match">mkutano ulioghairiwa haupo kwenye kalenda hii</string>
+    <string name="ics_import_reason_cancel_not_for_you">ughairi huu ni kwa washiriki wengine</string>
+    <string name="ics_import_reason_deletion_pending">tukio linafutwa</string>
+    <string name="ics_import_reason_cancelled_in_file">tayari limeghairiwa kwenye faili</string>
+    <string name="ics_import_reason_this_and_future">mabadiliko ya tukio hili na yanayofuata hayatumiki</string>
+    <string name="ics_import_reason_own_cancel">wewe ndiye mratibu wa mkutano huu, kwa hivyo ughairi kutoka kwenye tukio</string>
+    <string name="ics_import_reason_on_another_calendar">tayari liko kwenye kalenda nyingine ya akaunti hii</string>
+    <string name="ics_import_notice_unverified">Mtumaji wa faili ya mwaliko hawezi kuthibitishwa. Hakikisha imetoka kwa mratibu.</string>
+    <string name="ics_import_notice_answer_notifies">Kujibu mwaliko huu kunaweza kumjulisha mratibu.</string>
+    <string name="ics_import_notice_guests_again">Wewe ndiye mratibu, kwa hivyo washiriki wanaweza kupokea mwaliko huu tena.</string>
+    <string name="cd_dismiss_notice">Ondoa ilani</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d limeongezwa</item>
+        <item quantity="other">%1$d yameongezwa</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d limesasishwa</item>
+        <item quantity="other">%1$d yamesasishwa</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d limeghairiwa</item>
+        <item quantity="other">%1$d yameghairiwa</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d tayari limesasishwa</item>
+        <item quantity="other">%1$d tayari yamesasishwa</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d limerukwa</item>
+        <item quantity="other">%1$d yamerukwa</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d limeshindikana</item>
+        <item quantity="other">%1$d yameshindikana</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Hakuna cha kuingiza</string>
     <plurals name="exported_events">
         <item quantity="one">Tukio %1$d limehamishwa</item>
         <item quantity="other">Matukio %1$d yamehamishwa</item>

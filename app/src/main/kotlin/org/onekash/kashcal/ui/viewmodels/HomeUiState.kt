@@ -400,6 +400,14 @@ sealed class PendingAction {
         val location: String?,
         val referenceMs: Long
     ) : PendingAction()
+
+    /**
+     * Opens what a change notification's tap shows ([HomeViewModel.openChangeNotification]).
+     *
+     * @param recentChangeId the Recent changes row a one-change notification names; null opens
+     *   the sheet.
+     */
+    data class OpenChangeNotification(val recentChangeId: Long?) : PendingAction()
 }
 
 /** Calendar view; [key] is the persisted value. */

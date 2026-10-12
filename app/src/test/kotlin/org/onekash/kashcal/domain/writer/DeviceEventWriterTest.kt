@@ -24,6 +24,7 @@ import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.error.CalendarError
 import org.onekash.kashcal.util.computeDurationString
+import org.onekash.kashcal.testutil.plainImportFile
 
 /**
  * Tests [DeviceEventWriter] over the shared fake provider repository.
@@ -463,12 +464,12 @@ class DeviceEventWriterTest {
 
     @Test
     fun `ICS import applies the stored default reminders and signals once`() = runTest {
-        val count = writer.importIcsEvents(
-            listOf(imported("timed"), imported("all-day", isAllDay = true)),
+        val result = writer.importIcsFile(
+            plainImportFile(listOf(imported("timed"), imported("all-day", isAllDay = true))),
             calendarId = CAL_ID,
         )
 
-        assertEquals(2, count)
+        assertEquals(2, result.created)
         assertEquals(listOf(listOf(20), listOf(600)), repo.createdEvents.map { it.reminders })
         assertSignalled(1)
     }
@@ -477,7 +478,7 @@ class DeviceEventWriterTest {
     fun `an ICS import that creates nothing does not signal`() = runTest {
         repo.writeFailure = CalendarError.DeviceCalendar.WriteFailed("boom")
 
-        assertEquals(0, writer.importIcsEvents(listOf(imported("x")), CAL_ID))
+        assertEquals(0, writer.importIcsFile(plainImportFile(listOf(imported("x"))), CAL_ID).created)
         assertSignalled(0)
     }
 

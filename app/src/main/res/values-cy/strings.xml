@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Hysbysiadau am gwblhau a gwallau cydamseru</string>
     <string name="channel_event_invitations">Gwahoddiadau digwyddiadau</string>
     <string name="channel_event_invitations_desc">Hysbysiadau pan fyddi\'n derbyn gwahoddiad calendr newydd</string>
+    <string name="channel_calendar_updates">Newidiadau calendr</string>
     <string name="invite_notification_body">Gan %1$s · Cyffwrdd i ymateb</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Mae\'r ymateb yn berthnasol i\'r gyfres gyfan.</string>
+    <string name="rsvp_receipt_pending">Ymateb yn aros</string>
+    <string name="rsvp_receipt_sent">Ymateb wedi\'i anfon</string>
+    <string name="rsvp_receipt_not_delivered">Ymateb heb ei ddanfon</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Hwn a phob un yn y dyfodol</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Cysylltwch iCloud i weld eich digwyddiadau yma</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Nes ymlaen</string>
+    <string name="whats_new_skip">Hepgor</string>
+    <string name="whats_new_next">Nesaf</string>
+    <string name="whats_new_page_of">Tudalen %1$d o %2$d</string>
+    <string name="whats_new_find_it_in">Mae i\'w gael yn</string>
     <string name="whats_new_v598_title">Helpwch i gadw Android yn agored</string>
     <string name="whats_new_v598_body">Mae Google yn newid y ffordd rydych chi\'n gosod apiau ar eich dyfais. Mae arnom angen eich help.</string>
     <string name="whats_new_v598_action_label">Ymwelwch â keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Mae\'r rhyddhad hwn wedi\'i gyflwyno i gefnogwyr KashCal. Cyfraniad bach gyda budd mawr a pharhaus.</string>
     <string name="whats_new_v732_caption">Ddim yn gefnogwr eto?</string>
     <string name="whats_new_v732_action_label">Ychwanegwch ni at eich cynlluniau</string>
+    <string name="whats_new_v772_icon_title">Mae eich eicon yn gwybod y dyddiad</string>
+    <string name="whats_new_v772_icon_body">Dewiswch yr eicon Dyddiad heddiw a bydd KashCal yn dangos diwrnod y mis ar eich sgrin gartref. Mae\'n newid ohono\'i hun bob nos.</string>
+    <string name="whats_new_v772_changes_title">Gweld beth sydd wedi newid</string>
+    <string name="whats_new_v772_changes_body">Mae digwyddiadau newydd, wedi\'u golygu ac wedi\'u dileu o\'ch calendrau iCloud a CalDAV yn casglu yn Newidiadau diweddar am 7 diwrnod. Tapiwch un i\'w agor.</string>
+    <string name="whats_new_v772_notifications_body">Cewch hysbysiad pan fydd cysoni yn y cefndir yn dod o hyd i newidiadau i\'ch digwyddiadau iCloud neu CalDAV. Mae\'n aros i ffwrdd nes i chi ei droi ymlaen.</string>
+    <string name="whats_new_hero_sample_lunch">Cinio tîm</string>
+    <string name="whats_new_hero_sample_review">Adolygiad dylunio</string>
+    <string name="whats_new_hero_sample_book_club">Clwb llyfrau</string>
+    <string name="whats_new_hero_sample_calendar">Gwaith</string>
+    <string name="whats_new_hero_now">nawr</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Cysylltu iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Un llinell gryno, neu dwy linell fanwl gydag amser gorffen.</string>
     <string name="settings_sync_lookback">Edrych yn Ôl Cysoni</string>
     <string name="settings_sync_lookback_hint">Pa mor bell yn ôl i gysoni digwyddiadau</string>
+    <string name="settings_change_notifications">Hysbysiadau newidiadau</string>
+    <string name="settings_change_notifications_info">Yn anfon hysbysiad pan fydd cysoni yn y cefndir yn dod o hyd i newidiadau i dy ddigwyddiadau. Yn gweithio ar gyfer calendrau iCloud a CalDAV.</string>
     <string name="settings_not_set">Heb ei osod</string>
     <string name="settings_on">Ymlaen</string>
     <string name="settings_off">I ffwrdd</string>
@@ -828,6 +847,91 @@
         <item quantity="many">Wedi mewnforio %1$d digwyddiad</item>
         <item quantity="other">Wedi mewnforio %1$d digwyddiad</item>
     </plurals>
+    <string name="ics_import_preview_loading">Wrthi\'n gwirio\'r calendr hwn…</string>
+    <string name="ics_import_preview_failed">Methu gwirio\'r calendr hwn am y digwyddiadau hyn. Gelli di fewnforio beth bynnag.</string>
+    <string name="ics_import_will_cancel">Mae hyn yn canslo %1$s, wedi\'i drefnu gan %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Mae hyn yn canslo %1$s</string>
+    <string name="ics_import_will_update">Mae hyn yn diweddaru %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="zero">Mae %1$d digwyddiad eisoes yn gyfredol</item>
+        <item quantity="one">Mae %1$d digwyddiad eisoes yn gyfredol</item>
+        <item quantity="two">Mae %1$d ddigwyddiad eisoes yn gyfredol</item>
+        <item quantity="few">Mae %1$d digwyddiad eisoes yn gyfredol</item>
+        <item quantity="many">Mae %1$d digwyddiad eisoes yn gyfredol</item>
+        <item quantity="other">Mae %1$d digwyddiad eisoes yn gyfredol</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="zero">%1$d wedi\'u hepgor: %2$s</item>
+        <item quantity="one">%1$d wedi\'i hepgor: %2$s</item>
+        <item quantity="two">%1$d wedi\'u hepgor: %2$s</item>
+        <item quantity="few">%1$d wedi\'u hepgor: %2$s</item>
+        <item quantity="many">%1$d wedi\'u hepgor: %2$s</item>
+        <item quantity="other">%1$d wedi\'u hepgor: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ymateb i wahoddiad yw e, sydd ddim yn ychwanegu dim at dy galendr</string>
+    <string name="ics_import_reason_unsupported">dyw\'r math hwn o neges gwahoddiad ddim yn cael ei gefnogi</string>
+    <string name="ics_import_reason_organizer_mismatch">mae\'n dod gan rywun heblaw trefnydd y cyfarfod</string>
+    <string name="ics_import_reason_cancel_no_match">dyw\'r cyfarfod a ganslwyd ddim yn y calendr hwn</string>
+    <string name="ics_import_reason_cancel_not_for_you">mae\'r canslo ar gyfer mynychwyr eraill</string>
+    <string name="ics_import_reason_deletion_pending">mae\'r digwyddiad yn cael ei ddileu</string>
+    <string name="ics_import_reason_cancelled_in_file">mae eisoes wedi\'i ganslo yn y ffeil</string>
+    <string name="ics_import_reason_this_and_future">dyw newidiadau i\'r achlysur hwn a rhai diweddarach ddim yn cael eu cefnogi</string>
+    <string name="ics_import_reason_own_cancel">ti sy\'n trefnu\'r cyfarfod hwn, felly cansla fe o\'r digwyddiad</string>
+    <string name="ics_import_reason_on_another_calendar">mae eisoes mewn calendr arall yn y cyfrif hwn</string>
+    <string name="ics_import_notice_unverified">Does dim modd gwirio pwy anfonodd ffeil gwahoddiad. Gwiria ei bod wedi dod gan y trefnydd.</string>
+    <string name="ics_import_notice_answer_notifies">Gall ateb y gwahoddiad hwn roi gwybod i\'r trefnydd.</string>
+    <string name="ics_import_notice_guests_again">Ti yw\'r trefnydd, felly gall mynychwyr gael y gwahoddiad hwn eto.</string>
+    <string name="cd_dismiss_notice">Diystyru\'r hysbysiad</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="zero">%1$d wedi\'u hychwanegu</item>
+        <item quantity="one">%1$d wedi\'i ychwanegu</item>
+        <item quantity="two">%1$d wedi\'u hychwanegu</item>
+        <item quantity="few">%1$d wedi\'u hychwanegu</item>
+        <item quantity="many">%1$d wedi\'u hychwanegu</item>
+        <item quantity="other">%1$d wedi\'u hychwanegu</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="zero">%1$d wedi\'u diweddaru</item>
+        <item quantity="one">%1$d wedi\'i ddiweddaru</item>
+        <item quantity="two">%1$d wedi\'u diweddaru</item>
+        <item quantity="few">%1$d wedi\'u diweddaru</item>
+        <item quantity="many">%1$d wedi\'u diweddaru</item>
+        <item quantity="other">%1$d wedi\'u diweddaru</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="zero">%1$d wedi\'u canslo</item>
+        <item quantity="one">%1$d wedi\'i ganslo</item>
+        <item quantity="two">%1$d wedi\'u canslo</item>
+        <item quantity="few">%1$d wedi\'u canslo</item>
+        <item quantity="many">%1$d wedi\'u canslo</item>
+        <item quantity="other">%1$d wedi\'u canslo</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="zero">%1$d eisoes yn gyfredol</item>
+        <item quantity="one">%1$d eisoes yn gyfredol</item>
+        <item quantity="two">%1$d eisoes yn gyfredol</item>
+        <item quantity="few">%1$d eisoes yn gyfredol</item>
+        <item quantity="many">%1$d eisoes yn gyfredol</item>
+        <item quantity="other">%1$d eisoes yn gyfredol</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="zero">%1$d wedi\'u hepgor</item>
+        <item quantity="one">%1$d wedi\'i hepgor</item>
+        <item quantity="two">%1$d wedi\'u hepgor</item>
+        <item quantity="few">%1$d wedi\'u hepgor</item>
+        <item quantity="many">%1$d wedi\'u hepgor</item>
+        <item quantity="other">%1$d wedi\'u hepgor</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="zero">%1$d wedi methu</item>
+        <item quantity="one">%1$d wedi methu</item>
+        <item quantity="two">%1$d wedi methu</item>
+        <item quantity="few">%1$d wedi methu</item>
+        <item quantity="many">%1$d wedi methu</item>
+        <item quantity="other">%1$d wedi methu</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Dim byd i\'w fewnforio</string>
     <plurals name="exported_events">
         <item quantity="zero">Wedi allforio %1$d digwyddiad</item>
         <item quantity="one">Wedi allforio %1$d digwyddiad</item>

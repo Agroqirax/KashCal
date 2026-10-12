@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Notificaciones sobre finalización y errores de sincronización</string>
     <string name="channel_event_invitations">Invitaciones a eventos</string>
     <string name="channel_event_invitations_desc">Notificaciones cuando recibes una nueva invitación de calendario</string>
+    <string name="channel_calendar_updates">Cambios en el calendario</string>
     <string name="invite_notification_body">De %1$s · Toca para responder</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Tu respuesta se aplica a toda la serie.</string>
+    <string name="rsvp_receipt_pending">Respuesta pendiente</string>
+    <string name="rsvp_receipt_sent">Respuesta enviada</string>
+    <string name="rsvp_receipt_not_delivered">Respuesta no entregada</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Este y todos los futuros</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Conecta iCloud para ver tus eventos aquí</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Más tarde</string>
+    <string name="whats_new_skip">Saltar</string>
+    <string name="whats_new_next">Siguiente</string>
+    <string name="whats_new_page_of">Página %1$d de %2$d</string>
+    <string name="whats_new_find_it_in">Encuéntralo en</string>
     <string name="whats_new_v598_title">Ayuda a mantener Android abierto</string>
     <string name="whats_new_v598_body">Google está cambiando la forma en la que instalas aplicaciones en tu dispositivo. Necesitamos tu ayuda.</string>
     <string name="whats_new_v598_action_label">Visitar keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Esta versión está dedicada a quienes apoyan a KashCal. Una pequeña aportación con una gran recompensa recurrente.</string>
     <string name="whats_new_v732_caption">¿Aún no nos apoyas?</string>
     <string name="whats_new_v732_action_label">Sumarnos a tus planes</string>
+    <string name="whats_new_v772_icon_title">Tu icono muestra la fecha</string>
+    <string name="whats_new_v772_icon_body">Elige el icono Fecha de hoy y KashCal mostrará el día del mes en tu pantalla de inicio. Cambia solo cada noche.</string>
+    <string name="whats_new_v772_changes_title">Mira qué ha cambiado</string>
+    <string name="whats_new_v772_changes_body">Los eventos nuevos, editados y eliminados de tus calendarios de iCloud y CalDAV se reúnen en Cambios recientes durante 7 días. Toca uno para abrirlo.</string>
+    <string name="whats_new_v772_notifications_body">Recibe una notificación cuando una sincronización en segundo plano encuentre cambios en tus eventos de iCloud o CalDAV. La opción está desactivada hasta que la actives.</string>
+    <string name="whats_new_hero_sample_lunch">Comida de equipo</string>
+    <string name="whats_new_hero_sample_review">Revisión de diseño</string>
+    <string name="whats_new_hero_sample_book_club">Club de lectura</string>
+    <string name="whats_new_hero_sample_calendar">Trabajo</string>
+    <string name="whats_new_hero_now">ahora</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Conectar iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Una línea compacta o dos líneas detalladas con la hora de fin.</string>
     <string name="settings_sync_lookback">Periodo de sincronización hacia atrás</string>
     <string name="settings_sync_lookback_hint">Hasta cuándo sincronizar eventos anteriores</string>
+    <string name="settings_change_notifications">Notificaciones de cambios</string>
+    <string name="settings_change_notifications_info">Envía una notificación cuando una sincronización en segundo plano encuentra cambios en tus eventos. Funciona con calendarios de iCloud y CalDAV.</string>
     <string name="settings_not_set">No configurado</string>
     <string name="settings_on">Activado</string>
     <string name="settings_off">Desactivado</string>
@@ -776,6 +795,59 @@
         <item quantity="many">%1$d eventos importados</item>
         <item quantity="other">%1$d eventos importados</item>
     </plurals>
+    <string name="ics_import_preview_loading">Comprobando este calendario…</string>
+    <string name="ics_import_preview_failed">No se han podido comprobar estos eventos en este calendario. Puedes importar igualmente.</string>
+    <string name="ics_import_will_cancel">Esto cancela %1$s, organizado por %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Esto cancela %1$s</string>
+    <string name="ics_import_will_update">Esto actualiza %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d evento ya está actualizado</item>
+        <item quantity="other">%1$d eventos ya están actualizados</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d omitido: %2$s</item>
+        <item quantity="other">%1$d omitidos: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">es una respuesta a una invitación, que no añade nada a tu calendario</string>
+    <string name="ics_import_reason_unsupported">este tipo de mensaje de invitación no es compatible</string>
+    <string name="ics_import_reason_organizer_mismatch">procede de alguien que no es el organizador de la reunión</string>
+    <string name="ics_import_reason_cancel_no_match">la reunión cancelada no está en este calendario</string>
+    <string name="ics_import_reason_cancel_not_for_you">la cancelación es para otros asistentes</string>
+    <string name="ics_import_reason_deletion_pending">el evento se está eliminando</string>
+    <string name="ics_import_reason_cancelled_in_file">ya está cancelado en el archivo</string>
+    <string name="ics_import_reason_this_and_future">no se admiten cambios en esta ocurrencia y las siguientes</string>
+    <string name="ics_import_reason_own_cancel">organizas esta reunión, así que cancélala desde el evento</string>
+    <string name="ics_import_reason_on_another_calendar">ya está en otro calendario de esta cuenta</string>
+    <string name="ics_import_notice_unverified">No se puede verificar el remitente de un archivo de invitación. Comprueba que procede del organizador.</string>
+    <string name="ics_import_notice_answer_notifies">Responder a esta invitación puede notificar al organizador.</string>
+    <string name="ics_import_notice_guests_again">Eres el organizador, así que los asistentes podrían recibir esta invitación de nuevo.</string>
+    <string name="cd_dismiss_notice">Descartar aviso</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d añadido</item>
+        <item quantity="other">%1$d añadidos</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d actualizado</item>
+        <item quantity="other">%1$d actualizados</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d cancelado</item>
+        <item quantity="other">%1$d cancelados</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ya actualizado</item>
+        <item quantity="other">%1$d ya actualizados</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d omitido</item>
+        <item quantity="other">%1$d omitidos</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d fallido</item>
+        <item quantity="other">%1$d fallidos</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nada que importar</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d evento exportado</item>
         <item quantity="many">%1$d eventos exportados</item>

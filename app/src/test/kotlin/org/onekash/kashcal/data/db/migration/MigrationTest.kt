@@ -2160,11 +2160,84 @@ class MigrationTest {
         assertTrue(columnExists("accounts", "contact_sync_enabled"))
     }
 
+    // ==================== Migration 25 -> 26 ====================
+
+    private fun migrateUpToV25() {
+        migrateUpToV24()
+        Migrations.MIGRATION_24_25.migrate(db)
+    }
+
+    @Test
+    fun `migration 25 to 26 adds the import columns, null on existing events`() {
+        migrateUpToV25()
+        seedV24Calendars()
+        db.execSQL(
+            "INSERT INTO events (id, uid, calendar_id, title, start_ts, end_ts, timezone, dtstamp, created_at, updated_at) " +
+                "VALUES (9, 'keep', 1, 'Kept', 100, 200, 'UTC', 55, 0, 0)"
+        )
+
+        Migrations.MIGRATION_25_26.migrate(db)
+
+        assertTrue(columnExists("events", "import_source"))
+        assertTrue(columnExists("events", "itip_dtstamp"))
+        db.query("SELECT uid, title, start_ts, end_ts, dtstamp, import_source, itip_dtstamp FROM events WHERE id = 9").use { c ->
+            assertTrue(c.moveToFirst())
+            assertEquals("keep", c.getString(0)); assertEquals("Kept", c.getString(1))
+            assertEquals(100L, c.getLong(2)); assertEquals(200L, c.getLong(3)); assertEquals(55L, c.getLong(4))
+            assertTrue("an event from before v26 is not marked imported", c.isNull(5))
+            assertTrue(c.isNull(6))
+        }
+    }
+
+    @Test
+    fun `migration 25 to 26 is idempotent`() {
+        migrateUpToV25()
+        seedV24Calendars()
+
+        Migrations.MIGRATION_25_26.migrate(db)
+        db.execSQL(
+            "INSERT INTO events (id, uid, calendar_id, title, start_ts, end_ts, timezone, dtstamp, created_at, updated_at, " +
+                "import_source, itip_dtstamp) VALUES (5, 'imp', 1, 'I', 0, 0, 'UTC', 0, 0, 0, 'ics_file', 77)"
+        )
+        Migrations.MIGRATION_25_26.migrate(db)
+
+        db.query("SELECT import_source, itip_dtstamp FROM events WHERE id = 5").use { c ->
+            assertTrue(c.moveToFirst())
+            assertEquals("a re-run keeps the values", "ics_file", c.getString(0)); assertEquals(77L, c.getLong(1))
+        }
+    }
+
+    @Test
+    fun `migration 25 to 26 refuses a mistyped column and leaves the v25 schema`() {
+        migrateUpToV25()
+        db.execSQL("ALTER TABLE events ADD COLUMN itip_dtstamp TEXT")
+
+        var threw = false
+        try {
+            Migrations.MIGRATION_25_26.migrate(db)
+        } catch (e: IllegalStateException) {
+            threw = true
+        }
+
+        assertTrue("a TEXT itip_dtstamp must fail the shape check", threw)
+        assertFalse("the shape check throws before any column is added", columnExists("events", "import_source"))
+    }
+
+    @Test
+    fun `full migration chain 1 to 26 executes without error`() {
+        migrateUpToV25()
+
+        Migrations.MIGRATION_25_26.migrate(db)
+
+        assertTrue(tableExists("recent_changes"))
+        assertTrue(columnExists("events", "import_source"))
+    }
+
     // ==================== Migration Chain/Registry Tests ====================
 
     @Test
     fun `all migrations array contains expected migrations`() {
-        assertEquals(23, Migrations.ALL_MIGRATIONS.size)
+        assertEquals(24, Migrations.ALL_MIGRATIONS.size)
     }
 
     @Test
@@ -2217,12 +2290,14 @@ class MigrationTest {
         assertEquals(24, migrations[21].endVersion)
         assertEquals(24, migrations[22].startVersion)
         assertEquals(25, migrations[22].endVersion)
+        assertEquals(25, migrations[23].startVersion)
+        assertEquals(26, migrations[23].endVersion)
     }
 
     @Test
     fun `migration versions form valid chain with gaps`() {
         val migrations = Migrations.ALL_MIGRATIONS.toList()
-        // Manual: 1→2, 2→3, then 4→5 through 24→25 (3→4 is the AutoMigration)
+        // Manual: 1→2, 2→3, then 4→5 through 25→26 (3→4 is the AutoMigration)
         assertTrue(migrations[0].endVersion == migrations[1].startVersion) // 2
         assertTrue(migrations[2].startVersion == 4) // gap at 3→4
         for (i in 2 until migrations.size - 1) {

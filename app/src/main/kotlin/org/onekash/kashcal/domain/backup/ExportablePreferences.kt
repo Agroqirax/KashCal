@@ -44,6 +44,7 @@ object ExportablePreferences {
         PreferencesKeys.NOTIFICATION_SOUND.name to PrefKind.BOOL,
         PreferencesKeys.NOTIFICATION_VIBRATE.name to PrefKind.BOOL,
         PreferencesKeys.QUICK_ADD_ENABLED.name to PrefKind.BOOL,
+        PreferencesKeys.CHANGE_NOTIFICATIONS_ENABLED.name to PrefKind.BOOL,
         PreferencesKeys.TITLE_SUGGESTIONS_ENABLED.name to PrefKind.BOOL,
         PreferencesKeys.SHOW_EVENT_EMOJIS.name to PrefKind.BOOL,
         PreferencesKeys.TIME_FORMAT.name to PrefKind.STRING,
@@ -98,6 +99,7 @@ object ExportablePreferences {
         PreferencesKeys.NOTIFICATION_SOUND,
         PreferencesKeys.NOTIFICATION_VIBRATE,
         PreferencesKeys.QUICK_ADD_ENABLED,
+        PreferencesKeys.CHANGE_NOTIFICATIONS_ENABLED,
         PreferencesKeys.TITLE_SUGGESTIONS_ENABLED,
         // Display
         PreferencesKeys.SHOW_EVENT_EMOJIS,
@@ -123,8 +125,8 @@ object ExportablePreferences {
     ).also {
         // Bump this and the matching ExportablePreferencesTest assertion together
         // whenever a key is added to or removed from KEYS above.
-        require(it.size == 42) {
-            "KEYS size drifted; expected 42 allowed keys but got ${it.size}. Update ExportablePreferencesTest expectations too."
+        require(it.size == 43) {
+            "KEYS size drifted; expected 43 allowed keys but got ${it.size}. Update ExportablePreferencesTest expectations too."
         }
     }
 

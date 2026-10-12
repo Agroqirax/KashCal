@@ -48,6 +48,7 @@ import kotlinx.coroutines.withContext
 import org.onekash.kashcal.domain.reader.DeviceEventReader
 import org.onekash.kashcal.domain.share.singleOccurrenceForShare
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.data.ics.IcsImportFile
 import org.onekash.kashcal.data.ics.IcsParserService
 import org.onekash.kashcal.data.preferences.DefaultCalendar
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
@@ -59,12 +60,14 @@ import org.onekash.kashcal.domain.model.toEventForDuplicate
 import org.onekash.kashcal.domain.model.toEventForShareCard
 import org.onekash.kashcal.reminder.device.DeviceCalendarReminderNotificationManager
 import org.onekash.kashcal.reminder.notification.ReminderNotificationManager
+import org.onekash.kashcal.sync.notification.ChangeNotifier
 import org.onekash.kashcal.ui.components.AppInfoSheet
 import org.onekash.kashcal.ui.components.category.LocalTagColors
 import org.onekash.kashcal.ui.components.DeviceEventQuickViewSheet
 import org.onekash.kashcal.ui.components.EventFormSheet
 import org.onekash.kashcal.ui.components.EventQuickViewSheet
 import org.onekash.kashcal.ui.components.IcsImportSheet
+import org.onekash.kashcal.ui.components.importSummary
 import org.onekash.kashcal.ui.components.NotificationPermissionDialog
 import org.onekash.kashcal.ui.components.OnboardingBanner
 import org.onekash.kashcal.ui.components.WhatsNewBanner
@@ -359,8 +362,7 @@ class MainActivity : FragmentActivity() {
 
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
 
-                var icsImportEvents by remember { mutableStateOf<List<Event>>(emptyList()) }
-                var showIcsImportSheet by remember { mutableStateOf(false) }
+                var icsImportFile by remember { mutableStateOf<IcsImportFile?>(null) }
 
                 // Opens EventFormSheet from CalendarIntentData, for CreateEventFromCalendarIntent
                 // and the Quick Add expand and redirect.
@@ -434,27 +436,22 @@ class MainActivity : FragmentActivity() {
                                     Log.d(TAG, "Processing ICS file import: ${action.uri}")
                                     val result = icsFileReader.readIcsContent(action.uri)
                                     result.onSuccess { content ->
-                                        try {
-                                            val events = IcsParserService.parseIcsContent(
-                                                content = content,
-                                                calendarId = 0, // Will be set during import
-                                                subscriptionId = 0 // Not a subscription
+                                        val file = runCatching { IcsParserService.parseForImport(content) }.getOrNull()
+                                        when {
+                                            file == null -> homeViewModel.showSnackbar(
+                                                resources.getString(R.string.error_import_invalid_format)
                                             )
-                                            if (events.isNotEmpty()) {
-                                                Log.d(TAG, "Parsed ${events.size} events from ICS file")
-                                                icsImportEvents = events
-                                                showIcsImportSheet = true
-                                            } else {
-                                                Log.w(TAG, "No events found in ICS file")
-                                                homeViewModel.showSnackbar("No events found in file")
+                                            file.events.isEmpty() -> homeViewModel.showSnackbar(
+                                                resources.getString(R.string.error_import_no_events)
+                                            )
+                                            else -> {
+                                                Log.d(TAG, "Parsed ${file.events.size} events from ICS file")
+                                                icsImportFile = file
                                             }
-                                        } catch (e: Exception) {
-                                            Log.e(TAG, "Failed to parse ICS file", e)
-                                            homeViewModel.showSnackbar("Invalid ICS file")
                                         }
                                     }.onFailure { e ->
                                         Log.e(TAG, "Failed to read ICS file", e)
-                                        homeViewModel.showSnackbar("Could not read file")
+                                        homeViewModel.showSnackbar(resources.getString(R.string.error_import_file_not_found))
                                     }
                                 }
                                 is PendingAction.CreateEventFromCalendarIntent -> {
@@ -497,6 +494,15 @@ class MainActivity : FragmentActivity() {
                                     showDeviceQuickViewSheet = false
                                     quickAddShareSeed = action
                                     showQuickAddDialog = true
+                                }
+                                is PendingAction.OpenChangeNotification -> {
+                                    // Opens the sheet itself when there is no single row to show.
+                                    val target = homeViewModel.openChangeNotification(action.recentChangeId)
+                                    if (target != null) {
+                                        quickViewEvent = target.event
+                                        quickViewOccurrenceTs = target.occurrenceTs
+                                        showQuickViewSheet = true
+                                    }
                                 }
                             }
                             // clearPendingAction() must run after all suspend work: it changes the
@@ -1596,8 +1602,14 @@ class MainActivity : FragmentActivity() {
                 } else if (uiState.whatsNewReleases.isNotEmpty()) {
                     // What's New shows only once onboarding is gone, so first-launch users
                     // see the iCloud prompt first.
+                    val is24Hour = android.text.format.DateFormat.is24HourFormat(this@MainActivity)
+                    val whatsNewTimePattern = remember(uiState.timeFormat, is24Hour) {
+                        DateTimeUtils.getTimePattern(uiState.timeFormat, is24Hour)
+                    }
                     WhatsNewBanner(
                         releases = uiState.whatsNewReleases,
+                        userInitials = uiState.userInitials,
+                        timePattern = whatsNewTimePattern,
                         onDismiss = { homeViewModel.dismissWhatsNewSheet() },
                     )
                 }
@@ -1632,40 +1644,39 @@ class MainActivity : FragmentActivity() {
                 }
 
                 // ICS Import Sheet
-                if (showIcsImportSheet && icsImportEvents.isNotEmpty()) {
+                icsImportFile?.let { file ->
                     val defaultRoomCalendarId = (uiState.defaultCalendar as? DefaultCalendar.Room)?.calendarId
                     val defaultDeviceCalendarId = (uiState.defaultCalendar as? DefaultCalendar.Device)?.calendarId
                     IcsImportSheet(
-                        events = icsImportEvents,
+                        file = file,
                         calendars = uiState.calendars,
                         defaultCalendarId = defaultRoomCalendarId,
                         deviceCalendarGroups = uiState.deviceCalendarGroups,
                         defaultDeviceCalendarId = defaultDeviceCalendarId,
-                        onDismiss = {
-                            showIcsImportSheet = false
-                            icsImportEvents = emptyList()
+                        loadPreview = { calendarId, isDeviceCalendar ->
+                            if (isDeviceCalendar) {
+                                homeViewModel.previewIcsImportOnDevice(file, calendarId)
+                            } else {
+                                eventCoordinator.previewIcsImport(file, calendarId)
+                            }
                         },
-                        onImport = { calendarId, events, isDeviceCalendar ->
+                        onDismiss = { icsImportFile = null },
+                        onImport = { calendarId, isDeviceCalendar ->
                             coroutineScope.launch {
                                 try {
-                                    val count = if (isDeviceCalendar) {
-                                        homeViewModel.importIcsToDeviceCalendar(events, calendarId)
+                                    val result = if (isDeviceCalendar) {
+                                        homeViewModel.importIcsToDeviceCalendar(file, calendarId)
                                     } else {
-                                        eventCoordinator.importIcsEvents(events, calendarId)
+                                        eventCoordinator.importIcsFile(file, calendarId)
                                     }
-                                    homeViewModel.showSnackbar(
-                                        resources.getQuantityString(R.plurals.imported_events, count, count)
-                                    )
-                                    events.firstOrNull()?.let { firstEvent ->
-                                        homeViewModel.selectDate(firstEvent.startTs)
-                                    }
+                                    homeViewModel.showSnackbar(importSummary(result, resources))
+                                    result.firstStartTs?.let { homeViewModel.selectDate(it) }
                                     homeViewModel.refreshCalendars()
                                 } catch (e: Exception) {
                                     Log.e(TAG, "Failed to import events", e)
-                                    homeViewModel.showSnackbar("Import failed")
+                                    homeViewModel.showSnackbar(resources.getString(R.string.error_import_failed))
                                 }
-                                showIcsImportSheet = false
-                                icsImportEvents = emptyList()
+                                icsImportFile = null
                             }
                         }
                     )
@@ -1954,10 +1965,11 @@ class MainActivity : FragmentActivity() {
 
     /**
      * Sets the [PendingAction] for an incoming intent, checking in order: reminder and device
-     * reminder taps, widget and shortcut actions, plain-text and .ics shares, calendar insert and
-     * edit intents, CalendarContract URIs, and ICS files opened by URI. The first branch that
-     * matches returns, even when it sets no action (a reminder tap missing its extras, a
-     * CalendarContract URI that only opens the app). A webcal:// link opens Settings instead.
+     * reminder taps, change notification taps, widget and shortcut actions, plain-text and .ics
+     * shares, calendar insert and edit intents, CalendarContract URIs, and ICS files opened by URI.
+     * The first branch that matches returns, even when it sets no action (a reminder tap missing
+     * its extras, a CalendarContract URI that only opens the app). A webcal:// link opens Settings
+     * instead.
      *
      * The action is state in the ViewModel, as Android recommends for UI events: the UI clears
      * it after consuming it, and it survives configuration changes.
@@ -1992,6 +2004,14 @@ class MainActivity : FragmentActivity() {
                     )
                 )
             }
+            return
+        }
+
+        // Change notification tap; the action is cleared so a rotation doesn't reopen it.
+        ChangeNotifier.parseTap(intent)?.let { tap ->
+            Log.d(TAG, "Change notification: row ${tap.recentChangeId}")
+            intent?.action = null
+            homeViewModel.setPendingAction(PendingAction.OpenChangeNotification(tap.recentChangeId))
             return
         }
 

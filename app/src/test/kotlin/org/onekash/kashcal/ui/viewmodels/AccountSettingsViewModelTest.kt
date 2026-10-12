@@ -67,6 +67,7 @@ import org.onekash.kashcal.ui.shared.EventColorPalette
 import org.onekash.kashcal.ui.util.UiMessage
 import org.onekash.kashcal.widget.WidgetUpdateManager
 import java.util.UUID
+import org.onekash.kashcal.testutil.plainImportFile
 
 /**
  * Tests AccountSettingsViewModel.
@@ -94,6 +95,12 @@ import java.util.UUID
 class AccountSettingsViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
+
+    // Change notifications: the stored setting and what the channels mock reports.
+    private val changeNotificationsPref = MutableStateFlow(false)
+    private lateinit var changeNotificationChannels: org.onekash.kashcal.sync.notification.ChangeNotificationChannels
+    private var appNotificationsOn = true
+    private var channelOn = true
 
     // A separate scheduler lets tests advance viewModelScope and applicationScope apart, proving
     // a deferred commit is queued on the process-lifetime scope, not viewModelScope (#133).
@@ -194,6 +201,14 @@ class AccountSettingsViewModelTest {
         backupExporter = mockk(relaxed = true)
         backupImporter = mockk(relaxed = true)
         permissionChecker = org.onekash.kashcal.ui.permission.FakePermissionChecker()
+        changeNotificationsPref.value = false
+        changeNotificationChannels = mockk()
+        every { changeNotificationChannels.areAppNotificationsEnabled() } answers { appNotificationsOn }
+        every { changeNotificationChannels.isChannelEnabled() } answers { channelOn }
+        every { changeNotificationChannels.canPost() } answers { appNotificationsOn && channelOn }
+        every { changeNotificationChannels.cancel() } returns Unit
+        every { dataStore.changeNotificationsEnabled } returns changeNotificationsPref
+        coEvery { dataStore.setChangeNotificationsEnabled(any()) } answers { changeNotificationsPref.value = firstArg() }
 
         calendarsFlow = MutableStateFlow(emptyList())
         iCloudCalendarCountFlow = MutableStateFlow(0)
@@ -288,6 +303,7 @@ class AccountSettingsViewModelTest {
             backupExporter = backupExporter,
             backupImporter = backupImporter,
             permissionChecker = permissionChecker,
+            changeNotificationChannels = changeNotificationChannels,
             context = stubContext,
             applicationScope = applicationScope,
         )
@@ -3521,16 +3537,16 @@ class AccountSettingsViewModelTest {
         val viewModel = createViewModel()
         advanceUntilIdle()
 
-        val count = viewModel.importIcsToDeviceCalendar(
-            events = listOf(
+        val result = viewModel.importIcsToDeviceCalendar(
+            file = plainImportFile(listOf(
                 Event(id = 0L, calendarId = 0L, uid = "a", title = "Timed", startTs = 1_000L, endTs = 2_000L, dtstamp = 0L),
                 Event(id = 0L, calendarId = 0L, uid = "b", title = "All day", startTs = 0L, endTs = 86_399_999L, dtstamp = 0L, isAllDay = true),
-            ),
+            )),
             calendarId = 7L,
         )
         advanceUntilIdle()
 
-        assertEquals(2, count)
+        assertEquals(2, result.created)
         assertEquals(listOf(listOf(20), listOf(600)), calendarProviderRepository.createdEvents.map { it.reminders })
         verify(exactly = 1) { calendarProviderManager.notifyDeviceCalendarChanged() }
         verify(exactly = 0) { calendarProviderManager.onEnabled() }
@@ -3546,13 +3562,13 @@ class AccountSettingsViewModelTest {
         val viewModel = createViewModel()
         advanceUntilIdle()
 
-        val count = viewModel.importIcsToDeviceCalendar(
-            events = listOf(Event(id = 0L, calendarId = 0L, uid = "a", title = "Timed", startTs = 1_000L, endTs = 2_000L, dtstamp = 0L)),
+        val result = viewModel.importIcsToDeviceCalendar(
+            file = plainImportFile(listOf(Event(id = 0L, calendarId = 0L, uid = "a", title = "Timed", startTs = 1_000L, endTs = 2_000L, dtstamp = 0L))),
             calendarId = 7L,
         )
         advanceUntilIdle()
 
-        assertEquals(0, count)
+        assertEquals(0, result.created)
         verify(exactly = 0) { calendarProviderManager.notifyDeviceCalendarChanged() }
     }
 
@@ -3740,5 +3756,158 @@ class AccountSettingsViewModelTest {
         viewModel.onClearedForTest()
         assertEquals(false, viewModel.isSearchActive.value)
         assertEquals("", viewModel.searchQuery.value)
+    }
+
+    // ==================== Change notifications ====================
+
+    @Test
+    fun `the switch shows on only with the setting on and notifications working`() = runTest {
+        changeNotificationsPref.value = true
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertTrue(viewModel.changeNotificationsOn.value)
+
+        appNotificationsOn = false
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+        assertFalse(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `turning it on with notifications working saves it`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val step = viewModel.onChangeNotificationsToggle(true)
+        advanceUntilIdle()
+
+        assertEquals(org.onekash.kashcal.ui.permission.ChangeNotificationsStep.TurnOn, step)
+        coVerify { dataStore.setChangeNotificationsEnabled(true) }
+        assertTrue(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `turning it off saves it and clears the shown notification`() = runTest {
+        changeNotificationsPref.value = true
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onChangeNotificationsToggle(false)
+        advanceUntilIdle()
+
+        coVerify { dataStore.setChangeNotificationsEnabled(false) }
+        verify { changeNotificationChannels.cancel() }
+        assertFalse(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `a trip to system settings that allows notifications turns it on on return`() = runTest {
+        channelOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val step = viewModel.onChangeNotificationsToggle(true)
+        assertEquals(org.onekash.kashcal.ui.permission.ChangeNotificationsStep.OpenChannelSettings, step)
+
+        channelOn = true
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+
+        coVerify { dataStore.setChangeNotificationsEnabled(true) }
+        assertTrue(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `a pending enable survives a resume that can't post yet`() = runTest {
+        appNotificationsOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onChangeNotificationsToggle(true)
+
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+        assertFalse(viewModel.changeNotificationsOn.value)
+
+        appNotificationsOn = true
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+        assertTrue(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `turning it off clears a pending enable`() = runTest {
+        appNotificationsOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onChangeNotificationsToggle(true)
+        viewModel.onChangeNotificationsToggle(false)
+
+        appNotificationsOn = true
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+
+        assertFalse(changeNotificationsPref.value)
+    }
+
+    @Test
+    fun `a granted permission turns it on`() = runTest {
+        permissionChecker.notifications = false
+        appNotificationsOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertEquals(
+            org.onekash.kashcal.ui.permission.ChangeNotificationsStep.RequestPermission,
+            viewModel.onChangeNotificationsToggle(true)
+        )
+
+        permissionChecker.notifications = true
+        appNotificationsOn = true
+        assertEquals(null, viewModel.onChangeNotificationsPermissionResult(true))
+        advanceUntilIdle()
+
+        coVerify { userPreferences.resetNotificationPermissionDeniedCount() }
+        assertTrue(viewModel.changeNotificationsOn.value)
+    }
+
+    @Test
+    fun `a denied permission leaves it off and counts the denial`() = runTest {
+        permissionChecker.notifications = false
+        appNotificationsOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onChangeNotificationsToggle(true)
+
+        assertEquals(null, viewModel.onChangeNotificationsPermissionResult(false))
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+
+        coVerify { userPreferences.incrementNotificationPermissionDeniedCount() }
+        assertFalse(changeNotificationsPref.value)
+    }
+
+    @Test
+    fun `a grant with the channel still blocked goes to the channel settings and turns on on return`() = runTest {
+        permissionChecker.notifications = false
+        appNotificationsOn = false
+        channelOn = false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onChangeNotificationsToggle(true)
+
+        permissionChecker.notifications = true
+        appNotificationsOn = true
+        assertEquals(
+            org.onekash.kashcal.ui.permission.ChangeNotificationsStep.OpenChannelSettings,
+            viewModel.onChangeNotificationsPermissionResult(true)
+        )
+        // The resume that ends the permission dialog comes before the trip to the channel settings.
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+        assertFalse(changeNotificationsPref.value)
+
+        channelOn = true
+        viewModel.refreshChangeNotifications()
+        advanceUntilIdle()
+        assertTrue(viewModel.changeNotificationsOn.value)
     }
 }

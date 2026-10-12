@@ -1,5 +1,8 @@
 package org.onekash.kashcal.ui.viewmodels
 
+import org.onekash.kashcal.data.ics.IcsImportFile
+import org.onekash.kashcal.domain.ics.GroupPlan
+import org.onekash.kashcal.domain.ics.IcsImportResult
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -32,7 +35,6 @@ import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
 import org.onekash.kashcal.data.contacts.ContactEventManager
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
-import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.db.entity.SyncLog
 import org.onekash.kashcal.data.ics.IcsSubscriptionRepository
 import org.onekash.kashcal.data.preferences.DefaultCalendar
@@ -56,12 +58,15 @@ import org.onekash.kashcal.sync.discovery.DiscoveredCalendar
 import org.onekash.kashcal.sync.discovery.DiscoveryErrorReason
 import org.onekash.kashcal.sync.discovery.DiscoveryResult
 import org.onekash.kashcal.sync.provider.caldav.CalDavAccountDiscoveryService
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.sync.scheduler.SyncScheduler
 import org.onekash.kashcal.sync.scheduler.SyncStatus
 import org.onekash.kashcal.ui.model.CalendarGroup
 import org.onekash.kashcal.ui.model.localizedDisplayName
+import org.onekash.kashcal.ui.permission.ChangeNotificationsStep
 import org.onekash.kashcal.ui.permission.LocalNetworkPermissionState
 import org.onekash.kashcal.ui.permission.PermissionChecker
+import org.onekash.kashcal.ui.permission.changeNotificationsToggleStep
 import org.onekash.kashcal.ui.permission.contactSyncPermissionGranted
 import org.onekash.kashcal.ui.permission.reconcileOnResume
 import org.onekash.kashcal.ui.permission.failureIndicatesBlockedLan
@@ -144,6 +149,7 @@ class AccountSettingsViewModel @Inject constructor(
     private val backupExporter: SettingsBackupExporter,
     private val backupImporter: SettingsBackupImporter,
     private val permissionChecker: PermissionChecker,
+    private val changeNotificationChannels: ChangeNotificationChannels,
     @ApplicationContext private val context: Context,
     @ApplicationScope private val applicationScope: CoroutineScope,
 ) : ViewModel() {
@@ -370,6 +376,23 @@ class AccountSettingsViewModel @Inject constructor(
 
     private val _titleSuggestionsEnabled = MutableStateFlow(true)
     val titleSuggestionsEnabled: StateFlow<Boolean> = _titleSuggestionsEnabled.asStateFlow()
+
+    private val changeNotificationsCanPost = MutableStateFlow(changeNotificationChannels.canPost())
+
+    /** Whether the Change notifications switch shows on: set, and a notification would show. */
+    val changeNotificationsOn: StateFlow<Boolean> =
+        combine(dataStore.changeNotificationsEnabled, changeNotificationsCanPost) { enabled, canPost ->
+            enabled && canPost
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    /**
+     * Set while a tap to turn the switch on waits on a permission result or a trip to system
+     * settings. Cleared by the next switch tap, a denied permission, or turning the switch on
+     * (from a grant or a resume that can post). A resume that can't post leaves it: a permission
+     * result arrives before the resume that ends the dialog, when the channel may still be
+     * blocked.
+     */
+    private var changeNotificationsPendingEnable = false
 
     private val _widgetMaxEventsPerDay = MutableStateFlow(5)
     val widgetMaxEventsPerDay: StateFlow<Int> = _widgetMaxEventsPerDay.asStateFlow()
@@ -757,6 +780,82 @@ class AccountSettingsViewModel @Inject constructor(
     fun setQuickAddEnabled(enabled: Boolean) {
         viewModelScope.launch {
             dataStore.setQuickAddEnabled(enabled)
+        }
+    }
+
+    /**
+     * Handles a tap that sets the Change notifications switch to [enable] and returns the step the
+     * host carries out ([changeNotificationsToggleStep]). Turning it off also removes a change
+     * notification already shown.
+     */
+    fun onChangeNotificationsToggle(enable: Boolean): ChangeNotificationsStep {
+        changeNotificationsPendingEnable = false
+        val step = changeNotificationsToggleStep(
+            enable = enable,
+            appNotificationsEnabled = changeNotificationChannels.areAppNotificationsEnabled(),
+            channelEnabled = changeNotificationChannels.isChannelEnabled(),
+            permissionGranted = permissionChecker.hasNotificationPermission(),
+        )
+        when (step) {
+            ChangeNotificationsStep.TurnOn -> saveChangeNotifications(true)
+            ChangeNotificationsStep.TurnOff -> {
+                saveChangeNotifications(false)
+                changeNotificationChannels.cancel()
+            }
+            ChangeNotificationsStep.RequestPermission,
+            ChangeNotificationsStep.OpenAppSettings,
+            ChangeNotificationsStep.OpenChannelSettings -> changeNotificationsPendingEnable = true
+        }
+        changeNotificationsCanPost.value = changeNotificationChannels.canPost()
+        return step
+    }
+
+    /**
+     * Takes the result of the permission request a [ChangeNotificationsStep.RequestPermission]
+     * step launched and records it for the denial count. A grant turns the switch on, or returns
+     * the settings step still needed when notifications are blocked there; otherwise returns null.
+     */
+    fun onChangeNotificationsPermissionResult(granted: Boolean): ChangeNotificationsStep? {
+        viewModelScope.launch {
+            if (granted) {
+                userPreferences.resetNotificationPermissionDeniedCount()
+            } else {
+                userPreferences.incrementNotificationPermissionDeniedCount()
+            }
+        }
+        changeNotificationsCanPost.value = changeNotificationChannels.canPost()
+        if (!granted) {
+            changeNotificationsPendingEnable = false
+            return null
+        }
+        val step = changeNotificationsToggleStep(
+            enable = true,
+            appNotificationsEnabled = changeNotificationChannels.areAppNotificationsEnabled(),
+            channelEnabled = changeNotificationChannels.isChannelEnabled(),
+            permissionGranted = true,
+        )
+        if (step != ChangeNotificationsStep.TurnOn) return step
+        changeNotificationsPendingEnable = false
+        saveChangeNotifications(true)
+        return null
+    }
+
+    /**
+     * Re-reads whether a change notification would show; called on resume. Completes a pending
+     * enable once it can.
+     */
+    fun refreshChangeNotifications() {
+        val canPost = changeNotificationChannels.canPost()
+        changeNotificationsCanPost.value = canPost
+        if (changeNotificationsPendingEnable && canPost) {
+            changeNotificationsPendingEnable = false
+            saveChangeNotifications(true)
+        }
+    }
+
+    private fun saveChangeNotifications(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.setChangeNotificationsEnabled(enabled)
         }
     }
 
@@ -2049,14 +2148,17 @@ class AccountSettingsViewModel @Inject constructor(
     // ==================== ICS Device Import ====================
 
     /**
-     * Imports events parsed from an ICS file into device calendar [calendarId] and returns how
-     * many were created.
+     * Imports a parsed ICS file into device calendar [calendarId] and returns what it did.
      *
      * Uses the same writer method as the home screen's import, which signals the device change
      * so the calendar views show the new events at once.
      */
-    suspend fun importIcsToDeviceCalendar(events: List<Event>, calendarId: Long): Int =
-        deviceEventWriter.importIcsEvents(events, calendarId)
+    suspend fun importIcsToDeviceCalendar(file: IcsImportFile, calendarId: Long): IcsImportResult =
+        deviceEventWriter.importIcsFile(file, calendarId)
+
+    /** Returns what [importIcsToDeviceCalendar] would do in device calendar [calendarId]. */
+    suspend fun previewIcsImportOnDevice(file: IcsImportFile, calendarId: Long): List<GroupPlan> =
+        deviceEventReader.previewIcsImport(file, calendarId)
 
     // ==================== Snackbar ====================
 

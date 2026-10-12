@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Benachrichtigungen über Synchronisierungsabschluss und Fehler</string>
     <string name="channel_event_invitations">Termineinladungen</string>
     <string name="channel_event_invitations_desc">Benachrichtigungen, wenn du eine neue Kalendereinladung erhältst</string>
+    <string name="channel_calendar_updates">Kalenderänderungen</string>
     <string name="invite_notification_body">Von %1$s · Tippen zum Antworten</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Die Antwort gilt für die gesamte Serie.</string>
+    <string name="rsvp_receipt_pending">Antwort ausstehend</string>
+    <string name="rsvp_receipt_sent">Antwort gesendet</string>
+    <string name="rsvp_receipt_not_delivered">Antwort nicht zugestellt</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Diesen und alle zukünftigen</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Verbinde iCloud, um deine Termine hier zu sehen</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Später</string>
+    <string name="whats_new_skip">Überspringen</string>
+    <string name="whats_new_next">Weiter</string>
+    <string name="whats_new_page_of">Seite %1$d von %2$d</string>
+    <string name="whats_new_find_it_in">Zu finden unter</string>
     <string name="whats_new_v598_title">Hilf, Android offen zu halten</string>
     <string name="whats_new_v598_body">Google ändert, wie du Apps auf deinem Gerät installierst. Wir brauchen deine Hilfe.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org besuchen</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Diese Version ist den Unterstützern von KashCal gewidmet. Ein kleiner Beitrag mit großer, wiederkehrender Wirkung.</string>
     <string name="whats_new_v732_caption">Noch kein Unterstützer?</string>
     <string name="whats_new_v732_action_label">Nimm uns in deine Pläne auf</string>
+    <string name="whats_new_v772_icon_title">Dein Symbol kennt das Datum</string>
+    <string name="whats_new_v772_icon_body">Wähle das Symbol „Heutiges Datum“ und KashCal zeigt den Tag des Monats auf deinem Startbildschirm. Es springt jede Nacht von selbst um.</string>
+    <string name="whats_new_v772_changes_title">Sieh, was sich geändert hat</string>
+    <string name="whats_new_v772_changes_body">Neue, bearbeitete und entfernte Termine aus deinen iCloud- und CalDAV-Kalendern landen 7 Tage lang in „Letzte Änderungen“. Tippe auf einen, um ihn zu öffnen.</string>
+    <string name="whats_new_v772_notifications_body">Erhalte eine Benachrichtigung, wenn eine Hintergrund-Synchronisierung Änderungen an deinen iCloud- oder CalDAV-Terminen findet. Die Funktion bleibt aus, bis du sie einschaltest.</string>
+    <string name="whats_new_hero_sample_lunch">Teamessen</string>
+    <string name="whats_new_hero_sample_review">Design-Review</string>
+    <string name="whats_new_hero_sample_book_club">Buchclub</string>
+    <string name="whats_new_hero_sample_calendar">Arbeit</string>
+    <string name="whats_new_hero_now">jetzt</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud verbinden</string>
@@ -583,6 +600,8 @@
     <string name="settings_detailed_widget_rows_info">Kompakt in einer Zeile oder detailliert in zwei Zeilen mit Endzeit.</string>
     <string name="settings_sync_lookback">Sync-Rückblick</string>
     <string name="settings_sync_lookback_hint">Wie weit zurück Termine synchronisiert werden</string>
+    <string name="settings_change_notifications">Änderungsbenachrichtigungen</string>
+    <string name="settings_change_notifications_info">Sendet eine Benachrichtigung, wenn eine Hintergrund-Synchronisierung Änderungen an deinen Terminen findet. Funktioniert für iCloud- und CalDAV-Kalender.</string>
     <string name="settings_not_set">Nicht festgelegt</string>
     <string name="settings_on">An</string>
     <string name="settings_off">Aus</string>
@@ -759,6 +778,59 @@
         <item quantity="one">%1$d Termin importiert</item>
         <item quantity="other">%1$d Termine importiert</item>
     </plurals>
+    <string name="ics_import_preview_loading">Dieser Kalender wird geprüft…</string>
+    <string name="ics_import_preview_failed">Dieser Kalender konnte nicht auf diese Termine geprüft werden. Du kannst trotzdem importieren.</string>
+    <string name="ics_import_will_cancel">Damit wird %1$s abgesagt, organisiert von %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Damit wird %1$s abgesagt</string>
+    <string name="ics_import_will_update">Damit wird %1$s aktualisiert</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d Termin ist bereits aktuell</item>
+        <item quantity="other">%1$d Termine sind bereits aktuell</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d übersprungen: %2$s</item>
+        <item quantity="other">%1$d übersprungen: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">es ist eine Antwort auf eine Einladung, die deinem Kalender nichts hinzufügt</string>
+    <string name="ics_import_reason_unsupported">diese Art von Einladungsnachricht wird nicht unterstützt</string>
+    <string name="ics_import_reason_organizer_mismatch">es stammt von jemand anderem als dem Organisator des Termins</string>
+    <string name="ics_import_reason_cancel_no_match">der abgesagte Termin ist nicht in diesem Kalender</string>
+    <string name="ics_import_reason_cancel_not_for_you">die Absage gilt für andere Gäste</string>
+    <string name="ics_import_reason_deletion_pending">der Termin wird gerade gelöscht</string>
+    <string name="ics_import_reason_cancelled_in_file">der Termin ist in der Datei bereits abgesagt</string>
+    <string name="ics_import_reason_this_and_future">Änderungen an diesem und allen späteren Terminen der Serie werden nicht unterstützt</string>
+    <string name="ics_import_reason_own_cancel">du organisierst diesen Termin, sag ihn also im Termin selbst ab</string>
+    <string name="ics_import_reason_on_another_calendar">der Termin ist bereits in einem anderen Kalender dieses Kontos</string>
+    <string name="ics_import_notice_unverified">Der Absender einer Einladungsdatei kann nicht überprüft werden. Prüfe, ob sie vom Organisator stammt.</string>
+    <string name="ics_import_notice_answer_notifies">Wenn du auf diese Einladung antwortest, wird der Organisator eventuell benachrichtigt.</string>
+    <string name="ics_import_notice_guests_again">Du bist der Organisator, daher erhalten Gäste diese Einladung möglicherweise erneut.</string>
+    <string name="cd_dismiss_notice">Hinweis schließen</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d hinzugefügt</item>
+        <item quantity="other">%1$d hinzugefügt</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d aktualisiert</item>
+        <item quantity="other">%1$d aktualisiert</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d abgesagt</item>
+        <item quantity="other">%1$d abgesagt</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d bereits aktuell</item>
+        <item quantity="other">%1$d bereits aktuell</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d übersprungen</item>
+        <item quantity="other">%1$d übersprungen</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d fehlgeschlagen</item>
+        <item quantity="other">%1$d fehlgeschlagen</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nichts zu importieren</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d Termin exportiert</item>
         <item quantity="other">%1$d Termine exportiert</item>

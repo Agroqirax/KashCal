@@ -1433,6 +1433,57 @@ object Migrations {
         }
     }
 
+    /** The `events` columns [MIGRATION_25_26] adds, with the SQLite type each must have. */
+    private val IMPORT_COLUMNS = linkedMapOf(
+        "import_source" to "TEXT",
+        "itip_dtstamp" to "INTEGER"
+    )
+
+    /**
+     * Migrates 25 to 26: adds `events.import_source` and `events.itip_dtstamp` for ICS file
+     * imports.
+     *
+     * Same transaction, idempotency and validation as [MIGRATION_24_25]. A same-named column of
+     * another type throws before anything changes: [addColumnIfNotExists] would skip it and Room's
+     * validation would reject the upgrade anyway. Both columns start null on every existing row:
+     * events imported before v26 carry fresh UIDs, so nothing stored can mark them.
+     */
+    val MIGRATION_25_26 = object : Migration(25, 26) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.beginTransaction()
+            try {
+                // 1. Pre-migration shape check
+                for ((column, type) in IMPORT_COLUMNS) {
+                    val found = columnTypeOf(db, "events", column)
+                    if (found != null && found != type) {
+                        throw IllegalStateException(
+                            "MIGRATION_25_26 pre-migration shape check failed: " +
+                                "events.$column expected $type but found $found. " +
+                                "Reinstall the app to clear the local DB."
+                        )
+                    }
+                }
+
+                // 2. Column adds; no backfill
+                for ((column, type) in IMPORT_COLUMNS) {
+                    addColumnIfNotExists(db, "events", column, type)
+                }
+
+                // 3. Validation, before setTransactionSuccessful() so a throw rolls back
+                val missing = IMPORT_COLUMNS.keys.filterNot { columnExists(db, "events", it) }
+                if (missing.isNotEmpty()) {
+                    throw IllegalStateException(
+                        "MIGRATION_25_26 post-migration validation failed: missing events.$missing"
+                    )
+                }
+
+                db.setTransactionSuccessful()
+            } finally {
+                db.endTransaction()
+            }
+        }
+    }
+
     /** Lists every manual migration in order; add each new one here. */
     val ALL_MIGRATIONS = arrayOf(
         MIGRATION_1_2,
@@ -1457,6 +1508,7 @@ object Migrations {
         MIGRATION_21_22,
         MIGRATION_22_23,
         MIGRATION_23_24,
-        MIGRATION_24_25
+        MIGRATION_24_25,
+        MIGRATION_25_26
     )
 }

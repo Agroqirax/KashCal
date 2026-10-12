@@ -131,6 +131,64 @@ object IcsPatcher {
     }
 
     /**
+     * Returns [rawIcal] with STATUS:CANCELLED, the attendee's copy of an imported CANCEL
+     * (RFC 5546 §3.2.5), edited as text like [patchAttendeeReply]; SEQUENCE is left as is.
+     *
+     * With [occurrence] null every VEVENT is cancelled: a CANCEL without RECURRENCE-ID cancels
+     * the whole series, changed occurrences included. Otherwise only the changed occurrence keyed
+     * by [occurrence] (as pull stores [Event.originalInstanceTime]); when the file has none, an
+     * override VEVENT built from the series with [override]'s times is added.
+     *
+     * @return null when the file doesn't parse, its VEVENTs can't be lined up with the text, or
+     *   an occurrence with no VEVENT comes without [override]
+     */
+    fun patchCancelled(rawIcal: String, occurrence: Long?, override: Event? = null): String? {
+        val parsed = parser.parseAllEvents(rawIcal).getOrNull() ?: return null
+        if (parsed.isEmpty()) return null
+        if (occurrence == null) {
+            return ReplyText.setStatus(rawIcal, parsed.indices.toSet(), parsed.size, "CANCELLED")
+        }
+        val seriesIndex = parsed.indexOfFirst { !it.isModifiedInstance() }
+        val seriesStart = parsed.getOrNull(seriesIndex)?.dtStart
+        val index = parsed.indexOfFirst { it.isModifiedInstance() && it.instanceKey(seriesStart) == occurrence }
+        if (index >= 0) return ReplyText.setStatus(rawIcal, setOf(index), parsed.size, "CANCELLED")
+        if (seriesIndex < 0 || override == null) return null
+        val (recurrenceId, start, end) = if (override.isAllDay) {
+            val day = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd").withZone(java.time.ZoneOffset.UTC)
+            Triple(
+                "RECURRENCE-ID;VALUE=DATE:${day.format(java.time.Instant.ofEpochMilli(occurrence))}",
+                "DTSTART;VALUE=DATE:${day.format(java.time.Instant.ofEpochMilli(override.startTs))}",
+                // Room keeps an all-day end inclusive (1 ms before midnight); DTEND is exclusive.
+                "DTEND;VALUE=DATE:${day.format(java.time.Instant.ofEpochMilli(override.endTs + 1))}"
+            )
+        } else {
+            val utc = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").withZone(java.time.ZoneOffset.UTC)
+            Triple(
+                "RECURRENCE-ID:${utc.format(java.time.Instant.ofEpochMilli(occurrence))}",
+                "DTSTART:${utc.format(java.time.Instant.ofEpochMilli(override.startTs))}",
+                "DTEND:${utc.format(java.time.Instant.ofEpochMilli(override.endTs))}"
+            )
+        }
+        return ReplyText.appendOverride(
+            rawIcal, seriesIndex, parsed.size, listOf(recurrenceId, start, end, "STATUS:CANCELLED")
+        )
+    }
+
+    /**
+     * Returns each VEVENT's STATUS in [rawIcal], keyed by instance as pull stores
+     * [Event.originalInstanceTime] (null for the series), CONFIRMED when a VEVENT has none; null
+     * when the file doesn't parse.
+     */
+    fun statusesByInstance(rawIcal: String): Map<Long?, String>? {
+        val parsed = parser.parseAllEvents(rawIcal).getOrNull() ?: return null
+        val seriesStart = parsed.firstOrNull { !it.isModifiedInstance() }?.dtStart
+        return parsed.associate { e ->
+            (if (e.isModifiedInstance()) e.instanceKey(seriesStart) else null) to
+                e.status.toICalString().ifBlank { "CONFIRMED" }
+        }
+    }
+
+    /**
      * Patches [rawIcal] with [event]'s fields, or generates fresh ICS when [rawIcal] is null or
      * fails to parse. [attendees] follows [patchToICalEvent].
      */

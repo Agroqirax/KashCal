@@ -10,8 +10,9 @@ object WhatsNewGate {
 
     /**
      * Returns the entries of [releases] with a versionCode above [lastShownVersion] and at most
-     * [currentVersion], ascending. Returns none when [lastShownVersion] is 0, the value before
-     * anything was stored or seeded.
+     * [currentVersion], ascending. Entries sharing a versionCode keep their order in [releases]
+     * (WhatsNewGateTest). Returns none when [lastShownVersion] is 0, the value before anything
+     * was stored or seeded.
      */
     fun releasesToShow(
         releases: List<ReleaseNote>,

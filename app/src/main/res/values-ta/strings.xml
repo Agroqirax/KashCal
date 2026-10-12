@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">ஒத்திசைவு நிறைவு மற்றும் பிழைகள் பற்றிய அறிவிப்புகள்</string>
     <string name="channel_event_invitations">நிகழ்வு அழைப்புகள்</string>
     <string name="channel_event_invitations_desc">புதிய நாட்காட்டி அழைப்பைப் பெறும்போது அறிவிப்புகள்</string>
+    <string name="channel_calendar_updates">நாட்காட்டி மாற்றங்கள்</string>
     <string name="invite_notification_body">%1$s இலிருந்து · பதிலளிக்க தட்டவும்</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">உங்கள் பதில் முழுத் தொடருக்கும் பொருந்தும்.</string>
+    <string name="rsvp_receipt_pending">பதில் அனுப்பக் காத்திருக்கிறது</string>
+    <string name="rsvp_receipt_sent">பதில் அனுப்பப்பட்டது</string>
+    <string name="rsvp_receipt_not_delivered">பதில் சென்றடையவில்லை</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">இதும் எதிர்கால அனைத்தும்</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">உங்கள் நிகழ்வுகளை இங்கே காண iCloud இணைக்கவும்</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">பிறகு</string>
+    <string name="whats_new_skip">தவிர்</string>
+    <string name="whats_new_next">அடுத்து</string>
+    <string name="whats_new_page_of">%2$d இல் பக்கம் %1$d</string>
+    <string name="whats_new_find_it_in">இங்கே காணலாம்</string>
     <string name="whats_new_v598_title">Android-ஐ திறந்திருக்க உதவுங்கள்</string>
     <string name="whats_new_v598_body">Google உங்கள் சாதனத்தில் பயன்பாடுகளை நிறுவும் முறையை மாற்றுகிறது. எங்களுக்கு உங்கள் உதவி தேவை.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org-க்குச் செல்லுங்கள்</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">இந்த வெளியீடு KashCal-இன் ஆதரவாளர்களுக்கு அர்ப்பணிக்கப்படுகிறது. ஒரு சிறிய பங்களிப்பு, மீண்டும் மீண்டும் கிடைக்கும் பெரிய பலன்.</string>
     <string name="whats_new_v732_caption">இன்னும் ஆதரவாளராகவில்லையா?</string>
     <string name="whats_new_v732_action_label">உங்கள் திட்டங்களில் எங்களைச் சேருங்கள்</string>
+    <string name="whats_new_v772_icon_title">உங்கள் ஐகானுக்குத் தேதி தெரியும்</string>
+    <string name="whats_new_v772_icon_body">இன்றைய தேதி ஐகானைத் தேர்ந்தெடுங்கள், KashCal உங்கள் முகப்புத் திரையில் மாதத்தின் தேதியைக் காட்டும். ஒவ்வொரு இரவும் அது தானாகவே மாறும்.</string>
+    <string name="whats_new_v772_changes_title">என்ன மாறியது எனப் பாருங்கள்</string>
+    <string name="whats_new_v772_changes_body">உங்கள் iCloud மற்றும் CalDAV நாட்காட்டிகளின் புதிய, திருத்தப்பட்ட மற்றும் நீக்கப்பட்ட நிகழ்வுகள் 7 நாட்களுக்கு சமீபத்திய மாற்றங்கள் பட்டியலில் சேரும். ஒன்றைத் திறக்க அதைத் தட்டவும்.</string>
+    <string name="whats_new_v772_notifications_body">பின்னணி ஒத்திசைவு உங்கள் iCloud அல்லது CalDAV நிகழ்வுகளில் மாற்றங்களைக் கண்டறியும்போது அறிவிப்பைப் பெறுங்கள். நீங்கள் இயக்கும் வரை இது முடக்கத்திலேயே இருக்கும்.</string>
+    <string name="whats_new_hero_sample_lunch">குழு மதிய உணவு</string>
+    <string name="whats_new_hero_sample_review">வடிவமைப்பு மதிப்பாய்வு</string>
+    <string name="whats_new_hero_sample_book_club">புத்தகக் கழகம்</string>
+    <string name="whats_new_hero_sample_calendar">வேலை</string>
+    <string name="whats_new_hero_now">இப்போது</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud இணை</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">சுருக்கமான ஒற்றை வரி, அல்லது முடிவு நேரத்துடன் விரிவான இரண்டு வரிகள்.</string>
     <string name="settings_sync_lookback">ஒத்திசைவு திரும்பப்பார்வை</string>
     <string name="settings_sync_lookback_hint">எவ்வளவு பின்னோக்கி நிகழ்வுகளை ஒத்திசைக்க வேண்டும்</string>
+    <string name="settings_change_notifications">மாற்ற அறிவிப்புகள்</string>
+    <string name="settings_change_notifications_info">பின்னணி ஒத்திசைவு உங்கள் நிகழ்வுகளில் மாற்றங்களைக் கண்டறியும்போது ஓர் அறிவிப்பை அனுப்பும். iCloud மற்றும் CalDAV நாட்காட்டிகளுக்கு வேலை செய்யும்.</string>
     <string name="settings_not_set">அமைக்கப்படவில்லை</string>
     <string name="settings_on">ஆன்</string>
     <string name="settings_off">ஆஃப்</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d நிகழ்வு இறக்குமதி செய்யப்பட்டது</item>
         <item quantity="other">%1$d நிகழ்வுகள் இறக்குமதி செய்யப்பட்டன</item>
     </plurals>
+    <string name="ics_import_preview_loading">இந்த நாட்காட்டியைச் சரிபார்க்கிறது…</string>
+    <string name="ics_import_preview_failed">இந்த நிகழ்வுகளுக்காக இந்த நாட்காட்டியைச் சரிபார்க்க முடியவில்லை. நீங்கள் இன்னும் இறக்குமதி செய்யலாம்.</string>
+    <string name="ics_import_will_cancel">இது %1$s ஐ ரத்து செய்யும், ஏற்பாட்டாளர்: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">இது %1$s ஐ ரத்து செய்யும்</string>
+    <string name="ics_import_will_update">இது %1$s ஐப் புதுப்பிக்கும்</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d நிகழ்வு ஏற்கெனவே புதுப்பித்த நிலையில் உள்ளது</item>
+        <item quantity="other">%1$d நிகழ்வுகள் ஏற்கெனவே புதுப்பித்த நிலையில் உள்ளன</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d தவிர்க்கப்பட்டது: %2$s</item>
+        <item quantity="other">%1$d தவிர்க்கப்பட்டன: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">இது ஒரு அழைப்புக்கான பதில், இது உங்கள் நாட்காட்டியில் எதையும் சேர்க்காது</string>
+    <string name="ics_import_reason_unsupported">இந்த வகை அழைப்புச் செய்தி ஆதரிக்கப்படவில்லை</string>
+    <string name="ics_import_reason_organizer_mismatch">இது சந்திப்பின் ஏற்பாட்டாளர் அல்லாத வேறொருவரிடமிருந்து வந்துள்ளது</string>
+    <string name="ics_import_reason_cancel_no_match">ரத்து செய்யப்பட்ட சந்திப்பு இந்த நாட்காட்டியில் இல்லை</string>
+    <string name="ics_import_reason_cancel_not_for_you">இந்த ரத்து அறிவிப்பு மற்ற விருந்தினர்களுக்கானது</string>
+    <string name="ics_import_reason_deletion_pending">நிகழ்வு நீக்கப்படுகிறது</string>
+    <string name="ics_import_reason_cancelled_in_file">இது கோப்பில் ஏற்கெனவே ரத்து செய்யப்பட்டுள்ளது</string>
+    <string name="ics_import_reason_this_and_future">இதற்கும் அடுத்த மறுநிகழ்வுகளுக்குமான மாற்றங்கள் ஆதரிக்கப்படவில்லை</string>
+    <string name="ics_import_reason_own_cancel">இந்தச் சந்திப்பை நீங்கள் ஏற்பாடு செய்கிறீர்கள், எனவே நிகழ்விலிருந்தே ரத்து செய்யுங்கள்</string>
+    <string name="ics_import_reason_on_another_calendar">இது ஏற்கெனவே இந்தக் கணக்கின் மற்றொரு நாட்காட்டியில் உள்ளது</string>
+    <string name="ics_import_notice_unverified">அழைப்புக் கோப்பை அனுப்பியவரைச் சரிபார்க்க முடியாது. இது ஏற்பாட்டாளரிடமிருந்து வந்ததா எனச் சரிபாருங்கள்.</string>
+    <string name="ics_import_notice_answer_notifies">இந்த அழைப்புக்குப் பதிலளித்தால் ஏற்பாட்டாளருக்குத் தெரிவிக்கப்படலாம்.</string>
+    <string name="ics_import_notice_guests_again">நீங்கள் ஏற்பாட்டாளர், எனவே விருந்தினர்கள் இந்த அழைப்பை மீண்டும் பெறக்கூடும்.</string>
+    <string name="cd_dismiss_notice">அறிவிப்பை நிராகரி</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d சேர்க்கப்பட்டது</item>
+        <item quantity="other">%1$d சேர்க்கப்பட்டன</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d புதுப்பிக்கப்பட்டது</item>
+        <item quantity="other">%1$d புதுப்பிக்கப்பட்டன</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d ரத்து செய்யப்பட்டது</item>
+        <item quantity="other">%1$d ரத்து செய்யப்பட்டன</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ஏற்கெனவே புதுப்பித்த நிலையில்</item>
+        <item quantity="other">%1$d ஏற்கெனவே புதுப்பித்த நிலையில்</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d தவிர்க்கப்பட்டது</item>
+        <item quantity="other">%1$d தவிர்க்கப்பட்டன</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d தோல்வி</item>
+        <item quantity="other">%1$d தோல்வி</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">இறக்குமதி செய்ய எதுவும் இல்லை</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d நிகழ்வு ஏற்றுமதி செய்யப்பட்டது</item>
         <item quantity="other">%1$d நிகழ்வுகள் ஏற்றுமதி செய்யப்பட்டன</item>

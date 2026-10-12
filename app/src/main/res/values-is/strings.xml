@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Tilkynningar um lok samstillingar og villur</string>
     <string name="channel_event_invitations">Viðburðaboð</string>
     <string name="channel_event_invitations_desc">Tilkynningar þegar þú færð nýtt dagatalsboð</string>
+    <string name="channel_calendar_updates">Dagatalsbreytingar</string>
     <string name="invite_notification_body">Frá %1$s · Ýttu til að svara</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Svarið gildir fyrir alla röðina.</string>
+    <string name="rsvp_receipt_pending">Svar í bið</string>
+    <string name="rsvp_receipt_sent">Svar sent</string>
+    <string name="rsvp_receipt_not_delivered">Svar ekki afhent</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Þennan og alla framtíðar</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Tengdu iCloud til að sjá viðburðina þína hér</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Seinna</string>
+    <string name="whats_new_skip">Sleppa</string>
+    <string name="whats_new_next">Áfram</string>
+    <string name="whats_new_page_of">Síða %1$d af %2$d</string>
+    <string name="whats_new_find_it_in">Finndu það undir</string>
     <string name="whats_new_v598_title">Hjálpaðu til við að halda Android opnu</string>
     <string name="whats_new_v598_body">Google er að breyta því hvernig þú setur upp forrit í tækinu þínu. Við þurfum hjálp þína.</string>
     <string name="whats_new_v598_action_label">Heimsækja keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Þessi útgáfa er tileinkuð þeim sem styðja KashCal. Lítið framlag með stórum, endurteknum ávinningi.</string>
     <string name="whats_new_v732_caption">Ekki enn stuðningsmaður?</string>
     <string name="whats_new_v732_action_label">Bættu okkur við áætlanir þínar</string>
+    <string name="whats_new_v772_icon_title">Táknið þitt veit hvaða dagur er</string>
+    <string name="whats_new_v772_icon_body">Veldu táknið Dagsetning dagsins og þá sýnir KashCal dag mánaðarins á heimaskjánum þínum. Það skiptir sjálfkrafa um á hverri nóttu.</string>
+    <string name="whats_new_v772_changes_title">Sjáðu hvað breyttist</string>
+    <string name="whats_new_v772_changes_body">Nýir, breyttir og fjarlægðir viðburðir úr iCloud- og CalDAV-dagatölunum þínum safnast í Nýlegar breytingar í 7 daga. Ýttu á einn til að opna hann.</string>
+    <string name="whats_new_v772_notifications_body">Fáðu tilkynningu þegar samstilling í bakgrunni finnur breytingar á iCloud- eða CalDAV-viðburðunum þínum. Slökkt er á þessu þar til þú kveikir á því.</string>
+    <string name="whats_new_hero_sample_lunch">Hádegisverður teymisins</string>
+    <string name="whats_new_hero_sample_review">Hönnunarrýni</string>
+    <string name="whats_new_hero_sample_book_club">Bókaklúbbur</string>
+    <string name="whats_new_hero_sample_calendar">Vinna</string>
+    <string name="whats_new_hero_now">núna</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Tengja iCloud</string>
@@ -583,6 +600,8 @@
     <string name="settings_detailed_widget_rows_info">Þjappað á einni línu, eða ítarlegt á tveimur línum með lokatíma.</string>
     <string name="settings_sync_lookback">Samstillingarsvið aftur í tíma</string>
     <string name="settings_sync_lookback_hint">Hversu langt aftur viðburðir eru samstilltir</string>
+    <string name="settings_change_notifications">Tilkynningar um breytingar</string>
+    <string name="settings_change_notifications_info">Sendir tilkynningu þegar samstilling í bakgrunni finnur breytingar á viðburðunum þínum. Virkar fyrir iCloud- og CalDAV-dagatöl.</string>
     <string name="settings_not_set">Ekki stillt</string>
     <string name="settings_on">Kveikt</string>
     <string name="settings_off">Slökkt</string>
@@ -759,6 +778,59 @@
         <item quantity="one">%1$d viðburður fluttur inn</item>
         <item quantity="other">%1$d viðburðir fluttir inn</item>
     </plurals>
+    <string name="ics_import_preview_loading">Athugar þetta dagatal…</string>
+    <string name="ics_import_preview_failed">Ekki tókst að athuga þetta dagatal fyrir þessa viðburði. Þú getur samt flutt inn.</string>
+    <string name="ics_import_will_cancel">Þetta aflýsir %1$s, skipulagt af %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Þetta aflýsir %1$s</string>
+    <string name="ics_import_will_update">Þetta uppfærir %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d viðburður er þegar uppfærður</item>
+        <item quantity="other">%1$d viðburðir eru þegar uppfærðir</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d sleppt: %2$s</item>
+        <item quantity="other">%1$d sleppt: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">þetta er svar við boði, sem bætir engu við dagatalið þitt</string>
+    <string name="ics_import_reason_unsupported">þessi tegund boðsskilaboða er ekki studd</string>
+    <string name="ics_import_reason_organizer_mismatch">það kemur frá öðrum en skipuleggjanda fundarins</string>
+    <string name="ics_import_reason_cancel_no_match">fundurinn sem var aflýst er ekki í þessu dagatali</string>
+    <string name="ics_import_reason_cancel_not_for_you">aflýsingin á við aðra gesti</string>
+    <string name="ics_import_reason_deletion_pending">verið er að eyða viðburðinum</string>
+    <string name="ics_import_reason_cancelled_in_file">viðburðinum hefur þegar verið aflýst í skránni</string>
+    <string name="ics_import_reason_this_and_future">breytingar á þessu og síðari tilvikum eru ekki studdar</string>
+    <string name="ics_import_reason_own_cancel">þú skipuleggur þennan fund, svo aflýstu honum úr viðburðinum</string>
+    <string name="ics_import_reason_on_another_calendar">viðburðurinn er þegar í öðru dagatali á þessum reikningi</string>
+    <string name="ics_import_notice_unverified">Ekki er hægt að staðfesta sendanda boðsskrár. Gakktu úr skugga um að hún komi frá skipuleggjandanum.</string>
+    <string name="ics_import_notice_answer_notifies">Ef þú svarar þessu boði gæti skipuleggjandinn fengið tilkynningu.</string>
+    <string name="ics_import_notice_guests_again">Þú ert skipuleggjandinn, svo gestir gætu fengið þetta boð aftur.</string>
+    <string name="cd_dismiss_notice">Loka tilkynningu</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d bætt við</item>
+        <item quantity="other">%1$d bætt við</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d uppfært</item>
+        <item quantity="other">%1$d uppfært</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d aflýst</item>
+        <item quantity="other">%1$d aflýst</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d þegar uppfært</item>
+        <item quantity="other">%1$d þegar uppfært</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d sleppt</item>
+        <item quantity="other">%1$d sleppt</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d mistókst</item>
+        <item quantity="other">%1$d mistókust</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Ekkert að flytja inn</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d viðburður fluttur út</item>
         <item quantity="other">%1$d viðburðir fluttir út</item>

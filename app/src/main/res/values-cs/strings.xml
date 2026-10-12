@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Upozornění na dokončení synchronizace a chyby</string>
     <string name="channel_event_invitations">Pozvánky na události</string>
     <string name="channel_event_invitations_desc">Upozornění při obdržení nové pozvánky do kalendáře</string>
+    <string name="channel_calendar_updates">Změny v kalendáři</string>
     <string name="invite_notification_body">Od %1$s · Klepněte pro odpověď</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Odpověď platí pro celou sérii.</string>
+    <string name="rsvp_receipt_pending">Odpověď čeká na odeslání</string>
+    <string name="rsvp_receipt_sent">Odpověď odeslána</string>
+    <string name="rsvp_receipt_not_delivered">Odpověď nebyla doručena</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Tuto a všechny budoucí</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Připojte iCloud a uvidíte své události</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Později</string>
+    <string name="whats_new_skip">Přeskočit</string>
+    <string name="whats_new_next">Další</string>
+    <string name="whats_new_page_of">Stránka %1$d z %2$d</string>
+    <string name="whats_new_find_it_in">Najdete to v</string>
     <string name="whats_new_v598_title">Pomozte zachovat otevřenost Androidu</string>
     <string name="whats_new_v598_body">Google mění způsob, jak instalujete aplikace na svém zařízení. Potřebujeme vaši pomoc.</string>
     <string name="whats_new_v598_action_label">Navštívit keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Tuto verzi věnujeme těm, kdo podporují KashCal. Malý příspěvek, který se stále vyplácí.</string>
     <string name="whats_new_v732_caption">Ještě nepodporujete?</string>
     <string name="whats_new_v732_action_label">Přidejte nás do svých plánů</string>
+    <string name="whats_new_v772_icon_title">Vaše ikona zná datum</string>
+    <string name="whats_new_v772_icon_body">Vyberte ikonu \"Dnešní datum\" a KashCal bude na ploše ukazovat den v měsíci. Každou noc se sama změní.</string>
+    <string name="whats_new_v772_changes_title">Podívejte se, co se změnilo</string>
+    <string name="whats_new_v772_changes_body">Nové, upravené a odstraněné události z vašich kalendářů iCloud a CalDAV se po dobu 7 dní shromažďují v seznamu \"Nedávné změny\". Klepnutím na událost ji otevřete.</string>
+    <string name="whats_new_v772_notifications_body">Dostávejte oznámení, když synchronizace na pozadí najde změny ve vašich událostech iCloud nebo CalDAV. Funkce zůstane vypnutá, dokud ji nezapnete.</string>
+    <string name="whats_new_hero_sample_lunch">Týmový oběd</string>
+    <string name="whats_new_hero_sample_review">Kontrola návrhu</string>
+    <string name="whats_new_hero_sample_book_club">Čtenářský klub</string>
+    <string name="whats_new_hero_sample_calendar">Práce</string>
+    <string name="whats_new_hero_now">nyní</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Připojit iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompaktní jeden řádek nebo podrobné dva řádky s časem konce.</string>
     <string name="settings_sync_lookback">Rozsah synchronizace zpět</string>
     <string name="settings_sync_lookback_hint">Jak daleko zpět synchronizovat události</string>
+    <string name="settings_change_notifications">Oznámení o změnách</string>
+    <string name="settings_change_notifications_info">Pošle oznámení, když synchronizace na pozadí najde změny ve vašich událostech. Funguje pro kalendáře iCloud a CalDAV.</string>
     <string name="settings_not_set">Nenastaveno</string>
     <string name="settings_on">Zap.</string>
     <string name="settings_off">Vyp.</string>
@@ -794,6 +813,75 @@
         <item quantity="many">Importováno %1$d událostí</item>
         <item quantity="other">Importováno %1$d událostí</item>
     </plurals>
+    <string name="ics_import_preview_loading">Kontrola tohoto kalendáře…</string>
+    <string name="ics_import_preview_failed">Tyto události se v tomto kalendáři nepodařilo zkontrolovat. Importovat můžeš i tak.</string>
+    <string name="ics_import_will_cancel">Tímto se zruší %1$s, organizátor: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Tímto se zruší %1$s</string>
+    <string name="ics_import_will_update">Tímto se aktualizuje %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d událost je už aktuální</item>
+        <item quantity="few">%1$d události jsou už aktuální</item>
+        <item quantity="many">%1$d událostí je už aktuálních</item>
+        <item quantity="other">%1$d událostí je už aktuálních</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">Přeskočeno %1$d: %2$s</item>
+        <item quantity="few">Přeskočeno %1$d: %2$s</item>
+        <item quantity="many">Přeskočeno %1$d: %2$s</item>
+        <item quantity="other">Přeskočeno %1$d: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">je to odpověď na pozvánku, která do kalendáře nic nepřidává</string>
+    <string name="ics_import_reason_unsupported">tento typ zprávy s pozvánkou není podporován</string>
+    <string name="ics_import_reason_organizer_mismatch">pochází od někoho jiného než od organizátora schůzky</string>
+    <string name="ics_import_reason_cancel_no_match">zrušená schůzka v tomto kalendáři není</string>
+    <string name="ics_import_reason_cancel_not_for_you">zrušení se týká jiných hostů</string>
+    <string name="ics_import_reason_deletion_pending">událost se právě maže</string>
+    <string name="ics_import_reason_cancelled_in_file">v souboru už je zrušená</string>
+    <string name="ics_import_reason_this_and_future">změny tohoto a dalších výskytů nejsou podporovány</string>
+    <string name="ics_import_reason_own_cancel">tuto schůzku organizuješ ty, takže ji zruš přímo v události</string>
+    <string name="ics_import_reason_on_another_calendar">už je v jiném kalendáři tohoto účtu</string>
+    <string name="ics_import_notice_unverified">Odesílatele souboru s pozvánkou nelze ověřit. Zkontroluj, že pochází od organizátora.</string>
+    <string name="ics_import_notice_answer_notifies">Odpověď na tuto pozvánku může upozornit organizátora.</string>
+    <string name="ics_import_notice_guests_again">Jsi organizátor, takže hosté můžou tuto pozvánku dostat znovu.</string>
+    <string name="cd_dismiss_notice">Zavřít upozornění</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d přidána</item>
+        <item quantity="few">%1$d přidány</item>
+        <item quantity="many">%1$d přidáno</item>
+        <item quantity="other">%1$d přidáno</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d aktualizována</item>
+        <item quantity="few">%1$d aktualizovány</item>
+        <item quantity="many">%1$d aktualizováno</item>
+        <item quantity="other">%1$d aktualizováno</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d zrušena</item>
+        <item quantity="few">%1$d zrušeny</item>
+        <item quantity="many">%1$d zrušeno</item>
+        <item quantity="other">%1$d zrušeno</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d už aktuální</item>
+        <item quantity="few">%1$d už aktuální</item>
+        <item quantity="many">%1$d už aktuálních</item>
+        <item quantity="other">%1$d už aktuálních</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d přeskočena</item>
+        <item quantity="few">%1$d přeskočeny</item>
+        <item quantity="many">%1$d přeskočeno</item>
+        <item quantity="other">%1$d přeskočeno</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d selhala</item>
+        <item quantity="few">%1$d selhaly</item>
+        <item quantity="many">%1$d selhalo</item>
+        <item quantity="other">%1$d selhalo</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Není co importovat</string>
     <plurals name="exported_events">
         <item quantity="one">Exportována %1$d událost</item>
         <item quantity="few">Exportovány %1$d události</item>

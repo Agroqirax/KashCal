@@ -116,6 +116,12 @@ object PreferencesKeys {
     /** Vibrates on notifications. */
     val NOTIFICATION_VIBRATE = booleanPreferencesKey("notification_vibrate")
 
+    /**
+     * Posts a notification for the Recent changes a background sync records (default false);
+     * otherwise only the in-app snackbar announces them.
+     */
+    val CHANGE_NOTIFICATIONS_ENABLED = booleanPreferencesKey("change_notifications_enabled")
+
     /** Quick Add on or off (shows the FAB). */
     val QUICK_ADD_ENABLED = booleanPreferencesKey("quick_add_enabled")
 

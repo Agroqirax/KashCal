@@ -20,7 +20,12 @@ internal class UnsharedCalendarPicker(
     private val creds: ServerCredentials,
 ) {
     /** Returns the first writable VEVENT calendar [isConfirmedUnshared] accepts, or null. */
-    suspend fun find(): String? {
+    suspend fun find(): String? = candidates()?.firstOrNull { isConfirmedUnshared(it) }
+
+    /** Returns every writable VEVENT calendar [isConfirmedUnshared] accepts, in server order. */
+    suspend fun findAll(): List<String> = candidates().orEmpty().filter { isConfirmedUnshared(it) }
+
+    private suspend fun candidates(): List<String>? {
         val endpoint = creds.davEndpoint
         val caldavUrl = if (config.usesWellKnownDiscovery) {
             client.discoverWellKnown(endpoint).getOrNull() ?: endpoint
@@ -30,7 +35,7 @@ internal class UnsharedCalendarPicker(
         return client.listCalendars(home).getOrNull()
             ?.filter { !it.url.contains("inbox") && !it.url.contains("outbox") && !it.isReadOnly }
             ?.filter { it.supportedComponents.isEmpty() || "VEVENT" in it.supportedComponents }
-            ?.firstOrNull { isConfirmedUnshared(it.url) }?.url
+            ?.map { it.url }
     }
 
     /**

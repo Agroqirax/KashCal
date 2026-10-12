@@ -4,6 +4,7 @@ import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,9 +33,10 @@ import org.robolectric.annotation.Config
 
 /**
  * Tests the Recent changes sheet's state in [HomeViewModel]: opening it shows the log, a swipe
- * dismisses a row with no undo, Clear all dismisses the rows shown and offers one undo, and
+ * dismisses a row with no undo, Clear all dismisses the rows shown and offers one undo,
  * [HomeViewModel.resolveRecentChangeTarget] picks what a tapped row opens (a series at its next
- * occurrence). The tap's wiring to the quick view isn't driven here. Collaborators are the
+ * occurrence), and [HomeViewModel.openChangeNotification] picks what a change notification's
+ * tap opens. The tap's wiring to the quick view isn't driven here. Collaborators are the
  * strict mocks of [DeviceHomeViewModelTestFactory], with each Recent changes call stubbed here.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -250,5 +252,86 @@ class HomeViewModelRecentChangesTest {
 
         assertNull(viewModel.resolveRecentChangeTarget(item(4, "gone", eventId = null, type = ChangeType.DELETED)))
         assertNull(viewModel.resolveRecentChangeTarget(item(5, "gone2", eventId = 11, type = ChangeType.DELETED)))
+    }
+
+    // ==================== Change notification tap ====================
+
+    @Test
+    fun `opening the sheet clears the change notification`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.openRecentChanges()
+        advanceUntilIdle()
+
+        verify(exactly = 1) { factory.syncScheduler.cancelChangeNotification() }
+    }
+
+    @Test
+    fun `a change notification for one row opens that row without the sheet`() = runTest {
+        val viewModel = createViewModel()
+
+        val target = viewModel.openChangeNotification(2L)
+        advanceUntilIdle()
+
+        assertEquals(oneOff, target!!.event)
+        assertFalse(viewModel.uiState.value.isRecentChangesOpen)
+        verify(exactly = 1) { factory.syncScheduler.cancelChangeNotification() }
+    }
+
+    @Test
+    fun `a change notification for a series row opens its next occurrence`() = runTest {
+        coEvery { factory.eventReader.getNextOccurrence(10, any()) } returns occurrence(99_000)
+        val viewModel = createViewModel()
+
+        val target = viewModel.openChangeNotification(1L)
+
+        assertEquals(series, target!!.event)
+        assertEquals(99_000L, target.occurrenceTs)
+    }
+
+    @Test
+    fun `a change notification for several rows opens the sheet`() = runTest {
+        val viewModel = createViewModel()
+
+        val target = viewModel.openChangeNotification(null)
+        advanceUntilIdle()
+
+        assertNull(target)
+        assertTrue(viewModel.uiState.value.isRecentChangesOpen)
+        verify(exactly = 1) { factory.syncScheduler.cancelChangeNotification() }
+    }
+
+    @Test
+    fun `a change notification whose row is gone opens the sheet`() = runTest {
+        val viewModel = createViewModel()
+
+        assertNull(viewModel.openChangeNotification(99L))
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.isRecentChangesOpen)
+    }
+
+    @Test
+    fun `a change notification for a removed event opens the sheet`() = runTest {
+        log.value = listOf(item(4, "gone", eventId = null, type = ChangeType.DELETED))
+        val viewModel = createViewModel()
+
+        assertNull(viewModel.openChangeNotification(4L))
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.isRecentChangesOpen)
+    }
+
+    @Test
+    fun `a change notification for one row closes an open sheet before its quick view`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.openRecentChanges()
+        advanceUntilIdle()
+
+        val target = viewModel.openChangeNotification(2L)
+        advanceUntilIdle()
+
+        assertEquals(oneOff, target!!.event)
+        assertFalse(viewModel.uiState.value.isRecentChangesOpen)
     }
 }

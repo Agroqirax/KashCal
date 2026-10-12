@@ -50,6 +50,7 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -199,11 +200,6 @@ private fun RecentChangeRow(
     val scope = rememberCoroutineScope()
     // Switch Access and TalkBack can't swipe, so dismiss is also a custom action.
     val dismissLabel = stringResource(R.string.recent_changes_dismiss)
-    val (icon, iconColor, iconDescription) = when (item.changeType) {
-        ChangeType.NEW -> Triple(Icons.Default.Add, Color(0xFF4CAF50), stringResource(R.string.cd_recent_change_new))
-        ChangeType.MODIFIED -> Triple(Icons.Default.Edit, Color(0xFF2196F3), stringResource(R.string.cd_recent_change_updated))
-        ChangeType.DELETED -> Triple(Icons.Default.Delete, Color(0xFFF44336), stringResource(R.string.cd_recent_change_removed))
-    }
 
     SwipeToDismissBox(
         modifier = modifier.semantics {
@@ -240,60 +236,81 @@ private fun RecentChangeRow(
                 .then(if (item.opens) Modifier.clickable { onOpen(item) } else Modifier),
             color = MaterialTheme.colorScheme.surfaceContainerLow
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = iconDescription,
-                    tint = iconColor,
-                    modifier = Modifier.size(24.dp)
+            RecentChangeRowContent(item = item, whenText = whenText, detail = detail)
+        }
+    }
+}
+
+/**
+ * Draws one Recent changes row: change icon, calendar dot, title, [whenText] with a repeat icon
+ * for a series, and [detail]. The sheet's row adds swipe-to-dismiss and the tap; the What's New
+ * illustration draws it bare with a tighter [verticalPadding].
+ */
+@Composable
+internal fun RecentChangeRowContent(
+    item: RecentChangeItem,
+    whenText: String,
+    detail: String?,
+    modifier: Modifier = Modifier,
+    verticalPadding: Dp = 12.dp,
+) {
+    val (icon, iconColor, iconDescription) = when (item.changeType) {
+        ChangeType.NEW -> Triple(Icons.Default.Add, Color(0xFF4CAF50), stringResource(R.string.cd_recent_change_new))
+        ChangeType.MODIFIED -> Triple(Icons.Default.Edit, Color(0xFF2196F3), stringResource(R.string.cd_recent_change_updated))
+        ChangeType.DELETED -> Triple(Icons.Default.Delete, Color(0xFFF44336), stringResource(R.string.cd_recent_change_removed))
+    }
+    Row(
+        modifier = modifier.fillMaxWidth().padding(vertical = verticalPadding),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = iconDescription,
+            tint = iconColor,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        // The dot is the row's only calendar cue; TalkBack reads the calendar's name.
+        Box(
+            modifier = Modifier
+                .size(12.dp)
+                .clip(CircleShape)
+                .background(Color(item.calendarColor))
+                .semantics { contentDescription = item.calendarName }
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = whenText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(modifier = Modifier.width(12.dp))
-                // The dot is the row's only calendar cue; TalkBack reads the calendar's name.
-                Box(
-                    modifier = Modifier
-                        .size(12.dp)
-                        .clip(CircleShape)
-                        .background(Color(item.calendarColor))
-                        .semantics { contentDescription = item.calendarName }
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = item.title,
-                        style = MaterialTheme.typography.bodyLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                // Only a series repeats; a changed occurrence is one date.
+                if (item.isSeriesRow) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        imageVector = Icons.Default.Repeat,
+                        contentDescription = stringResource(R.string.cd_recurring),
+                        modifier = Modifier.size(14.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = whenText,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        // Only a series repeats; a changed occurrence is one date.
-                        if (item.isSeriesRow) {
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Icon(
-                                imageVector = Icons.Default.Repeat,
-                                contentDescription = stringResource(R.string.cd_recurring),
-                                modifier = Modifier.size(14.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                    if (detail != null) {
-                        Text(
-                            text = detail,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
                 }
+            }
+            if (detail != null) {
+                Text(
+                    text = detail,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }

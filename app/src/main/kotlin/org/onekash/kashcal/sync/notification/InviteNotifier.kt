@@ -69,6 +69,17 @@ class InviteNotifier @Inject constructor(
         }
     }
 
+    /**
+     * Returns the events among [eventIds] with an attendee row marked notified at or after
+     * [since]: [notifyNew] marks the row it notified for (an imported invitation is marked too,
+     * with nothing shown). Empty when invite notifications are off: [notifyNew] marks a row even
+     * when the manager skipped the notification.
+     */
+    suspend fun eventsNotifiedSince(eventIds: Collection<Long>, since: Long): Set<Long> {
+        if (!notificationManager.areNotificationsEnabled()) return emptySet()
+        return attendeesDao.getEventIdsNotifiedSince(since).toSet().intersect(eventIds.toSet())
+    }
+
     private fun resolveOrganizerLabel(event: Event): String? {
         event.organizerName?.takeIf { it.isNotBlank() }?.let { return it }
         return event.organizerEmail?.let { AddressNormalizer.stripMailto(it) }

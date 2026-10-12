@@ -1,5 +1,8 @@
 package org.onekash.kashcal.ui.viewmodels
 
+import org.onekash.kashcal.data.ics.IcsImportFile
+import org.onekash.kashcal.domain.ics.GroupPlan
+import org.onekash.kashcal.domain.ics.IcsImportResult
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -1005,8 +1008,9 @@ class HomeViewModel(
     }
 
     /**
-     * Shows a snackbar for every worker sync that recorded Recent changes, whatever triggered it,
-     * with a "View" action that opens the Recent changes sheet. The published entries are
+     * Shows a snackbar for every worker sync that published Recent changes (a background sync whose
+     * changes [org.onekash.kashcal.sync.notification.ChangeNotifier.notify] announced publishes
+     * none), with a "View" action that opens the Recent changes sheet. The published entries are
      * cleared once shown, so a later ViewModel doesn't show them again; the log stays in Room.
      */
     private fun observeSyncChanges() {
@@ -2423,9 +2427,11 @@ class HomeViewModel(
 
     /**
      * Opens the Recent changes sheet and reads the log while it shows. The expiry window
-     * ([EventReader.observeRecentChanges]) starts from now each time the sheet opens.
+     * ([EventReader.observeRecentChanges]) starts from now each time the sheet opens. Clears the
+     * change notification, whose changes the sheet now shows.
      */
     fun openRecentChanges() {
+        syncScheduler.cancelChangeNotification()
         _uiState.update { it.copy(isRecentChangesOpen = true) }
         recentChangesJob?.cancel()
         recentChangesJob = viewModelScope.launch {
@@ -2475,6 +2481,28 @@ class HomeViewModel(
     /** Ends Clear all's undo offer once the sheet's Undo row has timed out. */
     fun onRecentChangesUndoShown() {
         _uiState.update { it.copy(recentChangesClearedIds = persistentListOf()) }
+    }
+
+    /**
+     * Handles a change notification's tap and clears the notification. Returns the quick view to
+     * open when [recentChangeId] is a row still in the log that opens
+     * ([resolveRecentChangeTarget]), closing the Recent changes sheet if it is open, as a row tap
+     * in the sheet does; otherwise opens the sheet and returns null.
+     */
+    suspend fun openChangeNotification(recentChangeId: Long?): RecentChangeTarget? {
+        val target = recentChangeId?.let { id ->
+            val row = withContext(ioDispatcher) {
+                eventReader.observeRecentChanges(System.currentTimeMillis()).first().find { it.id == id }
+            }
+            row?.let { resolveRecentChangeTarget(it) }
+        }
+        if (target == null) {
+            openRecentChanges()
+        } else {
+            syncScheduler.cancelChangeNotification()
+            if (_uiState.value.isRecentChangesOpen) closeRecentChanges()
+        }
+        return target
     }
 
     /**
@@ -3905,16 +3933,20 @@ class HomeViewModel(
         }
     }
 
-    /** Imports events parsed from an ICS file into a device calendar; returns the count created. */
-    suspend fun importIcsToDeviceCalendar(events: List<Event>, calendarId: Long): Int {
-        val count = withContext(ioDispatcher) {
-            deviceEventWriter.importIcsEvents(events, calendarId)
+    /** Imports a parsed ICS file into a device calendar and returns what it did. */
+    suspend fun importIcsToDeviceCalendar(file: IcsImportFile, calendarId: Long): IcsImportResult {
+        val result = withContext(ioDispatcher) {
+            deviceEventWriter.importIcsFile(file, calendarId)
         }
         // The writer has signalled the device change; the view is reloaded too, as after every
         // other device write, since the caller only refreshes calendars and selects a date.
-        if (count > 0) reloadCurrentView()
-        return count
+        if (result.changedAnything) reloadCurrentView()
+        return result
     }
+
+    /** Returns what [importIcsToDeviceCalendar] would do in device calendar [calendarId]. */
+    suspend fun previewIcsImportOnDevice(file: IcsImportFile, calendarId: Long): List<GroupPlan> =
+        withContext(ioDispatcher) { deviceEventReader.previewIcsImport(file, calendarId) }
 
     /**
      * Saves a device event from the form, picking the writer method for the edit scope the way

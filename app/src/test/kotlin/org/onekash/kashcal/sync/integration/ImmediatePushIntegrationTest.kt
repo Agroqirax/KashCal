@@ -13,6 +13,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.sync.scheduler.SyncScheduler
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -44,7 +45,7 @@ class ImmediatePushIntegrationTest {
 
         WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
         workManager = WorkManager.getInstance(context)
-        syncScheduler = SyncScheduler(context)
+        syncScheduler = SyncScheduler(context, ChangeNotificationChannels(context))
     }
 
     @After

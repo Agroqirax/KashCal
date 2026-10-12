@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">സിങ്ക് പൂർത്തീകരണത്തെയും പിശകുകളെയും കുറിച്ചുള്ള അറിയിപ്പുകൾ</string>
     <string name="channel_event_invitations">ഇവന്റ് ക്ഷണങ്ങൾ</string>
     <string name="channel_event_invitations_desc">നിങ്ങൾക്ക് ഒരു പുതിയ കലണ്ടർ ക്ഷണം ലഭിക്കുമ്പോഴുള്ള അറിയിപ്പുകൾ</string>
+    <string name="channel_calendar_updates">കലണ്ടർ മാറ്റങ്ങൾ</string>
     <string name="invite_notification_body">%1$s നിന്ന് · പ്രതികരിക്കാൻ ടാപ്പ് ചെയ്യുക</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">നിങ്ങളുടെ പ്രതികരണം മുഴുവൻ പരമ്പരയ്ക്കും ബാധകമാണ്.</string>
+    <string name="rsvp_receipt_pending">മറുപടി അയയ്ക്കാനുണ്ട്</string>
+    <string name="rsvp_receipt_sent">മറുപടി അയച്ചു</string>
+    <string name="rsvp_receipt_not_delivered">മറുപടി എത്തിയില്ല</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">ഇതും ഭാവിയിലേതും എല്ലാം</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">നിങ്ങളുടെ ഇവന്റുകൾ ഇവിടെ കാണാൻ iCloud കണക്ട് ചെയ്യുക</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">പിന്നീട്</string>
+    <string name="whats_new_skip">ഒഴിവാക്കുക</string>
+    <string name="whats_new_next">അടുത്തത്</string>
+    <string name="whats_new_page_of">%2$d-ൽ പേജ് %1$d</string>
+    <string name="whats_new_find_it_in">ഇവിടെ കാണാം</string>
     <string name="whats_new_v598_title">Android തുറന്നുകിടക്കാൻ സഹായിക്കുക</string>
     <string name="whats_new_v598_body">Google നിങ്ങളുടെ ഉപകരണത്തിൽ ആപ്പുകൾ ഇൻസ്റ്റാൾ ചെയ്യുന്ന രീതി മാറ്റുകയാണ്. ഞങ്ങൾക്ക് നിങ്ങളുടെ സഹായം ആവശ്യമാണ്.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org സന്ദർശിക്കുക</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">ഈ റിലീസ് KashCal-ന്റെ പിന്തുണക്കാർക്കായി സമർപ്പിക്കുന്നു. ഒരു ചെറിയ സംഭാവന, വീണ്ടും വീണ്ടും ലഭിക്കുന്ന വലിയ പ്രതിഫലം.</string>
     <string name="whats_new_v732_caption">ഇതുവരെ പിന്തുണക്കാരനായില്ലേ?</string>
     <string name="whats_new_v732_action_label">നിങ്ങളുടെ പദ്ധതികളിൽ ഞങ്ങളെ ചേർക്കൂ</string>
+    <string name="whats_new_v772_icon_title">നിങ്ങളുടെ ഐക്കണിന് തീയതി അറിയാം</string>
+    <string name="whats_new_v772_icon_body">ഇന്നത്തെ തീയതി ഐക്കൺ തിരഞ്ഞെടുക്കൂ, KashCal നിങ്ങളുടെ ഹോം സ്ക്രീനിൽ മാസത്തിലെ തീയതി കാണിക്കും. എല്ലാ രാത്രിയും അത് സ്വയം മാറും.</string>
+    <string name="whats_new_v772_changes_title">എന്താണ് മാറിയതെന്ന് കാണുക</string>
+    <string name="whats_new_v772_changes_body">നിങ്ങളുടെ iCloud, CalDAV കലണ്ടറുകളിലെ പുതിയതും എഡിറ്റ് ചെയ്തതും നീക്കം ചെയ്തതുമായ ഇവന്റുകൾ 7 ദിവസത്തേക്ക് സമീപകാല മാറ്റങ്ങൾ എന്നതിൽ ശേഖരിക്കപ്പെടും. ഒരെണ്ണം തുറക്കാൻ അതിൽ ടാപ്പ് ചെയ്യുക.</string>
+    <string name="whats_new_v772_notifications_body">പശ്ചാത്തല സിങ്ക് നിങ്ങളുടെ iCloud അല്ലെങ്കിൽ CalDAV ഇവന്റുകളിൽ മാറ്റങ്ങൾ കണ്ടെത്തുമ്പോൾ ഒരു അറിയിപ്പ് നേടൂ. നിങ്ങൾ ഓണാക്കുന്നത് വരെ ഇത് ഓഫായിരിക്കും.</string>
+    <string name="whats_new_hero_sample_lunch">ടീം ഉച്ചഭക്ഷണം</string>
+    <string name="whats_new_hero_sample_review">ഡിസൈൻ റിവ്യൂ</string>
+    <string name="whats_new_hero_sample_book_club">ബുക്ക് ക്ലബ്</string>
+    <string name="whats_new_hero_sample_calendar">ജോലി</string>
+    <string name="whats_new_hero_now">ഇപ്പോൾ</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud കണക്ട് ചെയ്യുക</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">ചുരുക്കമായ ഒറ്റ വരി, അല്ലെങ്കിൽ അവസാന സമയത്തോടെ വിശദമായ രണ്ട് വരികൾ.</string>
     <string name="settings_sync_lookback">സിങ്ക് ലുക്ക്ബാക്ക്</string>
     <string name="settings_sync_lookback_hint">എത്ര പിന്നിലേക്ക് ഇവന്റുകൾ സിങ്ക് ചെയ്യണം</string>
+    <string name="settings_change_notifications">മാറ്റങ്ങളുടെ അറിയിപ്പുകൾ</string>
+    <string name="settings_change_notifications_info">പശ്ചാത്തല സിങ്ക് നിങ്ങളുടെ ഇവന്റുകളിൽ മാറ്റങ്ങൾ കണ്ടെത്തുമ്പോൾ ഒരു അറിയിപ്പ് അയയ്ക്കുന്നു. iCloud, CalDAV കലണ്ടറുകൾക്ക് പ്രവർത്തിക്കുന്നു.</string>
     <string name="settings_not_set">സെറ്റ് ചെയ്തിട്ടില്ല</string>
     <string name="settings_on">ഓൺ</string>
     <string name="settings_off">ഓഫ്</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d ഇവന്റ് ഇമ്പോർട്ട് ചെയ്തു</item>
         <item quantity="other">%1$d ഇവന്റുകൾ ഇമ്പോർട്ട് ചെയ്തു</item>
     </plurals>
+    <string name="ics_import_preview_loading">ഈ കലണ്ടർ പരിശോധിക്കുന്നു…</string>
+    <string name="ics_import_preview_failed">ഈ ഇവന്റുകൾക്കായി ഈ കലണ്ടർ പരിശോധിക്കാനായില്ല. നിങ്ങൾക്ക് എന്നാലും ഇമ്പോർട്ട് ചെയ്യാം.</string>
+    <string name="ics_import_will_cancel">ഇത് %1$s റദ്ദാക്കും, സംഘാടകൻ: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">ഇത് %1$s റദ്ദാക്കും</string>
+    <string name="ics_import_will_update">ഇത് %1$s അപ്ഡേറ്റ് ചെയ്യും</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d ഇവന്റ് ഇതിനകം അപ്ഡേറ്റ് ആണ്</item>
+        <item quantity="other">%1$d ഇവന്റുകൾ ഇതിനകം അപ്ഡേറ്റ് ആണ്</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d ഒഴിവാക്കി: %2$s</item>
+        <item quantity="other">%1$d ഒഴിവാക്കി: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ഇതൊരു ക്ഷണത്തിനുള്ള മറുപടിയാണ്, ഇത് നിങ്ങളുടെ കലണ്ടറിൽ ഒന്നും ചേർക്കുന്നില്ല</string>
+    <string name="ics_import_reason_unsupported">ഇത്തരം ക്ഷണ സന്ദേശം പിന്തുണയ്ക്കുന്നില്ല</string>
+    <string name="ics_import_reason_organizer_mismatch">ഇത് മീറ്റിംഗിന്റെ സംഘാടകനല്ലാത്ത മറ്റൊരാളിൽ നിന്നാണ് വന്നത്</string>
+    <string name="ics_import_reason_cancel_no_match">റദ്ദാക്കിയ മീറ്റിംഗ് ഈ കലണ്ടറിൽ ഇല്ല</string>
+    <string name="ics_import_reason_cancel_not_for_you">ഈ റദ്ദാക്കൽ മറ്റ് അതിഥികൾക്കുള്ളതാണ്</string>
+    <string name="ics_import_reason_deletion_pending">ഇവന്റ് ഇല്ലാതാക്കിക്കൊണ്ടിരിക്കുന്നു</string>
+    <string name="ics_import_reason_cancelled_in_file">ഇത് ഫയലിൽ ഇതിനകം റദ്ദാക്കിയതാണ്</string>
+    <string name="ics_import_reason_this_and_future">ഇതിലേക്കും തുടർന്നുള്ള ആവർത്തനങ്ങളിലേക്കുമുള്ള മാറ്റങ്ങൾ പിന്തുണയ്ക്കുന്നില്ല</string>
+    <string name="ics_import_reason_own_cancel">ഈ മീറ്റിംഗിന്റെ സംഘാടകൻ നിങ്ങളാണ്, അതിനാൽ ഇവന്റിൽ നിന്നുതന്നെ ഇത് റദ്ദാക്കുക</string>
+    <string name="ics_import_reason_on_another_calendar">ഇത് ഇതിനകം ഈ അക്കൗണ്ടിലെ മറ്റൊരു കലണ്ടറിൽ ഉണ്ട്</string>
+    <string name="ics_import_notice_unverified">ക്ഷണ ഫയൽ അയച്ചയാളെ സ്ഥിരീകരിക്കാനാവില്ല. ഇത് സംഘാടകനിൽ നിന്നാണോ വന്നതെന്ന് പരിശോധിക്കുക.</string>
+    <string name="ics_import_notice_answer_notifies">ഈ ക്ഷണത്തിന് മറുപടി നൽകിയാൽ സംഘാടകനെ അറിയിച്ചേക്കാം.</string>
+    <string name="ics_import_notice_guests_again">നിങ്ങളാണ് സംഘാടകൻ, അതിനാൽ അതിഥികൾക്ക് ഈ ക്ഷണം വീണ്ടും ലഭിച്ചേക്കാം.</string>
+    <string name="cd_dismiss_notice">അറിയിപ്പ് ഡിസ്മിസ് ചെയ്യുക</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d ചേർത്തു</item>
+        <item quantity="other">%1$d ചേർത്തു</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d അപ്ഡേറ്റ് ചെയ്തു</item>
+        <item quantity="other">%1$d അപ്ഡേറ്റ് ചെയ്തു</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d റദ്ദാക്കി</item>
+        <item quantity="other">%1$d റദ്ദാക്കി</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ഇതിനകം അപ്ഡേറ്റ് ആണ്</item>
+        <item quantity="other">%1$d ഇതിനകം അപ്ഡേറ്റ് ആണ്</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d ഒഴിവാക്കി</item>
+        <item quantity="other">%1$d ഒഴിവാക്കി</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d പരാജയപ്പെട്ടു</item>
+        <item quantity="other">%1$d പരാജയപ്പെട്ടു</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">ഇമ്പോർട്ട് ചെയ്യാൻ ഒന്നുമില്ല</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d ഇവന്റ് എക്സ്‌പോർട്ട് ചെയ്തു</item>
         <item quantity="other">%1$d ഇവന്റുകൾ എക്സ്‌പോർട്ട് ചെയ്തു</item>

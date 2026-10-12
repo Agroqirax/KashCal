@@ -128,12 +128,18 @@ class EventWriter @Inject constructor(
     }
 
     /**
+     * Runs [block] in one database transaction; the writer's own methods join it, so an ICS
+     * import commits all of one UID's writes or none.
+     */
+    suspend fun <T> inTransaction(block: suspend () -> T): T = database.withTransaction(block)
+
+    /**
      * Saves an ICS-imported recurring event as one linked series: a master plus its
      * RECURRENCE-ID exceptions, all sharing one UID, in one transaction.
      *
-     * The caller (EventCoordinator) has already set a fresh shared UID, never the file's (a
-     * fresh UID avoids duplicate-UID PUT collisions on servers like iCloud/Nextcloud), and
-     * resolved default reminders. This method only saves and links:
+     * The caller (EventCoordinator) has already chosen the UID (the file's, or a fresh one when
+     * another calendar of the account holds it), set the import fields and resolved reminders.
+     * This method only saves and links:
      *
      * - The master is created like any event ([createEvent]): occurrences expanded and, for a
      *   synced calendar, one CREATE queued. The push serializes an event whose
@@ -148,22 +154,26 @@ class EventWriter @Inject constructor(
      * @param exceptions the exceptions (ids ignored; each must carry a non-null
      *   [Event.originalInstanceTime])
      * @param isLocal true when the target calendar is local-only (no sync)
+     * @param masterAttendees the master's attendee rows, or null for none
+     * @param exceptionAttendees each exception's attendee rows, by position in [exceptions]
      * @return the saved master and exceptions with their row ids
      */
     suspend fun createImportedSeries(
         master: Event,
         exceptions: List<Event>,
-        isLocal: Boolean = false
+        isLocal: Boolean = false,
+        masterAttendees: List<org.onekash.kashcal.data.db.entity.Attendee>? = null,
+        exceptionAttendees: List<List<org.onekash.kashcal.data.db.entity.Attendee>?> = emptyList()
     ): ImportedSeries {
         require(master.rrule != null) { "createImportedSeries master must be recurring" }
         return database.withTransaction {
             val now = System.currentTimeMillis()
 
             // createEvent stamps timestamps and sync status and joins this transaction.
-            val savedMaster = createEvent(master, isLocal)
+            val savedMaster = createEvent(master, isLocal, masterAttendees)
             val masterId = savedMaster.id
 
-            val savedExceptions = exceptions.map { exception ->
+            val savedExceptions = exceptions.mapIndexed { index, exception ->
                 // The caller routes only real RECURRENCE-ID exceptions here.
                 val originalInstanceTime = requireNotNull(exception.originalInstanceTime) {
                     "createImportedSeries exception must carry originalInstanceTime"
@@ -188,6 +198,9 @@ class EventWriter @Inject constructor(
                 )
                 val exceptionId = eventsDao.insert(exceptionToInsert)
                 val savedException = exceptionToInsert.copy(id = exceptionId)
+                exceptionAttendees.getOrNull(index)?.let { rows ->
+                    attendeesDao.replaceForEvent(exceptionId, rows.map { it.copy(eventId = exceptionId) })
+                }
 
                 occurrenceGenerator.linkException(masterId, originalInstanceTime, savedException)
                 savedException
@@ -393,9 +406,17 @@ class EventWriter @Inject constructor(
             }
             attendeesDao.replaceForEvent(eventId, updatedRows)
 
+            // An imported invite's receipt describes the previous answer; the push reads the new
+            // one back after the PUT.
+            val answered = eventsDao.getById(eventId)
+            val master = answered?.originalEventId?.let { eventsDao.getById(it) }
+            if ((master ?: answered)?.importSource == Event.IMPORT_SOURCE_ICS_FILE) {
+                eventsDao.updateOrganizerScheduleStatus(eventId, null)
+            }
+
             // Capture the URL at queue time so the operation doesn't depend on the event
             // row still holding it when the push runs.
-            val capturedUrl = eventsDao.getById(eventId)?.caldavUrl
+            val capturedUrl = answered?.caldavUrl
             val pendingOp = PendingOperation(
                 eventId = eventId,
                 operation = PendingOperation.OPERATION_UPDATE,
@@ -406,6 +427,166 @@ class EventWriter @Inject constructor(
             pendingOpsDao.insert(pendingOp)
             true
         }
+    }
+
+    /**
+     * Rewrites stored row [eventId] from a newer imported file (the local calendar only):
+     * [incoming]'s content, SEQUENCE and [Event.itipDtstamp] as given, with no SEQUENCE bump,
+     * and its attendee rows. The row keeps its id, calendar, UID, links, sync fields and the
+     * user's reminders; occurrences are regenerated (or the exception relinked). Queues nothing.
+     */
+    suspend fun applyImportedUpdate(
+        eventId: Long,
+        incoming: Event,
+        attendees: List<org.onekash.kashcal.data.db.entity.Attendee>
+    ): Event = database.withTransaction {
+        val existing = requireNotNull(eventsDao.getById(eventId)) { "Event not found: $eventId" }
+        val now = System.currentTimeMillis()
+        val updated = incoming.copy(
+            id = existing.id,
+            calendarId = existing.calendarId,
+            uid = existing.uid,
+            caldavUrl = existing.caldavUrl,
+            etag = existing.etag,
+            rawIcal = existing.rawIcal,
+            syncStatus = existing.syncStatus,
+            reminders = existing.reminders,
+            alarmCount = existing.alarmCount,
+            originalEventId = existing.originalEventId,
+            originalInstanceTime = existing.originalInstanceTime,
+            originalSyncId = existing.originalSyncId,
+            importSource = existing.importSource,
+            color = incoming.color ?: existing.color,
+            createdAt = existing.createdAt,
+            updatedAt = now,
+            localModifiedAt = now
+        )
+        eventsDao.update(updated)
+        attendeesDao.replaceForEvent(eventId, attendees.map { it.copy(eventId = eventId) })
+        val masterId = existing.originalEventId
+        val instanceTime = existing.originalInstanceTime
+        if (masterId != null && instanceTime != null) {
+            occurrenceGenerator.linkException(masterId, instanceTime, updated)
+        } else {
+            occurrenceGenerator.regenerateOccurrences(updated)
+        }
+        updated
+    }
+
+    /**
+     * Adds an exception to series [masterEventId] at [instanceTime] from an imported file (the
+     * local calendar only): [incoming]'s content with its SEQUENCE and [Event.itipDtstamp], the
+     * master's UID and links, [attendees], linked to its occurrence. Queues nothing.
+     */
+    suspend fun createImportedException(
+        masterEventId: Long,
+        instanceTime: Long,
+        incoming: Event,
+        attendees: List<org.onekash.kashcal.data.db.entity.Attendee>
+    ): Event = database.withTransaction {
+        val master = requireNotNull(eventsDao.getById(masterEventId)) { "Event not found: $masterEventId" }
+        val now = System.currentTimeMillis()
+        val exception = incoming.copy(
+            id = 0,
+            calendarId = master.calendarId,
+            uid = master.uid,
+            originalEventId = master.id,
+            originalInstanceTime = instanceTime,
+            originalSyncId = master.uid,
+            rrule = null,
+            rdate = null,
+            exdate = null,
+            syncStatus = SyncStatus.SYNCED,
+            caldavUrl = master.caldavUrl,
+            etag = master.etag,
+            rawIcal = null,
+            // The series' reminders are the user's; a file's VALARMs are its sender's.
+            reminders = master.reminders,
+            alarmCount = master.alarmCount,
+            importSource = Event.IMPORT_SOURCE_ICS_FILE,
+            createdAt = now,
+            updatedAt = now
+        )
+        val id = eventsDao.insert(exception)
+        val saved = exception.copy(id = id)
+        attendeesDao.replaceForEvent(id, attendees.map { it.copy(eventId = id) })
+        occurrenceGenerator.linkException(master.id, instanceTime, saved)
+        saved
+    }
+
+    /**
+     * Applies an imported CANCEL to the user's copy of series [masterEventId], or of one
+     * occurrence when [instanceTime] is set, and on a synced calendar queues the attendee-side
+     * cancel ([PendingOperation.OPERATION_ATTENDEE_CANCEL]) that patches STATUS:CANCELLED into
+     * the server copy.
+     *
+     * A series cancel marks the master and every exception (RFC 5546 §3.2.5 cancels the whole
+     * range); an occurrence cancel marks its exception, first creating one linked to the
+     * occurrence, with the master's attendee rows, when it has none. Each row gets STATUS
+     * CANCELLED, the CANCEL's [sequence] and [itipDtstamp], and [Event.IMPORT_SOURCE_ICS_CANCEL]
+     * unless an import created it. A series still PENDING_CREATE queues nothing: its create
+     * carries the cancel.
+     *
+     * @return the rows marked cancelled
+     */
+    suspend fun applyImportedCancel(
+        masterEventId: Long,
+        instanceTime: Long?,
+        sequence: Int,
+        itipDtstamp: Long?,
+        isLocal: Boolean
+    ): List<Event> = database.withTransaction {
+        val master = requireNotNull(eventsDao.getById(masterEventId)) { "Event not found: $masterEventId" }
+        val now = System.currentTimeMillis()
+        val exceptions = eventsDao.getExceptionsForMaster(masterEventId)
+        val targets = if (instanceTime == null) {
+            listOf(master) + exceptions
+        } else {
+            listOf(
+                exceptions.firstOrNull { it.originalInstanceTime == instanceTime }
+                    ?: insertCancelledException(master, instanceTime, now)
+            )
+        }
+        val cancelled = targets.map { row ->
+            row.copy(
+                status = "CANCELLED",
+                sequence = sequence,
+                itipDtstamp = itipDtstamp,
+                importSource = row.importSource ?: Event.IMPORT_SOURCE_ICS_CANCEL,
+                updatedAt = now,
+                localModifiedAt = now
+            ).also { eventsDao.update(it) }
+        }
+        if (!isLocal && master.syncStatus != SyncStatus.PENDING_CREATE) {
+            pendingOpsDao.insert(
+                PendingOperation(
+                    eventId = if (instanceTime == null) master.id else cancelled.single().id,
+                    operation = PendingOperation.OPERATION_ATTENDEE_CANCEL,
+                    targetUrl = master.caldavUrl
+                )
+            )
+        }
+        cancelled
+    }
+
+    /** Inserts a SYNCED exception of [master] at [instanceTime], linked to its occurrence. */
+    private suspend fun insertCancelledException(master: Event, instanceTime: Long, now: Long): Event {
+        val exception = master.projectOntoOccurrence(instanceTime).copy(
+            id = 0,
+            originalEventId = master.id,
+            originalInstanceTime = instanceTime,
+            originalSyncId = master.uid,
+            syncStatus = SyncStatus.SYNCED,
+            rawIcal = null,
+            importSource = Event.IMPORT_SOURCE_ICS_CANCEL,
+            createdAt = now,
+            updatedAt = now
+        )
+        val id = eventsDao.insert(exception)
+        val saved = exception.copy(id = id)
+        attendeesDao.replaceForEvent(id, attendeesDao.getForEventOnce(master.id).map { it.copy(id = 0, eventId = id) })
+        occurrenceGenerator.linkException(master.id, instanceTime, saved)
+        return saved
     }
 
     /**
@@ -1148,15 +1329,19 @@ class EventWriter @Inject constructor(
     }
 
     /**
-     * Queues [operation] for [eventId], or folds it into the event's PENDING operation: the
-     * event's non-FAILED operations restart their lifetime, and the pending one becomes a
-     * DELETE when [operation] is one.
+     * Queues [operation] for [eventId], or folds it into the event's PENDING operation other than
+     * an attendee-side cancel: the event's non-FAILED operations restart their lifetime, and the
+     * pending one becomes a DELETE when [operation] is one.
      */
     private suspend fun queueOperation(eventId: Long, operation: String) {
         val now = System.currentTimeMillis()
 
         val existingList = pendingOpsDao.getForEvent(eventId)
-        val existing = existingList.firstOrNull { it.status == PendingOperation.STATUS_PENDING }
+        // An attendee-side cancel is its own PUT and never absorbs another operation.
+        val existing = existingList.firstOrNull {
+            it.status == PendingOperation.STATUS_PENDING &&
+                it.operation != PendingOperation.OPERATION_ATTENDEE_CANCEL
+        }
         if (existing != null) {
             // The user still cares about this event, so its operation shouldn't expire.
             pendingOpsDao.refreshOperationLifetime(eventId, now)

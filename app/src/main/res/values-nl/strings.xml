@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Meldingen over synchronisatievoltooiing en fouten</string>
     <string name="channel_event_invitations">Afspraakuitnodigingen</string>
     <string name="channel_event_invitations_desc">Meldingen wanneer je een nieuwe agenda-uitnodiging ontvangt</string>
+    <string name="channel_calendar_updates">Agendawijzigingen</string>
     <string name="invite_notification_body">Van %1$s · Tik om te reageren</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">De reactie geldt voor de hele reeks.</string>
+    <string name="rsvp_receipt_pending">Reactie in afwachting</string>
+    <string name="rsvp_receipt_sent">Reactie verzonden</string>
+    <string name="rsvp_receipt_not_delivered">Reactie niet afgeleverd</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Deze en alle toekomstige</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Koppel iCloud om je afspraken hier te zien</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Later</string>
+    <string name="whats_new_skip">Overslaan</string>
+    <string name="whats_new_next">Volgende</string>
+    <string name="whats_new_page_of">Pagina %1$d van %2$d</string>
+    <string name="whats_new_find_it_in">Te vinden in</string>
     <string name="whats_new_v598_title">Help Android open te houden</string>
     <string name="whats_new_v598_body">Google verandert de manier waarop je apps op je apparaat installeert. We hebben je hulp nodig.</string>
     <string name="whats_new_v598_action_label">Bezoek keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Deze versie is opgedragen aan de supporters van KashCal. Een kleine bijdrage met een groot, terugkerend effect.</string>
     <string name="whats_new_v732_caption">Nog geen supporter?</string>
     <string name="whats_new_v732_action_label">Voeg ons toe aan je plannen</string>
+    <string name="whats_new_v772_icon_title">Je pictogram kent de datum</string>
+    <string name="whats_new_v772_icon_body">Kies het pictogram Datum van vandaag en KashCal toont de dag van de maand op je startscherm. Het verspringt elke nacht vanzelf.</string>
+    <string name="whats_new_v772_changes_title">Zie wat er veranderd is</string>
+    <string name="whats_new_v772_changes_body">Nieuwe, bewerkte en verwijderde afspraken uit je iCloud- en CalDAV-agenda\'s worden 7 dagen bewaard in Recente wijzigingen. Tik op een afspraak om hem te openen.</string>
+    <string name="whats_new_v772_notifications_body">Krijg een melding wanneer een synchronisatie op de achtergrond wijzigingen in je iCloud- of CalDAV-afspraken vindt. Dit staat uit totdat je het aanzet.</string>
+    <string name="whats_new_hero_sample_lunch">Teamlunch</string>
+    <string name="whats_new_hero_sample_review">Ontwerpreview</string>
+    <string name="whats_new_hero_sample_book_club">Leesclub</string>
+    <string name="whats_new_hero_sample_calendar">Werk</string>
+    <string name="whats_new_hero_now">nu</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud verbinden</string>
@@ -583,6 +600,8 @@
     <string name="settings_detailed_widget_rows_info">Compact op één regel, of gedetailleerd op twee regels met eindtijd.</string>
     <string name="settings_sync_lookback">Sync-terugblik</string>
     <string name="settings_sync_lookback_hint">Hoe ver terug afspraken worden gesynchroniseerd</string>
+    <string name="settings_change_notifications">Wijzigingsmeldingen</string>
+    <string name="settings_change_notifications_info">Stuurt een melding wanneer een synchronisatie op de achtergrond wijzigingen in je afspraken vindt. Werkt voor iCloud- en CalDAV-agenda\'s.</string>
     <string name="settings_not_set">Niet ingesteld</string>
     <string name="settings_on">Aan</string>
     <string name="settings_off">Uit</string>
@@ -759,6 +778,59 @@
         <item quantity="one">%1$d afspraak geïmporteerd</item>
         <item quantity="other">%1$d afspraken geïmporteerd</item>
     </plurals>
+    <string name="ics_import_preview_loading">Deze agenda controleren…</string>
+    <string name="ics_import_preview_failed">Kan deze agenda niet controleren op deze afspraken. Je kunt nog steeds importeren.</string>
+    <string name="ics_import_will_cancel">Hiermee wordt %1$s geannuleerd, georganiseerd door %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Hiermee wordt %1$s geannuleerd</string>
+    <string name="ics_import_will_update">Hiermee wordt %1$s bijgewerkt</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d afspraak is al bijgewerkt</item>
+        <item quantity="other">%1$d afspraken zijn al bijgewerkt</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d overgeslagen: %2$s</item>
+        <item quantity="other">%1$d overgeslagen: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">het is een reactie op een uitnodiging, die niets aan je agenda toevoegt</string>
+    <string name="ics_import_reason_unsupported">dit soort uitnodigingsbericht wordt niet ondersteund</string>
+    <string name="ics_import_reason_organizer_mismatch">het komt van iemand anders dan de organisator van de afspraak</string>
+    <string name="ics_import_reason_cancel_no_match">de geannuleerde afspraak staat niet in deze agenda</string>
+    <string name="ics_import_reason_cancel_not_for_you">de annulering is voor andere gasten</string>
+    <string name="ics_import_reason_deletion_pending">de afspraak wordt verwijderd</string>
+    <string name="ics_import_reason_cancelled_in_file">de afspraak is in het bestand al geannuleerd</string>
+    <string name="ics_import_reason_this_and_future">wijzigingen aan deze en latere herhalingen worden niet ondersteund</string>
+    <string name="ics_import_reason_own_cancel">jij organiseert deze afspraak, dus annuleer hem vanuit de afspraak</string>
+    <string name="ics_import_reason_on_another_calendar">de afspraak staat al in een andere agenda van dit account</string>
+    <string name="ics_import_notice_unverified">De afzender van een uitnodigingsbestand kan niet worden geverifieerd. Controleer of het van de organisator komt.</string>
+    <string name="ics_import_notice_answer_notifies">Als je op deze uitnodiging reageert, krijgt de organisator mogelijk een melding.</string>
+    <string name="ics_import_notice_guests_again">Jij bent de organisator, dus gasten kunnen deze uitnodiging opnieuw ontvangen.</string>
+    <string name="cd_dismiss_notice">Melding sluiten</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d toegevoegd</item>
+        <item quantity="other">%1$d toegevoegd</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d bijgewerkt</item>
+        <item quantity="other">%1$d bijgewerkt</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d geannuleerd</item>
+        <item quantity="other">%1$d geannuleerd</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d al bijgewerkt</item>
+        <item quantity="other">%1$d al bijgewerkt</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d overgeslagen</item>
+        <item quantity="other">%1$d overgeslagen</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d mislukt</item>
+        <item quantity="other">%1$d mislukt</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Niets om te importeren</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d afspraak geëxporteerd</item>
         <item quantity="other">%1$d afspraken geëxporteerd</item>

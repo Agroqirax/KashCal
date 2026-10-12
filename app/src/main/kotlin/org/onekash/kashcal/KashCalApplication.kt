@@ -22,6 +22,7 @@ import org.onekash.kashcal.reminder.notification.InviteNotificationChannels
 import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
 import org.onekash.kashcal.reminder.worker.ReminderRefreshWorker
 import org.onekash.kashcal.sync.adapter.SystemAccountRegistrar
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.sync.notification.SyncNotificationChannels
 import org.onekash.kashcal.sync.scheduler.ContactSyncScheduleReconciler
 import org.onekash.kashcal.sync.scheduler.IcsRefreshScheduleReconciler
@@ -78,6 +79,9 @@ class KashCalApplication : Application(), Configuration.Provider {
     lateinit var inviteNotificationChannels: InviteNotificationChannels
 
     @Inject
+    lateinit var changeNotificationChannels: ChangeNotificationChannels
+
+    @Inject
     lateinit var widgetUpdateManager: WidgetUpdateManager
 
     @Inject
@@ -130,6 +134,7 @@ class KashCalApplication : Application(), Configuration.Provider {
         notificationChannels.createChannels()
         reminderNotificationChannels.createChannels()
         inviteNotificationChannels.createChannels()
+        changeNotificationChannels.createChannels()
 
         // Long-lived background registrations (network callbacks, WorkManager and AlarmManager
         // scheduling, content observers, the startup coroutines below) are skipped under unit

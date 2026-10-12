@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Синхрондаудың аяқталуы және қателері туралы хабарламалар</string>
     <string name="channel_event_invitations">Оқиға шақырулары</string>
     <string name="channel_event_invitations_desc">Жаңа күнтізбе шақыруын алған кездегі хабарламалар</string>
+    <string name="channel_calendar_updates">Күнтізбе өзгерістері</string>
     <string name="invite_notification_body">%1$s жіберген · Жауап беру үшін түртіңіз</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Жауабыңыз бүкіл серияға қолданылады.</string>
+    <string name="rsvp_receipt_pending">Жауап жіберілуді күтуде</string>
+    <string name="rsvp_receipt_sent">Жауап жіберілді</string>
+    <string name="rsvp_receipt_not_delivered">Жауап жеткізілмеді</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Мынау және болашақтағылардың барлығы</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Оқиғаларыңызды мұнда көру үшін iCloud-қа қосылыңыз</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Кейінірек</string>
+    <string name="whats_new_skip">Өткізу</string>
+    <string name="whats_new_next">Келесі</string>
+    <string name="whats_new_page_of">%1$d-бет, барлығы %2$d</string>
+    <string name="whats_new_find_it_in">Мұнда табасыз</string>
     <string name="whats_new_v598_title">Android ашық қалуына көмектесіңіз</string>
     <string name="whats_new_v598_body">Google құрылғыңызға қолданбаларды орнату тәсілін өзгертуде. Сіздің көмегіңіз қажет.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org сайтына кіру</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Бұл шығарылым KashCal қолдаушыларына арналған. Үлкен әрі қайталанатын пайдасы бар шағын үлес.</string>
     <string name="whats_new_v732_caption">Әлі қолдаушы емессіз бе?</string>
     <string name="whats_new_v732_action_label">Бізді жоспарыңызға қосыңыз</string>
+    <string name="whats_new_v772_icon_title">Белгішеңіз күнді біледі</string>
+    <string name="whats_new_v772_icon_body">«Бүгінгі күн» белгішесін таңдаңыз, сонда KashCal негізгі экраныңызда айдың күнін көрсетеді. Ол әр түні өздігінен ауысады.</string>
+    <string name="whats_new_v772_changes_title">Не өзгергенін көріңіз</string>
+    <string name="whats_new_v772_changes_body">iCloud және CalDAV күнтізбелеріңіздегі жаңа, өңделген және жойылған оқиғалар «Соңғы өзгерістер» тізімінде 7 күн сақталады. Ашу үшін біреуін түртіңіз.</string>
+    <string name="whats_new_v772_notifications_body">Фондық синхрондау iCloud немесе CalDAV оқиғаларыңыздан өзгерістер тапқанда хабарлама алыңыз. Оны өзіңіз қоспайынша өшірулі тұрады.</string>
+    <string name="whats_new_hero_sample_lunch">Командалық түскі ас</string>
+    <string name="whats_new_hero_sample_review">Дизайнды талқылау</string>
+    <string name="whats_new_hero_sample_book_club">Кітап клубы</string>
+    <string name="whats_new_hero_sample_calendar">Жұмыс</string>
+    <string name="whats_new_hero_now">қазір</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud қосу</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Ықшам бір жол немесе аяқталу уақыты бар егжей-тегжейлі екі жол.</string>
     <string name="settings_sync_lookback">Синхрондау кері кезеңі</string>
     <string name="settings_sync_lookback_hint">Оқиғаларды қаншалықты кері синхрондау</string>
+    <string name="settings_change_notifications">Өзгеріс хабарламалары</string>
+    <string name="settings_change_notifications_info">Фондық синхрондау оқиғаларыңыздағы өзгерістерді тапқанда хабарлама жібереді. iCloud және CalDAV күнтізбелері үшін жұмыс істейді.</string>
     <string name="settings_not_set">Орнатылмаған</string>
     <string name="settings_on">Қосулы</string>
     <string name="settings_off">Өшірулі</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d оқиға импортталды</item>
         <item quantity="other">%1$d оқиға импортталды</item>
     </plurals>
+    <string name="ics_import_preview_loading">Осы күнтізбе тексерілуде…</string>
+    <string name="ics_import_preview_failed">Осы күнтізбені бұл оқиғалар бойынша тексеру мүмкін болмады. Бәрібір импорттай аласыз.</string>
+    <string name="ics_import_will_cancel">Бұл %1$s оқиғасын болдырмайды, ұйымдастырушы: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Бұл %1$s оқиғасын болдырмайды</string>
+    <string name="ics_import_will_update">Бұл %1$s оқиғасын жаңартады</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d оқиға бұрыннан өзекті</item>
+        <item quantity="other">%1$d оқиға бұрыннан өзекті</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d өткізілді: %2$s</item>
+        <item quantity="other">%1$d өткізілді: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">бұл шақыруға берілген жауап, ол күнтізбеңізге ештеңе қоспайды</string>
+    <string name="ics_import_reason_unsupported">шақыру хабарының бұл түріне қолдау көрсетілмейді</string>
+    <string name="ics_import_reason_organizer_mismatch">ол кездесу ұйымдастырушысынан емес, басқа біреуден келген</string>
+    <string name="ics_import_reason_cancel_no_match">болдырылмаған кездесу бұл күнтізбеде жоқ</string>
+    <string name="ics_import_reason_cancel_not_for_you">болдырмау басқа қонақтарға арналған</string>
+    <string name="ics_import_reason_deletion_pending">оқиға жойылып жатыр</string>
+    <string name="ics_import_reason_cancelled_in_file">ол файлда бұрыннан болдырылмаған</string>
+    <string name="ics_import_reason_this_and_future">осы және кейінгі қайталанулардағы өзгерістерге қолдау көрсетілмейді</string>
+    <string name="ics_import_reason_own_cancel">бұл кездесуді сіз ұйымдастырасыз, сондықтан оны оқиғаның өзінен болдырмаңыз</string>
+    <string name="ics_import_reason_on_another_calendar">ол осы есептік жазбаның басқа күнтізбесінде бар</string>
+    <string name="ics_import_notice_unverified">Шақыру файлын жіберушіні растау мүмкін емес. Оның ұйымдастырушыдан келгенін тексеріңіз.</string>
+    <string name="ics_import_notice_answer_notifies">Бұл шақыруға жауап беру ұйымдастырушыға хабарлауы мүмкін.</string>
+    <string name="ics_import_notice_guests_again">Сіз ұйымдастырушысыз, сондықтан қонақтар бұл шақыруды қайта алуы мүмкін.</string>
+    <string name="cd_dismiss_notice">Хабарландыруды жабу</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d қосылды</item>
+        <item quantity="other">%1$d қосылды</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d жаңартылды</item>
+        <item quantity="other">%1$d жаңартылды</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d болдырылмады</item>
+        <item quantity="other">%1$d болдырылмады</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d бұрыннан өзекті</item>
+        <item quantity="other">%1$d бұрыннан өзекті</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d өткізілді</item>
+        <item quantity="other">%1$d өткізілді</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d сәтсіз</item>
+        <item quantity="other">%1$d сәтсіз</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Импорттайтын ештеңе жоқ</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d оқиға экспортталды</item>
         <item quantity="other">%1$d оқиға экспортталды</item>

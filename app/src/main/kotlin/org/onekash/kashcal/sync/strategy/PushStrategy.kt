@@ -17,6 +17,7 @@ import org.onekash.kashcal.data.repository.CalendarRepository
 import org.onekash.icaldav.scheduling.ITipBuilder
 import org.onekash.kashcal.data.db.entity.Attendee
 import org.onekash.kashcal.domain.identity.canEditAsOrganizer
+import org.onekash.kashcal.domain.identity.matchesAttendee
 import org.onekash.kashcal.domain.identity.effectiveAddresses
 import org.onekash.kashcal.domain.scheduling.DeliveryAction
 import org.onekash.kashcal.domain.scheduling.DeliveryState
@@ -77,6 +78,7 @@ class PushStrategy @Inject constructor(
             PendingOperation.OPERATION_UPDATE -> "UPDATE"
             PendingOperation.OPERATION_DELETE -> "DELETE"
             PendingOperation.OPERATION_MOVE -> "MOVE"
+            PendingOperation.OPERATION_ATTENDEE_CANCEL -> "CANCEL"
             else -> op
         }
     }
@@ -143,6 +145,11 @@ class PushStrategy @Inject constructor(
                         }
                         PendingOperation.OPERATION_MOVE -> {
                             created++; deleted++
+                            pushedEventIds.add(operation.eventId)
+                        }
+                        // A refused cancel succeeds with no etag: nothing was written.
+                        PendingOperation.OPERATION_ATTENDEE_CANCEL -> if (result.newEtag != null) {
+                            updated++
                             pushedEventIds.add(operation.eventId)
                         }
                     }
@@ -292,6 +299,11 @@ class PushStrategy @Inject constructor(
                             created++; deleted++
                             pushedEventIds.add(operation.eventId)
                         }
+                        // A refused cancel succeeds with no etag: nothing was written.
+                        PendingOperation.OPERATION_ATTENDEE_CANCEL -> if (result.newEtag != null) {
+                            updated++
+                            pushedEventIds.add(operation.eventId)
+                        }
                     }
                     if (result.refetch) refetchEventIds.add(operation.eventId)
                     pushedEventIds.addAll(result.sentOccurrenceIds)
@@ -367,6 +379,7 @@ class PushStrategy @Inject constructor(
             PendingOperation.OPERATION_UPDATE -> processUpdate(operation, eventsCache, clientToUse, sentReplies)
             PendingOperation.OPERATION_DELETE -> processDelete(operation, eventsCache, clientToUse)
             PendingOperation.OPERATION_MOVE -> processMove(operation, eventsCache, calendarsCache, clientToUse)
+            PendingOperation.OPERATION_ATTENDEE_CANCEL -> processAttendeeCancel(operation, clientToUse)
             else -> SinglePushResult.Error(-1, "Unknown operation: ${operation.operation}", false)
         }
     }
@@ -393,8 +406,22 @@ class PushStrategy @Inject constructor(
             ?: calendarRepository.getCalendarById(event.calendarId)
             ?: return SinglePushResult.Error(-1, "Calendar not found", false)
 
+        // An imported invite answered before its first upload goes up with the user at
+        // NEEDS-ACTION and the answer follows as its own PUT: servers send the REPLY on that
+        // modify (RFC 6638 §3.2.2.3); most send none for a create that already carries the
+        // answer (§3.2.2.2).
+        val imported = isImported(event)
+        val answeringAccount = if (imported && pendingOperationsDao.hasActiveAnswer(
+                listOf(event.id) + eventsDao.getExceptionsForMaster(event.id).map { it.id }
+            )
+        ) {
+            accountRepository.getAccountById(calendar.accountId)
+        } else {
+            null
+        }
+
         // Captures the exception set as of now; only those are marked synced after.
-        val (icalData, serializedExceptions) = serializeEventWithExceptions(event)
+        val (icalData, serializedExceptions) = serializeEventWithExceptions(event, answeringAccount)
 
         Log.d(TAG, "Creating event on server: ${event.title} (${event.uid})")
 
@@ -415,6 +442,15 @@ class PushStrategy @Inject constructor(
 
                 Log.d(TAG, "Event created successfully: $url")
                 SinglePushResult.Success(newEtag = etag, newUrl = url)
+            }
+            // A server refuses an imported event's create in many ways when it already holds the
+            // UID (servers answer 400, 403, 409 or 412). Retrying can't help, so the error is
+            // recorded and the operation fails, taking the failed-operation lifecycle.
+            imported && result is CalDavResult.Error && isCreateRefusal(result.code) -> {
+                val message = "Server refused the imported event (HTTP ${result.code}): ${result.message}"
+                Log.w(TAG, message)
+                eventsDao.recordSyncError(event.id, message, System.currentTimeMillis())
+                SinglePushResult.Error(result.code, message, isRetryable = false)
             }
             result.isConflict() -> {
                 Log.w(TAG, "Event already exists on server")
@@ -667,13 +703,18 @@ class PushStrategy @Inject constructor(
      */
     private suspend fun processPartstatOnlyUpdate(
         operation: PendingOperation,
-        event: Event,
+        cachedEvent: Event,
         eventsCache: Map<Long, Event>,
         clientToUse: CalDavClient,
         sentReplies: MutableMap<String, SentReply>
     ): SinglePushResult {
         val partstatTarget = operation.partstatTarget
             ?: return SinglePushResult.Error(-1, "partstat_only without partstat_target", false)
+
+        // The batch cache was read before this batch's creates ran, so an imported invite
+        // answered before its first upload has no URL or copy there; read the rows again.
+        val imported = isImported(cachedEvent)
+        val event = if (imported) eventsDao.getById(cachedEvent.id) ?: cachedEvent else cachedEvent
 
         val occurrence = if (event.originalEventId != null) {
             event.originalInstanceTime
@@ -683,7 +724,7 @@ class PushStrategy @Inject constructor(
         }
         val seriesId = event.originalEventId ?: event.id
         val series = event.originalEventId
-            ?.let { eventsCache[it] ?: eventsDao.getById(it) }
+            ?.let { if (imported) eventsDao.getById(it) else eventsCache[it] ?: eventsDao.getById(it) }
             ?.takeUnless { it.isPullSyntheticMaster }
         // The row whose stored copy is the resource being answered.
         val resourceRow = series ?: event
@@ -692,7 +733,14 @@ class PushStrategy @Inject constructor(
         // Event.caldavUrl after queueing. Falls back to the row's URL when the op captured none
         // (the row had no URL at queue time, or an older app version queued it).
         val caldavUrl = operation.targetUrl ?: resourceRow.caldavUrl ?: event.caldavUrl
-            ?: return SinglePushResult.Error(-1, "PARTSTAT-only on event with no caldavUrl", false)
+            ?: return when {
+                // Its create is still queued (retried later): the answer waits for it.
+                imported && pendingOperationsDao.hasActiveOperation(
+                    resourceRow.id, PendingOperation.OPERATION_CREATE
+                ) -> SinglePushResult.Error(-1, "Waiting for the imported event's upload", true)
+                imported -> SinglePushResult.Error(-1, "The imported event isn't on the server", false)
+                else -> SinglePushResult.Error(-1, "PARTSTAT-only on event with no caldavUrl", false)
+            }
 
         val calendar = calendarRepository.getCalendarById(event.calendarId)
             ?: return SinglePushResult.Error(-1, "Calendar not found for RSVP push", false)
@@ -734,6 +782,7 @@ class PushStrategy @Inject constructor(
                 // the etag and body they had, as after that retry.
                 val storedUrl = keepRowsBehind(event, seriesId, caldavUrl, firstResult)
                 rememberReply(sentReplies, caldavUrl, storedUrl, SentReply(firstBody, newEtag, rowsBehind = true))
+                if (imported) readBackReplyReceipt(event, account, storedUrl, clientToUse)
                 SinglePushResult.Success(newEtag = newEtag, refetch = true)
             }
             firstResult.isSuccess() -> {
@@ -745,6 +794,7 @@ class PushStrategy @Inject constructor(
                 // can't leave a row pairing one with a stale other.
                 eventsDao.updateResourceCopy(seriesId, caldavUrl, storedUrl, newEtag, firstBody)
                 rememberReply(sentReplies, caldavUrl, storedUrl, SentReply(firstBody, newEtag))
+                if (imported) readBackReplyReceipt(event, account, storedUrl, clientToUse)
                 SinglePushResult.Success(newEtag = newEtag)
             }
             firstResult.isConflict() -> {
@@ -770,6 +820,7 @@ class PushStrategy @Inject constructor(
                             ?: return SinglePushResult.Error(-1, "Null etag from RSVP retry", false)
                         val storedUrl = keepRowsBehind(event, seriesId, caldavUrl, retryResult)
                         rememberReply(sentReplies, caldavUrl, storedUrl, SentReply(retryBody, newEtag, rowsBehind = true))
+                        if (imported) readBackReplyReceipt(event, account, storedUrl, clientToUse)
                         Log.d(TAG, "RSVP 412 retry succeeded for ${event.title}")
                         SinglePushResult.Success(newEtag = newEtag, refetch = true)
                     }
@@ -1574,7 +1625,10 @@ class PushStrategy @Inject constructor(
      * Only the returned exceptions may be marked synced ([markBundledExceptionsSynced]); an
      * exception created after this call wasn't pushed.
      */
-    private suspend fun serializeEventWithExceptions(event: Event): Pair<String, List<Event>> {
+    private suspend fun serializeEventWithExceptions(
+        event: Event,
+        answeringAccount: Account? = null
+    ): Pair<String, List<Event>> {
         // Attendees come from the attendees table, not rawIcal: locally created events have
         // no rawIcal, and exception VEVENTs carry their own attendees the master's body lacks.
         //
@@ -1583,8 +1637,17 @@ class PushStrategy @Inject constructor(
         // its ATTENDEEs only in rawIcal. Passing empty would tell IcsPatcher to clear them,
         // silently uninviting everyone on a cosmetic edit, so empty becomes null (keep the
         // rawIcal block).
+        //
+        // [answeringAccount], when set, sends that account's own rows at NEEDS-ACTION: the answer
+        // queued for them goes as the next PUT (see processCreate).
         fun authoritative(rows: List<org.onekash.kashcal.data.db.entity.Attendee>) =
-            rows.ifEmpty { null }
+            rows.map { row ->
+                if (answeringAccount != null && answeringAccount.matchesAttendee(row.address)) {
+                    row.copy(partstat = "NEEDS-ACTION")
+                } else {
+                    row
+                }
+            }.ifEmpty { null }
         val masterAttendees = authoritative(attendeesDao.getForEventOnce(event.id))
         return if (event.rrule != null && event.originalEventId == null) {
             // Each exception carries its own attendees so per-occurrence guests round-trip.
@@ -1600,6 +1663,147 @@ class PushStrategy @Inject constructor(
             icalData to exceptions
         } else {
             IcsPatcher.serialize(event, masterAttendees) to emptyList()
+        }
+    }
+
+    /**
+     * Sends an attendee-side cancel: the stored copy with STATUS:CANCELLED patched in
+     * ([IcsPatcher.patchCancelled]), PUT with If-Match, SEQUENCE unchanged (RFC 5546 §2.1.4).
+     *
+     * Retry follows the DELETE drift recovery (#311): a scheduling object's etag moves when the
+     * server processes a reply (RFC 6638 §3.2.10), so a 412 re-reads body and etag, re-patches
+     * and retries once. A 404 means the resource is gone and there is nothing left to cancel. A
+     * 403, or a second 412, is a refusal (servers may refuse an attendee's STATUS change,
+     * §3.2.2.1): the rows go back to the server's copy and a warning is recorded. Any other
+     * failure keeps the client's retryable flag.
+     */
+    private suspend fun processAttendeeCancel(
+        operation: PendingOperation,
+        clientToUse: CalDavClient
+    ): SinglePushResult {
+        // Deleted since queueing: nothing left to cancel.
+        val row = eventsDao.getById(operation.eventId) ?: return SinglePushResult.Success()
+        val master = row.originalEventId?.let { eventsDao.getById(it) } ?: row
+        val instance = if (row.originalEventId != null) row.originalInstanceTime else null
+        val url = operation.targetUrl ?: master.caldavUrl ?: return if (
+            pendingOperationsDao.hasActiveOperation(master.id, PendingOperation.OPERATION_CREATE)
+        ) {
+            SinglePushResult.Error(-1, "Waiting for the event's upload", true)
+        } else {
+            SinglePushResult.Error(-1, "The cancelled event isn't on the server", false)
+        }
+
+        var body = master.rawIcal
+        var etag = master.etag
+        if (body == null || etag.isNullOrEmpty()) {
+            when (val fetched = clientToUse.fetchEvent(url)) {
+                is CalDavResult.Success -> {
+                    body = fetched.data.icalData
+                    etag = fetched.data.etag
+                }
+                is CalDavResult.Error ->
+                    return if (fetched.code == 404) SinglePushResult.Success()
+                    else SinglePushResult.Error(fetched.code, fetched.message, fetched.isRetryable)
+            }
+        }
+        if (etag.isNullOrEmpty()) return SinglePushResult.Error(-1, "No etag for the cancel", true)
+        val patched = IcsPatcher.patchCancelled(body, instance, row)
+            ?: return SinglePushResult.Error(-1, "Could not patch the cancel", false)
+
+        val first = clientToUse.updateEvent(url, patched, etag)
+        val firstCode = (first as? CalDavResult.Error)?.code
+        return when {
+            first.isSuccess() -> finishAttendeeCancel(master, url, first, patched)
+            firstCode == 404 -> SinglePushResult.Success()
+            firstCode == 403 -> refuseAttendeeCancel(master, url, body, etag, firstCode)
+            first.isConflict() -> {
+                val fresh = clientToUse.fetchEvent(url)
+                if ((fresh as? CalDavResult.Error)?.code == 404) return SinglePushResult.Success()
+                val data = (fresh as? CalDavResult.Success)?.data
+                    ?: return SinglePushResult.Error(-1, "Refetch for the cancel failed", true)
+                val freshEtag = data.etag?.takeIf { it.isNotEmpty() }
+                    ?: return SinglePushResult.Error(-1, "No etag after refetch", true)
+                val repatched = IcsPatcher.patchCancelled(data.icalData, instance, row)
+                    ?: return SinglePushResult.Error(-1, "Could not patch the cancel", false)
+                val retry = clientToUse.updateEvent(url, repatched, freshEtag)
+                val retryCode = (retry as? CalDavResult.Error)?.code
+                when {
+                    retry.isSuccess() -> finishAttendeeCancel(master, url, retry, repatched)
+                    retryCode == 404 -> SinglePushResult.Success()
+                    retry.isConflict() || retryCode == 403 ->
+                        refuseAttendeeCancel(master, url, data.icalData, freshEtag, retryCode ?: 412)
+                    else -> (retry as CalDavResult.Error).let { SinglePushResult.Error(it.code, it.message, it.isRetryable) }
+                }
+            }
+            else -> (first as CalDavResult.Error).let { SinglePushResult.Error(it.code, it.message, it.isRetryable) }
+        }
+    }
+
+    /** Stores the copy a sent cancel wrote on every row of the resource. */
+    private suspend fun finishAttendeeCancel(
+        master: Event,
+        url: String,
+        result: CalDavResult<String>,
+        sent: String
+    ): SinglePushResult {
+        val newEtag = result.getOrNull() ?: return SinglePushResult.Error(-1, "Null etag from the cancel", false)
+        eventsDao.updateResourceCopy(master.id, url, redirectedUrl(result) ?: url, newEtag, sent)
+        return SinglePushResult.Success(newEtag = newEtag)
+    }
+
+    /**
+     * Puts the rows back to [serverCopy] after a refused cancel: each row's STATUS as the server
+     * holds it, and a cancelled exception the server has no VEVENT for removed (its occurrence
+     * unlinks with it). Returns a success without an etag, carrying the warning.
+     */
+    private suspend fun refuseAttendeeCancel(
+        master: Event,
+        url: String,
+        serverCopy: String,
+        etag: String,
+        code: Int
+    ): SinglePushResult {
+        val statuses = IcsPatcher.statusesByInstance(serverCopy).orEmpty()
+        eventsDao.update(master.copy(status = statuses[null] ?: master.status))
+        for (exception in eventsDao.getExceptionsForMaster(master.id)) {
+            val status = statuses[exception.originalInstanceTime]
+            when {
+                status != null -> eventsDao.update(exception.copy(status = status))
+                exception.importSource == Event.IMPORT_SOURCE_ICS_CANCEL -> eventsDao.deleteById(exception.id)
+            }
+        }
+        eventsDao.updateResourceCopy(master.id, url, url, etag, serverCopy)
+        return SinglePushResult.Success(
+            warning = "Server kept its copy of ${master.title}; the cancellation wasn't applied (HTTP $code)"
+        )
+    }
+
+    /** Returns whether an ICS file import created [event] or, for an exception, its master. */
+    private suspend fun isImported(event: Event): Boolean {
+        if (event.importSource == Event.IMPORT_SOURCE_ICS_FILE) return true
+        val masterId = event.originalEventId ?: return false
+        return eventsDao.getById(masterId)?.importSource == Event.IMPORT_SOURCE_ICS_FILE
+    }
+
+    /** Returns whether a create's status refuses it for good: any 4xx but 401, 404 and 429. */
+    private fun isCreateRefusal(code: Int): Boolean =
+        code in 400..499 && code != 401 && code != 404 && code != 429
+
+    /**
+     * Stores the server's ORGANIZER SCHEDULE-STATUS after an imported invite's answer, its
+     * receipt for the REPLY (RFC 6638 §3.2.2.3, §3.2.9), or null when it stamped none. Skipped
+     * when the account organizes the event. Never fails the push: a failed fetch stores nothing.
+     */
+    private suspend fun readBackReplyReceipt(event: Event, account: Account, url: String, client: CalDavClient) {
+        try {
+            if (account.canEditAsOrganizer(event)) return
+            val fetched = (client.fetchEvent(url) as? CalDavResult.Success)?.data ?: return
+            val parsed = icalParser.parseAllEvents(fetched.icalData).getOrNull().orEmpty()
+            val component = parsed.firstOrNull { it.recurrenceId == null } ?: parsed.firstOrNull() ?: return
+            eventsDao.updateOrganizerScheduleStatus(event.id, component.organizer?.scheduleStatus?.firstOrNull()?.code)
+        } catch (e: Exception) {
+            if (e is kotlin.coroutines.cancellation.CancellationException) throw e
+            Log.w(TAG, "Reply receipt read-back failed for ${event.id}: ${e.message}")
         }
     }
 

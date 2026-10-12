@@ -63,6 +63,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.onekash.kashcal.domain.scheduling.classifyReplyReceipt
 import org.onekash.kashcal.R
 import org.onekash.kashcal.data.contacts.ContactEventType
 import org.onekash.kashcal.data.contacts.ContactEventUtils
@@ -356,6 +357,16 @@ fun EventQuickViewSheet(
                     onDrillIntoAttendees = { showAttendeeSheet = true },
                     seriesDisclosure = seriesDisclosure,
                     alwaysExpanded = false,
+                    // Only an imported invitation reads the server's report on the user's own
+                    // reply; a synced invitation's organizer field holds the organizer's sends.
+                    replyReceipt = if (
+                        event.importSource == org.onekash.kashcal.data.db.entity.Event.IMPORT_SOURCE_ICS_FILE &&
+                        you != null && !isCurrentUserOrganizer
+                    ) {
+                        classifyReplyReceipt(event.organizerScheduleStatus)
+                    } else {
+                        null
+                    },
                     modifier = Modifier.padding(horizontal = 16.dp),
                 )
             }

@@ -303,6 +303,22 @@ class SqliteCalendarProviderInstancesTest {
     }
 
     @Test
+    fun `a one-off an update cancels loses its instance`() {
+        val id = oneOff()
+
+        context.contentResolver.update(eventUri(id), values(Events.STATUS to Events.STATUS_CANCELED), null, null)
+
+        assertTrue(viewRows(T0 - DAY, T0 + DAY).isEmpty())
+    }
+
+    @Test
+    fun `a one-off inserted cancelled keeps its instance, as the platform's expansion does`() {
+        val id = oneOff(status = Events.STATUS_CANCELED)
+
+        assertEquals(listOf(id), viewRows(T0 - DAY, T0 + DAY).map { it.first })
+    }
+
+    @Test
     fun `a one-off with a DURATION ends after that duration`() {
         val id = oneOff(end = null, duration = "PT30M")
 

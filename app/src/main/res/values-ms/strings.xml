@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Pemberitahuan tentang penyempurnaan segerak dan ralat</string>
     <string name="channel_event_invitations">Jemputan Acara</string>
     <string name="channel_event_invitations_desc">Pemberitahuan apabila anda menerima jemputan kalendar baharu</string>
+    <string name="channel_calendar_updates">Kemas Kini Kalendar</string>
     <string name="invite_notification_body">Daripada %1$s · Ketik untuk membalas</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Balasan anda terpakai untuk seluruh siri.</string>
+    <string name="rsvp_receipt_pending">Balasan menunggu dihantar</string>
+    <string name="rsvp_receipt_sent">Balasan dihantar</string>
+    <string name="rsvp_receipt_not_delivered">Balasan tidak dapat dihantar</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Yang ini dan semua akan datang</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Sambungkan iCloud untuk lihat acara anda di sini</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Nanti</string>
+    <string name="whats_new_skip">Langkau</string>
+    <string name="whats_new_next">Seterusnya</string>
+    <string name="whats_new_page_of">Halaman %1$d daripada %2$d</string>
+    <string name="whats_new_find_it_in">Cari di</string>
     <string name="whats_new_v598_title">Bantu pastikan Android kekal terbuka</string>
     <string name="whats_new_v598_body">Google sedang mengubah cara anda memasang aplikasi pada peranti anda. Kami memerlukan bantuan anda.</string>
     <string name="whats_new_v598_action_label">Lawati keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Keluaran ini didedikasikan untuk penyokong KashCal. Sumbangan kecil dengan pulangan besar yang berterusan.</string>
     <string name="whats_new_v732_caption">Belum menjadi penyokong?</string>
     <string name="whats_new_v732_action_label">Masukkan kami dalam rancangan anda</string>
+    <string name="whats_new_v772_icon_title">Ikon anda tahu tarikhnya</string>
+    <string name="whats_new_v772_icon_body">Pilih ikon Tarikh hari ini dan KashCal memaparkan hari bulan pada skrin utama anda. Ia bertukar sendiri setiap malam.</string>
+    <string name="whats_new_v772_changes_title">Lihat apa yang berubah</string>
+    <string name="whats_new_v772_changes_body">Acara baharu, disunting dan dialih keluar daripada kalendar iCloud dan CalDAV anda dikumpulkan dalam Perubahan terkini selama 7 hari. Ketik satu untuk membukanya.</string>
+    <string name="whats_new_v772_notifications_body">Dapatkan pemberitahuan apabila penyegerakan latar belakang menemui perubahan pada acara iCloud atau CalDAV anda. Ia kekal dimatikan sehingga anda menghidupkannya.</string>
+    <string name="whats_new_hero_sample_lunch">Makan tengah hari pasukan</string>
+    <string name="whats_new_hero_sample_review">Semakan reka bentuk</string>
+    <string name="whats_new_hero_sample_book_club">Kelab buku</string>
+    <string name="whats_new_hero_sample_calendar">Kerja</string>
+    <string name="whats_new_hero_now">sekarang</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Sambung iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Satu baris ringkas, atau dua baris terperinci dengan masa tamat.</string>
     <string name="settings_sync_lookback">Lihat Balik Segerak</string>
     <string name="settings_sync_lookback_hint">Berapa lama ke belakang untuk menyegerakkan acara</string>
+    <string name="settings_change_notifications">Pemberitahuan Perubahan</string>
+    <string name="settings_change_notifications_info">Menghantar pemberitahuan apabila penyegerakan latar belakang menemui perubahan pada acara anda. Berfungsi untuk kalendar iCloud dan CalDAV.</string>
     <string name="settings_not_set">Belum ditetapkan</string>
     <string name="settings_on">Hidup</string>
     <string name="settings_off">Mati</string>
@@ -743,6 +762,51 @@
     <plurals name="imported_events">
         <item quantity="other">%1$d acara diimport</item>
     </plurals>
+    <string name="ics_import_preview_loading">Menyemak kalendar ini…</string>
+    <string name="ics_import_preview_failed">Tidak dapat menyemak kalendar ini untuk acara ini. Anda masih boleh mengimport.</string>
+    <string name="ics_import_will_cancel">Ini membatalkan %1$s, dianjurkan oleh %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Ini membatalkan %1$s</string>
+    <string name="ics_import_will_update">Ini mengemas kini %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="other">%1$d acara sudah terkini</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="other">%1$d dilangkau: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ia balasan kepada jemputan, yang tidak menambah apa-apa pada kalendar anda</string>
+    <string name="ics_import_reason_unsupported">jenis mesej jemputan ini tidak disokong</string>
+    <string name="ics_import_reason_organizer_mismatch">ia datang daripada orang lain selain penganjur mesyuarat</string>
+    <string name="ics_import_reason_cancel_no_match">mesyuarat yang dibatalkan tiada dalam kalendar ini</string>
+    <string name="ics_import_reason_cancel_not_for_you">pembatalan ini untuk tetamu lain</string>
+    <string name="ics_import_reason_deletion_pending">acara sedang dipadamkan</string>
+    <string name="ics_import_reason_cancelled_in_file">ia sudah dibatalkan dalam fail</string>
+    <string name="ics_import_reason_this_and_future">perubahan pada kejadian ini dan seterusnya tidak disokong</string>
+    <string name="ics_import_reason_own_cancel">anda penganjur mesyuarat ini, jadi batalkannya daripada acara</string>
+    <string name="ics_import_reason_on_another_calendar">ia sudah ada dalam kalendar lain akaun ini</string>
+    <string name="ics_import_notice_unverified">Penghantar fail jemputan tidak dapat disahkan. Pastikan ia datang daripada penganjur.</string>
+    <string name="ics_import_notice_answer_notifies">Menjawab jemputan ini mungkin memaklumkan penganjur.</string>
+    <string name="ics_import_notice_guests_again">Anda penganjur, jadi tetamu mungkin menerima jemputan ini sekali lagi.</string>
+    <string name="cd_dismiss_notice">Tutup notis</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="other">%1$d ditambah</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="other">%1$d dikemas kini</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="other">%1$d dibatalkan</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="other">%1$d sudah terkini</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="other">%1$d dilangkau</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="other">%1$d gagal</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Tiada apa-apa untuk diimport</string>
     <plurals name="exported_events">
         <item quantity="other">%1$d acara dieksport</item>
     </plurals>

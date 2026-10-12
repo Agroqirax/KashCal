@@ -93,6 +93,7 @@ class BackupRestoreViewModelStateTest {
         calendarProviderManager = settingsManagerMock()
         calendarProviderRepository = FakeCalendarProviderRepository()
         dataStore = mockk(relaxed = true)
+        every { dataStore.changeNotificationsEnabled } returns kotlinx.coroutines.flow.MutableStateFlow(false)
         widgetUpdateManager = mockk(relaxed = true)
         deviceCalendarReminderScheduler = mockk(relaxed = true)
         backupExporter = mockk(relaxed = true)
@@ -161,6 +162,7 @@ class BackupRestoreViewModelStateTest {
         backupExporter = backupExporter,
         backupImporter = backupImporter,
         permissionChecker = org.onekash.kashcal.ui.permission.FakePermissionChecker(),
+        changeNotificationChannels = org.onekash.kashcal.sync.notification.blockedChangeNotificationChannels(),
         context = io.mockk.mockk(relaxed = true),
         applicationScope = CoroutineScope(SupervisorJob() + testDispatcher),
     )

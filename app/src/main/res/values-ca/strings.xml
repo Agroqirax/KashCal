@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Notificacions sobre la finalització i errors de sincronització</string>
     <string name="channel_event_invitations">Invitacions a esdeveniments</string>
     <string name="channel_event_invitations_desc">Notificacions quan reps una nova invitació de calendari</string>
+    <string name="channel_calendar_updates">Canvis al calendari</string>
     <string name="invite_notification_body">De %1$s · Toca per respondre</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">La resposta s\'aplica a tota la sèrie.</string>
+    <string name="rsvp_receipt_pending">Resposta pendent</string>
+    <string name="rsvp_receipt_sent">Resposta enviada</string>
+    <string name="rsvp_receipt_not_delivered">Resposta no lliurada</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Aquest i tots els futurs</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Connecta iCloud per veure els teus esdeveniments aquí</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Més tard</string>
+    <string name="whats_new_skip">Omet</string>
+    <string name="whats_new_next">Següent</string>
+    <string name="whats_new_page_of">Pàgina %1$d de %2$d</string>
+    <string name="whats_new_find_it_in">Ho trobaràs a</string>
     <string name="whats_new_v598_title">Ajuda a mantenir Android obert</string>
     <string name="whats_new_v598_body">Google està canviant la manera com instal·les aplicacions al dispositiu. Necessitem la teva ajuda.</string>
     <string name="whats_new_v598_action_label">Visita keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Aquesta versió està dedicada a qui dóna suport a KashCal. Una petita aportació amb un gran benefici recurrent.</string>
     <string name="whats_new_v732_caption">Encara no ens dónes suport?</string>
     <string name="whats_new_v732_action_label">Afegeix-nos als teus plans</string>
+    <string name="whats_new_v772_icon_title">La teva icona sap quin dia és</string>
+    <string name="whats_new_v772_icon_body">Tria la icona Data d\'avui i KashCal mostrarà el dia del mes a la pantalla d\'inici. Canvia tota sola cada nit.</string>
+    <string name="whats_new_v772_changes_title">Mira què ha canviat</string>
+    <string name="whats_new_v772_changes_body">Els esdeveniments nous, editats i eliminats dels teus calendaris iCloud i CalDAV es recullen a Canvis recents durant 7 dies. Toca\'n un per obrir-lo.</string>
+    <string name="whats_new_v772_notifications_body">Rep una notificació quan una sincronització en segon pla troba canvis als teus esdeveniments d\'iCloud o CalDAV. Està desactivada fins que l\'activis.</string>
+    <string name="whats_new_hero_sample_lunch">Dinar d\'equip</string>
+    <string name="whats_new_hero_sample_review">Revisió de disseny</string>
+    <string name="whats_new_hero_sample_book_club">Club de lectura</string>
+    <string name="whats_new_hero_sample_calendar">Feina</string>
+    <string name="whats_new_hero_now">ara</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Connectar iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Una sola línia compacta, o dues línies detallades amb l\'hora de finalització.</string>
     <string name="settings_sync_lookback">Sincronitzar retrospectivament</string>
     <string name="settings_sync_lookback_hint">Fins a quan enrere sincronitzar els esdeveniments</string>
+    <string name="settings_change_notifications">Notificacions de canvis</string>
+    <string name="settings_change_notifications_info">Envia una notificació quan una sincronització en segon pla troba canvis als teus esdeveniments. Funciona amb calendaris iCloud i CalDAV.</string>
     <string name="settings_not_set">No configurat</string>
     <string name="settings_on">Activat</string>
     <string name="settings_off">Desactivat</string>
@@ -760,6 +779,59 @@
         <item quantity="one">S\'ha importat %1$d esdeveniment</item>
         <item quantity="other">S\'han importat %1$d esdeveniments</item>
     </plurals>
+    <string name="ics_import_preview_loading">S\'està comprovant aquest calendari…</string>
+    <string name="ics_import_preview_failed">No s\'ha pogut comprovar aquest calendari per a aquests esdeveniments. Pots importar igualment.</string>
+    <string name="ics_import_will_cancel">Això cancel·la %1$s, organitzat per %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Això cancel·la %1$s</string>
+    <string name="ics_import_will_update">Això actualitza %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d esdeveniment ja està actualitzat</item>
+        <item quantity="other">%1$d esdeveniments ja estan actualitzats</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d omès: %2$s</item>
+        <item quantity="other">%1$d omesos: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">és una resposta a una invitació, que no afegeix res al teu calendari</string>
+    <string name="ics_import_reason_unsupported">aquest tipus de missatge d\'invitació no és compatible</string>
+    <string name="ics_import_reason_organizer_mismatch">ve d\'algú que no és l\'organitzador de la reunió</string>
+    <string name="ics_import_reason_cancel_no_match">la reunió cancel·lada no és en aquest calendari</string>
+    <string name="ics_import_reason_cancel_not_for_you">la cancel·lació és per a altres assistents</string>
+    <string name="ics_import_reason_deletion_pending">l\'esdeveniment s\'està eliminant</string>
+    <string name="ics_import_reason_cancelled_in_file">ja està cancel·lat al fitxer</string>
+    <string name="ics_import_reason_this_and_future">els canvis en aquesta repetició i les següents no són compatibles</string>
+    <string name="ics_import_reason_own_cancel">organitzes aquesta reunió, així que cancel·la-la des de l\'esdeveniment</string>
+    <string name="ics_import_reason_on_another_calendar">ja és en un altre calendari d\'aquest compte</string>
+    <string name="ics_import_notice_unverified">No es pot verificar qui envia un fitxer d\'invitació. Comprova que vingui de l\'organitzador.</string>
+    <string name="ics_import_notice_answer_notifies">Respondre a aquesta invitació pot avisar l\'organitzador.</string>
+    <string name="ics_import_notice_guests_again">Ets l\'organitzador, així que els assistents podrien tornar a rebre aquesta invitació.</string>
+    <string name="cd_dismiss_notice">Descarta l\'avís</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d afegit</item>
+        <item quantity="other">%1$d afegits</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d actualitzat</item>
+        <item quantity="other">%1$d actualitzats</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d cancel·lat</item>
+        <item quantity="other">%1$d cancel·lats</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ja actualitzat</item>
+        <item quantity="other">%1$d ja actualitzats</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d omès</item>
+        <item quantity="other">%1$d omesos</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d ha fallat</item>
+        <item quantity="other">%1$d han fallat</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">No hi ha res per importar</string>
     <plurals name="exported_events">
         <item quantity="one">S\'ha exportat %1$d esdeveniment</item>
         <item quantity="other">S\'han exportat %1$d esdeveniments</item>

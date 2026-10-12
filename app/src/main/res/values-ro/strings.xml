@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Notificări despre finalizarea și erorile de sincronizare</string>
     <string name="channel_event_invitations">Invitații la evenimente</string>
     <string name="channel_event_invitations_desc">Notificări la primirea unei noi invitații în calendar</string>
+    <string name="channel_calendar_updates">Modificări în calendar</string>
     <string name="invite_notification_body">De la %1$s · Atinge pentru a răspunde</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Răspunsul se aplică întregii serii.</string>
+    <string name="rsvp_receipt_pending">Răspuns în așteptare</string>
+    <string name="rsvp_receipt_sent">Răspuns trimis</string>
+    <string name="rsvp_receipt_not_delivered">Răspuns nelivrat</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Acesta și toate cele viitoare</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Conectează iCloud pentru a vedea evenimentele tale aici</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Poate mai târziu</string>
+    <string name="whats_new_skip">Omite</string>
+    <string name="whats_new_next">Înainte</string>
+    <string name="whats_new_page_of">Pagina %1$d din %2$d</string>
+    <string name="whats_new_find_it_in">Se află în</string>
     <string name="whats_new_v598_title">Ajută să păstrăm Android deschis</string>
     <string name="whats_new_v598_body">Google schimbă modul în care instalezi aplicații pe dispozitivul tău. Avem nevoie de ajutorul tău.</string>
     <string name="whats_new_v598_action_label">Vizitează keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Această versiune este dedicată susținătorilor KashCal. O contribuție mică, cu un beneficiu mare care revine mereu.</string>
     <string name="whats_new_v732_caption">Încă nu ești susținător?</string>
     <string name="whats_new_v732_action_label">Adaugă-ne în planurile tale</string>
+    <string name="whats_new_v772_icon_title">Pictograma ta știe data</string>
+    <string name="whats_new_v772_icon_body">Alege pictograma Data de azi și KashCal îți arată ziua lunii pe ecranul de pornire. Se schimbă singură în fiecare noapte.</string>
+    <string name="whats_new_v772_changes_title">Vezi ce s-a schimbat</string>
+    <string name="whats_new_v772_changes_body">Evenimentele noi, editate și șterse din calendarele tale iCloud și CalDAV se adună în Modificări recente timp de 7 zile. Atinge unul ca să-l deschizi.</string>
+    <string name="whats_new_v772_notifications_body">Primește o notificare când sincronizarea din fundal găsește modificări la evenimentele tale iCloud sau CalDAV. Rămâne dezactivată până când o activezi.</string>
+    <string name="whats_new_hero_sample_lunch">Prânz cu echipa</string>
+    <string name="whats_new_hero_sample_review">Revizuire design</string>
+    <string name="whats_new_hero_sample_book_club">Club de carte</string>
+    <string name="whats_new_hero_sample_calendar">Serviciu</string>
+    <string name="whats_new_hero_now">acum</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Conectare iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">O linie compactă sau două linii detaliate cu ora de sfârșit.</string>
     <string name="settings_sync_lookback">Perioada de retrospectivă sincronizare</string>
     <string name="settings_sync_lookback_hint">Cât de mult în urmă se sincronizează evenimentele</string>
+    <string name="settings_change_notifications">Notificări despre modificări</string>
+    <string name="settings_change_notifications_info">Trimite o notificare când sincronizarea din fundal găsește modificări la evenimentele tale. Funcționează pentru calendarele iCloud și CalDAV.</string>
     <string name="settings_not_set">Nesetat</string>
     <string name="settings_on">Pornit</string>
     <string name="settings_off">Oprit</string>
@@ -777,6 +796,67 @@
         <item quantity="few">%1$d evenimente importate</item>
         <item quantity="other">%1$d de evenimente importate</item>
     </plurals>
+    <string name="ics_import_preview_loading">Se verifică acest calendar…</string>
+    <string name="ics_import_preview_failed">Nu s-a putut verifica acest calendar pentru aceste evenimente. Poți importa în continuare.</string>
+    <string name="ics_import_will_cancel">Aceasta anulează %1$s, organizat de %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Aceasta anulează %1$s</string>
+    <string name="ics_import_will_update">Aceasta actualizează %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d eveniment este deja actualizat</item>
+        <item quantity="few">%1$d evenimente sunt deja actualizate</item>
+        <item quantity="other">%1$d de evenimente sunt deja actualizate</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d omis: %2$s</item>
+        <item quantity="few">%1$d omise: %2$s</item>
+        <item quantity="other">%1$d omise: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">este un răspuns la o invitație, care nu adaugă nimic în calendarul tău</string>
+    <string name="ics_import_reason_unsupported">acest tip de mesaj de invitație nu este acceptat</string>
+    <string name="ics_import_reason_organizer_mismatch">provine de la altcineva decât organizatorul întâlnirii</string>
+    <string name="ics_import_reason_cancel_no_match">întâlnirea anulată nu este în acest calendar</string>
+    <string name="ics_import_reason_cancel_not_for_you">anularea este pentru alți invitați</string>
+    <string name="ics_import_reason_deletion_pending">evenimentul este în curs de ștergere</string>
+    <string name="ics_import_reason_cancelled_in_file">este deja anulat în fișier</string>
+    <string name="ics_import_reason_this_and_future">modificările pentru această apariție și cele ulterioare nu sunt acceptate</string>
+    <string name="ics_import_reason_own_cancel">tu organizezi această întâlnire, așa că anuleaz-o din eveniment</string>
+    <string name="ics_import_reason_on_another_calendar">este deja în alt calendar al acestui cont</string>
+    <string name="ics_import_notice_unverified">Expeditorul unui fișier de invitație nu poate fi verificat. Verifică dacă provine de la organizator.</string>
+    <string name="ics_import_notice_answer_notifies">Răspunsul la această invitație poate notifica organizatorul.</string>
+    <string name="ics_import_notice_guests_again">Tu ești organizatorul, așa că invitații pot primi din nou această invitație.</string>
+    <string name="cd_dismiss_notice">Închide mesajul</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d adăugat</item>
+        <item quantity="few">%1$d adăugate</item>
+        <item quantity="other">%1$d adăugate</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d actualizat</item>
+        <item quantity="few">%1$d actualizate</item>
+        <item quantity="other">%1$d actualizate</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d anulat</item>
+        <item quantity="few">%1$d anulate</item>
+        <item quantity="other">%1$d anulate</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d deja actualizat</item>
+        <item quantity="few">%1$d deja actualizate</item>
+        <item quantity="other">%1$d deja actualizate</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d omis</item>
+        <item quantity="few">%1$d omise</item>
+        <item quantity="other">%1$d omise</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d eșuat</item>
+        <item quantity="few">%1$d eșuate</item>
+        <item quantity="other">%1$d eșuate</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nimic de importat</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d eveniment exportat</item>
         <item quantity="few">%1$d evenimente exportate</item>

@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Sciigoj pri sinkroniga finiĝo kaj eraroj</string>
     <string name="channel_event_invitations">Eventaj invitoj</string>
     <string name="channel_event_invitations_desc">Sciigoj kiam vi ricevas novan kalendaran inviton</string>
+    <string name="channel_calendar_updates">Kalendaraj ŝanĝoj</string>
     <string name="invite_notification_body">De %1$s · Frapetu por respondi</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">La respondo validas por la tuta serio.</string>
+    <string name="rsvp_receipt_pending">Respondo atendas</string>
+    <string name="rsvp_receipt_sent">Respondo sendita</string>
+    <string name="rsvp_receipt_not_delivered">Respondo ne liverita</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Ĉi tiu kaj ĉiuj estontaj</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Konektu iCloud por vidi viajn eventojn ĉi tie</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Poste</string>
+    <string name="whats_new_skip">Preterlasi</string>
+    <string name="whats_new_next">Sekva</string>
+    <string name="whats_new_page_of">Paĝo %1$d el %2$d</string>
+    <string name="whats_new_find_it_in">Trovu ĝin en</string>
     <string name="whats_new_v598_title">Helpu konservi Android-on malferma</string>
     <string name="whats_new_v598_body">Google ŝanĝas la manieron kiel vi instalas aplikaĵojn sur via aparato. Ni bezonas vian helpon.</string>
     <string name="whats_new_v598_action_label">Viziti keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Ĉi tiu eldono estas dediĉita al la subtenantoj de KashCal. Malgranda kontribuo kun granda daŭra rekompenco.</string>
     <string name="whats_new_v732_caption">Ĉu vi ankoraŭ ne estas subtenanto?</string>
     <string name="whats_new_v732_action_label">Aldonu nin al viaj planoj</string>
+    <string name="whats_new_v772_icon_title">Via piktogramo scias la daton</string>
+    <string name="whats_new_v772_icon_body">Elektu la piktogramon Hodiaŭa dato, kaj KashCal montras la tagon de la monato sur via hejmekrano. Ĝi ŝanĝiĝas memstare ĉiunokte.</string>
+    <string name="whats_new_v772_changes_title">Vidu, kio ŝanĝiĝis</string>
+    <string name="whats_new_v772_changes_body">Novaj, redaktitaj kaj forigitaj eventoj el viaj iCloud- kaj CalDAV-kalendaroj kolektiĝas en Lastatempaj ŝanĝoj dum 7 tagoj. Tuŝu unu por malfermi ĝin.</string>
+    <string name="whats_new_v772_notifications_body">Ricevu sciigon kiam fona sinkronigo trovas ŝanĝojn en viaj iCloud- aŭ CalDAV-eventoj. Ĝi restas malŝaltita ĝis vi ŝaltos ĝin.</string>
+    <string name="whats_new_hero_sample_lunch">Teama tagmanĝo</string>
+    <string name="whats_new_hero_sample_review">Dezajna revizio</string>
+    <string name="whats_new_hero_sample_book_club">Legoklubo</string>
+    <string name="whats_new_hero_sample_calendar">Laboro</string>
+    <string name="whats_new_hero_now">nun</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Konekti iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompakta unuopa linio, aŭ detalaj du linioj kun fintempo.</string>
     <string name="settings_sync_lookback">Sinkroniga retrorigardo</string>
     <string name="settings_sync_lookback_hint">Ĝis kiom retro sinkronigi eventojn</string>
+    <string name="settings_change_notifications">Sciigoj pri ŝanĝoj</string>
+    <string name="settings_change_notifications_info">Sendas sciigon kiam fona sinkronigo trovas ŝanĝojn en viaj eventoj. Funkcias por iCloud- kaj CalDAV-kalendaroj.</string>
     <string name="settings_not_set">Ne agordita</string>
     <string name="settings_on">Ŝaltita</string>
     <string name="settings_off">Malŝaltita</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Importita %1$d evento</item>
         <item quantity="other">Importitaj %1$d eventoj</item>
     </plurals>
+    <string name="ics_import_preview_loading">Kontrolante ĉi tiun kalendaron…</string>
+    <string name="ics_import_preview_failed">Ne eblis kontroli ĉi tiun kalendaron pri ĉi tiuj eventoj. Vi tamen povas importi.</string>
+    <string name="ics_import_will_cancel">Ĉi tio nuligas %1$s, organizitan de %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Ĉi tio nuligas %1$s</string>
+    <string name="ics_import_will_update">Ĉi tio ĝisdatigas %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d evento jam estas ĝisdata</item>
+        <item quantity="other">%1$d eventoj jam estas ĝisdataj</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d transsaltita: %2$s</item>
+        <item quantity="other">%1$d transsaltitaj: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ĝi estas respondo al invito, kiu aldonas nenion al via kalendaro</string>
+    <string name="ics_import_reason_unsupported">ĉi tiu speco de invita mesaĝo ne estas subtenata</string>
+    <string name="ics_import_reason_organizer_mismatch">ĝi venas de iu alia ol la organizanto de la kunveno</string>
+    <string name="ics_import_reason_cancel_no_match">la nuligita kunveno ne estas en ĉi tiu kalendaro</string>
+    <string name="ics_import_reason_cancel_not_for_you">la nuligo estas por aliaj ĉeestantoj</string>
+    <string name="ics_import_reason_deletion_pending">la evento estas forigata</string>
+    <string name="ics_import_reason_cancelled_in_file">ĝi jam estas nuligita en la dosiero</string>
+    <string name="ics_import_reason_this_and_future">ŝanĝoj al ĉi tiu kaj postaj okazoj ne estas subtenataj</string>
+    <string name="ics_import_reason_own_cancel">vi organizas ĉi tiun kunvenon, do nuligu ĝin el la evento</string>
+    <string name="ics_import_reason_on_another_calendar">ĝi jam estas en alia kalendaro de ĉi tiu konto</string>
+    <string name="ics_import_notice_unverified">Ne eblas kontroli la sendinton de invita dosiero. Certigu, ke ĝi venis de la organizanto.</string>
+    <string name="ics_import_notice_answer_notifies">Respondi al ĉi tiu invito eble sciigos la organizanton.</string>
+    <string name="ics_import_notice_guests_again">Vi estas la organizanto, do ĉeestantoj eble ricevos ĉi tiun inviton denove.</string>
+    <string name="cd_dismiss_notice">Fermi la avizon</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d aldonita</item>
+        <item quantity="other">%1$d aldonitaj</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ĝisdatigita</item>
+        <item quantity="other">%1$d ĝisdatigitaj</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d nuligita</item>
+        <item quantity="other">%1$d nuligitaj</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d jam ĝisdata</item>
+        <item quantity="other">%1$d jam ĝisdataj</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d transsaltita</item>
+        <item quantity="other">%1$d transsaltitaj</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d malsukcesis</item>
+        <item quantity="other">%1$d malsukcesis</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nenio por importi</string>
     <plurals name="exported_events">
         <item quantity="one">Eksportita %1$d evento</item>
         <item quantity="other">Eksportitaj %1$d eventoj</item>

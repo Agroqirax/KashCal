@@ -106,6 +106,7 @@ class AccountSettingsScreenViewModelWiringTest {
         every { vm.showEventEmojis } returns MutableStateFlow(true)
         every { vm.quickAddEnabled } returns MutableStateFlow(false)
         every { vm.titleSuggestionsEnabled } returns MutableStateFlow(true)
+        every { vm.changeNotificationsOn } returns MutableStateFlow(false)
         every { vm.timeFormat } returns MutableStateFlow(KashCalDataStore.TIME_FORMAT_SYSTEM)
         every { vm.firstDayOfWeek } returns MutableStateFlow(java.util.Calendar.SUNDAY)
         every { vm.showWeekNumbers } returns MutableStateFlow(weekNumbers)
@@ -150,10 +151,11 @@ class AccountSettingsScreenViewModelWiringTest {
                 initialColorSource = ColorSource.DYNAMIC,
                 initialAccentSeed = 0,
                 syncSessionStore = mockk<SyncSessionStore>(relaxed = true),
-                // The four I/O lambdas have no defaults; the rows under test never invoke
+                // The five I/O lambdas have no defaults; the rows under test never invoke
                 // them, so throwaway stubs suffice.
                 readIcsContent = { Result.failure(UnsupportedOperationException()) },
-                importIcsToRoom = { _, _ -> 0 },
+                importIcsToRoom = { _, _ -> error("not used") },
+                previewIcsInRoom = { _, _ -> error("not used") },
                 writeBackup = { _, _ -> },
                 readBackup = { error("not used") },
             )

@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Eşitleme tamamlanması ve hatalar hakkında bildirimler</string>
     <string name="channel_event_invitations">Etkinlik Davetleri</string>
     <string name="channel_event_invitations_desc">Yeni bir takvim daveti aldığınızda bildirimler</string>
+    <string name="channel_calendar_updates">Takvim değişiklikleri</string>
     <string name="invite_notification_body">Gönderen: %1$s · Yanıtlamak için dokunun</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Yanıt, tüm seriye uygulanır.</string>
+    <string name="rsvp_receipt_pending">Yanıt gönderilmeyi bekliyor</string>
+    <string name="rsvp_receipt_sent">Yanıt gönderildi</string>
+    <string name="rsvp_receipt_not_delivered">Yanıt iletilemedi</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Bu ve gelecekteki tümü</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Etkinliklerini burada görmek için iCloud\'a bağlan</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Belki sonra</string>
+    <string name="whats_new_skip">Atla</string>
+    <string name="whats_new_next">İleri</string>
+    <string name="whats_new_page_of">Sayfa %1$d / %2$d</string>
+    <string name="whats_new_find_it_in">Şurada bulabilirsin</string>
     <string name="whats_new_v598_title">Android\'ın açık kalmasına yardım et</string>
     <string name="whats_new_v598_body">Google, cihazınıza uygulama yükleme şeklinizi değiştiriyor. Yardımınıza ihtiyacımız var.</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org adresini ziyaret et</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Bu sürüm KashCal\'in destekçilerine adanmıştır. Küçük bir katkı, büyük ve sürekli bir getiri.</string>
     <string name="whats_new_v732_caption">Henüz destekçi değil misin?</string>
     <string name="whats_new_v732_action_label">Bizi planlarına ekle</string>
+    <string name="whats_new_v772_icon_title">Simgen tarihi biliyor</string>
+    <string name="whats_new_v772_icon_body">Bugünün tarihi simgesini seç, KashCal ana ekranında ayın gününü göstersin. Her gece kendiliğinden yeni güne geçer.</string>
+    <string name="whats_new_v772_changes_title">Neler değiştiğini gör</string>
+    <string name="whats_new_v772_changes_body">iCloud ve CalDAV takvimlerindeki yeni, düzenlenen ve silinen etkinlikler 7 gün boyunca Son değişiklikler listesinde toplanır. Açmak için birine dokun.</string>
+    <string name="whats_new_v772_notifications_body">Arka plan eşitlemesi iCloud veya CalDAV etkinliklerinde değişiklik bulduğunda bildirim al. Sen açana kadar kapalı kalır.</string>
+    <string name="whats_new_hero_sample_lunch">Ekip yemeği</string>
+    <string name="whats_new_hero_sample_review">Tasarım incelemesi</string>
+    <string name="whats_new_hero_sample_book_club">Kitap kulübü</string>
+    <string name="whats_new_hero_sample_calendar">İş</string>
+    <string name="whats_new_hero_now">şimdi</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud\'a Bağlan</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompakt tek satır ya da bitiş saatiyle ayrıntılı iki satır.</string>
     <string name="settings_sync_lookback">Eşitleme Geçmişi Süresi</string>
     <string name="settings_sync_lookback_hint">Etkinlikler ne kadar geriye eşitlenecek</string>
+    <string name="settings_change_notifications">Değişiklik bildirimleri</string>
+    <string name="settings_change_notifications_info">Arka plan eşitlemesi etkinliklerinde değişiklik bulduğunda bildirim gönderir. iCloud ve CalDAV takvimlerinde çalışır.</string>
     <string name="settings_not_set">Ayarlanmadı</string>
     <string name="settings_on">Açık</string>
     <string name="settings_off">Kapalı</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d etkinlik içe aktarıldı</item>
         <item quantity="other">%1$d etkinlik içe aktarıldı</item>
     </plurals>
+    <string name="ics_import_preview_loading">Bu takvim kontrol ediliyor…</string>
+    <string name="ics_import_preview_failed">Bu etkinlikler için bu takvim kontrol edilemedi. Yine de içe aktarabilirsin.</string>
+    <string name="ics_import_will_cancel">Bu, %1$s etkinliğini iptal eder (düzenleyen: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Bu, %1$s etkinliğini iptal eder</string>
+    <string name="ics_import_will_update">Bu, %1$s etkinliğini günceller</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d etkinlik zaten güncel</item>
+        <item quantity="other">%1$d etkinlik zaten güncel</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d atlandı: %2$s</item>
+        <item quantity="other">%1$d atlandı: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">bu bir davete verilen yanıt ve takvimine hiçbir şey eklemiyor</string>
+    <string name="ics_import_reason_unsupported">bu tür davet mesajı desteklenmiyor</string>
+    <string name="ics_import_reason_organizer_mismatch">toplantının düzenleyeni dışında birinden geliyor</string>
+    <string name="ics_import_reason_cancel_no_match">iptal edilen toplantı bu takvimde değil</string>
+    <string name="ics_import_reason_cancel_not_for_you">iptal diğer konuklar için</string>
+    <string name="ics_import_reason_deletion_pending">etkinlik siliniyor</string>
+    <string name="ics_import_reason_cancelled_in_file">dosyada zaten iptal edilmiş</string>
+    <string name="ics_import_reason_this_and_future">bu ve sonraki tekrarlardaki değişiklikler desteklenmiyor</string>
+    <string name="ics_import_reason_own_cancel">bu toplantının düzenleyeni sensin, iptal işlemini etkinlikten yap</string>
+    <string name="ics_import_reason_on_another_calendar">bu hesabın başka bir takviminde zaten var</string>
+    <string name="ics_import_notice_unverified">Bir davet dosyasının göndereni doğrulanamaz. Düzenleyenden geldiğinden emin ol.</string>
+    <string name="ics_import_notice_answer_notifies">Bu davete yanıt vermek düzenleyene bildirim gönderebilir.</string>
+    <string name="ics_import_notice_guests_again">Düzenleyen sensin, bu yüzden konuklar bu daveti yeniden alabilir.</string>
+    <string name="cd_dismiss_notice">Uyarıyı kapat</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d eklendi</item>
+        <item quantity="other">%1$d eklendi</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d güncellendi</item>
+        <item quantity="other">%1$d güncellendi</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d iptal edildi</item>
+        <item quantity="other">%1$d iptal edildi</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d zaten güncel</item>
+        <item quantity="other">%1$d zaten güncel</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d atlandı</item>
+        <item quantity="other">%1$d atlandı</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d başarısız</item>
+        <item quantity="other">%1$d başarısız</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">İçe aktarılacak bir şey yok</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d etkinlik dışa aktarıldı</item>
         <item quantity="other">%1$d etkinlik dışa aktarıldı</item>

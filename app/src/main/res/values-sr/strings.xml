@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Obaveštenja o završetku sinhronizacije i greškama</string>
     <string name="channel_event_invitations">Pozivi na događaje</string>
     <string name="channel_event_invitations_desc">Obaveštenja kada primite novi poziv u kalendar</string>
+    <string name="channel_calendar_updates">Promene u kalendaru</string>
     <string name="invite_notification_body">Od %1$s · Dodirnite za odgovor</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Odgovor se odnosi na celu seriju.</string>
+    <string name="rsvp_receipt_pending">Odgovor čeka slanje</string>
+    <string name="rsvp_receipt_sent">Odgovor poslat</string>
+    <string name="rsvp_receipt_not_delivered">Odgovor nije isporučen</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Ovaj i svi budući</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Poveži iCloud da vidiš svoje događaje</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Kasnije</string>
+    <string name="whats_new_skip">Preskoči</string>
+    <string name="whats_new_next">Dalje</string>
+    <string name="whats_new_page_of">Stranica %1$d od %2$d</string>
+    <string name="whats_new_find_it_in">Nalazi se u</string>
     <string name="whats_new_v598_title">Pomozi da Android ostane otvoren</string>
     <string name="whats_new_v598_body">Google menja način na koji instalirate aplikacije na uređaju. Potrebna nam je tvoja pomoć.</string>
     <string name="whats_new_v598_action_label">Poseti keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Ovo izdanje posvećeno je onima koji podržavaju KashCal. Mali doprinos koji se stalno isplaćuje.</string>
     <string name="whats_new_v732_caption">Još nisi podržavalac?</string>
     <string name="whats_new_v732_action_label">Dodaj nas u svoje planove</string>
+    <string name="whats_new_v772_icon_title">Vaša ikona zna datum</string>
+    <string name="whats_new_v772_icon_body">Izaberite ikonu \"Današnji datum\" i KashCal će na početnom ekranu prikazivati dan u mesecu. Svake noći se sama promeni.</string>
+    <string name="whats_new_v772_changes_title">Pogledajte šta se promenilo</string>
+    <string name="whats_new_v772_changes_body">Novi, izmenjeni i uklonjeni događaji iz vaših iCloud i CalDAV kalendara prikupljaju se 7 dana na listi \"Nedavne promene\". Dodirnite događaj da biste ga otvorili.</string>
+    <string name="whats_new_v772_notifications_body">Primajte obaveštenje kada sinhronizacija u pozadini pronađe promene u vašim iCloud ili CalDAV događajima. Opcija ostaje isključena dok je ne uključite.</string>
+    <string name="whats_new_hero_sample_lunch">Timski ručak</string>
+    <string name="whats_new_hero_sample_review">Pregled dizajna</string>
+    <string name="whats_new_hero_sample_book_club">Čitalački klub</string>
+    <string name="whats_new_hero_sample_calendar">Posao</string>
+    <string name="whats_new_hero_now">sada</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Poveži iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompaktan jedan red ili detaljna dva reda sa vremenom završetka.</string>
     <string name="settings_sync_lookback">Raspon sinhronizacije unazad</string>
     <string name="settings_sync_lookback_hint">Koliko unazad sinhronizovati događaje</string>
+    <string name="settings_change_notifications">Obaveštenja o promenama</string>
+    <string name="settings_change_notifications_info">Šalje obaveštenje kada sinhronizacija u pozadini pronađe promene u vašim događajima. Radi za iCloud i CalDAV kalendare.</string>
     <string name="settings_not_set">Nije podešeno</string>
     <string name="settings_on">Uklj.</string>
     <string name="settings_off">Isklj.</string>
@@ -777,6 +796,67 @@
         <item quantity="few">Uvezeno %1$d događaja</item>
         <item quantity="other">Uvezeno %1$d događaja</item>
     </plurals>
+    <string name="ics_import_preview_loading">Provera ovog kalendara…</string>
+    <string name="ics_import_preview_failed">Nije moguće proveriti ove događaje u ovom kalendaru. I dalje možeš da ih uvezeš.</string>
+    <string name="ics_import_will_cancel">Ovim se otkazuje %1$s, organizator: %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Ovim se otkazuje %1$s</string>
+    <string name="ics_import_will_update">Ovim se ažurira %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d događaj je već ažuran</item>
+        <item quantity="few">%1$d događaja su već ažurna</item>
+        <item quantity="other">%1$d događaja je već ažurno</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">Preskočeno %1$d: %2$s</item>
+        <item quantity="few">Preskočeno %1$d: %2$s</item>
+        <item quantity="other">Preskočeno %1$d: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">to je odgovor na pozivnicu, koji ništa ne dodaje u kalendar</string>
+    <string name="ics_import_reason_unsupported">ova vrsta poruke sa pozivnicom nije podržana</string>
+    <string name="ics_import_reason_organizer_mismatch">dolazi od nekog ko nije organizator sastanka</string>
+    <string name="ics_import_reason_cancel_no_match">otkazanog sastanka nema u ovom kalendaru</string>
+    <string name="ics_import_reason_cancel_not_for_you">otkazivanje se odnosi na druge goste</string>
+    <string name="ics_import_reason_deletion_pending">događaj se upravo briše</string>
+    <string name="ics_import_reason_cancelled_in_file">već je otkazan u fajlu</string>
+    <string name="ics_import_reason_this_and_future">izmene ovog i kasnijih pojavljivanja nisu podržane</string>
+    <string name="ics_import_reason_own_cancel">ti organizuješ ovaj sastanak, pa ga otkaži iz događaja</string>
+    <string name="ics_import_reason_on_another_calendar">već je u drugom kalendaru ovog naloga</string>
+    <string name="ics_import_notice_unverified">Pošiljalac fajla sa pozivnicom ne može da se proveri. Proveri da li dolazi od organizatora.</string>
+    <string name="ics_import_notice_answer_notifies">Odgovor na ovu pozivnicu može da obavesti organizatora.</string>
+    <string name="ics_import_notice_guests_again">Ti si organizator, pa gosti mogu ponovo da dobiju ovu pozivnicu.</string>
+    <string name="cd_dismiss_notice">Odbaci obaveštenje</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d dodat</item>
+        <item quantity="few">%1$d dodata</item>
+        <item quantity="other">%1$d dodato</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ažuriran</item>
+        <item quantity="few">%1$d ažurirana</item>
+        <item quantity="other">%1$d ažurirano</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d otkazan</item>
+        <item quantity="few">%1$d otkazana</item>
+        <item quantity="other">%1$d otkazano</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d već ažuran</item>
+        <item quantity="few">%1$d već ažurna</item>
+        <item quantity="other">%1$d već ažurno</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d preskočen</item>
+        <item quantity="few">%1$d preskočena</item>
+        <item quantity="other">%1$d preskočeno</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d neuspešan</item>
+        <item quantity="few">%1$d neuspešna</item>
+        <item quantity="other">%1$d neuspešno</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nema ničega za uvoz</string>
     <plurals name="exported_events">
         <item quantity="one">Izvezen %1$d događaj</item>
         <item quantity="few">Izvezeno %1$d događaja</item>

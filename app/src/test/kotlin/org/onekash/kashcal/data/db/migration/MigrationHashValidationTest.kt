@@ -199,16 +199,32 @@ class MigrationHashValidationTest {
     }
 
     /**
-     * Runs the whole chain from a v1 database and validates the result against `25.json`. This
+     * Checks `MIGRATION_25_26` on a fresh v25 database against `26.json`: the two import columns
+     * on `events`.
+     */
+    @Test
+    fun `MIGRATION_25_26 produces a schema whose identityHash matches Room's v26 export`() {
+        helper.createDatabase(TEST_DB, 25).close()
+
+        helper.runMigrationsAndValidate(
+            TEST_DB,
+            26,
+            true,
+            Migrations.MIGRATION_25_26
+        ).close()
+    }
+
+    /**
+     * Runs the whole chain from a v1 database and validates the result against `26.json`. This
      * catches drift in an early migration that only shows once later versions build on it.
      */
     @Test
-    fun `full migration chain v1 to v25 produces schema whose identityHash matches Room's export`() {
+    fun `full migration chain v1 to v26 produces schema whose identityHash matches Room's export`() {
         helper.createDatabase(TEST_DB, 1).close()
 
         helper.runMigrationsAndValidate(
             TEST_DB,
-            25,
+            26,
             true,
             Migrations.MIGRATION_1_2,
             Migrations.MIGRATION_2_3,
@@ -234,7 +250,8 @@ class MigrationHashValidationTest {
             Migrations.MIGRATION_21_22,
             Migrations.MIGRATION_22_23,
             Migrations.MIGRATION_23_24,
-            Migrations.MIGRATION_24_25
+            Migrations.MIGRATION_24_25,
+            Migrations.MIGRATION_25_26
         ).close()
     }
 

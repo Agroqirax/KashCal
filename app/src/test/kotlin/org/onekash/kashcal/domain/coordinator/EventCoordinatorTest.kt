@@ -25,6 +25,7 @@ import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.db.entity.Occurrence
 import org.onekash.kashcal.data.db.entity.SyncStatus
 import org.onekash.kashcal.data.ics.IcsSubscriptionRepository
+import org.onekash.kashcal.domain.ics.ImportAction
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.data.repository.AccountRepository
 import org.onekash.kashcal.domain.generator.OccurrenceGenerator
@@ -35,6 +36,7 @@ import org.onekash.kashcal.domain.writer.EventWriter
 import org.onekash.kashcal.reminder.scheduler.ReminderScheduler
 import org.onekash.kashcal.sync.scheduler.IcsRefreshScheduleReconciler
 import org.onekash.kashcal.sync.scheduler.SyncScheduler
+import org.onekash.kashcal.testutil.plainImportFile
 
 /**
  * Tests [EventCoordinator] over mocked collaborators:
@@ -151,6 +153,15 @@ class EventCoordinatorTest {
         coEvery { eventReader.getCalendarById(localCalendarId) } returns localCalendar
         coEvery { eventReader.getCalendarById(iCloudCalendarId) } returns iCloudCalendar
         coEvery { eventReader.getCalendarById(readOnlyCalendarId) } returns readOnlyCalendar
+
+        // ICS file import reads: no stored event for any UID, so nothing on another calendar of
+        // the account either; the local account has no addresses. The writer's transaction
+        // runs its block, as Room's does.
+        coEvery { eventReader.getEventsByUid(any()) } returns emptyList()
+        coEvery { eventReader.getCalendarsByAccountIdOnce(localCalendar.accountId) } returns listOf(localCalendar)
+        coEvery { accountRepository.getAccountById(localCalendar.accountId) } returns
+            Account(id = localCalendar.accountId, provider = AccountProvider.LOCAL, email = "local")
+        coEvery { eventWriter.inTransaction<Any?>(any()) } coAnswers { firstArg<suspend () -> Any?>().invoke() }
 
         coordinator = EventCoordinator(
             eventWriter = eventWriter,
@@ -1011,6 +1022,22 @@ class EventCoordinatorTest {
         assertNotNull(result)
     }
 
+    @Test
+    fun `createEvent refuses a calendar that no longer exists before writing`() = runTest {
+        val missingCalendarId = 404L
+        coEvery { eventReader.getCalendarById(missingCalendarId) } returns null
+
+        val error = runCatching { coordinator.createEvent(testEvent, missingCalendarId) }
+            .exceptionOrNull()
+
+        assertTrue("expected IllegalArgumentException, got $error", error is IllegalArgumentException)
+        assertTrue(error!!.message!!.contains("$missingCalendarId"))
+        coVerify(exactly = 0) { eventWriter.createEvent(any(), any(), any()) }
+        coVerify(exactly = 0) { syncScheduler.requestExpeditedSync(any()) }
+        coVerify(exactly = 0) { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) }
+        coVerify(exactly = 0) { widgetUpdateManager.updateAllWidgets() }
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun `updateEvent throws when endTs less than startTs`() = runTest {
         val invalidEvent = testEvent.copy(
@@ -1125,8 +1152,37 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `importIcsEvents schedules reminders for each imported event`() = runTest {
-        // importIcsEvents gives each imported event a fresh UID.
+    fun `previewIcsImport plans the file and writes nothing`() = runTest {
+        val event = testEvent.copy(id = 0L, uid = "preview@source.ics")
+
+        val plans = coordinator.previewIcsImport(plainImportFile(listOf(event)), localCalendarId)
+
+        val create = plans.single().actions.single() as ImportAction.Create
+        assertFalse(create.freshUid)
+        coVerify(exactly = 0) { eventWriter.createEvent(any(), any(), any()) }
+        coVerify(exactly = 0) { eventWriter.inTransaction<Any?>(any()) }
+    }
+
+    @Test
+    fun `importIcsFile keeps a plain event's UID and marks it imported`() = runTest {
+        val event = testEvent.copy(id = 0L, uid = "plain@source.ics", reminders = null)
+        coEvery { eventWriter.createEvent(any(), any(), any()) } answers { firstArg<Event>().copy(id = 320L) }
+
+        val result = coordinator.importIcsFile(plainImportFile(listOf(event)), localCalendarId)
+
+        assertEquals(1, result.created)
+        coVerify {
+            eventWriter.createEvent(
+                match { it.uid == "plain@source.ics" && it.importSource == Event.IMPORT_SOURCE_ICS_FILE && it.alarmCount == 1 },
+                true,
+                any()
+            )
+        }
+    }
+
+    @Test
+    fun `importIcsFile schedules reminders for each imported event`() = runTest {
+        // Both share testEvent's UID, so the group is malformed and each imports standalone.
         val eventsToImport = listOf(
             testEvent.copy(id = 0L, title = "Import Event 1", reminders = listOf("-PT15M")),
             testEvent.copy(id = 0L, title = "Import Event 2", reminders = listOf("-PT30M"))
@@ -1154,14 +1210,14 @@ class EventCoordinatorTest {
 
         // A different event for each call.
         var callCount = 0
-        coEvery { eventWriter.createEvent(any(), any()) } answers {
+        coEvery { eventWriter.createEvent(any(), any(), any()) } answers {
             callCount++
             if (callCount == 1) createdEvent1 else createdEvent2
         }
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(createdEvent1.id, ReminderScheduler.OCCURRENCE_LOOKAHEAD_DAYS) } returns listOf(testOccurrence1)
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(createdEvent2.id, ReminderScheduler.OCCURRENCE_LOOKAHEAD_DAYS) } returns listOf(testOccurrence2)
 
-        val count = coordinator.importIcsEvents(eventsToImport, localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(eventsToImport), localCalendarId).created
 
         assertEquals(2, count)
         // Reminders are scheduled once per imported event.
@@ -1169,7 +1225,7 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `importIcsEvents applies user's default timed reminder when ICS has no VALARM`() = runTest {
+    fun `importIcsFile applies user's default timed reminder when ICS has no VALARM`() = runTest {
         // setup() stubs the user's timed default at 15 minutes; the file has no VALARM, so
         // reminders=null reaches the import. The test is about whatever the user configured,
         // not 15.
@@ -1189,16 +1245,17 @@ class EventCoordinatorTest {
             endDay = 20240101
         )
 
-        coEvery { eventWriter.createEvent(any(), any()) } returns createdEvent
+        coEvery { eventWriter.createEvent(any(), any(), any()) } returns createdEvent
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(createdEvent.id, ReminderScheduler.OCCURRENCE_LOOKAHEAD_DAYS) } returns listOf(testOccurrence)
 
-        val count = coordinator.importIcsEvents(listOf(timedEventNoReminders), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(timedEventNoReminders)), localCalendarId).created
 
         assertEquals(1, count)
         // The writer receives the timed default as an ISO duration.
         coVerify {
             eventWriter.createEvent(
                 match { it.reminders == listOf("-PT15M") },
+                any(),
                 any()
             )
         }
@@ -1207,7 +1264,7 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `importIcsEvents applies user's default all-day reminder when ICS has no VALARM`() = runTest {
+    fun `importIcsFile applies user's default all-day reminder when ICS has no VALARM`() = runTest {
         // setup() stubs the user's all-day default at 540 minutes (9 hours before).
         val allDayEventNoReminders = testEvent.copy(
             id = 0L,
@@ -1225,21 +1282,22 @@ class EventCoordinatorTest {
             endDay = 20240101
         )
 
-        coEvery { eventWriter.createEvent(any(), any()) } returns createdEvent
+        coEvery { eventWriter.createEvent(any(), any(), any()) } returns createdEvent
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(createdEvent.id, ReminderScheduler.OCCURRENCE_LOOKAHEAD_DAYS) } returns listOf(testOccurrence)
 
-        coordinator.importIcsEvents(listOf(allDayEventNoReminders), localCalendarId)
+        coordinator.importIcsFile(plainImportFile(listOf(allDayEventNoReminders)), localCalendarId).created
 
         coVerify {
             eventWriter.createEvent(
                 match { it.reminders == listOf("-PT9H") },
+                any(),
                 any()
             )
         }
     }
 
     @Test
-    fun `importIcsEvents preserves ICS VALARM reminders and does not overwrite with default`() = runTest {
+    fun `importIcsFile preserves ICS VALARM reminders and does not overwrite with default`() = runTest {
         // The file's VALARMs are parsed into reminders; the default must not replace them.
         val eventWithIcsReminders = testEvent.copy(
             id = 0L,
@@ -1257,21 +1315,22 @@ class EventCoordinatorTest {
             endDay = 20240101
         )
 
-        coEvery { eventWriter.createEvent(any(), any()) } returns createdEvent
+        coEvery { eventWriter.createEvent(any(), any(), any()) } returns createdEvent
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(createdEvent.id, ReminderScheduler.OCCURRENCE_LOOKAHEAD_DAYS) } returns listOf(testOccurrence)
 
-        coordinator.importIcsEvents(listOf(eventWithIcsReminders), localCalendarId)
+        coordinator.importIcsFile(plainImportFile(listOf(eventWithIcsReminders)), localCalendarId).created
 
         coVerify {
             eventWriter.createEvent(
                 match { it.reminders == listOf("-PT30M", "-PT1H") },
+                any(),
                 any()
             )
         }
     }
 
     @Test
-    fun `importIcsEvents skips reminder scheduling when default is REMINDER_OFF`() = runTest {
+    fun `importIcsFile skips reminder scheduling when default is REMINDER_OFF`() = runTest {
         // The user turned the default reminder off, so an event with no VALARM gets none.
         every { dataStore.defaultReminderMinutes } returns flowOf(KashCalDataStore.REMINDER_OFF)
         every { dataStore.defaultAllDayReminder } returns flowOf(KashCalDataStore.REMINDER_OFF)
@@ -1284,14 +1343,15 @@ class EventCoordinatorTest {
         )
         val createdEvent = eventWithoutReminders.copy(id = 303L)
 
-        coEvery { eventWriter.createEvent(any(), any()) } returns createdEvent
+        coEvery { eventWriter.createEvent(any(), any(), any()) } returns createdEvent
 
-        val count = coordinator.importIcsEvents(listOf(eventWithoutReminders), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(eventWithoutReminders)), localCalendarId).created
 
         assertEquals(1, count)
         coVerify {
             eventWriter.createEvent(
                 match { it.reminders == null },
+                any(),
                 any()
             )
         }
@@ -1301,7 +1361,7 @@ class EventCoordinatorTest {
     // ===== Recurring-series import: master + RECURRENCE-ID overrides =====
 
     @Test
-    fun `importIcsEvents groups master and its exceptions into one linked series`() = runTest {
+    fun `importIcsFile groups master and its exceptions into one linked series`() = runTest {
         val sharedUid = "series@source.ics"
         val master = testEvent.copy(
             id = 0L, uid = sharedUid, title = "Weekly", rrule = "FREQ=WEEKLY;COUNT=5",
@@ -1319,7 +1379,7 @@ class EventCoordinatorTest {
         val seriesSlot = slot<Event>()
         val exceptionsSlot = slot<List<Event>>()
         coEvery {
-            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any())
+            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any(), any(), any())
         } answers {
             val m = seriesSlot.captured.copy(id = 500L)
             val exs = exceptionsSlot.captured.mapIndexed { i, e -> e.copy(id = 600L + i, originalEventId = 500L) }
@@ -1328,15 +1388,15 @@ class EventCoordinatorTest {
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
         coEvery { eventReader.getOccurrenceByExceptionEventId(any()) } returns null
 
-        val count = coordinator.importIcsEvents(listOf(master, exception1, exception2), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(master, exception1, exception2)), localCalendarId).created
 
         assertEquals("master + 2 exceptions persisted", 3, count)
-        coVerify(exactly = 1) { eventWriter.createImportedSeries(any(), any(), any()) }
-        coVerify(exactly = 0) { eventWriter.createEvent(any(), any()) }
-        // One fresh UID shared by the master and exceptions, never the source UID.
-        assertNotEquals(sharedUid, seriesSlot.captured.uid)
-        assertTrue(seriesSlot.captured.uid.endsWith("@kashcal.onekash.org"))
-        assertTrue(exceptionsSlot.captured.all { it.uid == seriesSlot.captured.uid })
+        coVerify(exactly = 1) { eventWriter.createImportedSeries(any(), any(), any(), any(), any()) }
+        coVerify(exactly = 0) { eventWriter.createEvent(any(), any(), any()) }
+        // The source UID, shared by the master and exceptions (RFC 5545 §3.8.4.7).
+        assertEquals(sharedUid, seriesSlot.captured.uid)
+        assertTrue(exceptionsSlot.captured.all { it.uid == sharedUid })
+        assertTrue(exceptionsSlot.captured.all { it.importSource == Event.IMPORT_SOURCE_ICS_FILE })
         // The exceptions' instance times are kept.
         assertEquals(
             setOf(master.startTs + 7 * 86400000L, master.startTs + 14 * 86400000L),
@@ -1345,25 +1405,25 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `importIcsEvents imports orphan exception (no master) as standalone`() = runTest {
+    fun `importIcsFile imports orphan exception (no master) as standalone`() = runTest {
         // An export cut to a date window: an exception whose master fell outside the window.
         // It must still import, not be silently dropped.
         val orphan = testEvent.copy(
             id = 0L, uid = "orphan@source.ics", title = "Orphan override",
             rrule = null, originalInstanceTime = 1704067200000L + 7 * 86400000L, reminders = null
         )
-        coEvery { eventWriter.createEvent(any(), any()) } returns orphan.copy(id = 700L, uid = "new@kashcal.onekash.org")
+        coEvery { eventWriter.createEvent(any(), any(), any()) } returns orphan.copy(id = 700L, uid = "new@kashcal.onekash.org")
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
 
-        val count = coordinator.importIcsEvents(listOf(orphan), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(orphan)), localCalendarId).created
 
         assertEquals(1, count)
-        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any()) }
-        coVerify(exactly = 1) { eventWriter.createEvent(any(), any()) }
+        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any(), any(), any()) }
+        coVerify(exactly = 1) { eventWriter.createEvent(any(), any(), any()) }
     }
 
     @Test
-    fun `importIcsEvents imports two same-UID masters as separate events with distinct UIDs`() = runTest {
+    fun `importIcsFile imports two same-UID masters as separate events with distinct UIDs`() = runTest {
         // An export with two distinct non-exception VEVENTs sharing a UID. Both must import,
         // each with its own fresh UID.
         val uid = "dup@source.ics"
@@ -1371,42 +1431,42 @@ class EventCoordinatorTest {
         val masterB = testEvent.copy(id = 0L, uid = uid, title = "B", rrule = null, originalInstanceTime = null, reminders = null)
 
         val uidsSeen = mutableListOf<String>()
-        coEvery { eventWriter.createEvent(any(), any()) } answers {
+        coEvery { eventWriter.createEvent(any(), any(), any()) } answers {
             val e = firstArg<Event>()
             uidsSeen += e.uid
             e.copy(id = (800L + uidsSeen.size))
         }
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
 
-        val count = coordinator.importIcsEvents(listOf(masterA, masterB), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(masterA, masterB)), localCalendarId).created
 
         assertEquals(2, count)
-        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any()) }
-        coVerify(exactly = 2) { eventWriter.createEvent(any(), any()) }
+        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any(), any(), any()) }
+        coVerify(exactly = 2) { eventWriter.createEvent(any(), any(), any()) }
         assertEquals("two distinct fresh UIDs", 2, uidsSeen.toSet().size)
         assertFalse("source UID never reused", uidsSeen.contains(uid))
     }
 
     @Test
-    fun `importIcsEvents does not form a series from a non-recurring master plus orphan exception`() = runTest {
+    fun `importIcsFile does not form a series from a non-recurring master plus orphan exception`() = runTest {
         // A non-recurring event sharing a UID with an orphan RECURRENCE-ID isn't a series
         // (no RRULE to expand). Both import standalone.
         val uid = "notseries@source.ics"
         val plain = testEvent.copy(id = 0L, uid = uid, title = "Plain", rrule = null, originalInstanceTime = null, reminders = null)
         val orphanEx = testEvent.copy(id = 0L, uid = uid, title = "Orphan", rrule = null, originalInstanceTime = 1704067200000L + 86400000L, reminders = null)
 
-        coEvery { eventWriter.createEvent(any(), any()) } answers { firstArg<Event>().copy(id = 900L) }
+        coEvery { eventWriter.createEvent(any(), any(), any()) } answers { firstArg<Event>().copy(id = 900L) }
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
 
-        val count = coordinator.importIcsEvents(listOf(plain, orphanEx), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(plain, orphanEx)), localCalendarId).created
 
         assertEquals(2, count)
-        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any()) }
-        coVerify(exactly = 2) { eventWriter.createEvent(any(), any()) }
+        coVerify(exactly = 0) { eventWriter.createImportedSeries(any(), any(), any(), any(), any()) }
+        coVerify(exactly = 2) { eventWriter.createEvent(any(), any(), any()) }
     }
 
     @Test
-    fun `importIcsEvents series exception with no VALARM inherits master's effective default reminders`() = runTest {
+    fun `importIcsFile series exception with no VALARM inherits master's effective default reminders`() = runTest {
         // setup() stubs the timed default at 15 minutes. The master has no VALARM, so it
         // takes the default; an exception with no VALARM must alarm like its sibling
         // occurrences, so it inherits the master's reminders.
@@ -1417,35 +1477,35 @@ class EventCoordinatorTest {
         val seriesSlot = slot<Event>()
         val exceptionsSlot = slot<List<Event>>()
         coEvery {
-            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any())
+            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any(), any(), any())
         } answers {
             EventWriter.ImportedSeries(seriesSlot.captured.copy(id = 500L), exceptionsSlot.captured.mapIndexed { i, e -> e.copy(id = 600L + i, originalEventId = 500L) })
         }
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
         coEvery { eventReader.getOccurrenceByExceptionEventId(any()) } returns null
 
-        coordinator.importIcsEvents(listOf(master, exception), localCalendarId)
+        coordinator.importIcsFile(plainImportFile(listOf(master, exception)), localCalendarId).created
 
         assertEquals("master takes timed default", listOf("-PT15M"), seriesSlot.captured.reminders)
         assertEquals("exception inherits master effective reminders", listOf("-PT15M"), exceptionsSlot.captured[0].reminders)
     }
 
     @Test
-    fun `importIcsEvents series exception keeps its own VALARM reminders`() = runTest {
+    fun `importIcsFile series exception keeps its own VALARM reminders`() = runTest {
         val sharedUid = "series-own-rem@source.ics"
         val master = testEvent.copy(id = 0L, uid = sharedUid, rrule = "FREQ=DAILY;COUNT=3", reminders = null, originalInstanceTime = null)
         val exception = testEvent.copy(id = 0L, uid = sharedUid, rrule = null, originalInstanceTime = master.startTs + 86400000L, reminders = listOf("-PT5M"))
 
         val exceptionsSlot = slot<List<Event>>()
         coEvery {
-            eventWriter.createImportedSeries(any(), capture(exceptionsSlot), any())
+            eventWriter.createImportedSeries(any(), capture(exceptionsSlot), any(), any(), any())
         } answers {
             EventWriter.ImportedSeries(firstArg<Event>().copy(id = 500L), exceptionsSlot.captured.mapIndexed { i, e -> e.copy(id = 600L + i, originalEventId = 500L) })
         }
         coEvery { eventReader.getOccurrencesForEventInScheduleWindow(any(), any()) } returns emptyList()
         coEvery { eventReader.getOccurrenceByExceptionEventId(any()) } returns null
 
-        coordinator.importIcsEvents(listOf(master, exception), localCalendarId)
+        coordinator.importIcsFile(plainImportFile(listOf(master, exception)), localCalendarId).created
 
         assertEquals("override keeps its own VALARM", listOf("-PT5M"), exceptionsSlot.captured[0].reminders)
     }
@@ -2012,19 +2072,19 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `importIcsEvents counts a saved standalone event when reminder scheduling throws`() = runTest {
+    fun `importIcsFile counts a saved standalone event when reminder scheduling throws`() = runTest {
         val source = testEvent.copy(id = 0L, uid = "single@source.ics", reminders = listOf("-PT15M"))
-        coEvery { eventWriter.createEvent(any(), any()) } answers { firstArg<Event>().copy(id = 310L) }
+        coEvery { eventWriter.createEvent(any(), any(), any()) } answers { firstArg<Event>().copy(id = 310L) }
         coEvery { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) } throws alarmLimitRefusal
 
-        val count = coordinator.importIcsEvents(listOf(source), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(source)), localCalendarId).created
 
         assertEquals(1, count)
         coVerify(exactly = 1) { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) }
     }
 
     @Test
-    fun `importIcsEvents counts a saved series when reminder scheduling throws`() = runTest {
+    fun `importIcsFile counts a saved series when reminder scheduling throws`() = runTest {
         val sharedUid = "series-alarm-cap@source.ics"
         val master = testEvent.copy(
             id = 0L, uid = sharedUid, rrule = "FREQ=WEEKLY;COUNT=5",
@@ -2037,7 +2097,7 @@ class EventCoordinatorTest {
         val seriesSlot = slot<Event>()
         val exceptionsSlot = slot<List<Event>>()
         coEvery {
-            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any())
+            eventWriter.createImportedSeries(capture(seriesSlot), capture(exceptionsSlot), any(), any(), any())
         } answers {
             EventWriter.ImportedSeries(
                 seriesSlot.captured.copy(id = 700L),
@@ -2046,7 +2106,7 @@ class EventCoordinatorTest {
         }
         coEvery { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) } throws alarmLimitRefusal
 
-        val count = coordinator.importIcsEvents(listOf(master, exception), localCalendarId)
+        val count = coordinator.importIcsFile(plainImportFile(listOf(master, exception)), localCalendarId).created
 
         assertEquals("master + exception persisted", 2, count)
         coVerify(exactly = 2) { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) }

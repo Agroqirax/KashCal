@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Sinkronizazioaren osotasunari eta akatsari buruzko jakinarazpenak</string>
     <string name="channel_event_invitations">Gertaeren gonbidapenak</string>
     <string name="channel_event_invitations_desc">Egutegiko gonbidapen berri bat jasotzean jakinarazpenak</string>
+    <string name="channel_calendar_updates">Egutegiko aldaketak</string>
     <string name="invite_notification_body">%1$s erabiltzailearena · Sakatu erantzuteko</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Erantzuna serie osoari aplikatzen zaio.</string>
+    <string name="rsvp_receipt_pending">Erantzuna zain</string>
+    <string name="rsvp_receipt_sent">Erantzuna bidalita</string>
+    <string name="rsvp_receipt_not_delivered">Erantzuna ez da entregatu</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Hau eta etorkizuneko guztiak</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Konektatu iCloud zure gertaerak hemen ikusteko</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Geroago</string>
+    <string name="whats_new_skip">Saltatu</string>
+    <string name="whats_new_next">Hurrengoa</string>
+    <string name="whats_new_page_of">%1$d. orria, %2$d guztira</string>
+    <string name="whats_new_find_it_in">Hemen aurkituko duzu</string>
     <string name="whats_new_v598_title">Lagundu Android irekirik mantentzen</string>
     <string name="whats_new_v598_body">Google zure gailuan aplikazioak instalatzeko modua aldatzen ari da. Zure laguntza behar dugu.</string>
     <string name="whats_new_v598_action_label">Bisitatu keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Bertsio hau KashCal-en babesleei eskaintzen zaie. Ekarpen txiki bat, etekin handi eta errepikakorrarekin.</string>
     <string name="whats_new_v732_caption">Oraindik ez gaituzu babesten?</string>
     <string name="whats_new_v732_action_label">Gehitu gaitzazu zure planetara</string>
+    <string name="whats_new_v772_icon_title">Zure ikonoak badaki zer egun den</string>
+    <string name="whats_new_v772_icon_body">Aukeratu Gaurko data ikonoa, eta KashCal-ek hilabeteko eguna erakutsiko du hasierako pantailan. Gauero bere kabuz aldatzen da.</string>
+    <string name="whats_new_v772_changes_title">Ikusi zer aldatu den</string>
+    <string name="whats_new_v772_changes_body">Zure iCloud eta CalDAV egutegietako gertaera berriak, editatuak eta kenduak Azken aldaketak atalean biltzen dira 7 egunez. Sakatu bat irekitzeko.</string>
+    <string name="whats_new_v772_notifications_body">Jaso jakinarazpen bat atzeko planoko sinkronizazio batek zure iCloud edo CalDAV gertaeretan aldaketak aurkitzen dituenean. Desaktibatuta egongo da zuk aktibatu arte.</string>
+    <string name="whats_new_hero_sample_lunch">Taldeko bazkaria</string>
+    <string name="whats_new_hero_sample_review">Diseinu-berrikuspena</string>
+    <string name="whats_new_hero_sample_book_club">Irakurketa-kluba</string>
+    <string name="whats_new_hero_sample_calendar">Lana</string>
+    <string name="whats_new_hero_now">orain</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud konektatu</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Lerro bakar trinkoa, edo bi lerro xehatu amaiera-orduarekin.</string>
     <string name="settings_sync_lookback">Sinkronizazio atzera-begirada</string>
     <string name="settings_sync_lookback_hint">Zenbateraino atzera sinkronizatu gertaerak</string>
+    <string name="settings_change_notifications">Aldaketen jakinarazpenak</string>
+    <string name="settings_change_notifications_info">Atzeko planoko sinkronizazio batek zure gertaeretan aldaketak aurkitzen dituenean jakinarazpen bat bidaltzen du. iCloud eta CalDAV egutegiekin funtzionatzen du.</string>
     <string name="settings_not_set">Ezarri gabe</string>
     <string name="settings_on">Aktibatuta</string>
     <string name="settings_off">Desaktibatuta</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Gertaera %1$d inportatu da</item>
         <item quantity="other">%1$d gertaera inportatu dira</item>
     </plurals>
+    <string name="ics_import_preview_loading">Egutegi hau egiaztatzen…</string>
+    <string name="ics_import_preview_failed">Ezin izan da egutegi hau egiaztatu gertaera hauetarako. Hala ere inporta dezakezu.</string>
+    <string name="ics_import_will_cancel">Honek %1$s bertan behera uzten du (antolatzailea: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Honek %1$s bertan behera uzten du</string>
+    <string name="ics_import_will_update">Honek %1$s eguneratzen du</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d gertaera eguneratuta dago dagoeneko</item>
+        <item quantity="other">%1$d gertaera eguneratuta daude dagoeneko</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d saltatuta: %2$s</item>
+        <item quantity="other">%1$d saltatuta: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">gonbidapen baten erantzuna da, eta ez dio ezer gehitzen zure egutegiari</string>
+    <string name="ics_import_reason_unsupported">gonbidapen-mezu mota hau ez da onartzen</string>
+    <string name="ics_import_reason_organizer_mismatch">bileraren antolatzailea ez den beste norbaitengandik dator</string>
+    <string name="ics_import_reason_cancel_no_match">bertan behera utzitako bilera ez dago egutegi honetan</string>
+    <string name="ics_import_reason_cancel_not_for_you">bertan behera uztea beste parte-hartzaile batzuentzat da</string>
+    <string name="ics_import_reason_deletion_pending">gertaera ezabatzen ari da</string>
+    <string name="ics_import_reason_cancelled_in_file">dagoeneko bertan behera utzita dago fitxategian</string>
+    <string name="ics_import_reason_this_and_future">agerpen honen eta hurrengoen aldaketak ez dira onartzen</string>
+    <string name="ics_import_reason_own_cancel">zuk antolatzen duzu bilera hau, beraz utzi bertan behera gertaeratik</string>
+    <string name="ics_import_reason_on_another_calendar">dagoeneko kontu honetako beste egutegi batean dago</string>
+    <string name="ics_import_notice_unverified">Ezin da egiaztatu gonbidapen-fitxategi baten igorlea. Egiaztatu antolatzailearengandik datorrela.</string>
+    <string name="ics_import_notice_answer_notifies">Gonbidapen honi erantzuten badiozu, antolatzaileari jakinarazi diezaioke.</string>
+    <string name="ics_import_notice_guests_again">Zu zara antolatzailea, beraz parte-hartzaileek gonbidapen hau berriro jaso dezakete.</string>
+    <string name="cd_dismiss_notice">Baztertu oharra</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d gehituta</item>
+        <item quantity="other">%1$d gehituta</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d eguneratuta</item>
+        <item quantity="other">%1$d eguneratuta</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d bertan behera utzita</item>
+        <item quantity="other">%1$d bertan behera utzita</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d dagoeneko eguneratuta</item>
+        <item quantity="other">%1$d dagoeneko eguneratuta</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d saltatuta</item>
+        <item quantity="other">%1$d saltatuta</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d huts egin du</item>
+        <item quantity="other">%1$d huts egin dute</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Ez dago inportatzekorik</string>
     <plurals name="exported_events">
         <item quantity="one">Gertaera %1$d esportatu da</item>
         <item quantity="other">%1$d gertaera esportatu dira</item>

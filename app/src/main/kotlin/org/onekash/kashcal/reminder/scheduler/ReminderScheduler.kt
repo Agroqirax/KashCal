@@ -742,7 +742,8 @@ class ReminderScheduler @Inject constructor(
 
     /**
      * Returns whether a reminder for [eventId] should still fire: false if the event no longer
-     * exists or is awaiting deletion.
+     * exists, is awaiting deletion, or is CANCELLED and was created or cancelled by an ICS
+     * import ([Event.importSource]); a cancelled event no import touched still fires.
      *
      * Reminder rows carry their own copy of the event's display data, so the notification is
      * built without reading the event. An armed alarm therefore fires even after its whole
@@ -758,12 +759,15 @@ class ReminderScheduler @Inject constructor(
      */
     suspend fun shouldFireReminder(eventId: Long): Boolean {
         val event = eventReader.getEventById(eventId) ?: return false
-        return !event.isPendingDelete
+        if (event.isPendingDelete) return false
+        // An ICS import created or cancelled it: its CANCEL stops the reminders.
+        return !(event.status == "CANCELLED" && event.importSource != null)
     }
 
     /**
      * Returns whether a non-cancelled occurrence backs [reminder]: false if the occurrence was
-     * cancelled, its row is gone, or the event is missing.
+     * cancelled, its row is gone, the event is missing, or it is a CANCELLED changed occurrence
+     * that an ICS import created or cancelled, or whose series one created.
      *
      * The occurrence-level companion to [shouldFireReminder]. When an organizer cancels one
      * occurrence of a series through a background CalDAV pull, the master stays live, so
@@ -784,6 +788,11 @@ class ReminderScheduler @Inject constructor(
      */
     suspend fun hasLiveOccurrenceForReminder(reminder: ScheduledReminder): Boolean {
         val event = eventReader.getEventById(reminder.eventId) ?: return false
+        if (event.isException && event.status == "CANCELLED") {
+            // A changed occurrence an ICS import created or cancelled, or under an imported series.
+            val masterImported = event.originalEventId?.let { eventReader.getEventById(it) }?.importSource != null
+            if (event.importSource != null || masterImported) return false
+        }
         val occurrence = if (event.isException) {
             occurrencesDao.getByExceptionEventId(reminder.eventId)
         } else {

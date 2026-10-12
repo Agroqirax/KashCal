@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Mga notipikasyon tungkol sa pagkompleto ng pag-sync at mga error</string>
     <string name="channel_event_invitations">Mga Imbitasyon sa Event</string>
     <string name="channel_event_invitations_desc">Mga notipikasyon kapag nakatanggap ka ng bagong imbitasyon sa kalendaryo</string>
+    <string name="channel_calendar_updates">Mga pagbabago sa kalendaryo</string>
     <string name="invite_notification_body">Mula kay %1$s · I-tap para tumugon</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Ang sagot na ito ay para sa buong serye.</string>
+    <string name="rsvp_receipt_pending">Nakabinbin ang sagot</string>
+    <string name="rsvp_receipt_sent">Naipadala ang sagot</string>
+    <string name="rsvp_receipt_not_delivered">Hindi naihatid ang sagot</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Ito at lahat ng susunod</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Ikonekta ang iCloud para makita ang mga event mo dito</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Mamaya na lang</string>
+    <string name="whats_new_skip">Laktawan</string>
+    <string name="whats_new_next">Susunod</string>
+    <string name="whats_new_page_of">Pahina %1$d ng %2$d</string>
+    <string name="whats_new_find_it_in">Hanapin sa</string>
     <string name="whats_new_v598_title">Tumulong na manatiling bukas ang Android</string>
     <string name="whats_new_v598_body">Binabago ng Google ang paraan ng pag-install mo ng mga app sa iyong device. Kailangan namin ng tulong mo.</string>
     <string name="whats_new_v598_action_label">Bisitahin ang keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Ang release na ito ay para sa mga tagasuporta ng KashCal. Isang maliit na ambag na may malaki at patuloy na pakinabang.</string>
     <string name="whats_new_v732_caption">Hindi ka pa ba tagasuporta?</string>
     <string name="whats_new_v732_action_label">Isama kami sa iyong mga plano</string>
+    <string name="whats_new_v772_icon_title">Alam ng icon mo ang petsa</string>
+    <string name="whats_new_v772_icon_body">Piliin ang icon na Petsa ngayong araw at ipapakita ng KashCal ang araw ng buwan sa iyong home screen. Kusa itong napapalitan tuwing gabi.</string>
+    <string name="whats_new_v772_changes_title">Tingnan kung ano ang nagbago</string>
+    <string name="whats_new_v772_changes_body">Naiipon sa Mga kamakailang pagbabago nang 7 araw ang mga bago, binago at inalis na event mula sa iyong mga kalendaryo ng iCloud at CalDAV. I-tap ang isa para buksan ito.</string>
+    <string name="whats_new_v772_notifications_body">Makatanggap ng notification kapag may nakitang pagbabago sa iyong mga event sa iCloud o CalDAV ang pag-sync sa background. Naka-off ito hangga\'t hindi mo ito ino-on.</string>
+    <string name="whats_new_hero_sample_lunch">Tanghalian ng team</string>
+    <string name="whats_new_hero_sample_review">Pagsusuri ng disenyo</string>
+    <string name="whats_new_hero_sample_book_club">Book club</string>
+    <string name="whats_new_hero_sample_calendar">Trabaho</string>
+    <string name="whats_new_hero_now">ngayon</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ikonekta ang iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Maigsing isang linya, o detalyadong dalawang linya na may oras ng pagtatapos.</string>
     <string name="settings_sync_lookback">Saklaw ng Sync Lookback</string>
     <string name="settings_sync_lookback_hint">Gaano kalayo pabalik i-sync ang mga kaganapan</string>
+    <string name="settings_change_notifications">Mga notification ng pagbabago</string>
+    <string name="settings_change_notifications_info">Nagpapadala ng notification kapag may nakitang pagbabago sa iyong mga event ang pag-sync sa background. Gumagana para sa mga kalendaryo ng iCloud at CalDAV.</string>
     <string name="settings_not_set">Hindi pa naka-set</string>
     <string name="settings_on">Bukas</string>
     <string name="settings_off">Sarado</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Na-import ang %1$d event</item>
         <item quantity="other">Na-import ang %1$d event</item>
     </plurals>
+    <string name="ics_import_preview_loading">Sinusuri ang kalendaryong ito…</string>
+    <string name="ics_import_preview_failed">Hindi masuri ang kalendaryong ito para sa mga event na ito. Maaari ka pa ring mag-import.</string>
+    <string name="ics_import_will_cancel">Kakanselahin nito ang %1$s, na inorganisa ni %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Kakanselahin nito ang %1$s</string>
+    <string name="ics_import_will_update">Ia-update nito ang %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">Napapanahon na ang %1$d event</item>
+        <item quantity="other">Napapanahon na ang %1$d event</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d ang nilaktawan: %2$s</item>
+        <item quantity="other">%1$d ang nilaktawan: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">sagot ito sa isang imbitasyon, kaya walang idinadagdag sa iyong kalendaryo</string>
+    <string name="ics_import_reason_unsupported">hindi suportado ang ganitong uri ng mensahe ng imbitasyon</string>
+    <string name="ics_import_reason_organizer_mismatch">galing ito sa iba, hindi sa tagapag-organisa ng pulong</string>
+    <string name="ics_import_reason_cancel_no_match">wala sa kalendaryong ito ang kinanselang pulong</string>
+    <string name="ics_import_reason_cancel_not_for_you">para sa ibang dadalo ang pagkansela</string>
+    <string name="ics_import_reason_deletion_pending">binubura na ang event</string>
+    <string name="ics_import_reason_cancelled_in_file">kinansela na ito sa file</string>
+    <string name="ics_import_reason_this_and_future">hindi suportado ang mga pagbabago sa occurrence na ito at sa mga susunod</string>
+    <string name="ics_import_reason_own_cancel">ikaw ang tagapag-organisa ng pulong na ito, kaya kanselahin ito mula sa event</string>
+    <string name="ics_import_reason_on_another_calendar">nasa ibang kalendaryo na ito ng account na ito</string>
+    <string name="ics_import_notice_unverified">Hindi ma-verify ang nagpadala ng file ng imbitasyon. Tiyaking galing ito sa tagapag-organisa.</string>
+    <string name="ics_import_notice_answer_notifies">Maaaring maabisuhan ang tagapag-organisa kapag sinagot mo ang imbitasyong ito.</string>
+    <string name="ics_import_notice_guests_again">Ikaw ang tagapag-organisa, kaya maaaring matanggap muli ng mga dadalo ang imbitasyong ito.</string>
+    <string name="cd_dismiss_notice">Isara ang abiso</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d ang naidagdag</item>
+        <item quantity="other">%1$d ang naidagdag</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ang na-update</item>
+        <item quantity="other">%1$d ang na-update</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d ang kinansela</item>
+        <item quantity="other">%1$d ang kinansela</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d ang napapanahon na</item>
+        <item quantity="other">%1$d ang napapanahon na</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d ang nilaktawan</item>
+        <item quantity="other">%1$d ang nilaktawan</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d ang nabigo</item>
+        <item quantity="other">%1$d ang nabigo</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Walang mai-import</string>
     <plurals name="exported_events">
         <item quantity="one">Na-export ang %1$d event</item>
         <item quantity="other">Na-export ang %1$d event</item>

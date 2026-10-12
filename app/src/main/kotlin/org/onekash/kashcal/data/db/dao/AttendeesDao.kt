@@ -111,6 +111,10 @@ interface AttendeesDao {
     @Query("DELETE FROM attendees WHERE event_id = :eventId")
     suspend fun deleteForEvent(eventId: Long)
 
+    /** Returns each event with an attendee row marked notified at or after [since]. */
+    @Query("SELECT DISTINCT event_id FROM attendees WHERE notified_at >= :since")
+    suspend fun getEventIdsNotifiedSince(since: Long): List<Long>
+
     /** Marks one attendee row notified, so the invite notification fires once per row. */
     @Query("UPDATE attendees SET notified_at = :ts WHERE id = :id")
     suspend fun markNotified(id: Long, ts: Long)

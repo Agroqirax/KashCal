@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Pranešimai apie sinchronizavimo užbaigimą ir klaidas</string>
     <string name="channel_event_invitations">Įvykių kvietimai</string>
     <string name="channel_event_invitations_desc">Pranešimai, kai gaunate naują kalendoriaus kvietimą</string>
+    <string name="channel_calendar_updates">Kalendoriaus pakeitimai</string>
     <string name="invite_notification_body">Nuo %1$s · Bakstelėkite, kad atsakytumėte</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Atsakymas taikomas visai serijai.</string>
+    <string name="rsvp_receipt_pending">Atsakymas laukia išsiuntimo</string>
+    <string name="rsvp_receipt_sent">Atsakymas išsiųstas</string>
+    <string name="rsvp_receipt_not_delivered">Atsakymas nepristatytas</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Šį ir visus būsimus</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Prijunkite iCloud, kad matytumėte savo įvykius čia</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Vėliau</string>
+    <string name="whats_new_skip">Praleisti</string>
+    <string name="whats_new_next">Toliau</string>
+    <string name="whats_new_page_of">Puslapis %1$d iš %2$d</string>
+    <string name="whats_new_find_it_in">Kur rasti</string>
     <string name="whats_new_v598_title">Padėk išlaikyti Android atvirą</string>
     <string name="whats_new_v598_body">Google keičia tai, kaip diegi programėles savo įrenginyje. Mums reikia tavo pagalbos.</string>
     <string name="whats_new_v598_action_label">Apsilankyti keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Ši versija skirta KashCal rėmėjams. Mažas indėlis su didele nuolatine grąža.</string>
     <string name="whats_new_v732_caption">Dar nesi mūsų rėmėjas?</string>
     <string name="whats_new_v732_action_label">Įtrauk mus į savo planus</string>
+    <string name="whats_new_v772_icon_title">Tavo piktograma žino datą</string>
+    <string name="whats_new_v772_icon_body">Pasirink piktogramą „Šiandienos data“, ir KashCal pagrindiniame ekrane rodys mėnesio dieną. Kas naktį ji pasikeičia savaime.</string>
+    <string name="whats_new_v772_changes_title">Pažiūrėk, kas pasikeitė</string>
+    <string name="whats_new_v772_changes_body">Nauji, redaguoti ir pašalinti įvykiai iš tavo iCloud ir CalDAV kalendorių 7 dienas kaupiami skiltyje „Naujausi pakeitimai“. Bakstelėk įvykį, kad jį atidarytum.</string>
+    <string name="whats_new_v772_notifications_body">Gauk pranešimą, kai foninis sinchronizavimas randa tavo iCloud ar CalDAV įvykių pakeitimų. Funkcija išjungta, kol jos neįjungsi.</string>
+    <string name="whats_new_hero_sample_lunch">Komandos pietūs</string>
+    <string name="whats_new_hero_sample_review">Dizaino peržiūra</string>
+    <string name="whats_new_hero_sample_book_club">Knygų klubas</string>
+    <string name="whats_new_hero_sample_calendar">Darbas</string>
+    <string name="whats_new_hero_now">dabar</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Prijungti iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Kompaktiška viena eilutė arba išsamios dvi eilutės su pabaigos laiku.</string>
     <string name="settings_sync_lookback">Sinchronizavimo gylis</string>
     <string name="settings_sync_lookback_hint">Kiek atgal sinchronizuoti įvykius</string>
+    <string name="settings_change_notifications">Pranešimai apie pakeitimus</string>
+    <string name="settings_change_notifications_info">Siunčia pranešimą, kai foninis sinchronizavimas randa tavo įvykių pakeitimų. Veikia su iCloud ir CalDAV kalendoriais.</string>
     <string name="settings_not_set">Nenustatyta</string>
     <string name="settings_on">Įjungta</string>
     <string name="settings_off">Išjungta</string>
@@ -794,6 +813,75 @@
         <item quantity="many">Importuota %1$d įvykio</item>
         <item quantity="other">Importuota %1$d įvykių</item>
     </plurals>
+    <string name="ics_import_preview_loading">Tikrinamas šis kalendorius…</string>
+    <string name="ics_import_preview_failed">Nepavyko patikrinti, ar šiame kalendoriuje yra šie įvykiai. Vis tiek gali importuoti.</string>
+    <string name="ics_import_will_cancel">Tai atšauks %1$s (organizatorius: %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">Tai atšauks %1$s</string>
+    <string name="ics_import_will_update">Tai atnaujins %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d įvykis jau aktualus</item>
+        <item quantity="few">%1$d įvykiai jau aktualūs</item>
+        <item quantity="many">%1$d įvykio jau aktualūs</item>
+        <item quantity="other">%1$d įvykių jau aktualūs</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d praleista: %2$s</item>
+        <item quantity="few">%1$d praleista: %2$s</item>
+        <item quantity="many">%1$d praleista: %2$s</item>
+        <item quantity="other">%1$d praleista: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">tai atsakymas į kvietimą, jis nieko neprideda prie kalendoriaus</string>
+    <string name="ics_import_reason_unsupported">toks kvietimo pranešimo tipas nepalaikomas</string>
+    <string name="ics_import_reason_organizer_mismatch">jį atsiuntė ne susitikimo organizatorius</string>
+    <string name="ics_import_reason_cancel_no_match">atšaukto susitikimo šiame kalendoriuje nėra</string>
+    <string name="ics_import_reason_cancel_not_for_you">atšaukimas skirtas kitiems dalyviams</string>
+    <string name="ics_import_reason_deletion_pending">įvykis šalinamas</string>
+    <string name="ics_import_reason_cancelled_in_file">faile jis jau atšauktas</string>
+    <string name="ics_import_reason_this_and_future">šio ir vėlesnių pasikartojimų pakeitimai nepalaikomi</string>
+    <string name="ics_import_reason_own_cancel">tu organizuoji šį susitikimą, todėl atšauk jį iš įvykio</string>
+    <string name="ics_import_reason_on_another_calendar">jis jau yra kitame šios paskyros kalendoriuje</string>
+    <string name="ics_import_notice_unverified">Kvietimo failo siuntėjo patikrinti negalima. Įsitikink, kad failas gautas iš organizatoriaus.</string>
+    <string name="ics_import_notice_answer_notifies">Atsakius į šį kvietimą, organizatorius gali gauti pranešimą.</string>
+    <string name="ics_import_notice_guests_again">Tu esi organizatorius, todėl dalyviai gali vėl gauti šį kvietimą.</string>
+    <string name="cd_dismiss_notice">Uždaryti pranešimą</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d pridėta</item>
+        <item quantity="few">%1$d pridėta</item>
+        <item quantity="many">%1$d pridėta</item>
+        <item quantity="other">%1$d pridėta</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d atnaujinta</item>
+        <item quantity="few">%1$d atnaujinta</item>
+        <item quantity="many">%1$d atnaujinta</item>
+        <item quantity="other">%1$d atnaujinta</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d atšaukta</item>
+        <item quantity="few">%1$d atšaukta</item>
+        <item quantity="many">%1$d atšaukta</item>
+        <item quantity="other">%1$d atšaukta</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d jau aktualu</item>
+        <item quantity="few">%1$d jau aktualu</item>
+        <item quantity="many">%1$d jau aktualu</item>
+        <item quantity="other">%1$d jau aktualu</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d praleista</item>
+        <item quantity="few">%1$d praleista</item>
+        <item quantity="many">%1$d praleista</item>
+        <item quantity="other">%1$d praleista</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d nepavyko</item>
+        <item quantity="few">%1$d nepavyko</item>
+        <item quantity="many">%1$d nepavyko</item>
+        <item quantity="other">%1$d nepavyko</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Nėra ką importuoti</string>
     <plurals name="exported_events">
         <item quantity="one">Eksportuotas %1$d įvykis</item>
         <item quantity="few">Eksportuoti %1$d įvykiai</item>

@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">ስለ ማመሳሰል ማጠናቀቅ እና ስህተቶች ማሳወቂያዎች</string>
     <string name="channel_event_invitations">የክስተት ግብዣዎች</string>
     <string name="channel_event_invitations_desc">አዲስ የቀን መቁጠሪያ ግብዣ ሲደርስዎ ማሳወቂያዎች</string>
+    <string name="channel_calendar_updates">የቀን መቁጠሪያ ለውጦች</string>
     <string name="invite_notification_body">ከ%1$s · ለመመለስ ይንኩ</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">ምላሽዎ ለመላው ተከታታይ ክስተት ይተገበራል።</string>
+    <string name="rsvp_receipt_pending">ምላሽ በመጠባበቅ ላይ</string>
+    <string name="rsvp_receipt_sent">ምላሽ ተልኳል</string>
+    <string name="rsvp_receipt_not_delivered">ምላሽ አልደረሰም</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">ይህን እና ሁሉም ወደፊት</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">ክስተቶችህን እዚህ ለማየት iCloud አገናኝ</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">በኋላ</string>
+    <string name="whats_new_skip">ዝለል</string>
+    <string name="whats_new_next">ቀጣይ</string>
+    <string name="whats_new_page_of">ገጽ %1$d ከ%2$d</string>
+    <string name="whats_new_find_it_in">እዚህ ያገኙታል</string>
     <string name="whats_new_v598_title">Android ክፍት ሆኖ እንዲቆይ ይርዱ</string>
     <string name="whats_new_v598_body">Google መሣሪያዎ ላይ መተግበሪያዎችን የሚጭኑበትን መንገድ እየለወጠ ነው። እርዳታዎ ያስፈልገናል።</string>
     <string name="whats_new_v598_action_label">keepandroidopen.org ን ይጎብኙ</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">ይህ እትም ለKashCal ደጋፊዎች የተሰጠ ነው። ትንሽ አስተዋፅኦ ግን ትልቅ ተደጋጋሚ ጥቅም አለው።</string>
     <string name="whats_new_v732_caption">ገና ደጋፊ አልሆኑም?</string>
     <string name="whats_new_v732_action_label">በእቅድዎ ውስጥ ያክሉን</string>
+    <string name="whats_new_v772_icon_title">አዶዎ ቀኑን ያውቃል</string>
+    <string name="whats_new_v772_icon_body">«የዛሬ ቀን» አዶን ይምረጡ፣ KashCal በመነሻ ማያ ገጽዎ ላይ የወሩን ቀን ያሳያል። በየምሽቱ በራሱ ይቀየራል።</string>
+    <string name="whats_new_v772_changes_title">ምን እንደተቀየረ ይመልከቱ</string>
+    <string name="whats_new_v772_changes_body">ከiCloud እና CalDAV ቀን መቁጠሪያዎችዎ የመጡ አዲስ፣ የተስተካከሉ እና የተወገዱ ክስተቶች ለ7 ቀናት በ«የቅርብ ጊዜ ለውጦች» ውስጥ ይሰበሰባሉ። ለመክፈት አንዱን ይንኩ።</string>
+    <string name="whats_new_v772_notifications_body">ከበስተጀርባ የሚደረግ ማመሳሰል በiCloud ወይም CalDAV ክስተቶችዎ ላይ ለውጦችን ሲያገኝ ማሳወቂያ ያግኙ። እስኪያበሩት ድረስ ጠፍቶ ይቆያል።</string>
+    <string name="whats_new_hero_sample_lunch">የቡድን ምሳ</string>
+    <string name="whats_new_hero_sample_review">የንድፍ ግምገማ</string>
+    <string name="whats_new_hero_sample_book_club">የመጽሐፍ ክበብ</string>
+    <string name="whats_new_hero_sample_calendar">ሥራ</string>
+    <string name="whats_new_hero_now">አሁን</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud አገናኝ</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">ጥምር ነጠላ መስመር፣ ወይም ከመጨረሻ ሰዓት ጋር ዝርዝር ሁለት መስመሮች።</string>
     <string name="settings_sync_lookback">የማመሳሰል ወደ ኋላ መመልከት</string>
     <string name="settings_sync_lookback_hint">ክስተቶችን ወደ ኋላ ምን ያህል ርቀት ማመሳሰል</string>
+    <string name="settings_change_notifications">የለውጥ ማሳወቂያዎች</string>
+    <string name="settings_change_notifications_info">ከበስተጀርባ የሚደረግ ማመሳሰል በክስተቶችዎ ላይ ለውጦችን ሲያገኝ ማሳወቂያ ይልካል። ለiCloud እና CalDAV ቀን መቁጠሪያዎች ይሰራል።</string>
     <string name="settings_not_set">አልተዋቀረም</string>
     <string name="settings_on">በርቷል</string>
     <string name="settings_off">ጠፍቷል</string>
@@ -760,6 +779,59 @@
         <item quantity="one">%1$d ክስተት ገብቷል</item>
         <item quantity="other">%1$d ክስተቶች ገብተዋል</item>
     </plurals>
+    <string name="ics_import_preview_loading">ይህን ቀን መቁጠሪያ በመፈተሽ ላይ…</string>
+    <string name="ics_import_preview_failed">ይህን ቀን መቁጠሪያ ለእነዚህ ክስተቶች መፈተሽ አልተቻለም። አሁንም ማስገባት ይችላሉ።</string>
+    <string name="ics_import_will_cancel">ይህ %1$s ይሰርዛል (አዘጋጅ፦ %2$s)</string>
+    <string name="ics_import_will_cancel_no_organizer">ይህ %1$s ይሰርዛል</string>
+    <string name="ics_import_will_update">ይህ %1$s ያዘምናል</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">%1$d ክስተት አስቀድሞ የተዘመነ ነው</item>
+        <item quantity="other">%1$d ክስተቶች አስቀድመው የተዘመኑ ናቸው</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d ተዘሏል፦ %2$s</item>
+        <item quantity="other">%1$d ተዘለዋል፦ %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">ለግብዣ የተሰጠ ምላሽ ነው፣ በቀን መቁጠሪያዎ ላይ ምንም አይጨምርም</string>
+    <string name="ics_import_reason_unsupported">ይህ ዓይነቱ የግብዣ መልእክት አይደገፍም</string>
+    <string name="ics_import_reason_organizer_mismatch">ከስብሰባው አዘጋጅ ውጪ ከሌላ ሰው የመጣ ነው</string>
+    <string name="ics_import_reason_cancel_no_match">የተሰረዘው ስብሰባ በዚህ ቀን መቁጠሪያ ውስጥ የለም</string>
+    <string name="ics_import_reason_cancel_not_for_you">ስረዛው ለሌሎች እንግዶች ነው</string>
+    <string name="ics_import_reason_deletion_pending">ክስተቱ በመሰረዝ ላይ ነው</string>
+    <string name="ics_import_reason_cancelled_in_file">በፋይሉ ውስጥ አስቀድሞ ተሰርዟል</string>
+    <string name="ics_import_reason_this_and_future">በዚህ እና በኋላ ባሉ ድግግሞሾች ላይ የሚደረጉ ለውጦች አይደገፉም</string>
+    <string name="ics_import_reason_own_cancel">ይህን ስብሰባ የሚያዘጋጁት እርስዎ ነዎት፣ ስለዚህ ከክስተቱ ይሰርዙት</string>
+    <string name="ics_import_reason_on_another_calendar">አስቀድሞ በዚህ መለያ ሌላ ቀን መቁጠሪያ ውስጥ አለ</string>
+    <string name="ics_import_notice_unverified">የግብዣ ፋይል ላኪን ማረጋገጥ አይቻልም። ከአዘጋጁ መምጣቱን ያረጋግጡ።</string>
+    <string name="ics_import_notice_answer_notifies">ለዚህ ግብዣ መመለስ ለአዘጋጁ ማሳወቂያ ሊልክ ይችላል።</string>
+    <string name="ics_import_notice_guests_again">እርስዎ አዘጋጁ ነዎት፣ ስለዚህ እንግዶች ይህን ግብዣ እንደገና ሊቀበሉ ይችላሉ።</string>
+    <string name="cd_dismiss_notice">ማሳሰቢያውን አሰናብት</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d ታክሏል</item>
+        <item quantity="other">%1$d ታክለዋል</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d ተዘምኗል</item>
+        <item quantity="other">%1$d ተዘምነዋል</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d ተሰርዟል</item>
+        <item quantity="other">%1$d ተሰርዘዋል</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d አስቀድሞ የተዘመነ</item>
+        <item quantity="other">%1$d አስቀድመው የተዘመኑ</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d ተዘሏል</item>
+        <item quantity="other">%1$d ተዘለዋል</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d አልተሳካም</item>
+        <item quantity="other">%1$d አልተሳኩም</item>
+    </plurals>
+    <string name="ics_import_summary_separator">"፣ "</string>
+    <string name="ics_import_summary_nothing">የሚገባ ምንም ነገር የለም</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d ክስተት ተልኳል</item>
         <item quantity="other">%1$d ክስተቶች ተልከዋል</item>

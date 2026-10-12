@@ -9,10 +9,11 @@ import org.onekash.kashcal.data.calendar_provider.DeviceAttendee
 import org.onekash.kashcal.data.calendar_provider.DeviceEvent
 import org.onekash.kashcal.data.calendar_provider.canonicalAttendeeEmail
 import org.onekash.kashcal.data.calendar_provider.cleanCategoryNames
-import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.data.ics.IcsImportFile
 import org.onekash.kashcal.data.preferences.KashCalDataStore
+import org.onekash.kashcal.domain.ics.IcsImportResult
 import org.onekash.kashcal.util.computeDurationString
-import org.onekash.kashcal.util.importEventsToDeviceCalendar
+import org.onekash.kashcal.util.importIcsFileToDeviceCalendar
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -82,8 +83,8 @@ data class DeviceEventSaveResult(
  *   Result; nothing is thrown.
  * - [replyRsvp] returns `Result<Boolean>` and signals only when a row was
  *   written (true).
- * - [importIcsEvents] returns the number of events created and signals when
- *   that is more than zero.
+ * - [importIcsFile] returns what the import did and signals when it wrote
+ *   anything.
  * - [pruneStaleCalendarIds] and [ensureCalendarVisible] return Unit and never
  *   signal. They are calendar settings, not event writes: pruning only tidies
  *   the stored selection, and after [ensureCalendarVisible] the Settings caller
@@ -319,20 +320,20 @@ class DeviceEventWriter @Inject constructor(
     }
 
     /**
-     * Imports events parsed from an ICS file into a device calendar. Events
-     * without reminders get the user's default reminder. Returns how many were
-     * created; failed events are skipped.
+     * Imports a parsed ICS file into device calendar [calendarId] as
+     * [importIcsFileToDeviceCalendar] describes, with the user's default reminders, and
+     * signals once when anything was written.
      */
-    suspend fun importIcsEvents(events: List<Event>, calendarId: Long): Int {
-        val count = importEventsToDeviceCalendar(
-            events = events,
+    suspend fun importIcsFile(file: IcsImportFile, calendarId: Long): IcsImportResult {
+        val result = importIcsFileToDeviceCalendar(
+            file = file,
             calendarId = calendarId,
             repo = repository,
             defaultTimedReminderMinutes = dataStore.defaultReminderMinutes.first(),
             defaultAllDayReminderMinutes = dataStore.defaultAllDayReminder.first(),
         )
-        if (count > 0) calendarProviderManager.notifyDeviceCalendarChanged()
-        return count
+        if (result.changedAnything) calendarProviderManager.notifyDeviceCalendarChanged()
+        return result
     }
 
     /** Forgets ticked device calendars that no longer exist in the provider. */

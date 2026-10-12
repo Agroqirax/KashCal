@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Brathan mu chrìochnachadh agus mearachdan sioncronachaidh</string>
     <string name="channel_event_invitations">Cuiridhean tachartais</string>
     <string name="channel_event_invitations_desc">Brathan nuair a gheibh thu cuireadh mìosachain ùr</string>
+    <string name="channel_calendar_updates">Atharraichean mìosachain</string>
     <string name="invite_notification_body">O %1$s · Thoir gnogag gus freagairt</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Tha am freagairt a\' buntainn ris an t-sreath gu lèir.</string>
+    <string name="rsvp_receipt_pending">Freagairt a\' feitheamh</string>
+    <string name="rsvp_receipt_sent">Freagairt air a cur</string>
+    <string name="rsvp_receipt_not_delivered">Cha deach an fhreagairt a lìbhrigeadh</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Am fear seo agus gach fear san àm ri teachd</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Ceangail iCloud gus na tachartasan agad fhaicinn an seo</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Nas fhaide air adhart</string>
+    <string name="whats_new_skip">Leum seachad</string>
+    <string name="whats_new_next">Air adhart</string>
+    <string name="whats_new_page_of">Duilleag %1$d à %2$d</string>
+    <string name="whats_new_find_it_in">Gheibh thu an-seo e</string>
     <string name="whats_new_v598_title">Cuidich gus Android a chumail fosgailte</string>
     <string name="whats_new_v598_body">Tha Google ag atharrachadh mar a chuireas tu a-steach aplacaidean air an inneal agad. Tha feum againn air do chuideachadh.</string>
     <string name="whats_new_v598_action_label">Tadhail air keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Tha an sgaoileadh seo coisrigte do luchd-taic KashCal. Tabhartas beag le buannachd mhòr leantainneach.</string>
     <string name="whats_new_v732_caption">Nach eil thu nad neach-taic fhathast?</string>
     <string name="whats_new_v732_action_label">Cuir sinn ris na planaichean agad</string>
+    <string name="whats_new_v772_icon_title">Tha fios aig an ìomhaigheag agad air a\' cheann-latha</string>
+    <string name="whats_new_v772_icon_body">Tagh an ìomhaigheag Ceann-latha an-diugh agus seallaidh KashCal latha a\' mhìosa air an sgrìn-dachaigh agad. Atharraichidh i leatha fhèin gach oidhche.</string>
+    <string name="whats_new_v772_changes_title">Faic dè dh\'atharraich</string>
+    <string name="whats_new_v772_changes_body">Thèid tachartasan ùra, deasaichte is air an toirt air falbh o na mìosachain iCloud is CalDAV agad a chruinneachadh ann an Atharraichean o chionn ghoirid fad 7 latha. Thoir gnogag air fear dhiubh gus fhosgladh.</string>
+    <string name="whats_new_v772_notifications_body">Faigh brath nuair a lorgas sioncronachadh sa chùlaibh atharraichean air na tachartasan iCloud no CalDAV agad. Bidh e dheth gus an cuir thu air e.</string>
+    <string name="whats_new_hero_sample_lunch">Lòn na sgioba</string>
+    <string name="whats_new_hero_sample_review">Lèirmheas dealbhaidh</string>
+    <string name="whats_new_hero_sample_book_club">Club leabhraichean</string>
+    <string name="whats_new_hero_sample_calendar">Obair</string>
+    <string name="whats_new_hero_now">an-dràsta</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ceangail iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Aon loidhne dhlùth, no dà loidhne mhionaideach le àm crìochnachaidh.</string>
     <string name="settings_sync_lookback">Coimhead Air Ais Sioncronachaidh</string>
     <string name="settings_sync_lookback_hint">Dè cho fada air ais a shioncronaichear tachartasan</string>
+    <string name="settings_change_notifications">Brathan mu atharraichean</string>
+    <string name="settings_change_notifications_info">Cuiridh e brath nuair a lorgas sioncronachadh sa chùlaibh atharraichean air na tachartasan agad. Obraichidh e le mìosachain iCloud agus CalDAV.</string>
     <string name="settings_not_set">Gun suidheachadh</string>
     <string name="settings_on">Air</string>
     <string name="settings_off">Dheth</string>
@@ -794,6 +813,75 @@
         <item quantity="few">%1$d tachartasan air an ion-phortachadh</item>
         <item quantity="other">%1$d tachartas air an ion-phortachadh</item>
     </plurals>
+    <string name="ics_import_preview_loading">A\' sgrùdadh a\' mhìosachain seo…</string>
+    <string name="ics_import_preview_failed">Cha b\'urrainn dhuinn sgrùdadh a dhèanamh air a\' mhìosachan seo airson nan tachartasan seo. \'S urrainn dhut ion-phortadh co-dhiù.</string>
+    <string name="ics_import_will_cancel">Cuiridh seo %1$s dheth, air a chur air dòigh le %2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Cuiridh seo %1$s dheth</string>
+    <string name="ics_import_will_update">Ùraichidh seo %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">Tha %1$d thachartas suas ris an latha mu thràth</item>
+        <item quantity="two">Tha %1$d thachartas suas ris an latha mu thràth</item>
+        <item quantity="few">Tha %1$d tachartasan suas ris an latha mu thràth</item>
+        <item quantity="other">Tha %1$d tachartas suas ris an latha mu thràth</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d air a leum: %2$s</item>
+        <item quantity="two">%1$d air an leum: %2$s</item>
+        <item quantity="few">%1$d air an leum: %2$s</item>
+        <item quantity="other">%1$d air an leum: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">\'s e freagairt do chuireadh a th\' ann, rud nach cuir dad ris a\' mhìosachan agad</string>
+    <string name="ics_import_reason_unsupported">chan eil taic ris an seòrsa seo de theachdaireachd cuiridh</string>
+    <string name="ics_import_reason_organizer_mismatch">tha e o chuideigin eile seach eagraiche na coinneimh</string>
+    <string name="ics_import_reason_cancel_no_match">chan eil a\' choinneamh a chaidh a chur dheth sa mhìosachan seo</string>
+    <string name="ics_import_reason_cancel_not_for_you">tha an cur dheth airson luchd-frithealaidh eile</string>
+    <string name="ics_import_reason_deletion_pending">thathar a\' sguabadh às an tachartas</string>
+    <string name="ics_import_reason_cancelled_in_file">chaidh a chur dheth san fhaidhle mu thràth</string>
+    <string name="ics_import_reason_this_and_future">chan eil taic ri atharraichean air an tachartas seo is an fheadhainn às a dhèidh</string>
+    <string name="ics_import_reason_own_cancel">\'s tusa a tha a\' cur na coinneimh seo air dòigh, mar sin cuir dheth i on tachartas</string>
+    <string name="ics_import_reason_on_another_calendar">tha e ann am mìosachan eile sa chunntas seo mu thràth</string>
+    <string name="ics_import_notice_unverified">Cha ghabh dearbhadh cò chuir faidhle cuiridh. Dèan cinnteach gun tàinig e on eagraiche.</string>
+    <string name="ics_import_notice_answer_notifies">Dh\'fhaoidte gun cuir freagairt dhan chuireadh seo brath dhan eagraiche.</string>
+    <string name="ics_import_notice_guests_again">\'S tusa an t-eagraiche, mar sin dh\'fhaoidte gum faigh an luchd-frithealaidh an cuireadh seo a-rithist.</string>
+    <string name="cd_dismiss_notice">Leig seachad am brath</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d air a chur ris</item>
+        <item quantity="two">%1$d air an cur ris</item>
+        <item quantity="few">%1$d air an cur ris</item>
+        <item quantity="other">%1$d air an cur ris</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d air ùrachadh</item>
+        <item quantity="two">%1$d air ùrachadh</item>
+        <item quantity="few">%1$d air ùrachadh</item>
+        <item quantity="other">%1$d air ùrachadh</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d air a chur dheth</item>
+        <item quantity="two">%1$d air an cur dheth</item>
+        <item quantity="few">%1$d air an cur dheth</item>
+        <item quantity="other">%1$d air an cur dheth</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d suas ris an latha mu thràth</item>
+        <item quantity="two">%1$d suas ris an latha mu thràth</item>
+        <item quantity="few">%1$d suas ris an latha mu thràth</item>
+        <item quantity="other">%1$d suas ris an latha mu thràth</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d air a leum</item>
+        <item quantity="two">%1$d air an leum</item>
+        <item quantity="few">%1$d air an leum</item>
+        <item quantity="other">%1$d air an leum</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d air fàilligeadh</item>
+        <item quantity="two">%1$d air fàilligeadh</item>
+        <item quantity="few">%1$d air fàilligeadh</item>
+        <item quantity="other">%1$d air fàilligeadh</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Chan eil dad ri ion-phortadh</string>
     <plurals name="exported_events">
         <item quantity="one">%1$d thachartas air às-phortachadh</item>
         <item quantity="two">%1$d thachartas air an às-phortachadh</item>

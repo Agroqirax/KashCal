@@ -139,4 +139,24 @@ class DeliveryStateClassifierTest {
         assertEquals(DeliveryState.NoReceipt, classifyDelivery("", ""))
         assertEquals(DeliveryState.NoReceipt, classifyDelivery("\t", "\n"))
     }
+
+    // ---- attendee-side reply receipt ----
+
+    @Test
+    fun `reply receipt maps 1_0 to pending, 1_1 and 1_2 to sent, 3_x and 5_x to not delivered`() {
+        assertEquals(ReplyReceipt.Pending, classifyReplyReceipt("1.0"))
+        assertEquals(ReplyReceipt.Sent, classifyReplyReceipt("1.1"))
+        assertEquals(ReplyReceipt.Sent, classifyReplyReceipt("1.2"))
+        assertEquals(ReplyReceipt.NotDelivered, classifyReplyReceipt("3.7"))
+        assertEquals(ReplyReceipt.NotDelivered, classifyReplyReceipt("5.1"))
+        assertEquals(ReplyReceipt.NotDelivered, classifyReplyReceipt("5.2,1.1"))
+    }
+
+    @Test
+    fun `reply receipt is null without a code or for one that says nothing about delivery`() {
+        assertEquals(null, classifyReplyReceipt(null))
+        assertEquals(null, classifyReplyReceipt(""))
+        assertEquals(null, classifyReplyReceipt("2.0"))
+        assertEquals(null, classifyReplyReceipt("9.9"))
+    }
 }

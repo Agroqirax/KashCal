@@ -14,6 +14,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
@@ -47,12 +48,14 @@ import org.onekash.kashcal.sync.engine.SyncPhase
 import org.onekash.kashcal.sync.engine.SyncResult
 import org.onekash.kashcal.sync.model.ChangeType
 import org.onekash.kashcal.sync.model.SyncChange
+import org.onekash.kashcal.sync.notification.ChangeNotifier
 import org.onekash.kashcal.sync.notification.SyncNotificationManager
 import org.onekash.kashcal.sync.provider.ProviderRegistry
 import org.onekash.kashcal.sync.provider.icloud.ICloudUrlMigration
 import org.onekash.kashcal.sync.quirks.CalDavQuirks
 import org.onekash.kashcal.sync.scheduler.SyncScheduler
 import org.onekash.kashcal.sync.session.SyncSessionStore
+import org.onekash.kashcal.sync.session.SyncTrigger
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.util.concurrent.TimeUnit
@@ -90,6 +93,7 @@ class CalDavSyncWorkerTest {
     private lateinit var eventsDao: org.onekash.kashcal.data.db.dao.EventsDao
     private lateinit var dataStore: org.onekash.kashcal.data.preferences.KashCalDataStore
     private lateinit var recentChangesRecorder: org.onekash.kashcal.domain.changes.RecentChangesRecorder
+    private lateinit var changeNotifier: ChangeNotifier
     private lateinit var worker: CalDavSyncWorker
 
     @Before
@@ -125,6 +129,9 @@ class CalDavSyncWorkerTest {
         // Strict: record() returns what the worker publishes, so each test stubs it.
         recentChangesRecorder = mockk()
         coEvery { recentChangesRecorder.record(any(), any()) } returns emptyList()
+        // Strict: whether it posted decides whether the worker publishes the snackbar entries.
+        changeNotifier = mockk()
+        coEvery { changeNotifier.notify(any(), any()) } returns false
 
         // Default reminder settings: 15 minutes for timed events, 720 for all-day.
         coEvery { dataStore.defaultReminderMinutes } returns kotlinx.coroutines.flow.flowOf(15)
@@ -191,7 +198,8 @@ class CalDavSyncWorkerTest {
             iCloudUrlMigration = iCloudUrlMigration,
             eventsDao = eventsDao,
             dataStore = dataStore,
-            recentChangesRecorder = recentChangesRecorder
+            recentChangesRecorder = recentChangesRecorder,
+            changeNotifier = changeNotifier
         )
     }
 
@@ -1541,6 +1549,103 @@ class CalDavSyncWorkerTest {
 
         assertTrue("the sync still succeeds, got $result", result is androidx.work.ListenableWorker.Result.Success)
         coVerify { reminderScheduler.scheduleRemindersForEvent(testEvent, listOf(testOccurrence), any()) }
+        verify(exactly = 0) { syncScheduler.setSyncChanges(any()) }
+    }
+
+    // ==================== Change notifications ====================
+
+    /**
+     * Runs one sync of [input] that records one entry, with [notified] as the notifier's answer,
+     * and returns the batch time the worker passed to the recorder.
+     */
+    private suspend fun runRecordedSync(
+        input: androidx.work.Data,
+        periodic: Boolean,
+        notified: Boolean? = false,
+    ): Long {
+        val worker = createWorker(input, periodic = periodic)
+        val testAccount = createTestAccount()
+        val raw = createTestSyncChange(ChangeType.NEW, 100L)
+        val batchAt = slot<Long>()
+        coEvery { accountRepository.getEnabledAccounts() } returns listOf(testAccount)
+        coEvery { syncEngine.syncAccountWithQuirks(testAccount, any(), false, any(), any(), any()) } returns
+            SyncResult.Success(calendarsSynced = 1, eventsPulledAdded = 1, durationMs = 1, changes = listOf(raw))
+        coEvery { recentChangesRecorder.record(listOf(raw), capture(batchAt)) } returns listOf(recordedEntry(100L))
+        if (notified == null) {
+            coEvery { changeNotifier.notify(any(), any()) } throws IllegalStateException("post failed")
+        } else {
+            coEvery { changeNotifier.notify(any(), any()) } returns notified
+        }
+
+        val result = worker.doWork()
+
+        assertTrue("the sync still succeeds, got $result", result is androidx.work.ListenableWorker.Result.Success)
+        return batchAt.captured
+    }
+
+    @Test
+    fun `a periodic batch the notifier posted skips the snackbar`() = runTest {
+        val batchAt = runRecordedSync(CalDavSyncWorker.createFullSyncInput(), periodic = true, notified = true)
+
+        coVerify(exactly = 1) { changeNotifier.notify(batchAt, match { it <= batchAt }) }
+        verify(exactly = 0) { syncScheduler.setSyncChanges(any()) }
+    }
+
+    @Test
+    fun `a periodic batch the notifier didn't post goes to the snackbar`() = runTest {
+        runRecordedSync(CalDavSyncWorker.createFullSyncInput(), periodic = true, notified = false)
+
+        verify(exactly = 1) { syncScheduler.setSyncChanges(listOf(recordedEntry(100L))) }
+    }
+
+    @Test
+    fun `a notifier failure goes to the snackbar and doesn't fail the sync`() = runTest {
+        runRecordedSync(CalDavSyncWorker.createFullSyncInput(), periodic = true, notified = null)
+
+        verify(exactly = 1) { syncScheduler.setSyncChanges(listOf(recordedEntry(100L))) }
+    }
+
+    @Test
+    fun `a widget refresh is a background sync and asks the notifier`() = runTest {
+        val input = CalDavSyncWorker.createFullSyncInput(trigger = SyncTrigger.BACKGROUND_WIDGET)
+        runRecordedSync(input, periodic = false, notified = true)
+
+        coVerify(exactly = 1) { changeNotifier.notify(any(), any()) }
+        verify(exactly = 0) { syncScheduler.setSyncChanges(any()) }
+    }
+
+    @Test
+    fun `a one-shot sync with the inherited periodic trigger keeps the snackbar`() = runTest {
+        // The expedited sync after a local edit and the per-account syncs carry the
+        // BACKGROUND_PERIODIC default trigger but no periodic tag; the user is in the app.
+        runRecordedSync(CalDavSyncWorker.createFullSyncInput(), periodic = false, notified = true)
+
+        coVerify(exactly = 0) { changeNotifier.notify(any(), any()) }
+        verify(exactly = 1) { syncScheduler.setSyncChanges(listOf(recordedEntry(100L))) }
+    }
+
+    @Test
+    fun `a foreground sync keeps the snackbar`() = runTest {
+        val input = CalDavSyncWorker.createFullSyncInput(trigger = SyncTrigger.FOREGROUND_PULL_TO_REFRESH)
+        runRecordedSync(input, periodic = false, notified = true)
+
+        coVerify(exactly = 0) { changeNotifier.notify(any(), any()) }
+        verify(exactly = 1) { syncScheduler.setSyncChanges(listOf(recordedEntry(100L))) }
+    }
+
+    @Test
+    fun `a periodic sync that recorded nothing asks no one`() = runTest {
+        val worker = createWorker(CalDavSyncWorker.createFullSyncInput(), periodic = true)
+        val testAccount = createTestAccount()
+        val raw = createTestSyncChange(ChangeType.MODIFIED, 100L)
+        coEvery { accountRepository.getEnabledAccounts() } returns listOf(testAccount)
+        coEvery { syncEngine.syncAccountWithQuirks(testAccount, any(), false, any(), any(), any()) } returns
+            SyncResult.Success(calendarsSynced = 1, eventsPulledUpdated = 1, durationMs = 1, changes = listOf(raw))
+        coEvery { recentChangesRecorder.record(listOf(raw), any()) } returns emptyList()
+
+        worker.doWork()
+
+        coVerify(exactly = 0) { changeNotifier.notify(any(), any()) }
         verify(exactly = 0) { syncScheduler.setSyncChanges(any()) }
     }
 

@@ -298,6 +298,33 @@ class AttendeesDaoTest {
         assertEquals(1_234_000L, after.notifiedAt)
     }
 
+    @Test
+    fun `getEventIdsNotifiedSince returns each event notified at or after the time once`() = runTest {
+        attendeesDao.replaceForEvent(
+            eventId1,
+            listOf(
+                makeAttendee(eventId1, "mailto:self@x.com", 0, partstat = "NEEDS-ACTION").copy(notifiedAt = 6_000L),
+                makeAttendee(eventId1, "mailto:alias@x.com", 1, partstat = "NEEDS-ACTION").copy(notifiedAt = 7_000L),
+            )
+        )
+        attendeesDao.replaceForEvent(
+            eventId2,
+            listOf(
+                makeAttendee(eventId2, "mailto:self@x.com", 0, partstat = "NEEDS-ACTION").copy(notifiedAt = 4_999L),
+                makeAttendee(eventId2, "mailto:other@x.com", 1, partstat = "NEEDS-ACTION"),
+            )
+        )
+        attendeesDao.replaceForEvent(
+            eventId3,
+            listOf(makeAttendee(eventId3, "mailto:self@x.com", 0, partstat = "NEEDS-ACTION").copy(notifiedAt = 5_000L))
+        )
+
+        val ids = attendeesDao.getEventIdsNotifiedSince(5_000L)
+
+        assertEquals(setOf(eventId1, eventId3), ids.toSet())
+        assertEquals("each event once", 2, ids.size)
+    }
+
     // ========== schedule_status / schedule_agent merge-preserve ==========
     // A null incoming value keeps the prior one; a non-null value overwrites it. A re-push
     // whose read-back races an async-stamping server can return the attendee with no

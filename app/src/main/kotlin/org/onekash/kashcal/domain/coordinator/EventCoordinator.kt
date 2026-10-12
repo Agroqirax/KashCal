@@ -1,5 +1,18 @@
 package org.onekash.kashcal.domain.coordinator
 
+import org.onekash.kashcal.data.ics.IcsImportFile
+import org.onekash.kashcal.data.ics.ImportGroup
+import org.onekash.kashcal.data.ics.ImportedComponent
+import org.onekash.kashcal.domain.ics.GroupPlan
+import org.onekash.kashcal.domain.ics.IcsImportPlanner
+import org.onekash.kashcal.domain.ics.IcsImportResult
+import org.onekash.kashcal.domain.ics.ImportAction
+import org.onekash.kashcal.domain.ics.ImportPlanInput
+import org.onekash.kashcal.domain.ics.ImportTarget
+import org.onekash.kashcal.domain.ics.StoredComponent
+import org.onekash.kashcal.domain.ics.StoredUid
+import org.onekash.kashcal.domain.identity.matchesAttendee
+import org.onekash.kashcal.util.AddressNormalizer
 import android.util.Log
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
@@ -207,8 +220,9 @@ class EventCoordinator @Inject constructor(
      *
      * @param attendees the invite's attendees; a non-empty list may also set the organizer
      *   ([resolveOrganizer]).
-     * @throws IllegalArgumentException when the event ends before it starts or the calendar is
-     *   read-only.
+     * @throws IllegalArgumentException when the event ends before it starts, or the calendar
+     *   is missing or read-only when the create starts (a sign-out or refresh that removes it
+     *   during the write still fails the insert).
      */
     suspend fun createEvent(
         event: Event,
@@ -220,10 +234,14 @@ class EventCoordinator @Inject constructor(
         }
 
         val targetCalendarId = calendarId ?: getLocalCalendarId()
-        val calendar = eventReader.getCalendarById(targetCalendarId)
+        // A calendar removed by sign-out or a refresh would otherwise fail the insert on the
+        // events.calendar_id foreign key.
+        val calendar = requireNotNull(eventReader.getCalendarById(targetCalendarId)) {
+            "Calendar not found: $targetCalendarId"
+        }
 
         // Defense in depth: the UI also hides read-only calendars.
-        require(calendar?.isReadOnly != true) {
+        require(!calendar.isReadOnly) {
             "Cannot create event on read-only calendar"
         }
 
@@ -232,7 +250,7 @@ class EventCoordinator @Inject constructor(
             calendar,
             attendees
         )
-        val isLocal = calendar?.let { isLocalCalendar(it) } ?: false
+        val isLocal = isLocalCalendar(calendar)
 
         val result = eventWriter.createEvent(eventWithCalendar, isLocal, attendees)
         triggerImmediatePushIfNeeded(isLocal)
@@ -841,131 +859,290 @@ class EventCoordinator @Inject constructor(
     // ========== ICS File Import ==========
 
     /**
-     * Imports events parsed from an ICS file into calendar [calendarId], each group under a
-     * fresh UID. For one-shot file imports; subscriptions refresh through
-     * [IcsSubscriptionRepository].
+     * Imports a parsed ICS file into Room calendar [calendarId], applying its iTIP METHOD the way
+     * [IcsImportPlanner] decides (RFC 5546): a new UID is created with the file's UID, organizer
+     * and guests; a UID the calendar holds is updated, left alone or cancelled; a REPLY or
+     * another unsupported method writes nothing. For one-shot file imports; subscriptions
+     * refresh through [IcsSubscriptionRepository].
      *
-     * An event or series that fails to import is logged and skipped.
+     * Creates keep [Event.uid] unless another calendar of the account holds it (a plain event
+     * then gets a fresh UID) or the group is malformed (two masters with one UID, or exceptions
+     * without a recurring master), which imports each event standalone under a fresh UID. An
+     * invitation's VALARMs are the organizer's, so it gets the user's default reminders. A
+     * group that fails is counted by its components and skipped.
      *
-     * @return the number of events imported, counting a series' master and exceptions.
      * @throws IllegalArgumentException when the calendar doesn't exist.
      */
-    suspend fun importIcsEvents(events: List<Event>, calendarId: Long): Int {
-        val calendar = requireNotNull(eventReader.getCalendarById(calendarId)) {
-            "Calendar not found: $calendarId"
-        }
-
-        val isLocal = isLocalCalendar(calendar)
-        var importCount = 0
-
-        // An event with no VALARM the parser keeps (reminders null) gets the user's default
-        // reminder unless it is off, as a Quick Add create does. Parsed reminders are kept.
-        val defaultTimedReminder = dataStore.defaultReminderMinutes.first()
-        val defaultAllDayReminder = dataStore.defaultAllDayReminder.first()
-
-        // Group by source UID so a master and its RECURRENCE-ID exceptions (one UID per
-        // RFC 5545) import as one linked series. Exceptions have a non-null
-        // originalInstanceTime; masters don't. A series is exactly one recurring master plus
-        // at least one exception. Any other shape (two same-UID masters from a truncated
-        // export, an exception whose master is outside the file) imports each event
-        // standalone, so nothing is dropped.
-        //
-        // This differs on purpose from the subscription path (#227), which synthesizes an
-        // inert master for orphan exceptions and disambiguates duplicate-UID masters. A feed
-        // must keep the source UID to match rows across refreshes, so colliding UIDs would
-        // trip the master-uniqueness trigger and be dropped. File import gives each group a
-        // fresh UID, so it doesn't collide. Don't align the two: a CANCELLED placeholder
-        // master in a writable calendar would be pushed to the CalDAV server, which is worse
-        // than a standalone import.
-        events.groupBy { it.uid }.values.forEach { group ->
-            val masters = group.filter { it.originalInstanceTime == null }
-            val exceptions = group.filter { it.originalInstanceTime != null }
-            val isSeries = masters.size == 1 &&
-                masters.first().rrule != null &&
-                exceptions.isNotEmpty()
-
-            if (isSeries) {
-                val master = masters.first()
-                try {
-                    val masterReminders = master.reminders ?: defaultRemindersFor(
-                        isAllDay = master.isAllDay,
-                        timedDefault = defaultTimedReminder,
-                        allDayDefault = defaultAllDayReminder
-                    )
-                    val newUid = "${UUID.randomUUID()}@kashcal.onekash.org"
-                    val masterToImport = master.asImported(calendarId, newUid, masterReminders)
-                    val exceptionsToImport = exceptions.map { exception ->
-                        // An exception with no VALARM alarms like its sibling occurrences: it
-                        // takes the master's reminders after the default is applied, not the
-                        // per-type default.
-                        val exceptionReminders = exception.reminders ?: masterReminders
-                        // Keep originalInstanceTime: createImportedSeries links the exception
-                        // by it. The writer stamps timestamps and syncStatus.
-                        exception.copy(
-                            id = 0,
-                            calendarId = calendarId,
-                            uid = newUid,
-                            caldavUrl = null,
-                            etag = null,
-                            lastSyncError = null,
-                            syncRetryCount = 0,
-                            reminders = exceptionReminders,
-                            originalSyncId = null
-                        )
+    suspend fun importIcsFile(file: IcsImportFile, calendarId: Long): IcsImportResult {
+        val context = importContext(calendarId)
+        var result = IcsImportResult()
+        for (group in file.groups) {
+            val effects = ReminderEffects()
+            result += try {
+                val plan = IcsImportPlanner.plan(planInput(context, file, group))
+                // One transaction per group, so a failure leaves none of its components written.
+                eventWriter.inTransaction {
+                    plan.actions.fold(IcsImportResult()) { sum, action ->
+                        sum + applyImportAction(context, file, action, effects)
                     }
-
-                    val series = eventWriter.createImportedSeries(
-                        masterToImport,
-                        exceptionsToImport,
-                        isLocal
-                    )
-                    scheduleRemindersForEvent(series.master)
-                    series.exceptions.forEach { scheduleRemindersForEvent(it) }
-                    importCount += 1 + series.exceptions.size
-                    Log.d(TAG, "Imported series: ${master.title} (${series.exceptions.size} exceptions)")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to import series: ${master.title}", e)
                 }
-            } else {
-                group.forEach { event ->
-                    try {
-                        val effectiveReminders = event.reminders ?: defaultRemindersFor(
-                            isAllDay = event.isAllDay,
-                            timedDefault = defaultTimedReminder,
-                            allDayDefault = defaultAllDayReminder
-                        )
-                        // Standalone: fresh UID, recurrence links cleared. createEvent
-                        // stamps timestamps and syncStatus.
-                        val importEvent = event.asImported(
-                            calendarId,
-                            "${UUID.randomUUID()}@kashcal.onekash.org",
-                            effectiveReminders
-                        )
-
-                        // Handles recurring and one-off events alike.
-                        val result = eventWriter.createEvent(importEvent, isLocal)
-
-                        scheduleRemindersForEvent(result)
-
-                        importCount++
-                        Log.d(TAG, "Imported event: ${event.title}")
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Failed to import event: ${event.title}", e)
-                    }
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                Log.e(TAG, "Failed to import ${group.uid}", e)
+                effects.clear()
+                IcsImportResult(failed = group.components.size)
+            }
+            effects.cancelled.forEach { cancelRemindersQuietly(it) }
+            effects.cancelledOccurrences.forEach { (masterId, instanceTime) ->
+                try {
+                    reminderScheduler.cancelReminderForOccurrence(masterId, instanceTime)
+                } catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    Log.w(TAG, "Reminder cancel failed for event $masterId", e)
                 }
             }
+            effects.armed.forEach { rescheduleRemindersForEvent(it) }
         }
-
-        if (importCount > 0 && !isLocal) {
-            triggerImmediatePushIfNeeded(isLocal)
-        }
-
-        if (importCount > 0) {
+        if (result.changedAnything) {
+            if (!context.isLocal) triggerImmediatePushIfNeeded(isLocal = false)
             triggerWidgetUpdate()
         }
+        Log.d(TAG, "Imported to calendar $calendarId: $result")
+        return result
+    }
 
-        Log.d(TAG, "Imported $importCount of ${events.size} events to calendar $calendarId")
-        return importCount
+    /**
+     * Returns what [importIcsFile] would do with each group of [file] in calendar [calendarId],
+     * without writing anything; the import sheet shows it before the tap.
+     */
+    suspend fun previewIcsImport(file: IcsImportFile, calendarId: Long): List<GroupPlan> {
+        val context = importContext(calendarId)
+        return file.groups.map { IcsImportPlanner.plan(planInput(context, file, it)) }
+    }
+
+    private class ImportContext(
+        val calendar: Calendar,
+        val isLocal: Boolean,
+        val account: Account?,
+        val userAddresses: Set<String>,
+        val defaultTimedReminder: Int,
+        val defaultAllDayReminder: Int,
+        val accountCalendarIds: Set<Long>,
+    )
+
+    private suspend fun importContext(calendarId: Long): ImportContext {
+        val calendar = requireNotNull(eventReader.getCalendarById(calendarId)) { "Calendar not found: $calendarId" }
+        val isLocal = isLocalCalendar(calendar)
+        val account = accountRepository.getAccountById(calendar.accountId)
+        return ImportContext(
+            calendar = calendar,
+            isLocal = isLocal,
+            account = account,
+            // The local calendar has no identity: its account's login is not an address.
+            userAddresses = if (isLocal) emptySet()
+            else account?.effectiveAddresses()?.map(AddressNormalizer::canonical)?.toSet().orEmpty(),
+            defaultTimedReminder = dataStore.defaultReminderMinutes.first(),
+            defaultAllDayReminder = dataStore.defaultAllDayReminder.first(),
+            accountCalendarIds = eventReader.getCalendarsByAccountIdOnce(calendar.accountId).map { it.id }.toSet(),
+        )
+    }
+
+    private suspend fun planInput(context: ImportContext, file: IcsImportFile, group: ImportGroup): ImportPlanInput {
+        val rows = eventReader.getEventsByUid(group.uid)
+        val here = rows.filter { it.calendarId == context.calendar.id }
+        val master = here.firstOrNull { it.originalEventId == null }
+        val stored = StoredUid(
+            master = master?.toStoredComponent(),
+            exceptions = here.filter { it.originalEventId != null }.map { it.toStoredComponent() },
+        ).takeUnless { it.isEmpty }
+        val elsewhere = rows.any { it.calendarId != context.calendar.id && it.calendarId in context.accountCalendarIds }
+        return ImportPlanInput(
+            group = group,
+            method = file.method,
+            stored = stored,
+            target = if (context.isLocal) ImportTarget.LOCAL else ImportTarget.CALDAV,
+            userAddresses = context.userAddresses,
+            elsewhereInAccount = elsewhere,
+        )
+    }
+
+    private fun Event.toStoredComponent() = StoredComponent(
+        eventId = id,
+        instanceTime = if (originalEventId != null) originalInstanceTime else null,
+        organizerEmail = organizerEmail,
+        sequence = sequence,
+        itipDtstamp = itipDtstamp,
+        status = status,
+        pendingDelete = isPendingDelete,
+    )
+
+    /** Reminder work for a group's writes, done once its transaction commits. */
+    private class ReminderEffects {
+        val armed = mutableListOf<Event>()
+        val cancelled = mutableListOf<Long>()
+        val cancelledOccurrences = mutableListOf<Pair<Long, Long>>()
+        fun clear() {
+            armed.clear(); cancelled.clear(); cancelledOccurrences.clear()
+        }
+    }
+
+    private suspend fun applyImportAction(
+        context: ImportContext,
+        file: IcsImportFile,
+        action: ImportAction,
+        effects: ReminderEffects,
+    ): IcsImportResult = when (action) {
+        is ImportAction.Create -> createImported(context, file, action, effects)
+        is ImportAction.UpdateSeries -> importedUpdate(context, action.stored.eventId, action.component, effects)
+        is ImportAction.UpdateInstance -> importedUpdate(context, action.stored.eventId, action.component, effects)
+        is ImportAction.CreateInstance -> {
+            val created = eventWriter.createImportedException(
+                action.master.eventId,
+                requireNotNull(action.component.event.originalInstanceTime),
+                action.component.event,
+                attendeeRows(context, action.component),
+            )
+            effects.armed += created
+            IcsImportResult(updated = 1, firstStartTs = created.startTs)
+        }
+        is ImportAction.CancelSeries -> {
+            val cancelled = eventWriter.applyImportedCancel(
+                action.master.eventId, null, action.component.event.sequence,
+                action.component.event.itipDtstamp, context.isLocal
+            )
+            effects.cancelled += cancelled.map { it.id }
+            IcsImportResult(cancelled = 1, firstStartTs = cancelled.firstOrNull()?.startTs)
+        }
+        is ImportAction.CancelInstance -> {
+            val instanceTime = requireNotNull(action.component.event.originalInstanceTime)
+            val cancelled = eventWriter.applyImportedCancel(
+                action.master.eventId, instanceTime, action.component.event.sequence,
+                action.component.event.itipDtstamp, context.isLocal
+            )
+            effects.cancelled += cancelled.map { it.id }
+            effects.cancelledOccurrences += action.master.eventId to instanceTime
+            IcsImportResult(cancelled = 1, firstStartTs = cancelled.firstOrNull()?.startTs)
+        }
+        is ImportAction.UpToDate -> IcsImportResult(upToDate = 1)
+        is ImportAction.Ignored -> IcsImportResult(ignored = listOf(action.reason))
+    }
+
+    private suspend fun importedUpdate(
+        context: ImportContext,
+        eventId: Long,
+        component: ImportedComponent,
+        effects: ReminderEffects,
+    ): IcsImportResult {
+        val updated = eventWriter.applyImportedUpdate(eventId, component.event, attendeeRows(context, component))
+        effects.armed += updated
+        return IcsImportResult(updated = 1, firstStartTs = updated.startTs)
+    }
+
+    private suspend fun cancelRemindersQuietly(eventId: Long) {
+        try {
+            reminderScheduler.cancelRemindersForEvent(eventId)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            Log.w(TAG, "Reminder cancel failed for event $eventId, ReminderRefreshWorker will recover", e)
+        }
+    }
+
+    /**
+     * Creates [action]'s group. A group with one master (and, for a series, its exceptions)
+     * keeps its UID unless [ImportAction.Create.freshUid]. Any other shape (two same-UID masters
+     * from a truncated export, an exception whose master is outside the file) imports each event
+     * standalone under a fresh UID, cancelled ones left out, so no two masters share a UID.
+     *
+     * This differs on purpose from the subscription path (#227), which synthesizes an inert
+     * master for orphan exceptions: a cancelled placeholder master in a writable calendar would
+     * be pushed to the CalDAV server, which is worse than a standalone import.
+     */
+    private suspend fun createImported(
+        context: ImportContext,
+        file: IcsImportFile,
+        action: ImportAction.Create,
+        effects: ReminderEffects,
+    ): IcsImportResult {
+        val group = action.group
+        val calendarId = context.calendar.id
+        val master = group.masters.singleOrNull()
+        val linked = master != null && (group.exceptions.isEmpty() || master.event.rrule != null)
+        fun remindersFor(c: ImportedComponent): List<String>? =
+            if (file.isInvitation || c.event.reminders == null) {
+                defaultRemindersFor(c.event.isAllDay, context.defaultTimedReminder, context.defaultAllDayReminder)
+            } else {
+                c.event.reminders
+            }
+
+        if (linked && master != null) {
+            val uid = if (action.freshUid) "${UUID.randomUUID()}@kashcal.onekash.org" else group.uid
+            val masterReminders = remindersFor(master)
+            val masterEvent = master.event.asImported(calendarId, uid, masterReminders).copy(
+                importSource = Event.IMPORT_SOURCE_ICS_FILE,
+                alarmCount = masterReminders?.size ?: 0,
+            )
+            if (group.exceptions.isEmpty()) {
+                val created = eventWriter.createEvent(masterEvent, context.isLocal, attendeeRows(context, master))
+                effects.armed += created
+                return IcsImportResult(created = 1, firstStartTs = created.startTs)
+            }
+            val exceptions = group.exceptions.map { exception ->
+                // Keep originalInstanceTime: createImportedSeries links the exception by it.
+                val reminders = if (file.isInvitation) masterReminders else exception.event.reminders ?: masterReminders
+                exception.event.copy(
+                    id = 0, calendarId = calendarId, uid = uid, caldavUrl = null, etag = null,
+                    lastSyncError = null, syncRetryCount = 0, reminders = reminders,
+                    alarmCount = reminders?.size ?: 0, originalSyncId = null,
+                    importSource = Event.IMPORT_SOURCE_ICS_FILE,
+                )
+            }
+            val series = eventWriter.createImportedSeries(
+                masterEvent, exceptions, context.isLocal,
+                masterAttendees = attendeeRows(context, master),
+                exceptionAttendees = group.exceptions.map { attendeeRows(context, it) },
+            )
+            effects.armed += series.master
+            effects.armed += series.exceptions
+            return IcsImportResult(created = 1 + series.exceptions.size, firstStartTs = series.master.startTs)
+        }
+
+        // Malformed: each event standalone under a fresh UID; a cancelled one has nothing to
+        // stand for on its own.
+        var result = IcsImportResult()
+        for (component in group.components.filterNot { it.isCancelled }) {
+            val reminders = remindersFor(component)
+            val event = component.event.asImported(calendarId, "${UUID.randomUUID()}@kashcal.onekash.org", reminders)
+                .copy(importSource = Event.IMPORT_SOURCE_ICS_FILE, alarmCount = reminders?.size ?: 0)
+            val created = eventWriter.createEvent(event, context.isLocal, attendeeRows(context, component))
+            effects.armed += created
+            result += IcsImportResult(created = 1, firstStartTs = created.startTs)
+        }
+        return result
+    }
+
+    /**
+     * Returns [component]'s attendee rows, the user's own marked as already notified: the user
+     * imported the invitation, so nothing should post an "invited" notification for it.
+     */
+    private fun attendeeRows(context: ImportContext, component: ImportedComponent): List<Attendee> {
+        val now = System.currentTimeMillis()
+        return component.attendees.mapIndexed { index, a ->
+            Attendee(
+                eventId = 0,
+                address = a.address,
+                displayName = a.displayName,
+                role = a.role,
+                partstat = a.partstat,
+                cutype = a.cutype,
+                rsvp = a.rsvp,
+                delegatedFrom = a.delegatedFrom,
+                delegatedTo = a.delegatedTo,
+                member = a.member,
+                sentBy = a.sentBy,
+                sortOrder = index,
+                notifiedAt = if (context.account?.matchesAttendee(a.address) == true) now else null,
+            )
+        }
     }
 
     // ========== ICS Export ==========

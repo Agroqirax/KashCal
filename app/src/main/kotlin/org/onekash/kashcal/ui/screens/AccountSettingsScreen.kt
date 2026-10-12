@@ -251,6 +251,8 @@ fun AccountSettingsScreen(
     onShowEventEmojisChange: (Boolean) -> Unit = {},
     quickAddEnabled: Boolean = false,
     onQuickAddEnabledChange: (Boolean) -> Unit = {},
+    changeNotificationsOn: Boolean = false,
+    onChangeNotificationsChange: (Boolean) -> Unit = {},
     titleSuggestionsEnabled: Boolean = true,
     onTitleSuggestionsEnabledChange: (Boolean) -> Unit = {},
     timeFormat: String = KashCalDataStore.TIME_FORMAT_SYSTEM,
@@ -711,6 +713,22 @@ fun AccountSettingsScreen(
                                 value = syncLookbackValue,
                                 onClick = { showSyncLookbackSheet = true },
                                 showChevron = false,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+
+                        val changeNotificationsInfo = SettingsRowInfo(
+                            title = stringResource(R.string.settings_change_notifications),
+                            text = stringResource(R.string.settings_change_notifications_info)
+                        )
+                        row(label = stringResource(R.string.settings_change_notifications), id = "change-notifications") {
+                            SettingsToggleRow(
+                                icon = Icons.Default.Notifications,
+                                label = stringResource(R.string.settings_change_notifications),
+                                checked = changeNotificationsOn,
+                                onCheckedChange = onChangeNotificationsChange,
+                                info = changeNotificationsInfo,
                                 showDivider = false,
                                 searchQuery = searchQuery
                             )

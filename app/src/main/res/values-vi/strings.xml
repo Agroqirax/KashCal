@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Thông báo về hoàn thành đồng bộ và lỗi</string>
     <string name="channel_event_invitations">Lời mời sự kiện</string>
     <string name="channel_event_invitations_desc">Thông báo khi bạn nhận được lời mời lịch mới</string>
+    <string name="channel_calendar_updates">Cập nhật lịch</string>
     <string name="invite_notification_body">Từ %1$s · Nhấn để phản hồi</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Phản hồi của bạn áp dụng cho toàn bộ chuỗi sự kiện.</string>
+    <string name="rsvp_receipt_pending">Phản hồi đang chờ gửi</string>
+    <string name="rsvp_receipt_sent">Đã gửi phản hồi</string>
+    <string name="rsvp_receipt_not_delivered">Không gửi được phản hồi</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Lần này và tất cả sau đó</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Kết nối iCloud để xem sự kiện tại đây</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Để sau</string>
+    <string name="whats_new_skip">Bỏ qua</string>
+    <string name="whats_new_next">Tiếp</string>
+    <string name="whats_new_page_of">Trang %1$d trên %2$d</string>
+    <string name="whats_new_find_it_in">Tìm ở</string>
     <string name="whats_new_v598_title">Hãy giúp giữ Android luôn mở</string>
     <string name="whats_new_v598_body">Google đang thay đổi cách bạn cài đặt ứng dụng trên thiết bị của mình. Chúng tôi cần sự giúp đỡ của bạn.</string>
     <string name="whats_new_v598_action_label">Truy cập keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Bản cập nhật này xin dành tặng những người ủng hộ KashCal. Một đóng góp nhỏ mang lại lợi ích lớn lâu dài.</string>
     <string name="whats_new_v732_caption">Bạn chưa phải là người ủng hộ?</string>
     <string name="whats_new_v732_action_label">Thêm chúng tôi vào kế hoạch</string>
+    <string name="whats_new_v772_icon_title">Biểu tượng biết hôm nay ngày mấy</string>
+    <string name="whats_new_v772_icon_body">Chọn biểu tượng Ngày hôm nay và KashCal sẽ hiển thị ngày trong tháng trên màn hình chính. Biểu tượng tự đổi sang ngày mới mỗi đêm.</string>
+    <string name="whats_new_v772_changes_title">Xem những gì đã thay đổi</string>
+    <string name="whats_new_v772_changes_body">Các sự kiện mới, đã sửa và đã xóa từ lịch iCloud và CalDAV của bạn được gom vào Thay đổi gần đây trong 7 ngày. Nhấn vào một mục để mở.</string>
+    <string name="whats_new_v772_notifications_body">Nhận thông báo khi đồng bộ chạy nền phát hiện thay đổi trong sự kiện iCloud hoặc CalDAV của bạn. Tính năng này tắt cho đến khi bạn bật lên.</string>
+    <string name="whats_new_hero_sample_lunch">Ăn trưa cùng nhóm</string>
+    <string name="whats_new_hero_sample_review">Họp duyệt thiết kế</string>
+    <string name="whats_new_hero_sample_book_club">Câu lạc bộ sách</string>
+    <string name="whats_new_hero_sample_calendar">Công việc</string>
+    <string name="whats_new_hero_now">bây giờ</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Kết nối iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Một dòng gọn, hoặc hai dòng chi tiết kèm giờ kết thúc.</string>
     <string name="settings_sync_lookback">Khoảng đồng bộ ngược</string>
     <string name="settings_sync_lookback_hint">Đồng bộ sự kiện từ bao lâu trước</string>
+    <string name="settings_change_notifications">Thông báo thay đổi</string>
+    <string name="settings_change_notifications_info">Gửi thông báo khi đồng bộ chạy nền phát hiện thay đổi trong sự kiện của bạn. Hoạt động với lịch iCloud và CalDAV.</string>
     <string name="settings_not_set">Chưa đặt</string>
     <string name="settings_on">Bật</string>
     <string name="settings_off">Tắt</string>
@@ -743,6 +762,51 @@
     <plurals name="imported_events">
         <item quantity="other">Đã nhập %1$d sự kiện</item>
     </plurals>
+    <string name="ics_import_preview_loading">Đang kiểm tra lịch này…</string>
+    <string name="ics_import_preview_failed">Không thể kiểm tra các sự kiện này trong lịch này. Bạn vẫn có thể nhập.</string>
+    <string name="ics_import_will_cancel">Thao tác này hủy %1$s, do %2$s tổ chức</string>
+    <string name="ics_import_will_cancel_no_organizer">Thao tác này hủy %1$s</string>
+    <string name="ics_import_will_update">Thao tác này cập nhật %1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="other">%1$d sự kiện đã là mới nhất</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="other">Đã bỏ qua %1$d: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">đây là phản hồi cho lời mời, không thêm gì vào lịch của bạn</string>
+    <string name="ics_import_reason_unsupported">loại tin nhắn lời mời này không được hỗ trợ</string>
+    <string name="ics_import_reason_organizer_mismatch">được gửi từ người khác, không phải người tổ chức cuộc họp</string>
+    <string name="ics_import_reason_cancel_no_match">cuộc họp đã hủy không có trong lịch này</string>
+    <string name="ics_import_reason_cancel_not_for_you">thông báo hủy dành cho khách khác</string>
+    <string name="ics_import_reason_deletion_pending">sự kiện đang bị xóa</string>
+    <string name="ics_import_reason_cancelled_in_file">đã bị hủy trong tệp</string>
+    <string name="ics_import_reason_this_and_future">không hỗ trợ thay đổi cho lần này và các lần sau</string>
+    <string name="ics_import_reason_own_cancel">bạn là người tổ chức cuộc họp này, hãy hủy từ sự kiện</string>
+    <string name="ics_import_reason_on_another_calendar">đã có trong một lịch khác của tài khoản này</string>
+    <string name="ics_import_notice_unverified">Không thể xác minh người gửi tệp lời mời. Hãy kiểm tra xem tệp có đến từ người tổ chức không.</string>
+    <string name="ics_import_notice_answer_notifies">Trả lời lời mời này có thể thông báo cho người tổ chức.</string>
+    <string name="ics_import_notice_guests_again">Bạn là người tổ chức, vì vậy khách có thể nhận lại lời mời này.</string>
+    <string name="cd_dismiss_notice">Đóng thông báo</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="other">Đã thêm %1$d</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="other">Đã cập nhật %1$d</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="other">Đã hủy %1$d</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="other">%1$d đã là mới nhất</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="other">Đã bỏ qua %1$d</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="other">%1$d thất bại</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Không có gì để nhập</string>
     <plurals name="exported_events">
         <item quantity="other">Đã xuất %1$d sự kiện</item>
     </plurals>

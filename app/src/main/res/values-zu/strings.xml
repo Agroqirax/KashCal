@@ -42,6 +42,7 @@
     <string name="channel_sync_status_desc">Izaziso mayelana nokuqedwa nokungalungi kokuvumelanisa</string>
     <string name="channel_event_invitations">Izimemo Zemicimbi</string>
     <string name="channel_event_invitations_desc">Izaziso uma uthola isimemo esisha sekhalenda</string>
+    <string name="channel_calendar_updates">Izinguquko Zekhalenda</string>
     <string name="invite_notification_body">Kusukela ku-%1$s · Thepha ukuze uphendule</string>
 
     <!-- ==================== App Shortcuts ==================== -->
@@ -98,6 +99,9 @@
 
     <!-- ==================== RSVP Actions ==================== -->
     <string name="rsvp_series_disclosure">Impendulo yakho isebenza kochungechunge lonke.</string>
+    <string name="rsvp_receipt_pending">Impendulo isalindile</string>
+    <string name="rsvp_receipt_sent">Impendulo ithunyelwe</string>
+    <string name="rsvp_receipt_not_delivered">Impendulo ayifikanga</string>
 
     <!-- ==================== Recurring Event Actions ==================== -->
     <string name="recurring_this_and_future">Lona nayo yonke ezayo</string>
@@ -237,7 +241,10 @@
     <string name="onboarding_connect_prompt">Xhuma iCloud ukuze ubone imicimbi yakho lapha</string>
 
     <!-- ==================== What\'s New ==================== -->
-    <string name="whats_new_later">Kamuva</string>
+    <string name="whats_new_skip">Yeqa</string>
+    <string name="whats_new_next">Okulandelayo</string>
+    <string name="whats_new_page_of">Ikhasi %1$d kwangu-%2$d</string>
+    <string name="whats_new_find_it_in">Kuthole lapha</string>
     <string name="whats_new_v598_title">Siza ukugcina i-Android ivuliwe</string>
     <string name="whats_new_v598_body">I-Google iyashintsha indlela ofaka ngayo izinhlelo zokusebenza ku-divayisi yakho. Sidinga usizo lwakho.</string>
     <string name="whats_new_v598_action_label">Vakashela i-keepandroidopen.org</string>
@@ -245,6 +252,16 @@
     <string name="whats_new_v732_body">Le nguqulo inikezelwe kubasekeli be-KashCal. Umnikelo omncane onenzuzo enkulu ephindaphindayo.</string>
     <string name="whats_new_v732_caption">Awukabi ngumsekeli?</string>
     <string name="whats_new_v732_action_label">Sifake ezinhlelweni zakho</string>
+    <string name="whats_new_v772_icon_title">Isithonjana sakho siyalazi usuku</string>
+    <string name="whats_new_v772_icon_body">Khetha isithonjana esithi Usuku lwanamuhla futhi i-KashCal izobonisa usuku lwenyanga esikrinini sakho sasekhaya. Sishintsha ngokwaso njalo ebusuku.</string>
+    <string name="whats_new_v772_changes_title">Bona okushintshile</string>
+    <string name="whats_new_v772_changes_body">Imicimbi emisha, ehleliwe nesusiwe evela kumakhalenda akho e-iCloud ne-CalDAV iqoqwa kokuthi Izinguquko zakamuva izinsuku ezi-7. Thepha owodwa ukuze uwuvule.</string>
+    <string name="whats_new_v772_notifications_body">Thola isaziso uma ukuvumelanisa kwangasemuva kuthola izinguquko emicimbini yakho ye-iCloud noma ye-CalDAV. Kuhlala kuvaliwe uze ukuvule.</string>
+    <string name="whats_new_hero_sample_lunch">Isidlo sasemini seqembu</string>
+    <string name="whats_new_hero_sample_review">Ukubuyekezwa kwedizayini</string>
+    <string name="whats_new_hero_sample_book_club">Iqembu lezincwadi</string>
+    <string name="whats_new_hero_sample_calendar">Umsebenzi</string>
+    <string name="whats_new_hero_now">manje</string>
 
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Xhuma iCloud</string>
@@ -584,6 +601,8 @@
     <string name="settings_detailed_widget_rows_info">Umugqa owodwa ominyene, noma imigqa emibili enemininingwane enesikhathi sokuphela.</string>
     <string name="settings_sync_lookback">Ukubheka Emuva Kokuvumelanisa</string>
     <string name="settings_sync_lookback_hint">Ukuthi kubuyele emuva kangakanani ukuvumelanisa imicimbi</string>
+    <string name="settings_change_notifications">Izaziso Zezinguquko</string>
+    <string name="settings_change_notifications_info">Ithumela isaziso uma ukuvumelanisa kwangasemuva kuthola izinguquko emicimbini yakho. Kusebenza kumakhalenda e-iCloud ne-CalDAV.</string>
     <string name="settings_not_set">Akulungiselelwe</string>
     <string name="settings_on">Kuvuliwe</string>
     <string name="settings_off">Kuvalwe</string>
@@ -760,6 +779,59 @@
         <item quantity="one">Umcimbi ongu-%1$d ungenisiwe</item>
         <item quantity="other">Imicimbi engu-%1$d ingenisiwe</item>
     </plurals>
+    <string name="ics_import_preview_loading">Ihlola le khalenda…</string>
+    <string name="ics_import_preview_failed">Ayikwazanga ukuhlola le khalenda ngale micimbi. Usengakwazi ukungenisa.</string>
+    <string name="ics_import_will_cancel">Lokhu kukhansela i-%1$s, ehlelwe ngu-%2$s</string>
+    <string name="ics_import_will_cancel_no_organizer">Lokhu kukhansela i-%1$s</string>
+    <string name="ics_import_will_update">Lokhu kubuyekeza i-%1$s</string>
+    <plurals name="ics_import_preview_up_to_date">
+        <item quantity="one">Umcimbi o-%1$d usuvele ubuyekeziwe</item>
+        <item quantity="other">Imicimbi engu-%1$d isivele ibuyekeziwe</item>
+    </plurals>
+    <plurals name="ics_import_preview_skipped">
+        <item quantity="one">%1$d eqwelwe: %2$s</item>
+        <item quantity="other">%1$d eqwelwe: %2$s</item>
+    </plurals>
+    <string name="ics_import_reason_reply">kuyimpendulo esimemweni, engengezi lutho ekhalendeni lakho</string>
+    <string name="ics_import_reason_unsupported">lolu hlobo lomlayezo wesimemo alusekelwa</string>
+    <string name="ics_import_reason_organizer_mismatch">kuvela kumuntu ongeyena umhleli womhlangano</string>
+    <string name="ics_import_reason_cancel_no_match">umhlangano okhanseliwe awukho kule khalenda</string>
+    <string name="ics_import_reason_cancel_not_for_you">ukukhansela kungokwezinye izivakashi</string>
+    <string name="ics_import_reason_deletion_pending">umcimbi uyasuswa</string>
+    <string name="ics_import_reason_cancelled_in_file">usuvele ukhanseliwe efayeleni</string>
+    <string name="ics_import_reason_this_and_future">izinguquko kulesi nakwezenzakalo ezilandelayo azisekelwa</string>
+    <string name="ics_import_reason_own_cancel">nguwe ohlela lo mhlangano, ngakho wukhansele emcimbini</string>
+    <string name="ics_import_reason_on_another_calendar">usuvele ukwenye ikhalenda yale akhawunti</string>
+    <string name="ics_import_notice_unverified">Umthumeli wefayela lesimemo akakwazi ukuqinisekiswa. Hlola ukuthi livela kumhleli.</string>
+    <string name="ics_import_notice_answer_notifies">Ukuphendula lesi simemo kungazisa umhleli.</string>
+    <string name="ics_import_notice_guests_again">Nguwe umhleli, ngakho izivakashi zingase zithole lesi simemo futhi.</string>
+    <string name="cd_dismiss_notice">Chitha isaziso</string>
+    <plurals name="ics_import_summary_created">
+        <item quantity="one">%1$d kungeziwe</item>
+        <item quantity="other">%1$d kungeziwe</item>
+    </plurals>
+    <plurals name="ics_import_summary_updated">
+        <item quantity="one">%1$d kubuyekeziwe</item>
+        <item quantity="other">%1$d kubuyekeziwe</item>
+    </plurals>
+    <plurals name="ics_import_summary_cancelled">
+        <item quantity="one">%1$d kukhanseliwe</item>
+        <item quantity="other">%1$d kukhanseliwe</item>
+    </plurals>
+    <plurals name="ics_import_summary_up_to_date">
+        <item quantity="one">%1$d sekubuyekeziwe kakade</item>
+        <item quantity="other">%1$d sekubuyekeziwe kakade</item>
+    </plurals>
+    <plurals name="ics_import_summary_skipped">
+        <item quantity="one">%1$d kweqiwe</item>
+        <item quantity="other">%1$d kweqiwe</item>
+    </plurals>
+    <plurals name="ics_import_summary_failed">
+        <item quantity="one">%1$d kuhlulekile</item>
+        <item quantity="other">%1$d kuhlulekile</item>
+    </plurals>
+    <string name="ics_import_summary_separator">", "</string>
+    <string name="ics_import_summary_nothing">Akukho okungangeniswa</string>
     <plurals name="exported_events">
         <item quantity="one">Umcimbi ongu-%1$d uthunyelwe</item>
         <item quantity="other">Imicimbi engu-%1$d ithunyelwe</item>

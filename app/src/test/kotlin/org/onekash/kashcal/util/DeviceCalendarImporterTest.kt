@@ -6,6 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.onekash.kashcal.data.calendar_provider.FakeCalendarProviderRepository
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.testutil.plainImportFile
 
 class DeviceCalendarImporterTest {
 
@@ -48,7 +49,7 @@ class DeviceCalendarImporterTest {
     fun `imports single event successfully`() = runTest {
         val events = listOf(makeEvent(title = "Meeting"))
 
-        val count = importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        val count = importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(1, count)
         assertEquals(1, fakeRepo.createdEvents.size)
@@ -64,7 +65,7 @@ class DeviceCalendarImporterTest {
             makeEvent(title = "Event 3")
         )
 
-        val count = importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        val count = importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(3, count)
         assertEquals(3, fakeRepo.createdEvents.size)
@@ -80,7 +81,7 @@ class DeviceCalendarImporterTest {
 
         fakeRepo.failCreateOnCall = 2
 
-        val count = importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        val count = importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(2, count)
     }
@@ -91,7 +92,7 @@ class DeviceCalendarImporterTest {
             makeEvent(rrule = "FREQ=WEEKLY;BYDAY=MO", duration = "PT1H")
         )
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         val created = fakeRepo.createdEvents.single()
         assertEquals(null, created.endTs)
@@ -110,7 +111,7 @@ class DeviceCalendarImporterTest {
             )
         )
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals("PT1H30M", fakeRepo.createdEvents.single().duration)
     }
@@ -119,7 +120,7 @@ class DeviceCalendarImporterTest {
     fun `non-recurring event passes endTs and null duration`() = runTest {
         val events = listOf(makeEvent(rrule = null, duration = null))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         val created = fakeRepo.createdEvents.single()
         assertEquals(1704070800000L, created.endTs)
@@ -132,7 +133,7 @@ class DeviceCalendarImporterTest {
             makeEvent(reminders = listOf("-PT15M", "-PT1H"))
         )
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(listOf(15, 60), fakeRepo.createdEvents.single().reminders)
     }
@@ -142,18 +143,18 @@ class DeviceCalendarImporterTest {
         // The default arguments are REMINDER_OFF, so no fallback reminder is added.
         val events = listOf(makeEvent(reminders = null))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(emptyList<Int>(), fakeRepo.createdEvents.single().reminders)
     }
 
     @Test
     fun `timed event without reminders applies user's default timed reminder`() = runTest {
-        // The caller (DeviceEventWriter.importIcsEvents) passes the user's configured default.
+        // The caller (DeviceEventWriter.importIcsFile) passes the user's configured default.
         val events = listOf(makeEvent(isAllDay = false, reminders = null))
 
-        importEventsToDeviceCalendar(
-            events = events,
+        importIcsFileToDeviceCalendar(
+            file = plainImportFile(events),
             calendarId = 5L,
             repo = fakeRepo,
             defaultTimedReminderMinutes = 15,
@@ -167,8 +168,8 @@ class DeviceCalendarImporterTest {
     fun `all-day event without reminders applies user's default all-day reminder`() = runTest {
         val events = listOf(makeEvent(isAllDay = true, reminders = null))
 
-        importEventsToDeviceCalendar(
-            events = events,
+        importIcsFileToDeviceCalendar(
+            file = plainImportFile(events),
             calendarId = 5L,
             repo = fakeRepo,
             defaultTimedReminderMinutes = 15,
@@ -184,8 +185,8 @@ class DeviceCalendarImporterTest {
             makeEvent(reminders = listOf("-PT30M", "-PT1H"))
         )
 
-        importEventsToDeviceCalendar(
-            events = events,
+        importIcsFileToDeviceCalendar(
+            file = plainImportFile(events),
             calendarId = 5L,
             repo = fakeRepo,
             defaultTimedReminderMinutes = 15,
@@ -200,8 +201,8 @@ class DeviceCalendarImporterTest {
     fun `event without reminders skips default when user set REMINDER_OFF`() = runTest {
         val events = listOf(makeEvent(reminders = null))
 
-        importEventsToDeviceCalendar(
-            events = events,
+        importIcsFileToDeviceCalendar(
+            file = plainImportFile(events),
             calendarId = 5L,
             repo = fakeRepo,
             defaultTimedReminderMinutes =
@@ -217,7 +218,7 @@ class DeviceCalendarImporterTest {
     fun `timezone falls back to system default`() = runTest {
         val events = listOf(makeEvent(timezone = null))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(java.util.TimeZone.getDefault().id, fakeRepo.createdEvents.single().timezone)
     }
@@ -226,7 +227,7 @@ class DeviceCalendarImporterTest {
     fun `event timezone is used when present`() = runTest {
         val events = listOf(makeEvent(timezone = "America/New_York"))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals("America/New_York", fakeRepo.createdEvents.single().timezone)
     }
@@ -235,14 +236,14 @@ class DeviceCalendarImporterTest {
     fun `all-day event passes isAllDay true`() = runTest {
         val events = listOf(makeEvent(isAllDay = true))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         assertEquals(true, fakeRepo.createdEvents.single().isAllDay)
     }
 
     @Test
     fun `empty events list returns zero`() = runTest {
-        val count = importEventsToDeviceCalendar(emptyList(), 5L, fakeRepo)
+        val count = importIcsFileToDeviceCalendar(plainImportFile(emptyList()), 5L, fakeRepo).created
 
         assertEquals(0, count)
         assertEquals(0, fakeRepo.createdEvents.size)
@@ -252,7 +253,7 @@ class DeviceCalendarImporterTest {
     fun `blank description and location passed as null`() = runTest {
         val events = listOf(makeEvent(description = "  ", location = ""))
 
-        importEventsToDeviceCalendar(events, 5L, fakeRepo)
+        importIcsFileToDeviceCalendar(plainImportFile(events), 5L, fakeRepo).created
 
         val created = fakeRepo.createdEvents.single()
         assertEquals(null, created.description)

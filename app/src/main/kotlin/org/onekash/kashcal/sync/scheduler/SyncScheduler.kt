@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.map
 import org.onekash.kashcal.domain.changes.RecentChangeEntry
 import org.onekash.kashcal.sync.session.SyncTrigger
 import org.onekash.kashcal.sync.contacts.ContactSyncWorker
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.sync.util.SyncNetworkConstraints
 import org.onekash.kashcal.sync.worker.CalDavSyncWorker
 import java.util.concurrent.TimeUnit
@@ -29,7 +30,8 @@ import javax.inject.Singleton
 
 /**
  * Schedules calendar and contact sync on WorkManager, and holds the sync UI state shared
- * across ViewModels (banner flag, last sync changes).
+ * across ViewModels (banner flag, last sync changes). It also clears the change notification
+ * once the app shows its changes.
  *
  * Provides periodic background sync (configurable, at least 15 minutes), one-shot sync for
  * user-initiated refresh, expedited sync after a local change, per-calendar and per-account
@@ -38,7 +40,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class SyncScheduler @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val changeNotificationChannels: ChangeNotificationChannels
 ) {
     private val workManager = WorkManager.getInstance(context)
 
@@ -63,9 +66,10 @@ class SyncScheduler @Inject constructor(
     }
 
     /**
-     * The Recent changes entries the most recent sync recorded. `CalDavSyncWorker` sets them;
-     * HomeViewModel shows the snackbar for them and then clears them, so a later subscriber
-     * doesn't show the same snackbar again. The log itself lives in Room.
+     * The Recent changes entries the most recent sync recorded, unless a change notification
+     * announced them (`CalDavSyncWorker` decides). HomeViewModel shows the snackbar for them and
+     * then clears them, so a later subscriber doesn't show the same snackbar again. The log
+     * itself lives in Room.
      */
     private val _lastSyncChanges = MutableStateFlow<List<RecentChangeEntry>>(emptyList())
     val lastSyncChanges: StateFlow<List<RecentChangeEntry>> = _lastSyncChanges.asStateFlow()
@@ -80,6 +84,11 @@ class SyncScheduler @Inject constructor(
     fun clearSyncChanges() {
         Log.d(TAG, "clearSyncChanges: clearing")
         _lastSyncChanges.value = emptyList()
+    }
+
+    /** Removes the change notification, once the user has seen its changes in the app. */
+    fun cancelChangeNotification() {
+        changeNotificationChannels.cancel()
     }
 
     companion object {

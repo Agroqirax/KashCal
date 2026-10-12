@@ -18,6 +18,7 @@ import org.onekash.kashcal.di.IoDispatcher
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
 import org.onekash.kashcal.domain.quickadd.QuickAddParser
 import org.onekash.kashcal.domain.quickadd.QuickAddResult
+import org.onekash.kashcal.ui.components.resolveDefaultCalendar
 import org.onekash.kashcal.util.CalendarIntentData
 import org.onekash.kashcal.util.DateTimeUtils
 import java.time.LocalDate
@@ -174,7 +175,14 @@ class QuickAddViewModel @Inject constructor(
 
                 val defaultCalPref = dataStore.getDefaultCalendar()
                 val calendarId = when (defaultCalPref) {
-                    is DefaultCalendar.Room -> defaultCalPref.calendarId
+                    // A default that is gone or turned read-only falls back to the calendar the
+                    // event form would preselect ([resolveDefaultCalendar]), else the local one.
+                    is DefaultCalendar.Room -> {
+                        val writable = eventCoordinator.getAllCalendars().first()
+                            .filter { !it.isReadOnly }
+                        resolveDefaultCalendar(defaultCalPref, writable, emptyList()).id
+                            ?: eventCoordinator.getLocalCalendarId()
+                    }
                     is DefaultCalendar.Device -> throw DeviceCalendarException()
                     null -> eventCoordinator.getLocalCalendarId()
                 }

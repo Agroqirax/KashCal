@@ -217,6 +217,43 @@ interface PendingOperationsDao {
     """)
     suspend fun operationExists(eventId: Long, operation: String): Boolean
 
+    /** Returns whether [eventId] has a PENDING or IN_PROGRESS operation of type [operation]. */
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM pending_operations
+            WHERE event_id = :eventId
+            AND operation = :operation
+            AND status IN ('PENDING', 'IN_PROGRESS')
+        )
+    """)
+    suspend fun hasActiveOperation(eventId: Long, operation: String): Boolean
+
+    /** Returns whether any of [eventIds] has a PENDING or IN_PROGRESS PARTSTAT-only answer. */
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM pending_operations
+            WHERE event_id IN (:eventIds)
+            AND partstat_only = 1
+            AND status IN ('PENDING', 'IN_PROGRESS')
+        )
+    """)
+    suspend fun hasActiveAnswer(eventIds: List<Long>): Boolean
+
+    /**
+     * Returns whether series [masterId] or one of its exceptions has a PENDING or IN_PROGRESS
+     * attendee-side cancel, while which the pull leaves the series alone.
+     */
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM pending_operations
+            WHERE operation = 'ATTENDEE_CANCEL'
+            AND status IN ('PENDING', 'IN_PROGRESS')
+            AND (event_id = :masterId
+                 OR event_id IN (SELECT id FROM events WHERE original_event_id = :masterId))
+        )
+    """)
+    suspend fun hasActiveAttendeeCancel(masterId: Long): Boolean
+
     /** Deletes [eventId]'s UPDATE operations when it has a CREATE, and returns how many. */
     @Query("""
         DELETE FROM pending_operations

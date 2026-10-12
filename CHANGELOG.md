@@ -1,3 +1,20 @@
+## [2026.10.12]
+
+Recent changes has been keeping a careful diary of your shared calendars: the dinner someone moved to eight, the one Tuesday of a series that got cancelled, the trip that changed its name. It only had one flaw. You had to go and read it.
+
+Now the diary can come to you. Turn on Change notifications in Settings, under Sync, and when a background sync finds something new, moved, renamed or cancelled on your iCloud or CalDAV calendars, KashCal posts a notification, worded the way the Recent changes list reads. If one event changed, tapping it opens that event; if several did, it opens the list. An event that already arrived as an invitation in the same sync isn't announced twice, and a sync you start yourself keeps its usual message inside the app, since you are already looking.
+
+It stays off until you switch it on. A calendar that buzzes for every edit someone else makes is charming for about a day.
+
+Plans still change behind your back. They just don't get to keep it to themselves.
+
+### Everything in this release
+
+- Added `Change notifications` to Settings under Sync: when a background sync finds changes to your iCloud or CalDAV events, a notification lists them the way Recent changes does; one change opens the event, more open Recent changes; off by default
+- Added importing an invitation `.ics` file as an invitation, keeping its organizer and guests so `Accept`, `Maybe` and `Decline` work; importing it again updates the event instead of making a copy, and a cancellation file cancels the meeting or the one occurrence it names, #364
+- Fixed Quick Add failing to save when the default calendar had been removed or had become read-only; it now saves to the first calendar you can write to, #388
+- Localized the app name in Chinese as 开序历 (Simplified) and 開序曆 (Traditional), in the app and in the store listings, #387
+
 ## [2026.10.08]
 
 A calendar has one fact it should never get wrong. KashCal's icon said 31 every single day, which is right about seven days a year.
