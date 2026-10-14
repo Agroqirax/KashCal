@@ -75,8 +75,10 @@ data class Calendar(
     val sortOrder: Int = 0,
 
     /**
-     * Per-calendar notification mute (#137). Nothing reads it yet: reminders are scheduled
-     * whatever its value.
+     * Whether the calendar's notifications are muted (#137). A muted calendar still shows and
+     * syncs, and its changes still reach Recent changes, but it sends no event reminders, no
+     * invitation notifications and no background-sync change notifications. Hiding a calendar
+     * ([isVisible]) never changes its reminders.
      */
     @ColumnInfo(name = "is_notification_muted", defaultValue = "0")
     val isNotificationMuted: Boolean = false,

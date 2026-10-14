@@ -603,6 +603,25 @@
     <string name="settings_sync_lookback_hint">Cik senus notikumus sinhronizēt</string>
     <string name="settings_change_notifications">Paziņojumi par izmaiņām</string>
     <string name="settings_change_notifications_info">Nosūta paziņojumu, kad fona sinhronizācija atrod izmaiņas tavos notikumos. Darbojas ar iCloud un CalDAV kalendāriem.</string>
+    <string name="settings_calendar_notifications">Kalendāru paziņojumi</string>
+    <string name="settings_calendar_notifications_all">Visi kalendāri</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="zero">%d apklusināti</item>
+        <item quantity="one">%d apklusināts</item>
+        <item quantity="other">%d apklusināti</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Izvēlies, kuri kalendāri var tev paziņot.</string>
+    <string name="calendar_notifications_info">Apklusinātie kalendāri joprojām tiek rādīti un sinhronizēti, bet tev nepaziņo.</string>
+    <string name="cd_calendar_notifications_info">Par apklusinātajiem kalendāriem</string>
+    <string name="cd_state_expanded">izvērsts</string>
+    <string name="cd_state_collapsed">sakļauts</string>
+    <string name="calendar_notifications_device_info">Izslēdz, lai apklusinātu visus ierīces kalendārus, arī tos, ko pievienosi vēlāk.</string>
+    <string name="cd_calendar_notifications_device_info">Par ierīces kalendāru paziņojumiem</string>
+    <string name="cd_device_calendar_notifications">Ierīces kalendāru paziņojumi</string>
+    <string name="calendar_notifications_hidden">Slēpts</string>
+    <string name="calendar_notifications_app_off">KashCal paziņojumi ir izslēgti sistēmas iestatījumos, tāpēc neviens kalendārs nevar tev paziņot.</string>
+    <string name="calendar_notifications_reminders_off">Notikumu atgādinājumi ir izslēgti sistēmas iestatījumos, tāpēc atgādinājumi netiks rādīti.</string>
+    <string name="cd_notifications_off">paziņojumi izslēgti</string>
     <string name="settings_not_set">Nav iestatīts</string>
     <string name="settings_on">Ieslēgts</string>
     <string name="settings_off">Izslēgts</string>
@@ -646,7 +665,6 @@
     <string name="label_device_calendars">Ierīces kalendāri</string>
     <string name="label_default_calendar_hint">Jauni notikumi tiks veidoti šajā kalendārā</string>
     <string name="label_visible_count">%1$d / %2$d redzami</string>
-    <string name="label_enabled_count">%1$d / %2$d iespējoti</string>
     <string name="label_reminders_truncated">%1$d nav rādīti (%2$d kopā, maks. %3$d rediģējami)</string>
     <string name="label_found_events">Atrasti: %1$d notikumi</string>
     <string name="label_open_debug_menu">Atvērt atkļūdošanas izvēlni</string>
@@ -668,8 +686,6 @@
     <string name="device_calendars_grant">Piešķirt</string>
     <string name="device_calendars_none_found">Ierīces kalendāri nav atrasti.</string>
     <string name="device_calendars_local">Lokāls</string>
-    <string name="device_calendars_reminders">Atgādinājumi</string>
-    <string name="device_calendars_reminders_desc">Saņemt paziņojumus par ierīces kalendāra notikumiem</string>
     <string name="device_calendars_read_only_no_write">Tikai lasāms (nav rakstīšanas atļaujas)</string>
     <string name="device_calendars_read_only_calendar">Tikai lasāms (kalendārs ir tikai lasāms)</string>
     <string name="settings_developer_options">Izstrādātāja iespējas</string>

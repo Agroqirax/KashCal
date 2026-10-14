@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Ukuthi kubuyele emuva kangakanani ukuvumelanisa imicimbi</string>
     <string name="settings_change_notifications">Izaziso Zezinguquko</string>
     <string name="settings_change_notifications_info">Ithumela isaziso uma ukuvumelanisa kwangasemuva kuthola izinguquko emicimbini yakho. Kusebenza kumakhalenda e-iCloud ne-CalDAV.</string>
+    <string name="settings_calendar_notifications">Izaziso Zekhalenda</string>
+    <string name="settings_calendar_notifications_all">Wonke amakhalenda</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ithulisiwe</item>
+        <item quantity="other">%d athulisiwe</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Khetha ukuthi yimaphi amakhalenda angakwazisa.</string>
+    <string name="calendar_notifications_info">Amakhalenda athulisiwe asabonakala futhi ayavumelaniswa, kodwa awakwazisi.</string>
+    <string name="cd_calendar_notifications_info">Mayelana namakhalenda athulisiwe</string>
+    <string name="cd_state_expanded">kunwetshiwe</string>
+    <string name="cd_state_collapsed">kugoqiwe</string>
+    <string name="calendar_notifications_device_info">Vala ukuze uthulise wonke amakhalenda edivayisi, kuhlanganise nalawo ozowengeza kamuva.</string>
+    <string name="cd_calendar_notifications_device_info">Mayelana nezaziso zamakhalenda edivayisi</string>
+    <string name="cd_device_calendar_notifications">Izaziso zamakhalenda edivayisi</string>
+    <string name="calendar_notifications_hidden">Kufihliwe</string>
+    <string name="calendar_notifications_app_off">Izaziso zivaliwe ku-KashCal kuzilungiselelo zesistimu, ngakho akukho khalenda engakwazisa.</string>
+    <string name="calendar_notifications_reminders_off">Izikhumbuzi zemicimbi zivaliwe kuzilungiselelo zesistimu, ngakho azikho izikhumbuzi ezingabonakala.</string>
+    <string name="cd_notifications_off">izaziso zivaliwe</string>
     <string name="settings_not_set">Akulungiselelwe</string>
     <string name="settings_on">Kuvuliwe</string>
     <string name="settings_off">Kuvalwe</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Amakhalenda Edivayisi</string>
     <string name="label_default_calendar_hint">Imicimbi emisha izokwenziwa kule khalenda</string>
     <string name="label_visible_count">%1$d / %2$d ebonayo</string>
-    <string name="label_enabled_count">%1$d / %2$d okunikwe amandla</string>
     <string name="label_reminders_truncated">%1$d akuboniswanga (%2$d esiphelele, okuningi %3$d okuhlelekayo)</string>
     <string name="label_found_events">Kutholwe: imicimbi engu-%1$d</string>
     <string name="label_open_debug_menu">Vula imenyu yokulungisa</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Nikeza</string>
     <string name="device_calendars_none_found">Awekho amakhalenda edivayisi atholakele.</string>
     <string name="device_calendars_local">Okwangakini</string>
-    <string name="device_calendars_reminders">Izikhumbuzi</string>
-    <string name="device_calendars_reminders_desc">Thola izaziso zemicimbi yekhalenda yedivayisi</string>
     <string name="device_calendars_read_only_no_write">Ukufunda kuphela (ayikho imvume yokubhala)</string>
     <string name="device_calendars_read_only_calendar">Ukufunda kuphela (ikhalenda ifundeka kuphela)</string>
     <string name="settings_developer_options">Izinketho Zomthuthukisi</string>

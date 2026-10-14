@@ -18,7 +18,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
-import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.sync.session.SyncSessionStore
 import org.onekash.kashcal.ui.permission.LocalNetworkPermissionManager
 import org.onekash.kashcal.ui.permission.NotificationPermissionManager
@@ -152,12 +151,12 @@ class SettingsActivity : FragmentActivity() {
         viewModel.refreshChangeNotifications()
     }
 
-    /** Opens the system notification settings for the app, or for the Calendar updates channel. */
-    private fun openNotificationSettings(channel: Boolean) {
-        val intent = if (channel) {
+    /** Opens the system notification settings for [channelId]'s channel, or the app's when null. */
+    private fun openNotificationSettings(channelId: String?) {
+        val intent = if (channelId != null) {
             Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                 .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                .putExtra(Settings.EXTRA_CHANNEL_ID, ChangeNotificationChannels.CHANNEL_ID)
+                .putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
         } else {
             Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                 .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)

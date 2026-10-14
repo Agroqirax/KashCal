@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">ክስተቶችን ወደ ኋላ ምን ያህል ርቀት ማመሳሰል</string>
     <string name="settings_change_notifications">የለውጥ ማሳወቂያዎች</string>
     <string name="settings_change_notifications_info">ከበስተጀርባ የሚደረግ ማመሳሰል በክስተቶችዎ ላይ ለውጦችን ሲያገኝ ማሳወቂያ ይልካል። ለiCloud እና CalDAV ቀን መቁጠሪያዎች ይሰራል።</string>
+    <string name="settings_calendar_notifications">የቀን መቁጠሪያ ማሳወቂያዎች</string>
+    <string name="settings_calendar_notifications_all">ሁሉም ቀን መቁጠሪያዎች</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ድምጸ-ከል ተደርጓል</item>
+        <item quantity="other">%d ድምጸ-ከል ተደርገዋል</item>
+    </plurals>
+    <string name="calendar_notifications_intro">የትኞቹ የቀን መቁጠሪያዎች ሊያሳውቁዎት እንደሚችሉ ይምረጡ።</string>
+    <string name="calendar_notifications_info">ድምጸ-ከል የተደረጉ የቀን መቁጠሪያዎች አሁንም ይታያሉ እና ይመሳሰላሉ፣ ግን አያሳውቁዎትም።</string>
+    <string name="cd_calendar_notifications_info">ስለ ድምጸ-ከል የተደረጉ የቀን መቁጠሪያዎች</string>
+    <string name="cd_state_expanded">ተዘርግቷል</string>
+    <string name="cd_state_collapsed">ተሰብስቧል</string>
+    <string name="calendar_notifications_device_info">ሁሉንም የመሳሪያ ቀን መቁጠሪያዎች፣ በኋላ የሚያክሏቸውንም ጨምሮ፣ ድምጸ-ከል ለማድረግ ያጥፉት።</string>
+    <string name="cd_calendar_notifications_device_info">ስለ የመሳሪያ ቀን መቁጠሪያ ማሳወቂያዎች</string>
+    <string name="cd_device_calendar_notifications">የመሳሪያ ቀን መቁጠሪያ ማሳወቂያዎች</string>
+    <string name="calendar_notifications_hidden">ተደብቋል</string>
+    <string name="calendar_notifications_app_off">በስርዓት ቅንብሮች ውስጥ የKashCal ማሳወቂያዎች ጠፍተዋል፣ ስለዚህ ምንም የቀን መቁጠሪያ ሊያሳውቅዎት አይችልም።</string>
+    <string name="calendar_notifications_reminders_off">በስርዓት ቅንብሮች ውስጥ የክስተት አስታዋሾች ጠፍተዋል፣ ስለዚህ ምንም አስታዋሽ ሊታይ አይችልም።</string>
+    <string name="cd_notifications_off">ማሳወቂያዎች ጠፍተዋል</string>
     <string name="settings_not_set">አልተዋቀረም</string>
     <string name="settings_on">በርቷል</string>
     <string name="settings_off">ጠፍቷል</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">የመሳሪያ ቀን መቁጠሪያዎች</string>
     <string name="label_default_calendar_hint">አዲስ ክስተቶች በዚህ ቀን መቁጠሪያ ውስጥ ይፈጠራሉ</string>
     <string name="label_visible_count">%1$d / %2$d የሚታይ</string>
-    <string name="label_enabled_count">%1$d / %2$d ነቅቷል</string>
     <string name="label_reminders_truncated">%1$d አልታየም (%2$d ጠቅላላ፣ ከፍተኛ %3$d ሊስተካከል የሚችል)</string>
     <string name="label_found_events">ተገኝቷል: %1$d ክስተቶች</string>
     <string name="label_open_debug_menu">የማረም ምናሌ ክፈት</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">ስጥ</string>
     <string name="device_calendars_none_found">ምንም የመሳሪያ ቀን መቁጠሪያዎች አልተገኙም።</string>
     <string name="device_calendars_local">አካባቢያዊ</string>
-    <string name="device_calendars_reminders">ማስታወሻዎች</string>
-    <string name="device_calendars_reminders_desc">ለመሳሪያ ቀን መቁጠሪያ ክስተቶች ማሳወቂያ ያግኙ</string>
     <string name="device_calendars_read_only_no_write">የንባብ ብቻ (የፅሁፍ ፈቃድ የለም)</string>
     <string name="device_calendars_read_only_calendar">የንባብ ብቻ (ቀን መቁጠሪያ የንባብ ብቻ ነው)</string>
     <string name="settings_developer_options">የገንቢ አማራጮች</string>

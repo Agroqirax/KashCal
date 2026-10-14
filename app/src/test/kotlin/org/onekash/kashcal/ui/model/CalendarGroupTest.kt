@@ -196,4 +196,28 @@ class CalendarGroupTest {
         assertEquals("Personal", groups[0].calendars[0].displayName)
         assertEquals("Work", groups[0].calendars[1].displayName)
     }
+
+    // ========== Device groups ==========
+
+    private fun deviceCalendar(id: Long, accountName: String) =
+        org.onekash.kashcal.data.calendar_provider.DeviceCalendar(
+            id = id, displayName = "Cal $id", color = 0, accountName = accountName,
+            accountType = "org.example", visible = true, accessLevel = 700
+        )
+
+    @Test
+    fun `a device calendar with no account name goes under the given local label`() {
+        val groups = CalendarGroup.fromDeviceCalendars(
+            listOf(deviceCalendar(1L, "")), writableOnly = false, localLabel = "Sur l'appareil"
+        )
+
+        assertEquals("Sur l'appareil", groups.single().accountName)
+    }
+
+    @Test
+    fun `a device calendar with no account name defaults to Local`() {
+        val groups = CalendarGroup.fromDeviceCalendars(listOf(deviceCalendar(1L, "")))
+
+        assertEquals("Local", groups.single().accountName)
+    }
 }

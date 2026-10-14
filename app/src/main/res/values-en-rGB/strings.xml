@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">How far back to sync events</string>
     <string name="settings_change_notifications">Change notifications</string>
     <string name="settings_change_notifications_info">Sends a notification when a background sync finds changes to your events. Works for iCloud and CalDAV calendars.</string>
+    <string name="settings_calendar_notifications">Calendar notifications</string>
+    <string name="settings_calendar_notifications_all">All calendars</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d muted</item>
+        <item quantity="other">%d muted</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Choose which calendars can notify you.</string>
+    <string name="calendar_notifications_info">Muted calendars still show and sync, but don\'t notify you.</string>
+    <string name="cd_calendar_notifications_info">About muted calendars</string>
+    <string name="cd_state_expanded">expanded</string>
+    <string name="cd_state_collapsed">collapsed</string>
+    <string name="calendar_notifications_device_info">Turn off to silence all device calendars, including ones you add later.</string>
+    <string name="cd_calendar_notifications_device_info">About device calendar notifications</string>
+    <string name="cd_device_calendar_notifications">Device calendar notifications</string>
+    <string name="calendar_notifications_hidden">Hidden</string>
+    <string name="calendar_notifications_app_off">Notifications are off for KashCal in system settings, so no calendar can notify you.</string>
+    <string name="calendar_notifications_reminders_off">Event reminders are off in system settings, so no reminders can show.</string>
+    <string name="cd_notifications_off">notifications off</string>
     <string name="settings_not_set">Not set</string>
     <string name="settings_on">On</string>
     <string name="settings_off">Off</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Device Calendars</string>
     <string name="label_default_calendar_hint">New events will be created in this calendar</string>
     <string name="label_visible_count">%1$d / %2$d visible</string>
-    <string name="label_enabled_count">%1$d / %2$d enabled</string>
     <string name="label_reminders_truncated">%1$d not shown (%2$d total, max %3$d editable)</string>
     <string name="label_found_events">Found: %1$d events</string>
     <string name="label_open_debug_menu">Open debug menu</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Grant</string>
     <string name="device_calendars_none_found">No device calendars found.</string>
     <string name="device_calendars_local">Local</string>
-    <string name="device_calendars_reminders">Reminders</string>
-    <string name="device_calendars_reminders_desc">Get notified for device calendar events</string>
     <string name="device_calendars_read_only_no_write">Read only (no write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (calendar is read-only)</string>
     <string name="settings_developer_options">Developer Options</string>

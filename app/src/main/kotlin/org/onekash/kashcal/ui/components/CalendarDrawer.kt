@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.NotificationsOff
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -32,12 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -47,6 +50,7 @@ import org.onekash.kashcal.R
 import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.ui.model.CalendarGroup
+import org.onekash.kashcal.ui.model.toDisplaySections
 import org.onekash.kashcal.ui.viewmodels.ViewMode
 
 /**
@@ -55,10 +59,12 @@ import org.onekash.kashcal.ui.viewmodels.ViewMode
  * From the top:
  * - the "KashCal" branding header, then Insights and a compact row per view mode, each
  *   showing its selected state
- * - Room calendars grouped by account, with leading checkboxes
+ * - Room calendars grouped by account, with leading checkboxes, except the Offline account
  * - birthday and anniversary calendars under one "Contacts" header
  * - device calendars grouped by account, only when the feature is enabled and at least one
  *   device calendar is enabled
+ * - the Offline account ([AccountProvider.LOCAL]), KashCal's own calendars, under a header of its
+ *   own
  * - Settings and the Feedback link
  */
 @Composable
@@ -68,15 +74,16 @@ fun CalendarDrawer(
     deviceCalendarsEnabled: Boolean,
     enabledDeviceCalendars: ImmutableList<DeviceCalendar>,
     hiddenDeviceCalendarIds: PersistentSet<Long>,
+    mutedDeviceCalendarIds: PersistentSet<Long>,
+    deviceRemindersEnabled: Boolean,
     onViewSelect: (ViewMode) -> Unit,
     onToggleCalendar: (Long) -> Unit,
     onToggleDeviceCalendarVisibility: (Long) -> Unit,
     onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val (regularGroups, contactsGroups) = remember(calendarGroups) {
-        calendarGroups.filter { it.calendars.isNotEmpty() }
-            .partition { it.provider != AccountProvider.CONTACTS }
+    val (regularGroups, contactsGroups, offlineGroups) = remember(calendarGroups) {
+        calendarGroups.toDisplaySections()
     }
 
     val groupedByAccount = remember(enabledDeviceCalendars) {
@@ -172,12 +179,17 @@ fun CalendarDrawer(
                 }
             }
 
+            // The Contacts header has no divider of its own, so this one also stands above it.
+            if (regularGroups.isNotEmpty() || contactsGroups.isNotEmpty()) {
+                item(key = "cal_divider") {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp).testTag(DRAWER_CALENDARS_DIVIDER_TAG)
+                    )
+                }
+            }
+
             // ===== Calendars Section =====
             if (regularGroups.isNotEmpty()) {
-                item(key = "cal_divider") {
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-                }
-
                 item(key = "cal_header") {
                     Text(
                         text = stringResource(R.string.drawer_calendars),
@@ -213,7 +225,8 @@ fun CalendarDrawer(
                             name = calendar.displayName,
                             color = Color(calendar.color),
                             checked = calendar.isVisible,
-                            onClick = { onToggleCalendar(calendar.id) }
+                            onClick = { onToggleCalendar(calendar.id) },
+                            muted = calendar.isNotificationMuted
                         )
                     }
                 }
@@ -243,7 +256,8 @@ fun CalendarDrawer(
                             name = calendar.displayName,
                             color = Color(calendar.color),
                             checked = calendar.isVisible,
-                            onClick = { onToggleCalendar(calendar.id) }
+                            onClick = { onToggleCalendar(calendar.id) },
+                            muted = calendar.isNotificationMuted
                         )
                     }
                 }
@@ -288,9 +302,43 @@ fun CalendarDrawer(
                             name = deviceCalendar.displayName,
                             color = Color(deviceCalendar.color),
                             checked = deviceCalendar.id !in hiddenDeviceCalendarIds,
-                            onClick = { onToggleDeviceCalendarVisibility(deviceCalendar.id) }
+                            onClick = { onToggleDeviceCalendarVisibility(deviceCalendar.id) },
+                            // Device reminders off silences every device calendar.
+                            muted = !deviceRemindersEnabled || deviceCalendar.id in mutedDeviceCalendarIds
                         )
                     }
+                }
+            }
+
+            // ===== Offline Section (KashCal's own calendars) =====
+            offlineGroups.forEach { group ->
+                item(key = "offline_divider_${group.accountId}") {
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                }
+
+                item(key = "offline_header_${group.accountId}") {
+                    Text(
+                        text = group.accountName,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .padding(horizontal = 28.dp, vertical = 6.dp)
+                            .semantics { heading() }
+                    )
+                }
+
+                items(
+                    items = group.calendars,
+                    key = { "room_cal_${it.id}" }
+                ) { calendar ->
+                    CalendarCheckboxRow(
+                        name = calendar.displayName,
+                        color = Color(calendar.color),
+                        checked = calendar.isVisible,
+                        onClick = { onToggleCalendar(calendar.id) },
+                        muted = calendar.isNotificationMuted
+                    )
                 }
             }
 
@@ -357,18 +405,32 @@ fun CalendarDrawer(
     }
 }
 
+/** Test tag of the bell-off mark a muted calendar's row shows after its name. */
+internal const val CALENDAR_ROW_MUTED_ICON_TAG = "calendar_row_muted_icon"
+
+/** Test tag of the divider above the Calendars or Contacts section. */
+internal const val DRAWER_CALENDARS_DIVIDER_TAG = "drawer_calendars_divider"
+
+/**
+ * One calendar in the drawer: a tap shows or hides it. When [muted] a bell-off mark follows the
+ * name. The mark is not a control: TalkBack hears "notifications off" as the row's state
+ * description, after the name, so the name stays what it reads first.
+ */
 @Composable
 internal fun CalendarCheckboxRow(
     name: String,
     color: Color,
     checked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    muted: Boolean = false,
 ) {
+    val notificationsOff = stringResource(R.string.cd_notifications_off)
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
+            .semantics { if (muted) stateDescription = notificationsOff }
             .padding(horizontal = 16.dp, vertical = 2.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -383,6 +445,8 @@ internal fun CalendarCheckboxRow(
                 .clip(CircleShape)
                 .background(color)
         )
+        // The name is weighted and the mark isn't, so the Row measures the mark first: a long
+        // name is cut with an ellipsis and the mark keeps its place and its dp size.
         Text(
             text = name,
             style = MaterialTheme.typography.bodyMedium,
@@ -390,5 +454,13 @@ internal fun CalendarCheckboxRow(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )
+        if (muted) {
+            Icon(
+                imageVector = Icons.Outlined.NotificationsOff,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(18.dp).testTag(CALENDAR_ROW_MUTED_ICON_TAG)
+            )
+        }
     }
 }

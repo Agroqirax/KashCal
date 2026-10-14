@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">Berapa lama ke belakang untuk menyegerakkan acara</string>
     <string name="settings_change_notifications">Pemberitahuan Perubahan</string>
     <string name="settings_change_notifications_info">Menghantar pemberitahuan apabila penyegerakan latar belakang menemui perubahan pada acara anda. Berfungsi untuk kalendar iCloud dan CalDAV.</string>
+    <string name="settings_calendar_notifications">Pemberitahuan Kalendar</string>
+    <string name="settings_calendar_notifications_all">Semua kalendar</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">%d diredam</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Pilih kalendar yang boleh memberitahu anda.</string>
+    <string name="calendar_notifications_info">Kalendar yang diredam masih dipaparkan dan disegerakkan, tetapi tidak memberitahu anda.</string>
+    <string name="cd_calendar_notifications_info">Perihal kalendar yang diredam</string>
+    <string name="cd_state_expanded">dikembangkan</string>
+    <string name="cd_state_collapsed">diruntuhkan</string>
+    <string name="calendar_notifications_device_info">Matikan untuk meredam semua kalendar peranti, termasuk yang anda tambah kemudian.</string>
+    <string name="cd_calendar_notifications_device_info">Perihal pemberitahuan kalendar peranti</string>
+    <string name="cd_device_calendar_notifications">Pemberitahuan kalendar peranti</string>
+    <string name="calendar_notifications_hidden">Disembunyikan</string>
+    <string name="calendar_notifications_app_off">Pemberitahuan untuk KashCal dimatikan dalam tetapan sistem, jadi tiada kalendar boleh memberitahu anda.</string>
+    <string name="calendar_notifications_reminders_off">Peringatan acara dimatikan dalam tetapan sistem, jadi tiada peringatan boleh dipaparkan.</string>
+    <string name="cd_notifications_off">pemberitahuan dimatikan</string>
     <string name="settings_not_set">Belum ditetapkan</string>
     <string name="settings_on">Hidup</string>
     <string name="settings_off">Mati</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">Kalendar Peranti</string>
     <string name="label_default_calendar_hint">Acara baharu akan dicipta dalam kalendar ini</string>
     <string name="label_visible_count">%1$d / %2$d kelihatan</string>
-    <string name="label_enabled_count">%1$d / %2$d didayakan</string>
     <string name="label_reminders_truncated">%1$d tidak dipaparkan (jumlah %2$d, maksimum boleh edit %3$d)</string>
     <string name="label_found_events">Dijumpai: %1$d acara</string>
     <string name="label_open_debug_menu">Buka menu nyahpepijat</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">Beri</string>
     <string name="device_calendars_none_found">Tiada kalendar peranti dijumpai.</string>
     <string name="device_calendars_local">Tempatan</string>
-    <string name="device_calendars_reminders">Peringatan</string>
-    <string name="device_calendars_reminders_desc">Terima pemberitahuan untuk acara kalendar peranti</string>
     <string name="device_calendars_read_only_no_write">Baca sahaja (tiada kebenaran tulis)</string>
     <string name="device_calendars_read_only_calendar">Baca sahaja (kalendar baca sahaja)</string>
     <string name="settings_developer_options">Pilihan Pembangun</string>

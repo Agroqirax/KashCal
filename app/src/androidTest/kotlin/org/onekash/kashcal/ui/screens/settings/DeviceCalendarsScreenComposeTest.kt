@@ -24,8 +24,8 @@ import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
  *  - body: the "Device Calendars" heading, and a refresh icon beside it shown only when
  *    isEnabled and hasReadPermission, which calls onRefresh.
  *  - callbacks: the Enable switch calls onToggle, a calendar row calls onToggleCalendar, the
- *    write-permission banner calls onRequestWritePermission, and the reminders switch calls
- *    onToggleDeviceCalendarReminders.
+ *    write-permission banner calls onRequestWritePermission. The list has no reminders switch
+ *    (device reminders are switched in the Calendar notifications sheet).
  *
  * The permission launcher (Enable without READ permission) lives in the host, SettingsRoute;
  * these tests only assert that each callback is invoked.
@@ -70,11 +70,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false,
                     deviceCalendars = emptyList(),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -93,11 +91,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false,
                     deviceCalendars = emptyList(),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -116,11 +112,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false,
                     deviceCalendars = emptyList(),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = { backInvoked = true },
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -139,11 +133,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = true,
                     deviceCalendars = listOf(fakeCalendar()),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -161,11 +153,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false,
                     deviceCalendars = emptyList(),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -184,11 +174,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = true,
                     deviceCalendars = listOf(fakeCalendar()),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                     onRefresh = { refreshInvoked = true }
                 )
@@ -209,11 +197,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false,
                     deviceCalendars = emptyList(),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = { toggledTo = it },
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -234,11 +220,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = false, // shows banner
                     deviceCalendars = listOf(fakeCalendar()),
                     enabledCalendarIds = emptySet(),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = { requested = true },
                 )
             }
@@ -260,11 +244,9 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = true,
                     deviceCalendars = listOf(cal1, cal2),
                     enabledCalendarIds = setOf(11L), // Personal on, Work off
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { id, enabled -> lastToggle = id to enabled },
-                    onToggleDeviceCalendarReminders = {},
                     onRequestWritePermission = {},
                 )
             }
@@ -275,8 +257,7 @@ class DeviceCalendarsScreenComposeTest {
     }
 
     @Test
-    fun deviceCalendarRemindersToggle_invokesCallback() {
-        var remindersToggledTo: Boolean? = null
+    fun noRemindersSwitchOrEnabledCount() {
         rule.setContent {
             MaterialTheme {
                 DeviceCalendarsScreen(
@@ -285,16 +266,15 @@ class DeviceCalendarsScreenComposeTest {
                     hasWritePermission = true,
                     deviceCalendars = listOf(fakeCalendar()),
                     enabledCalendarIds = setOf(1L),
-                    deviceCalendarRemindersEnabled = false,
                     onNavigateBack = {},
                     onToggle = {},
                     onToggleCalendar = { _, _ -> },
-                    onToggleDeviceCalendarReminders = { remindersToggledTo = it },
                     onRequestWritePermission = {},
                 )
             }
         }
-        rule.onNodeWithText(context.getString(R.string.device_calendars_reminders)).performClick()
-        assertEquals(true, remindersToggledTo)
+        rule.onNodeWithText("Reminders").assertDoesNotExist()
+        rule.onNodeWithText("Get notified for device calendar events").assertDoesNotExist()
+        rule.onNodeWithText("1 / 1 enabled").assertDoesNotExist()
     }
 }

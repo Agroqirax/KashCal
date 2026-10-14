@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">ಎಷ್ಟು ಹಿಂದಿನವರೆಗೆ ಈವೆಂಟ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡಬೇಕು</string>
     <string name="settings_change_notifications">ಬದಲಾವಣೆ ಅಧಿಸೂಚನೆಗಳು</string>
     <string name="settings_change_notifications_info">ಹಿನ್ನೆಲೆ ಸಿಂಕ್ ನಿಮ್ಮ ಈವೆಂಟ್‌ಗಳಲ್ಲಿ ಬದಲಾವಣೆಗಳನ್ನು ಕಂಡುಕೊಂಡಾಗ ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸುತ್ತದೆ. iCloud ಮತ್ತು CalDAV ಕ್ಯಾಲೆಂಡರ್‌ಗಳಿಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.</string>
+    <string name="settings_calendar_notifications">ಕ್ಯಾಲೆಂಡರ್ ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="settings_calendar_notifications_all">ಎಲ್ಲಾ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ</item>
+        <item quantity="other">%d ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ</item>
+    </plurals>
+    <string name="calendar_notifications_intro">ಯಾವ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು ನಿಮಗೆ ಸೂಚಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ.</string>
+    <string name="calendar_notifications_info">ಮ್ಯೂಟ್ ಮಾಡಿದ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು ಈಗಲೂ ಕಾಣಿಸುತ್ತವೆ ಮತ್ತು ಸಿಂಕ್ ಆಗುತ್ತವೆ, ಆದರೆ ನಿಮಗೆ ಸೂಚಿಸುವುದಿಲ್ಲ.</string>
+    <string name="cd_calendar_notifications_info">ಮ್ಯೂಟ್ ಮಾಡಿದ ಕ್ಯಾಲೆಂಡರ್‌ಗಳ ಕುರಿತು</string>
+    <string name="cd_state_expanded">ವಿಸ್ತರಿಸಲಾಗಿದೆ</string>
+    <string name="cd_state_collapsed">ಕುಗ್ಗಿಸಲಾಗಿದೆ</string>
+    <string name="calendar_notifications_device_info">ನಂತರ ಸೇರಿಸುವವು ಸೇರಿದಂತೆ ಎಲ್ಲಾ ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಲು ಇದನ್ನು ಆಫ್ ಮಾಡಿ.</string>
+    <string name="cd_calendar_notifications_device_info">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್ ಅಧಿಸೂಚನೆಗಳ ಕುರಿತು</string>
+    <string name="cd_device_calendar_notifications">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್ ಅಧಿಸೂಚನೆಗಳು</string>
+    <string name="calendar_notifications_hidden">ಮರೆಮಾಡಲಾಗಿದೆ</string>
+    <string name="calendar_notifications_app_off">ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ KashCal ಅಧಿಸೂಚನೆಗಳು ಆಫ್ ಆಗಿವೆ, ಆದ್ದರಿಂದ ಯಾವುದೇ ಕ್ಯಾಲೆಂಡರ್ ನಿಮಗೆ ಸೂಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="calendar_notifications_reminders_off">ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಈವೆಂಟ್ ರಿಮೈಂಡರ್‌ಗಳು ಆಫ್ ಆಗಿವೆ, ಆದ್ದರಿಂದ ಯಾವುದೇ ರಿಮೈಂಡರ್ ಕಾಣಿಸುವುದಿಲ್ಲ.</string>
+    <string name="cd_notifications_off">ಅಧಿಸೂಚನೆಗಳು ಆಫ್</string>
     <string name="settings_not_set">ಸೆಟ್ ಆಗಿಲ್ಲ</string>
     <string name="settings_on">ಆನ್</string>
     <string name="settings_off">ಆಫ್</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
     <string name="label_default_calendar_hint">ಹೊಸ ಈವೆಂಟ್‌ಗಳನ್ನು ಈ ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿ ರಚಿಸಲಾಗುತ್ತದೆ</string>
     <string name="label_visible_count">%1$d / %2$d ಕಾಣಿಸುತ್ತಿದೆ</string>
-    <string name="label_enabled_count">%1$d / %2$d ಆನ್</string>
     <string name="label_reminders_truncated">%1$d ತೋರಿಸಿಲ್ಲ (%2$d ಒಟ್ಟು, ಗರಿಷ್ಠ %3$d ಬದಲಾಯಿಸಬಹುದು)</string>
     <string name="label_found_events">ಕಂಡುಬಂದವು: %1$d ಈವೆಂಟ್‌ಗಳು</string>
     <string name="label_open_debug_menu">ಡೀಬಗ್ ಮೆನು ತೆರೆಯಿರಿ</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">ಅನುಮತಿಸಿ</string>
     <string name="device_calendars_none_found">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</string>
     <string name="device_calendars_local">ಸ್ಥಳೀಯ</string>
-    <string name="device_calendars_reminders">ರಿಮೈಂಡರ್‌ಗಳು</string>
-    <string name="device_calendars_reminders_desc">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್ ಈವೆಂಟ್‌ಗಳಿಗಾಗಿ ಅಧಿಸೂಚನೆ ಪಡೆಯಿರಿ</string>
     <string name="device_calendars_read_only_no_write">ಓದಲು ಮಾತ್ರ (ಬರೆಯುವ ಅನುಮತಿ ಇಲ್ಲ)</string>
     <string name="device_calendars_read_only_calendar">ಓದಲು ಮಾತ್ರ (ಕ್ಯಾಲೆಂಡರ್ ಓದಲು-ಮಾತ್ರ)</string>
     <string name="settings_developer_options">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು</string>

@@ -181,6 +181,7 @@ class ReminderNotificationCoalescingTest {
         coEvery { scheduler.getReminder(reminder.id) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns siblings
         coJustRun { scheduler.markAsFired(reminder.id) }
         return scheduler

@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">ระยะเวลาย้อนหลังในการซิงค์กิจกรรม</string>
     <string name="settings_change_notifications">การแจ้งเตือนการเปลี่ยนแปลง</string>
     <string name="settings_change_notifications_info">ส่งการแจ้งเตือนเมื่อการซิงค์เบื้องหลังพบการเปลี่ยนแปลงในกิจกรรมของคุณ ใช้ได้กับปฏิทิน iCloud และ CalDAV</string>
+    <string name="settings_calendar_notifications">การแจ้งเตือนปฏิทิน</string>
+    <string name="settings_calendar_notifications_all">ปฏิทินทั้งหมด</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">ปิดเสียง %d รายการ</item>
+    </plurals>
+    <string name="calendar_notifications_intro">เลือกปฏิทินที่แจ้งเตือนคุณได้</string>
+    <string name="calendar_notifications_info">ปฏิทินที่ปิดเสียงยังคงแสดงและซิงค์อยู่ แต่จะไม่แจ้งเตือนคุณ</string>
+    <string name="cd_calendar_notifications_info">เกี่ยวกับปฏิทินที่ปิดเสียง</string>
+    <string name="cd_state_expanded">ขยายอยู่</string>
+    <string name="cd_state_collapsed">ยุบอยู่</string>
+    <string name="calendar_notifications_device_info">ปิดเพื่อปิดเสียงปฏิทินอุปกรณ์ทั้งหมด รวมถึงปฏิทินที่คุณเพิ่มภายหลัง</string>
+    <string name="cd_calendar_notifications_device_info">เกี่ยวกับการแจ้งเตือนปฏิทินอุปกรณ์</string>
+    <string name="cd_device_calendar_notifications">การแจ้งเตือนปฏิทินอุปกรณ์</string>
+    <string name="calendar_notifications_hidden">ซ่อนอยู่</string>
+    <string name="calendar_notifications_app_off">การแจ้งเตือนของ KashCal ปิดอยู่ในการตั้งค่าระบบ จึงไม่มีปฏิทินใดแจ้งเตือนคุณได้</string>
+    <string name="calendar_notifications_reminders_off">การแจ้งเตือนกิจกรรมปิดอยู่ในการตั้งค่าระบบ จึงไม่สามารถแสดงการเตือนได้</string>
+    <string name="cd_notifications_off">การแจ้งเตือนปิดอยู่</string>
     <string name="settings_not_set">ไม่ได้ตั้งค่า</string>
     <string name="settings_on">เปิด</string>
     <string name="settings_off">ปิด</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">ปฏิทินอุปกรณ์</string>
     <string name="label_default_calendar_hint">กิจกรรมใหม่จะถูกสร้างในปฏิทินนี้</string>
     <string name="label_visible_count">%1$d / %2$d แสดง</string>
-    <string name="label_enabled_count">%1$d / %2$d เปิดใช้</string>
     <string name="label_reminders_truncated">%1$d ไม่แสดง (ทั้งหมด %2$d, แก้ไขได้สูงสุด %3$d)</string>
     <string name="label_found_events">พบ: %1$d กิจกรรม</string>
     <string name="label_open_debug_menu">เปิดเมนูดีบัก</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">อนุญาต</string>
     <string name="device_calendars_none_found">ไม่พบปฏิทินอุปกรณ์</string>
     <string name="device_calendars_local">ในเครื่อง</string>
-    <string name="device_calendars_reminders">การเตือน</string>
-    <string name="device_calendars_reminders_desc">รับแจ้งเตือนกิจกรรมปฏิทินอุปกรณ์</string>
     <string name="device_calendars_read_only_no_write">อ่านอย่างเดียว (ไม่มีสิทธิ์เขียน)</string>
     <string name="device_calendars_read_only_calendar">อ่านอย่างเดียว (ปฏิทินอ่านอย่างเดียว)</string>
     <string name="settings_developer_options">ตัวเลือกนักพัฒนา</string>

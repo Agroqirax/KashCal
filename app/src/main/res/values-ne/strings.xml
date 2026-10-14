@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">घटनाहरू कति पछाडिसम्म सिंक गर्ने</string>
     <string name="settings_change_notifications">परिवर्तन सूचनाहरू</string>
     <string name="settings_change_notifications_info">पृष्ठभूमि सिंकले तपाईंका कार्यक्रमहरूमा परिवर्तन फेला पार्दा सूचना पठाउँछ। iCloud र CalDAV क्यालेन्डरहरूमा काम गर्छ।</string>
+    <string name="settings_calendar_notifications">क्यालेन्डर सूचनाहरू</string>
+    <string name="settings_calendar_notifications_all">सबै क्यालेन्डरहरू</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d म्युट गरिएको</item>
+        <item quantity="other">%d म्युट गरिएका</item>
+    </plurals>
+    <string name="calendar_notifications_intro">कुन क्यालेन्डरले तपाईंलाई सूचना दिन सक्छन्, रोज्नुहोस्।</string>
+    <string name="calendar_notifications_info">म्युट गरिएका क्यालेन्डरहरू अझै देखिन्छन् र सिंक हुन्छन्, तर तपाईंलाई सूचना दिँदैनन्।</string>
+    <string name="cd_calendar_notifications_info">म्युट गरिएका क्यालेन्डरहरूबारे</string>
+    <string name="cd_state_expanded">विस्तार गरिएको</string>
+    <string name="cd_state_collapsed">संक्षिप्त गरिएको</string>
+    <string name="calendar_notifications_device_info">पछि थप्ने क्यालेन्डरहरू सहित सबै उपकरण क्यालेन्डरहरू म्युट गर्न बन्द गर्नुहोस्।</string>
+    <string name="cd_calendar_notifications_device_info">उपकरण क्यालेन्डर सूचनाहरूबारे</string>
+    <string name="cd_device_calendar_notifications">उपकरण क्यालेन्डर सूचनाहरू</string>
+    <string name="calendar_notifications_hidden">लुकाइएको</string>
+    <string name="calendar_notifications_app_off">प्रणाली सेटिङमा KashCal का सूचनाहरू बन्द छन्, त्यसैले कुनै पनि क्यालेन्डरले तपाईंलाई सूचना दिन सक्दैन।</string>
+    <string name="calendar_notifications_reminders_off">प्रणाली सेटिङमा कार्यक्रम सम्झाउने सुविधा बन्द छ, त्यसैले कुनै पनि सम्झना देखाउन सकिँदैन।</string>
+    <string name="cd_notifications_off">सूचनाहरू बन्द</string>
     <string name="settings_not_set">सेट गरिएको छैन</string>
     <string name="settings_on">खुला</string>
     <string name="settings_off">बन्द</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">उपकरण क्यालेन्डरहरू</string>
     <string name="label_default_calendar_hint">नयाँ कार्यक्रमहरू यो क्यालेन्डरमा बनाइनेछ</string>
     <string name="label_visible_count">%1$d / %2$d दृश्य</string>
-    <string name="label_enabled_count">%1$d / %2$d सक्षम</string>
     <string name="label_reminders_truncated">%1$d देखाइएको छैन (%2$d जम्मा, अधिकतम %3$d सम्पादनयोग्य)</string>
     <string name="label_found_events">भेटियो: %1$d कार्यक्रम</string>
     <string name="label_open_debug_menu">डिबग मेनु खोल्नुहोस्</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">दिनुहोस्</string>
     <string name="device_calendars_none_found">उपकरण क्यालेन्डर भेटिएन।</string>
     <string name="device_calendars_local">स्थानीय</string>
-    <string name="device_calendars_reminders">सम्झनाहरू</string>
-    <string name="device_calendars_reminders_desc">उपकरण क्यालेन्डर कार्यक्रमका लागि सूचना प्राप्त गर्नुहोस्</string>
     <string name="device_calendars_read_only_no_write">पढ्ने मात्र (लेख्ने अनुमति छैन)</string>
     <string name="device_calendars_read_only_calendar">पढ्ने मात्र (पढ्ने-मात्र क्यालेन्डर)</string>
     <string name="settings_developer_options">विकासकर्ता विकल्पहरू</string>

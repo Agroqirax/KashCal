@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Наколькі даўнія падзеі сінхранізаваць</string>
     <string name="settings_change_notifications">Апавяшчэнні пра змены</string>
     <string name="settings_change_notifications_info">Адпраўляе апавяшчэнне, калі фонавая сінхранізацыя знаходзіць змены ў тваіх падзеях. Працуе з календарамі iCloud і CalDAV.</string>
+    <string name="settings_calendar_notifications">Апавяшчэнні календароў</string>
+    <string name="settings_calendar_notifications_all">Усе календары</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">Без апавяшчэнняў: %d</item>
+        <item quantity="few">Без апавяшчэнняў: %d</item>
+        <item quantity="many">Без апавяшчэнняў: %d</item>
+        <item quantity="other">Без апавяшчэнняў: %d</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Выберы, якія календары могуць адпраўляць табе апавяшчэнні.</string>
+    <string name="calendar_notifications_info">Календары без апавяшчэнняў па-ранейшаму адлюстроўваюцца і сінхранізуюцца, але не адпраўляюць апавяшчэнняў.</string>
+    <string name="cd_calendar_notifications_info">Пра календары без апавяшчэнняў</string>
+    <string name="cd_state_expanded">разгорнута</string>
+    <string name="cd_state_collapsed">згорнута</string>
+    <string name="calendar_notifications_device_info">Выключы, і ўсе календары прылады, у тым ліку дададзеныя пазней, будуць без апавяшчэнняў.</string>
+    <string name="cd_calendar_notifications_device_info">Пра апавяшчэнні календароў прылады</string>
+    <string name="cd_device_calendar_notifications">Апавяшчэнні календароў прылады</string>
+    <string name="calendar_notifications_hidden">Схаваны</string>
+    <string name="calendar_notifications_app_off">Апавяшчэнні KashCal выключаны ў сістэмных наладах, таму ніводзін каляндар не можа адпраўляць апавяшчэнні.</string>
+    <string name="calendar_notifications_reminders_off">Напамінанні пра падзеі выключаны ў сістэмных наладах, таму напамінанні не будуць паказвацца.</string>
+    <string name="cd_notifications_off">апавяшчэнні выключаны</string>
     <string name="settings_not_set">Не зададзена</string>
     <string name="settings_on">Укл.</string>
     <string name="settings_off">Выкл.</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Календары прылады</string>
     <string name="label_default_calendar_hint">Новыя падзеі ствараюцца ў гэтым календары</string>
     <string name="label_visible_count">%1$d / %2$d бачных</string>
-    <string name="label_enabled_count">%1$d / %2$d уключана</string>
     <string name="label_reminders_truncated">%1$d не паказана (%2$d усяго, макс. %3$d для рэдагавання)</string>
     <string name="label_found_events">Знойдзена: %1$d падзей</string>
     <string name="label_open_debug_menu">Адкрыць меню адладкі</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Дазволіць</string>
     <string name="device_calendars_none_found">Календары прылады не знойдзены.</string>
     <string name="device_calendars_local">Лакальны</string>
-    <string name="device_calendars_reminders">Напамінанні</string>
-    <string name="device_calendars_reminders_desc">Атрымліваць апавяшчэнні пра падзеі з календара прылады</string>
     <string name="device_calendars_read_only_no_write">Толькі чытанне (няма дазволу на запіс)</string>
     <string name="device_calendars_read_only_calendar">Толькі чытанне (каляндар толькі для чытання)</string>
     <string name="settings_developer_options">Для распрацоўнікаў</string>

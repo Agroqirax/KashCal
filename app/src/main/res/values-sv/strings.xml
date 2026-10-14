@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Hur långt tillbaka händelser synkroniseras</string>
     <string name="settings_change_notifications">Ändringsaviseringar</string>
     <string name="settings_change_notifications_info">Skickar en avisering när en synkronisering i bakgrunden hittar ändringar i dina händelser. Fungerar för iCloud- och CalDAV-kalendrar.</string>
+    <string name="settings_calendar_notifications">Kalenderaviseringar</string>
+    <string name="settings_calendar_notifications_all">Alla kalendrar</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d tystad</item>
+        <item quantity="other">%d tystade</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Välj vilka kalendrar som får avisera dig.</string>
+    <string name="calendar_notifications_info">Tystade kalendrar visas och synkroniseras fortfarande, men aviserar dig inte.</string>
+    <string name="cd_calendar_notifications_info">Om tystade kalendrar</string>
+    <string name="cd_state_expanded">utfälld</string>
+    <string name="cd_state_collapsed">hopfälld</string>
+    <string name="calendar_notifications_device_info">Stäng av för att tysta alla enhetskalendrar, även de du lägger till senare.</string>
+    <string name="cd_calendar_notifications_device_info">Om aviseringar från enhetskalendrar</string>
+    <string name="cd_device_calendar_notifications">Aviseringar från enhetskalendrar</string>
+    <string name="calendar_notifications_hidden">Dold</string>
+    <string name="calendar_notifications_app_off">Aviseringar för KashCal är avstängda i systeminställningarna, så ingen kalender kan avisera dig.</string>
+    <string name="calendar_notifications_reminders_off">Händelsepåminnelser är avstängda i systeminställningarna, så inga påminnelser kan visas.</string>
+    <string name="cd_notifications_off">aviseringar av</string>
     <string name="settings_not_set">Ej inställd</string>
     <string name="settings_on">På</string>
     <string name="settings_off">Av</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Enhetskalendrar</string>
     <string name="label_default_calendar_hint">Nya händelser skapas i denna kalender</string>
     <string name="label_visible_count">%1$d / %2$d synliga</string>
-    <string name="label_enabled_count">%1$d / %2$d aktiverade</string>
     <string name="label_reminders_truncated">%1$d visas inte (%2$d totalt, max %3$d redigerbara)</string>
     <string name="label_found_events">Hittade: %1$d händelser</string>
     <string name="label_open_debug_menu">Öppna debug-meny</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Ge åtkomst</string>
     <string name="device_calendars_none_found">Inga enhetskalendrar hittades.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Påminnelser</string>
-    <string name="device_calendars_reminders_desc">Få aviseringar för enhetskalenderhändelser</string>
     <string name="device_calendars_read_only_no_write">Skrivskyddad (ingen skrivbehörighet)</string>
     <string name="device_calendars_read_only_calendar">Skrivskyddad (kalendern är skrivskyddad)</string>
     <string name="settings_developer_options">Utvecklaralternativ</string>

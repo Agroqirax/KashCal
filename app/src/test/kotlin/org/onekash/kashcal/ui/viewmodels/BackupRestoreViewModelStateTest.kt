@@ -163,6 +163,7 @@ class BackupRestoreViewModelStateTest {
         backupImporter = backupImporter,
         permissionChecker = org.onekash.kashcal.ui.permission.FakePermissionChecker(),
         changeNotificationChannels = org.onekash.kashcal.sync.notification.blockedChangeNotificationChannels(),
+        reminderNotificationChannels = org.onekash.kashcal.reminder.notification.allowedReminderNotificationChannels(),
         context = io.mockk.mockk(relaxed = true),
         applicationScope = CoroutineScope(SupervisorJob() + testDispatcher),
     )

@@ -23,8 +23,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.data.calendar_provider.DeviceReminderCursor
 import org.onekash.kashcal.data.calendar_provider.FakeCalendarProviderRepository
 import org.onekash.kashcal.data.calendar_provider.UpcomingDeviceReminder
+import org.onekash.kashcal.data.calendar_provider.cursor
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
@@ -42,8 +44,14 @@ import java.io.File
  *   reminder is upcoming. Otherwise it arms one at the reminder's trigger time, with the event
  *   id, occurrence start and title in the intent extras.
  * - `cancelPendingAlarm` clears the alarm; `rescheduleAfterFire` arms the next reminder.
- * - `shouldFireReminder` is false for each of those settings and permission cases and for an
- *   event that is no longer active, true otherwise.
+ * - `takeDueAndArmNext` returns the reminders due after the fired one and arms the next, asks
+ *   with muted calendars left out and [DeviceCalendarReminderScheduler.MAX_BATCH] as the limit,
+ *   arms the first due reminder left out past that limit, and cancels the alarm with nothing
+ *   next or under each gate of `scheduleNextReminder`. Only snooze alarms carry the snooze flag.
+ * - `shouldFireReminder` is false for each of those settings and permission cases, for an
+ *   event that is no longer active, and for an alarm whose calendar is muted or no longer
+ *   enabled, true otherwise. Skipping a muted calendar when arming needs the real repository:
+ *   DeviceCalendarReminderMuteTest.
  * - Snooze request codes: the 100,000 range, always above the reminder alarm's 5001, and 50
  *   events get distinct codes.
  */
@@ -379,20 +387,144 @@ class DeviceCalendarReminderSchedulerTest {
         assertEquals(secondTrigger, alarm!!.triggerAtTime)
     }
 
+    // ========== takeDueAndArmNext ==========
+
+    private suspend fun enableCalendars(vararg ids: Long) {
+        dataStore.setDeviceCalendarRemindersEnabled(true)
+        dataStore.setDeviceCalendarsEnabled(true)
+        dataStore.setEnabledDeviceCalendarIds(ids.toSet())
+    }
+
+    @Test
+    fun `takeDueAndArmNext returns the due reminders after the fired one and arms the next`() = runTest {
+        enableCalendars(1L)
+        val now = System.currentTimeMillis()
+        val fired = createTestReminder(eventId = 10L, triggerTime = now - 1_000)
+        val due = createTestReminder(eventId = 11L, triggerTime = now - 1_000)
+        val next = createTestReminder(eventId = 12L, triggerTime = now + 60_000)
+        fakeRepository.upcomingReminders = listOf(fired, due, next)
+
+        val result = scheduler.takeDueAndArmNext(fired.cursor, now)
+
+        assertEquals(listOf(11L), result.map { it.eventId })
+        val alarm = shadowAlarmManager.nextScheduledAlarm
+        assertNotNull(alarm)
+        assertEquals(next.triggerTime, alarm!!.triggerAtTime)
+        assertEquals(
+            12L,
+            Shadows.shadowOf(alarm.operation).savedIntent
+                .getLongExtra(DeviceCalendarReminderScheduler.EXTRA_EVENT_ID, -1L)
+        )
+        val call = fakeRepository.lastDueRemindersCall!!
+        assertEquals(fired.cursor, call.after)
+        assertEquals(now, call.nowMs)
+        assertEquals(DeviceCalendarReminderScheduler.MAX_BATCH, call.limit)
+    }
+
+    @Test
+    fun `takeDueAndArmNext leaves muted calendars out of the query`() = runTest {
+        enableCalendars(1L, 2L)
+        dataStore.setDeviceCalendarMuted(2L, true)
+        val now = System.currentTimeMillis()
+
+        scheduler.takeDueAndArmNext(DeviceReminderCursor(now - 1_000, 1L, now), now)
+
+        assertEquals(setOf(1L), fakeRepository.lastDueRemindersCall!!.enabledCalendarIds)
+    }
+
+    @Test
+    fun `takeDueAndArmNext cancels the alarm when nothing is next`() = runTest {
+        enableCalendars(1L)
+        val now = System.currentTimeMillis()
+        fakeRepository.nextUpcomingReminder = createTestReminder(triggerTime = now + 60_000)
+        scheduler.scheduleNextReminder()
+        assertNotNull(shadowAlarmManager.nextScheduledAlarm)
+        fakeRepository.nextUpcomingReminder = null
+        val due = createTestReminder(eventId = 11L, triggerTime = now - 1_000)
+        fakeRepository.upcomingReminders = listOf(due)
+
+        val result = scheduler.takeDueAndArmNext(DeviceReminderCursor(now - 2_000, 1L, now), now)
+
+        assertEquals(listOf(11L), result.map { it.eventId })
+        assertTrue(shadowAlarmManager.scheduledAlarms.isEmpty())
+    }
+
+    @Test
+    fun `takeDueAndArmNext returns nothing and cancels under each gate`() = runTest {
+        val now = System.currentTimeMillis()
+        val cursor = DeviceReminderCursor(now - 2_000, 1L, now)
+        fakeRepository.upcomingReminders = listOf(createTestReminder(eventId = 11L, triggerTime = now - 1_000))
+        val gates: List<suspend () -> Unit> = listOf(
+            { dataStore.setDeviceCalendarRemindersEnabled(false) },
+            { dataStore.setDeviceCalendarsEnabled(false) },
+            { Shadows.shadowOf(context as android.app.Application).denyPermissions(Manifest.permission.READ_CALENDAR) },
+            { dataStore.setEnabledDeviceCalendarIds(emptySet()) },
+            { dataStore.setDeviceCalendarMuted(1L, true) },
+        )
+        for ((i, close) in gates.withIndex()) {
+            enableCalendars(1L)
+            dataStore.setDeviceCalendarMuted(1L, false)
+            Shadows.shadowOf(context as android.app.Application).grantPermissions(Manifest.permission.READ_CALENDAR)
+            fakeRepository.nextUpcomingReminder = createTestReminder(triggerTime = now + 60_000)
+            scheduler.scheduleNextReminder()
+            assertNotNull("gate $i: armed before", shadowAlarmManager.nextScheduledAlarm)
+            close()
+
+            assertTrue("gate $i", scheduler.takeDueAndArmNext(cursor, now).isEmpty())
+            assertTrue("gate $i: cancelled", shadowAlarmManager.scheduledAlarms.isEmpty())
+        }
+        fakeRepository.nextUpcomingReminder = null
+    }
+
+    @Test
+    fun `takeDueAndArmNext arms the first due reminder left out past the cap`() = runTest {
+        enableCalendars(1L)
+        val now = System.currentTimeMillis()
+        val due = (1..DeviceCalendarReminderScheduler.MAX_BATCH + 1).map {
+            createTestReminder(eventId = 100L + it, triggerTime = now - 1_000)
+        }
+        fakeRepository.upcomingReminders = due + createTestReminder(eventId = 999L, triggerTime = now + 60_000)
+
+        val result = scheduler.takeDueAndArmNext(DeviceReminderCursor(now - 2_000, 1L, now), now)
+
+        assertEquals(due.take(DeviceCalendarReminderScheduler.MAX_BATCH).map { it.eventId }, result.map { it.eventId })
+        val alarm = shadowAlarmManager.nextScheduledAlarm!!
+        assertEquals(now - 1_000, alarm.triggerAtTime)
+        assertEquals(
+            due.last().eventId,
+            Shadows.shadowOf(alarm.operation).savedIntent.getLongExtra(DeviceCalendarReminderScheduler.EXTRA_EVENT_ID, -1L)
+        )
+    }
+
+    @Test
+    fun `only snooze alarms carry the snooze flag`() = runTest {
+        enableCalendars(1L)
+        fakeRepository.nextUpcomingReminder = createTestReminder(eventId = 1L)
+        scheduler.scheduleNextReminder()
+        scheduler.scheduleSnooze(2L, System.currentTimeMillis(), "Snoozed", null, false, 0, 1L)
+
+        val flags = shadowAlarmManager.scheduledAlarms.associate { alarm ->
+            val intent = Shadows.shadowOf(alarm.operation).savedIntent
+            intent.getLongExtra(DeviceCalendarReminderScheduler.EXTRA_EVENT_ID, -1L) to
+                intent.getBooleanExtra(DeviceCalendarReminderScheduler.EXTRA_IS_SNOOZE, false)
+        }
+        assertEquals(mapOf(1L to false, 2L to true), flags)
+    }
+
     // ========== shouldFireReminder ==========
 
     @Test
     fun `shouldFireReminder returns false when feature disabled`() = runTest {
         primeHealthyEvent()
         dataStore.setDeviceCalendarRemindersEnabled(false)
-        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
     }
 
     @Test
     fun `shouldFireReminder returns false when device calendars disabled`() = runTest {
         primeHealthyEvent()
         dataStore.setDeviceCalendarsEnabled(false)
-        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
     }
 
     @Test
@@ -400,14 +532,14 @@ class DeviceCalendarReminderSchedulerTest {
         primeHealthyEvent()
         Shadows.shadowOf(context as android.app.Application)
             .denyPermissions(Manifest.permission.READ_CALENDAR)
-        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
     }
 
     @Test
     fun `shouldFireReminder returns false when no enabled calendars`() = runTest {
         primeHealthyEvent()
         dataStore.setEnabledDeviceCalendarIds(emptySet())
-        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
     }
 
     @Test
@@ -416,13 +548,48 @@ class DeviceCalendarReminderSchedulerTest {
         // this by removing the id from activeEventIds.
         primeHealthyEvent()
         fakeRepository.activeEventIds.remove(HEALTHY_EVENT_ID)
-        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
     }
 
     @Test
     fun `shouldFireReminder returns true for healthy active event`() = runTest {
         primeHealthyEvent()
-        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID))
+        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
+    }
+
+    @Test
+    fun `shouldFireReminder returns false for a muted calendar and true for another`() = runTest {
+        primeHealthyEvent()
+        // Both enabled, so only the mute tells them apart.
+        dataStore.setEnabledDeviceCalendarIds(setOf(HEALTHY_CALENDAR_ID, HEALTHY_CALENDAR_ID + 1))
+        dataStore.setDeviceCalendarMuted(HEALTHY_CALENDAR_ID, true)
+
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
+        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID + 1))
+    }
+
+    @Test
+    fun `shouldFireReminder doesn't treat a missing calendar id as muted`() = runTest {
+        primeHealthyEvent()
+        dataStore.setDeviceCalendarMuted(HEALTHY_CALENDAR_ID, true)
+
+        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, -1L))
+    }
+
+    @Test
+    fun `shouldFireReminder returns false for a calendar that is no longer enabled`() = runTest {
+        primeHealthyEvent()
+        dataStore.setEnabledDeviceCalendarIds(setOf(HEALTHY_CALENDAR_ID + 1))
+
+        assertFalse(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID))
+        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, HEALTHY_CALENDAR_ID + 1))
+    }
+
+    @Test
+    fun `shouldFireReminder doesn't drop an alarm with no calendar id while a calendar is enabled`() = runTest {
+        primeHealthyEvent()
+
+        assertTrue(scheduler.shouldFireReminder(HEALTHY_EVENT_ID, -1L))
     }
 
     private suspend fun primeHealthyEvent() {

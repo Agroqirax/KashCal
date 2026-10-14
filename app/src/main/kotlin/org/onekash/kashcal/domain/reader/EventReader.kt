@@ -27,7 +27,8 @@ import javax.inject.Singleton
  * Reads Room events, occurrences, calendars, attendees and tags for the domain and UI layers.
  *
  * ViewModels read through this class instead of the DAOs. Queries the UI observes return a
- * Room [Flow], so views update while a sync writes. Its one write is [setCalendarVisibility].
+ * Room [Flow], so views update while a sync writes. Its writes are [setCalendarVisibility] and
+ * [setCalendarNotificationMuted].
  */
 @Singleton
 class EventReader @Inject constructor(
@@ -269,6 +270,16 @@ class EventReader @Inject constructor(
     /** Stores [visible] in the calendar's `is_visible`, the source of truth for visibility. */
     suspend fun setCalendarVisibility(calendarId: Long, visible: Boolean) {
         calendarsDao.setVisible(calendarId, visible)
+    }
+
+    /** Stores [muted] in [Calendar.isNotificationMuted]. */
+    suspend fun setCalendarNotificationMuted(calendarId: Long, muted: Boolean) {
+        calendarsDao.setNotificationMuted(calendarId, muted)
+    }
+
+    /** Returns the ids of the calendars whose notifications are muted, read fresh. */
+    suspend fun getNotificationMutedCalendarIds(): Set<Long> {
+        return calendarsDao.getNotificationMutedIds().toSet()
     }
 
     // ========== Occurrence Queries (for Calendar Views) ==========
@@ -689,7 +700,8 @@ class EventReader @Inject constructor(
 
     /**
      * Returns one row per non-cancelled occurrence starting in [fromTime]..[toTime] (epoch ms,
-     * inclusive) in a visible calendar whose event has reminders. An exception without its own
+     * inclusive) in a calendar that notifies ([Calendar.isNotificationMuted] false, hidden ones
+     * included) whose event has reminders. An exception without its own
      * reminders inherits the master's ([EventWithOccurrenceAndColor]).
      */
     suspend fun getEventsWithRemindersInRange(

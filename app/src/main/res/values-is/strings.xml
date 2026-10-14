@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Hversu langt aftur viðburðir eru samstilltir</string>
     <string name="settings_change_notifications">Tilkynningar um breytingar</string>
     <string name="settings_change_notifications_info">Sendir tilkynningu þegar samstilling í bakgrunni finnur breytingar á viðburðunum þínum. Virkar fyrir iCloud- og CalDAV-dagatöl.</string>
+    <string name="settings_calendar_notifications">Dagatalstilkynningar</string>
+    <string name="settings_calendar_notifications_all">Öll dagatöl</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d þaggað</item>
+        <item quantity="other">%d þögguð</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Veldu hvaða dagatöl mega láta þig vita.</string>
+    <string name="calendar_notifications_info">Þögguð dagatöl birtast og samstillast áfram en láta þig ekki vita.</string>
+    <string name="cd_calendar_notifications_info">Um þögguð dagatöl</string>
+    <string name="cd_state_expanded">opið</string>
+    <string name="cd_state_collapsed">lokað</string>
+    <string name="calendar_notifications_device_info">Slökktu á þessu til að þagga öll dagatöl tækis, líka þau sem þú bætir við síðar.</string>
+    <string name="cd_calendar_notifications_device_info">Um tilkynningar frá dagatölum tækis</string>
+    <string name="cd_device_calendar_notifications">Tilkynningar frá dagatölum tækis</string>
+    <string name="calendar_notifications_hidden">Falið</string>
+    <string name="calendar_notifications_app_off">Slökkt er á tilkynningum fyrir KashCal í kerfisstillingum, svo ekkert dagatal getur látið þig vita.</string>
+    <string name="calendar_notifications_reminders_off">Slökkt er á viðburðaáminningum í kerfisstillingum, svo engar áminningar geta birst.</string>
+    <string name="cd_notifications_off">slökkt á tilkynningum</string>
     <string name="settings_not_set">Ekki stillt</string>
     <string name="settings_on">Kveikt</string>
     <string name="settings_off">Slökkt</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Dagatöl tækis</string>
     <string name="label_default_calendar_hint">Nýir viðburðir verða búnir til í þessu dagatali</string>
     <string name="label_visible_count">%1$d / %2$d sýnileg</string>
-    <string name="label_enabled_count">%1$d / %2$d virk</string>
     <string name="label_reminders_truncated">%1$d ekki sýndar (%2$d alls, hámark %3$d breytanlegar)</string>
     <string name="label_found_events">Fundust: %1$d viðburðir</string>
     <string name="label_open_debug_menu">Opna villuleitarvalmynd</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Veita aðgang</string>
     <string name="device_calendars_none_found">Engin dagatöl tækis fundust.</string>
     <string name="device_calendars_local">Staðbundið</string>
-    <string name="device_calendars_reminders">Áminningar</string>
-    <string name="device_calendars_reminders_desc">Fá tilkynningar fyrir viðburði í dagatölum tækis</string>
     <string name="device_calendars_read_only_no_write">Skrifvarið (engin skrifheimild)</string>
     <string name="device_calendars_read_only_calendar">Skrifvarið (dagatalið er skrifvarið)</string>
     <string name="settings_developer_options">Þróunarvalkostir</string>

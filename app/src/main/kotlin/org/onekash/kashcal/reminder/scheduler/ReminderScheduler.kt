@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.onekash.kashcal.data.db.dao.AccountsDao
@@ -214,8 +215,10 @@ class ReminderScheduler @Inject constructor(
     }
 
     /**
-     * Held while an existing row's alarm is re-armed from its stored time, and
-     * while [rescheduleAllPending] moves stored times, so a scan never re-arms
+     * Held while an existing row's alarm is re-armed from its stored time, while
+     * [rescheduleAllPending] moves stored times, and while a mute's alarms are cancelled
+     * ([silenceRemindersForCalendar], [sweepMutedCalendars]) or an unmute's restored
+     * ([restoreRemindersForCalendar]), so a scan never re-arms
      * an existing row at a time a time-zone change is replacing. Creating rows
      * does not take it. Never held around a call that can run inside a
      * database transaction.
@@ -244,7 +247,9 @@ class ReminderScheduler @Inject constructor(
     /**
      * Schedules [event]'s reminders for its future [occurrences] that fall due within the window.
      *
-     * A reminder that already has a row is left alone.
+     * A reminder that already has a row is left alone. Nothing is scheduled when the event's
+     * calendar is muted ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted]); the
+     * check lives here so every save and sync caller gets it.
      *
      * @param calendarColor the calendar color shown on the notification
      */
@@ -276,6 +281,12 @@ class ReminderScheduler @Inject constructor(
             return
         }
 
+        // An exception carries its master's calendarId, so this covers it too
+        if (calendarsDao.getById(event.calendarId)?.isNotificationMuted == true) {
+            Log.d(TAG, "Calendar of event ${event.id} is muted, scheduling nothing")
+            return
+        }
+
         val now = System.currentTimeMillis()
 
         for (occurrence in occurrences) {
@@ -299,12 +310,17 @@ class ReminderScheduler @Inject constructor(
      * window, so a row can be left without an alarm until it comes into range). Re-arming
      * replaces the alarm already set for that row, so running this again adds nothing.
      *
+     * Muted calendars get nothing: the scan first sweeps any alarm still armed for one
+     * ([sweepMutedCalendars]), and the occurrence query leaves them out.
+     *
      * Called by ReminderRefreshWorker (daily, and once after boot, app update or a time or
      * time-zone change) and by ReminderAlarmReceiver after each reminder fires.
      *
      * @return the number of new reminders scheduled
      */
     suspend fun scheduleUpcomingReminders(): Int {
+        sweepMutedCalendars()
+
         val now = System.currentTimeMillis()
 
         val offsetsByEventId = mutableMapOf<Long, List<String>>()
@@ -377,6 +393,43 @@ class ReminderScheduler @Inject constructor(
 
         Log.i(TAG, "Scheduled $scheduled missing reminders in the $SCHEDULE_WINDOW_DAYS-day window")
         return scheduled
+    }
+
+    /**
+     * Cancels the alarms still armed for muted calendars' pending and snoozed reminders, left by a
+     * scan or feed refresh that read the calendar before a mute, by a boot re-arm, or by a toggle
+     * that failed. The rows are kept for the unmute ([restoreRemindersForCalendar]); those whose
+     * time has passed are dismissed, so they can't post late after an unmute and are cleaned up
+     * with the other dismissed rows.
+     *
+     * Runs before this scan re-arms any existing row, so the scan never arms a muted row only for
+     * it to be cancelled (each such alarm costs a wake-up). Each calendar is checked and cancelled
+     * under [rearmMutex], so an unmute's restore can't land between the check and the cancel: it
+     * runs before the check (the calendar reads as unmuted and is skipped) or after the cancel
+     * (and arms again). A failure is logged and the scan goes on: it must never cost the other
+     * calendars their alarms.
+     */
+    private suspend fun sweepMutedCalendars() {
+        try {
+            val calendarIds = scheduledRemindersDao.getMutedCalendarIdsWithPendingReminders()
+            for (calendarId in calendarIds) {
+                rearmMutex.withLock {
+                    val rows = scheduledRemindersDao.getPendingForMutedCalendar(calendarId)
+                    if (rows.isEmpty()) return@withLock
+                    if (calendarsDao.getById(calendarId)?.isNotificationMuted != true) return@withLock
+                    val now = System.currentTimeMillis()
+                    val (passed, ahead) = rows.partition { it.triggerTime <= now }
+                    if (passed.isNotEmpty()) {
+                        scheduledRemindersDao.dismissIfCalendarMuted(passed.map { it.id })
+                    }
+                    ahead.forEach { cancelAlarm(it.id) }
+                }
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not sweep muted calendars' reminders", e)
+        }
     }
 
     /**
@@ -611,8 +664,42 @@ class ReminderScheduler @Inject constructor(
     }
 
     /**
+     * Cancels the alarms of [calendarId]'s pending and snoozed reminders and keeps the rows, so
+     * unmuting can arm them again ([restoreRemindersForCalendar]): the window scan alone can't
+     * rebuild a reminder of an occurrence that has started (today's all-day event) or one whose
+     * own time has passed (a snoozed reminder). Called when the calendar is muted.
+     */
+    suspend fun silenceRemindersForCalendar(calendarId: Long) {
+        rearmMutex.withLock {
+            val reminders = scheduledRemindersDao.getPendingForCalendar(calendarId)
+            reminders.forEach { cancelAlarm(it.id) }
+            Log.d(TAG, "Silenced ${reminders.size} reminders for calendar $calendarId")
+        }
+    }
+
+    /**
+     * Re-arms [calendarId]'s kept pending and snoozed reminders whose time is still ahead and in
+     * the window. Called when the calendar is unmuted, before the window scan creates the rows it
+     * never had. A row whose time has passed is left alone, so nothing posts late: it may still
+     * have an alarm on its way, if a quick mute and unmute meant the calendar was never silenced,
+     * and its time passing while muted is the sweep's to dismiss ([sweepMutedCalendars]).
+     */
+    suspend fun restoreRemindersForCalendar(calendarId: Long) {
+        rearmMutex.withLock {
+            val now = System.currentTimeMillis()
+            for (reminder in scheduledRemindersDao.getPendingForCalendar(calendarId)) {
+                if (reminder.triggerTime <= now || reminder.triggerTime > windowEnd(now)) continue
+                if (!scheduleAlarm(reminder.id, reminder.triggerTime)) {
+                    Log.w(TAG, "Could not re-arm kept reminder ${reminder.id} on unmute")
+                }
+            }
+        }
+    }
+
+    /**
      * Cancels the alarms of every pending and snoozed reminder in [calendarId] and deletes all
-     * the calendar's reminder rows, in one select and one delete.
+     * the calendar's reminder rows, in one select and one delete. Called when the calendar's
+     * account is removed; muting keeps the rows ([silenceRemindersForCalendar]).
      */
     suspend fun cancelRemindersForCalendar(calendarId: Long) {
         val reminders = scheduledRemindersDao.getPendingForCalendar(calendarId)
@@ -799,6 +886,22 @@ class ReminderScheduler @Inject constructor(
             occurrencesDao.getOccurrenceNearTime(reminder.eventId, reminder.occurrenceTime)
         }
         return occurrence != null && !occurrence.isCancelled
+    }
+
+    /**
+     * Returns whether [reminder]'s calendar is muted
+     * ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted]), read fresh; false when
+     * its event or calendar is gone, a case [shouldFireReminder] owns.
+     *
+     * The fire-time authority for mute: arming skips muted calendars, but an alarm armed by a scan
+     * or feed refresh that read the calendar before the toggle, a snooze, or a kept row re-armed
+     * at boot or after a time or time-zone change can still fire. The receiver then marks the row
+     * FIRED rather than deleting it, so the scan that runs next can't create it again
+     * (findExisting ignores status).
+     */
+    suspend fun isCalendarMutedForReminder(reminder: ScheduledReminder): Boolean {
+        val event = eventReader.getEventById(reminder.eventId) ?: return false
+        return calendarsDao.getById(event.calendarId)?.isNotificationMuted == true
     }
 
     /** Deletes fired and dismissed reminders that triggered more than [olderThanDays] days ago. */

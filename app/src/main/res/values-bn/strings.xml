@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">কত আগের ইভেন্ট সিংক করা হবে</string>
     <string name="settings_change_notifications">পরিবর্তনের বিজ্ঞপ্তি</string>
     <string name="settings_change_notifications_info">ব্যাকগ্রাউন্ড সিংক আপনার ইভেন্টে পরিবর্তন খুঁজে পেলে একটি বিজ্ঞপ্তি পাঠায়। iCloud এবং CalDAV ক্যালেন্ডারের জন্য কাজ করে।</string>
+    <string name="settings_calendar_notifications">ক্যালেন্ডার বিজ্ঞপ্তি</string>
+    <string name="settings_calendar_notifications_all">সব ক্যালেন্ডার</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%dটি মিউট করা</item>
+        <item quantity="other">%dটি মিউট করা</item>
+    </plurals>
+    <string name="calendar_notifications_intro">কোন ক্যালেন্ডারগুলো আপনাকে বিজ্ঞপ্তি পাঠাতে পারবে, তা বেছে নিন।</string>
+    <string name="calendar_notifications_info">মিউট করা ক্যালেন্ডারগুলো এখনও দেখা যায় ও সিংক হয়, কিন্তু আপনাকে বিজ্ঞপ্তি পাঠায় না।</string>
+    <string name="cd_calendar_notifications_info">মিউট করা ক্যালেন্ডার সম্পর্কে</string>
+    <string name="cd_state_expanded">প্রসারিত</string>
+    <string name="cd_state_collapsed">সংকুচিত</string>
+    <string name="calendar_notifications_device_info">সব ডিভাইস ক্যালেন্ডার মিউট করতে বন্ধ করুন, পরে যোগ করা ক্যালেন্ডারগুলোও এর মধ্যে পড়বে।</string>
+    <string name="cd_calendar_notifications_device_info">ডিভাইস ক্যালেন্ডারের বিজ্ঞপ্তি সম্পর্কে</string>
+    <string name="cd_device_calendar_notifications">ডিভাইস ক্যালেন্ডারের বিজ্ঞপ্তি</string>
+    <string name="calendar_notifications_hidden">লুকানো</string>
+    <string name="calendar_notifications_app_off">সিস্টেম সেটিংসে KashCal-এর বিজ্ঞপ্তি বন্ধ আছে, তাই কোনো ক্যালেন্ডার আপনাকে বিজ্ঞপ্তি পাঠাতে পারবে না।</string>
+    <string name="calendar_notifications_reminders_off">সিস্টেম সেটিংসে ইভেন্ট রিমাইন্ডার বন্ধ আছে, তাই কোনো রিমাইন্ডার দেখানো যাবে না।</string>
+    <string name="cd_notifications_off">বিজ্ঞপ্তি বন্ধ</string>
     <string name="settings_not_set">সেট করা হয়নি</string>
     <string name="settings_on">চালু</string>
     <string name="settings_off">বন্ধ</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">ডিভাইস ক্যালেন্ডার</string>
     <string name="label_default_calendar_hint">নতুন ইভেন্ট এই ক্যালেন্ডারে তৈরি হবে</string>
     <string name="label_visible_count">%1$d / %2$d দৃশ্যমান</string>
-    <string name="label_enabled_count">%1$d / %2$d সক্রিয়</string>
     <string name="label_reminders_truncated">%1$d দেখানো হয়নি (%2$d মোট, সর্বোচ্চ %3$d সম্পাদনযোগ্য)</string>
     <string name="label_found_events">পাওয়া গেছে: %1$d ইভেন্ট</string>
     <string name="label_open_debug_menu">ডিবাগ মেনু খুলুন</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">অনুমতি দিন</string>
     <string name="device_calendars_none_found">কোনো ডিভাইস ক্যালেন্ডার পাওয়া যায়নি।</string>
     <string name="device_calendars_local">স্থানীয়</string>
-    <string name="device_calendars_reminders">রিমাইন্ডার</string>
-    <string name="device_calendars_reminders_desc">ডিভাইস ক্যালেন্ডার ইভেন্টের জন্য বিজ্ঞপ্তি পান</string>
     <string name="device_calendars_read_only_no_write">শুধু পড়ার (লেখার অনুমতি নেই)</string>
     <string name="device_calendars_read_only_calendar">শুধু পড়ার (ক্যালেন্ডার শুধুমাত্র পড়ার)</string>
     <string name="settings_developer_options">ডেভেলপার বিকল্প</string>

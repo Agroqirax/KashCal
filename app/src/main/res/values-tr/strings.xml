@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Etkinlikler ne kadar geriye eşitlenecek</string>
     <string name="settings_change_notifications">Değişiklik bildirimleri</string>
     <string name="settings_change_notifications_info">Arka plan eşitlemesi etkinliklerinde değişiklik bulduğunda bildirim gönderir. iCloud ve CalDAV takvimlerinde çalışır.</string>
+    <string name="settings_calendar_notifications">Takvim bildirimleri</string>
+    <string name="settings_calendar_notifications_all">Tüm takvimler</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d sessize alındı</item>
+        <item quantity="other">%d sessize alındı</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Hangi takvimlerin sana bildirim gönderebileceğini seç.</string>
+    <string name="calendar_notifications_info">Sessize alınan takvimler yine görünür ve eşitlenir, ama sana bildirim göndermez.</string>
+    <string name="cd_calendar_notifications_info">Sessize alınan takvimler hakkında</string>
+    <string name="cd_state_expanded">genişletildi</string>
+    <string name="cd_state_collapsed">daraltıldı</string>
+    <string name="calendar_notifications_device_info">Sonradan eklediklerin dahil tüm cihaz takvimlerini sessize almak için kapat.</string>
+    <string name="cd_calendar_notifications_device_info">Cihaz takvimi bildirimleri hakkında</string>
+    <string name="cd_device_calendar_notifications">Cihaz takvimi bildirimleri</string>
+    <string name="calendar_notifications_hidden">Gizli</string>
+    <string name="calendar_notifications_app_off">Sistem ayarlarında KashCal için bildirimler kapalı, bu yüzden hiçbir takvim sana bildirim gönderemez.</string>
+    <string name="calendar_notifications_reminders_off">Sistem ayarlarında Etkinlik Hatırlatıcıları kapalı, bu yüzden hiçbir hatırlatıcı gösterilemez.</string>
+    <string name="cd_notifications_off">bildirimler kapalı</string>
     <string name="settings_not_set">Ayarlanmadı</string>
     <string name="settings_on">Açık</string>
     <string name="settings_off">Kapalı</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Cihaz Takvimleri</string>
     <string name="label_default_calendar_hint">Yeni etkinlikler bu takvimde oluşturulacak</string>
     <string name="label_visible_count">%1$d / %2$d görünür</string>
-    <string name="label_enabled_count">%1$d / %2$d etkin</string>
     <string name="label_reminders_truncated">%1$d gösterilmiyor (%2$d toplam, en fazla %3$d düzenlenebilir)</string>
     <string name="label_found_events">Bulunan: %1$d etkinlik</string>
     <string name="label_open_debug_menu">Hata ayıklama menüsünü aç</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">İzin Ver</string>
     <string name="device_calendars_none_found">Cihaz takvimi bulunamadı.</string>
     <string name="device_calendars_local">Yerel</string>
-    <string name="device_calendars_reminders">Hatırlatıcılar</string>
-    <string name="device_calendars_reminders_desc">Cihaz takvimi etkinlikleri için bildirim al</string>
     <string name="device_calendars_read_only_no_write">Salt okunur (yazma izni yok)</string>
     <string name="device_calendars_read_only_calendar">Salt okunur (takvim salt okunur)</string>
     <string name="settings_developer_options">Geliştirici Seçenekleri</string>

@@ -24,6 +24,7 @@ import org.onekash.kashcal.data.db.dao.CalendarsDao
 import org.onekash.kashcal.data.db.dao.EventWithOccurrenceAndColor
 import org.onekash.kashcal.data.db.dao.OccurrencesDao
 import org.onekash.kashcal.data.db.dao.ScheduledRemindersDao
+import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.db.entity.Occurrence
 import org.onekash.kashcal.data.db.entity.ReminderStatus
@@ -95,6 +96,13 @@ class ReminderSchedulerAlarmCapTest {
         coEvery { scheduledRemindersDao.findExisting(any(), any(), any()) } returns null
         coEvery { scheduledRemindersDao.insertIfAbsent(any()) } returns insertedReminderId
         coEvery { scheduledRemindersDao.deleteById(any()) } just runs
+        coEvery { scheduledRemindersDao.getMutedCalendarIdsWithPendingReminders() } returns emptyList()
+
+        val calendarsDao = mockk<CalendarsDao>()
+        coEvery { calendarsDao.getById(event.calendarId) } returns Calendar(
+            id = event.calendarId, accountId = 1L, caldavUrl = "local://alarm-cap",
+            displayName = "Work", color = 0
+        )
 
         eventReader = mockk()
         attendeesDao = mockk()
@@ -107,7 +115,7 @@ class ReminderSchedulerAlarmCapTest {
             channels = mockk(relaxed = true),
             attendeesDao = attendeesDao,
             accountsDao = mockk<AccountsDao>(),
-            calendarsDao = mockk<CalendarsDao>(),
+            calendarsDao = calendarsDao,
             occurrencesDao = mockk<OccurrencesDao>()
         )
     }

@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Jak daleko zpět synchronizovat události</string>
     <string name="settings_change_notifications">Oznámení o změnách</string>
     <string name="settings_change_notifications_info">Pošle oznámení, když synchronizace na pozadí najde změny ve vašich událostech. Funguje pro kalendáře iCloud a CalDAV.</string>
+    <string name="settings_calendar_notifications">Oznámení kalendářů</string>
+    <string name="settings_calendar_notifications_all">Všechny kalendáře</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ztlumený</item>
+        <item quantity="few">%d ztlumené</item>
+        <item quantity="many">%d ztlumených</item>
+        <item quantity="other">%d ztlumených</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Vyberte, které kalendáře vás mohou upozorňovat.</string>
+    <string name="calendar_notifications_info">Ztlumené kalendáře se dál zobrazují a synchronizují, ale neupozorňují vás.</string>
+    <string name="cd_calendar_notifications_info">O ztlumených kalendářích</string>
+    <string name="cd_state_expanded">rozbaleno</string>
+    <string name="cd_state_collapsed">sbaleno</string>
+    <string name="calendar_notifications_device_info">Vypnutím ztlumíte všechny kalendáře zařízení, včetně těch, které přidáte později.</string>
+    <string name="cd_calendar_notifications_device_info">O oznámeních kalendářů zařízení</string>
+    <string name="cd_device_calendar_notifications">Oznámení kalendářů zařízení</string>
+    <string name="calendar_notifications_hidden">Skrytý</string>
+    <string name="calendar_notifications_app_off">Oznámení pro KashCal jsou v systémových nastaveních vypnutá, takže vás žádný kalendář nemůže upozornit.</string>
+    <string name="calendar_notifications_reminders_off">Připomínky událostí jsou v systémových nastaveních vypnuté, takže se nemohou zobrazit žádné připomínky.</string>
+    <string name="cd_notifications_off">oznámení vypnuta</string>
     <string name="settings_not_set">Nenastaveno</string>
     <string name="settings_on">Zap.</string>
     <string name="settings_off">Vyp.</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Kalendáře zařízení</string>
     <string name="label_default_calendar_hint">Nové události budou vytvořeny v tomto kalendáři</string>
     <string name="label_visible_count">%1$d / %2$d viditelných</string>
-    <string name="label_enabled_count">%1$d / %2$d povoleno</string>
     <string name="label_reminders_truncated">%1$d nezobrazeno (%2$d celkem, max %3$d editovatelných)</string>
     <string name="label_found_events">Nalezeno: %1$d událostí</string>
     <string name="label_open_debug_menu">Otevřít ladící nabídku</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Udělit</string>
     <string name="device_calendars_none_found">Žádné kalendáře zařízení nenalezeny.</string>
     <string name="device_calendars_local">Místní</string>
-    <string name="device_calendars_reminders">Připomínky</string>
-    <string name="device_calendars_reminders_desc">Dostávat oznámení o událostech kalendáře zařízení</string>
     <string name="device_calendars_read_only_no_write">Pouze pro čtení (bez oprávnění k zápisu)</string>
     <string name="device_calendars_read_only_calendar">Pouze pro čtení (kalendář je pouze pro čtení)</string>
     <string name="settings_developer_options">Vývojářské možnosti</string>

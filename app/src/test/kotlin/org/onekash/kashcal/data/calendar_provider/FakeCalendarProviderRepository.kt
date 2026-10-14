@@ -333,12 +333,16 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
         dataStore: org.onekash.kashcal.data.preferences.KashCalDataStore
     ) {
         val storedIds = dataStore.getEnabledDeviceCalendarIds()
-        if (storedIds.isEmpty()) return
+        val mutedIds = dataStore.getMutedDeviceCalendarIds()
+        if (storedIds.isEmpty() && mutedIds.isEmpty()) return
 
         val actualCalendarIds = calendars.map { it.id }.toSet()
         val staleIds = storedIds - actualCalendarIds
         if (staleIds.isNotEmpty()) {
             dataStore.setEnabledDeviceCalendarIds(storedIds - staleIds)
+        }
+        if ((mutedIds - actualCalendarIds).isNotEmpty()) {
+            dataStore.pruneMutedDeviceCalendarIds(actualCalendarIds)
         }
     }
 
@@ -825,8 +829,21 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
 
     // ==================== Reminder Operations ====================
 
-    /** The upcoming reminder to return, or null for none. */
+    /** The upcoming reminder to return, or null to pick from [upcomingReminders]. */
     var nextUpcomingReminder: UpcomingDeviceReminder? = null
+
+    /** The device reminders the due and next queries choose from, as the provider's would. */
+    var upcomingReminders: List<UpcomingDeviceReminder> = emptyList()
+
+    /** The arguments of the last [getDueAndNextReminders] call, or null before any. */
+    data class DueRemindersCall(
+        val enabledCalendarIds: Set<Long>,
+        val after: DeviceReminderCursor,
+        val nowMs: Long,
+        val limit: Int,
+    )
+
+    var lastDueRemindersCall: DueRemindersCall? = null
 
     override suspend fun getNextUpcomingReminder(
         enabledCalendarIds: Set<Long>,
@@ -834,12 +851,35 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
     ): UpcomingDeviceReminder? {
         if (shouldThrowSecurityException) return null
         if (enabledCalendarIds.isEmpty()) return null
-        val reminder = nextUpcomingReminder ?: return null
+        val reminder = nextUpcomingReminder
+            ?: return upcomingReminders
+                .filter { it.calendarId in enabledCalendarIds && it.triggerTime > afterMs }
+                .minByOrNull { it.cursor }
         return if (reminder.calendarId in enabledCalendarIds && reminder.triggerTime > afterMs) {
             reminder
         } else {
             null
         }
+    }
+
+    override suspend fun getDueAndNextReminders(
+        enabledCalendarIds: Set<Long>,
+        after: DeviceReminderCursor,
+        nowMs: Long,
+        limit: Int,
+    ): DeviceReminderBatch {
+        lastDueRemindersCall = DueRemindersCall(enabledCalendarIds, after, nowMs, limit)
+        if (shouldThrowSecurityException || enabledCalendarIds.isEmpty()) return DeviceReminderBatch.EMPTY
+        val enabled = upcomingReminders.filter { it.calendarId in enabledCalendarIds }
+        val due = enabled
+            .filter { it.cursor > after && it.triggerTime <= nowMs }
+            .distinctBy { it.cursor }
+            .sortedBy { it.cursor }
+        return DeviceReminderBatch(
+            due = due.take(limit),
+            next = due.getOrNull(limit) ?: enabled.filter { it.triggerTime > nowMs }.minByOrNull { it.cursor },
+            overflowed = due.size > limit,
+        )
     }
 
     /**
@@ -875,6 +915,8 @@ class FakeCalendarProviderRepository : CalendarProviderRepository {
         softDeletedEventIds.clear()
         selfRsvpUpdates.clear()
         nextUpcomingReminder = null
+        upcomingReminders = emptyList()
+        lastDueRemindersCall = null
         maxReminders = 5
         ensureCalendarVisibleCalls.clear()
         getDeviceCalendarsCallCount = 0

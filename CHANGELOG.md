@@ -1,3 +1,27 @@
+## [2026.10.14]
+
+Every calendar you subscribe to thinks it is the most important one. The team calendar, the school newsletter feed, the shared family calendar where someone sets a reminder for the bins: each one wants to ping you, and each one is sure it has a good reason.
+
+Now you decide. Settings has a new Calendar notifications page, under Calendars & accounts. It lists every calendar KashCal shows (local, iCloud, CalDAV, calendar feeds, birthdays and anniversaries, and calendars from other apps on your phone), each with its own switch.
+
+Turn a calendar off and it stops sending reminders, invitation alerts and change notifications. It still shows and syncs, and the drawer marks it with a bell-off icon. Calendars from other apps also get one switch on their heading that silences all of them, including ones you add later.
+
+The bins still go out on Thursday. You just won't hear about it from three calendars.
+
+### Everything in this release
+
+- Added `Calendar notifications` to Settings under Calendars & accounts, with a switch for every calendar; a muted calendar still shows and syncs but sends no reminders, invitation alerts or change notifications, #137
+- Added a bell-off mark in the drawer next to each muted calendar
+- Moved the switch that turns off reminders for all device calendars from the Device calendars screen to the Device calendars heading in Calendar notifications; it also covers device calendars you add later, and your setting carries over
+- Removed the enabled count from the Device calendars screen
+- Changed the drawer and Calendar notifications to list Offline calendars last, after device calendars
+- Changed pausing a calendar feed (`Sync paused`) to stop only its syncing; its reminders still fire, and muting its calendar silences them
+- Fixed reminders not being set for hidden calendars
+- Fixed an unticked device calendar sending its next reminder
+- Fixed two device-calendar reminders at the same time notifying only once; a reminder that arrives late also shows the ones it overtook
+- Removed the Beta label from Add attendees
+- Fixed "Anniversary of Death" getting the anniversary emoji, #389
+
 ## [2026.10.12]
 
 Recent changes has been keeping a careful diary of your shared calendars: the dinner someone moved to eight, the one Tuesday of a series that got cancelled, the trip that changed its name. It only had one flaw. You had to go and read it.

@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Kiek atgal sinchronizuoti įvykius</string>
     <string name="settings_change_notifications">Pranešimai apie pakeitimus</string>
     <string name="settings_change_notifications_info">Siunčia pranešimą, kai foninis sinchronizavimas randa tavo įvykių pakeitimų. Veikia su iCloud ir CalDAV kalendoriais.</string>
+    <string name="settings_calendar_notifications">Kalendorių pranešimai</string>
+    <string name="settings_calendar_notifications_all">Visi kalendoriai</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d nutildytas</item>
+        <item quantity="few">%d nutildyti</item>
+        <item quantity="many">%d nutildyto</item>
+        <item quantity="other">%d nutildytų</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Pasirink, kurie kalendoriai gali tau pranešti.</string>
+    <string name="calendar_notifications_info">Nutildyti kalendoriai vis tiek rodomi ir sinchronizuojami, bet tau nepraneša.</string>
+    <string name="cd_calendar_notifications_info">Apie nutildytus kalendorius</string>
+    <string name="cd_state_expanded">išskleista</string>
+    <string name="cd_state_collapsed">suskleista</string>
+    <string name="calendar_notifications_device_info">Išjunk, kad nutildytum visus įrenginio kalendorius, įskaitant vėliau pridėtus.</string>
+    <string name="cd_calendar_notifications_device_info">Apie įrenginio kalendorių pranešimus</string>
+    <string name="cd_device_calendar_notifications">Įrenginio kalendorių pranešimai</string>
+    <string name="calendar_notifications_hidden">Paslėptas</string>
+    <string name="calendar_notifications_app_off">KashCal pranešimai išjungti sistemos nustatymuose, todėl joks kalendorius negali tau pranešti.</string>
+    <string name="calendar_notifications_reminders_off">Įvykių priminimai išjungti sistemos nustatymuose, todėl priminimai nebus rodomi.</string>
+    <string name="cd_notifications_off">pranešimai išjungti</string>
     <string name="settings_not_set">Nenustatyta</string>
     <string name="settings_on">Įjungta</string>
     <string name="settings_off">Išjungta</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Įrenginio kalendoriai</string>
     <string name="label_default_calendar_hint">Nauji įvykiai kuriami šiame kalendoriuje</string>
     <string name="label_visible_count">%1$d / %2$d matomi</string>
-    <string name="label_enabled_count">%1$d / %2$d įjungta</string>
     <string name="label_reminders_truncated">%1$d nerodomi (%2$d iš viso, maks. %3$d redaguojamų)</string>
     <string name="label_found_events">Rasta: %1$d įvykių</string>
     <string name="label_open_debug_menu">Atidaryti derinimo meniu</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Suteikti</string>
     <string name="device_calendars_none_found">Įrenginio kalendorių nerasta.</string>
     <string name="device_calendars_local">Vietinis</string>
-    <string name="device_calendars_reminders">Priminimai</string>
-    <string name="device_calendars_reminders_desc">Gauti pranešimus apie įrenginio kalendoriaus įvykius</string>
     <string name="device_calendars_read_only_no_write">Tik skaitymas (nėra rašymo leidimo)</string>
     <string name="device_calendars_read_only_calendar">Tik skaitymas (kalendorius tik skaitomas)</string>
     <string name="settings_developer_options">Kūrėjo parinktys</string>

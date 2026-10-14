@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">同步事件的回溯时长</string>
     <string name="settings_change_notifications">变更通知</string>
     <string name="settings_change_notifications_info">后台同步发现事件有变更时发送通知。适用于 iCloud 和 CalDAV 日历。</string>
+    <string name="settings_calendar_notifications">日历通知</string>
+    <string name="settings_calendar_notifications_all">所有日历</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">已静音 %d 个</item>
+    </plurals>
+    <string name="calendar_notifications_intro">选择哪些日历可以通知你。</string>
+    <string name="calendar_notifications_info">已静音的日历仍会显示和同步，但不会通知你。</string>
+    <string name="cd_calendar_notifications_info">关于已静音的日历</string>
+    <string name="cd_state_expanded">已展开</string>
+    <string name="cd_state_collapsed">已折叠</string>
+    <string name="calendar_notifications_device_info">关闭后，所有设备日历都会静音，包括以后添加的日历。</string>
+    <string name="cd_calendar_notifications_device_info">关于设备日历通知</string>
+    <string name="cd_device_calendar_notifications">设备日历通知</string>
+    <string name="calendar_notifications_hidden">已隐藏</string>
+    <string name="calendar_notifications_app_off">系统设置中已关闭开序历的通知，因此所有日历都无法通知你。</string>
+    <string name="calendar_notifications_reminders_off">系统设置中已关闭事件提醒，因此无法显示任何提醒。</string>
+    <string name="cd_notifications_off">通知已关闭</string>
     <string name="settings_not_set">未设置</string>
     <string name="settings_on">开</string>
     <string name="settings_off">关</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">设备日历</string>
     <string name="label_default_calendar_hint">新事件将在此日历中创建</string>
     <string name="label_visible_count">%1$d / %2$d 可见</string>
-    <string name="label_enabled_count">%1$d / %2$d 已启用</string>
     <string name="label_reminders_truncated">%1$d 个未显示（共 %2$d 个，最多可编辑 %3$d 个）</string>
     <string name="label_found_events">发现：%1$d 个事件</string>
     <string name="label_open_debug_menu">打开调试菜单</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">授权</string>
     <string name="device_calendars_none_found">未找到设备日历。</string>
     <string name="device_calendars_local">本地</string>
-    <string name="device_calendars_reminders">提醒</string>
-    <string name="device_calendars_reminders_desc">接收设备日历事件通知</string>
     <string name="device_calendars_read_only_no_write">只读（无写入权限）</string>
     <string name="device_calendars_read_only_calendar">只读（日历为只读）</string>
     <string name="settings_developer_options">开发者选项</string>

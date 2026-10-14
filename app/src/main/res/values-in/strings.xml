@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">Seberapa jauh ke belakang menyinkronkan acara</string>
     <string name="settings_change_notifications">Notifikasi perubahan</string>
     <string name="settings_change_notifications_info">Mengirim notifikasi saat sinkronisasi latar belakang menemukan perubahan pada acara kamu. Berfungsi untuk kalender iCloud dan CalDAV.</string>
+    <string name="settings_calendar_notifications">Notifikasi kalender</string>
+    <string name="settings_calendar_notifications_all">Semua kalender</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">%d dibisukan</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Pilih kalender yang dapat memberi tahu Anda.</string>
+    <string name="calendar_notifications_info">Kalender yang dibisukan tetap ditampilkan dan disinkronkan, tetapi tidak memberi tahu Anda.</string>
+    <string name="cd_calendar_notifications_info">Tentang kalender yang dibisukan</string>
+    <string name="cd_state_expanded">diperluas</string>
+    <string name="cd_state_collapsed">diciutkan</string>
+    <string name="calendar_notifications_device_info">Matikan untuk membisukan semua kalender perangkat, termasuk yang Anda tambahkan nanti.</string>
+    <string name="cd_calendar_notifications_device_info">Tentang notifikasi kalender perangkat</string>
+    <string name="cd_device_calendar_notifications">Notifikasi kalender perangkat</string>
+    <string name="calendar_notifications_hidden">Disembunyikan</string>
+    <string name="calendar_notifications_app_off">Notifikasi untuk KashCal nonaktif di pengaturan sistem, jadi tidak ada kalender yang dapat memberi tahu Anda.</string>
+    <string name="calendar_notifications_reminders_off">Pengingat acara nonaktif di pengaturan sistem, jadi tidak ada pengingat yang dapat ditampilkan.</string>
+    <string name="cd_notifications_off">notifikasi nonaktif</string>
     <string name="settings_not_set">Belum diatur</string>
     <string name="settings_on">Aktif</string>
     <string name="settings_off">Nonaktif</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">Kalender Perangkat</string>
     <string name="label_default_calendar_hint">Acara baru akan dibuat di kalender ini</string>
     <string name="label_visible_count">%1$d / %2$d terlihat</string>
-    <string name="label_enabled_count">%1$d / %2$d diaktifkan</string>
     <string name="label_reminders_truncated">%1$d tidak ditampilkan (%2$d total, maks %3$d dapat diedit)</string>
     <string name="label_found_events">Ditemukan: %1$d acara</string>
     <string name="label_open_debug_menu">Buka menu debug</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">Berikan</string>
     <string name="device_calendars_none_found">Tidak ada kalender perangkat ditemukan.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Pengingat</string>
-    <string name="device_calendars_reminders_desc">Dapatkan notifikasi untuk acara kalender perangkat</string>
     <string name="device_calendars_read_only_no_write">Hanya-baca (tidak ada izin tulis)</string>
     <string name="device_calendars_read_only_calendar">Hanya-baca (kalender hanya-baca)</string>
     <string name="settings_developer_options">Opsi Pengembang</string>

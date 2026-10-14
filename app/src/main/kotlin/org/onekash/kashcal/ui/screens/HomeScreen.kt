@@ -530,6 +530,8 @@ fun HomeScreen(
                 deviceCalendarsEnabled = uiState.deviceCalendarsEnabled,
                 enabledDeviceCalendars = uiState.enabledDeviceCalendars,
                 hiddenDeviceCalendarIds = uiState.hiddenDeviceCalendarIds,
+                mutedDeviceCalendarIds = uiState.mutedDeviceCalendarIds,
+                deviceRemindersEnabled = uiState.deviceRemindersEnabled,
                 onViewSelect = { mode ->
                     drawerScope.launch { drawerState?.close() }
                     onViewSelect(mode)

@@ -66,6 +66,7 @@ class ReminderSchedulerDeclineFilterTest {
         accountsDao = mockk(relaxed = true)
         calendarsDao = mockk(relaxed = true)
         occurrencesDao = mockk(relaxed = true)
+        coEvery { scheduledRemindersDao.getMutedCalendarIdsWithPendingReminders() } returns emptyList()
     }
 
     private fun newScheduler(): ReminderScheduler = ReminderScheduler(

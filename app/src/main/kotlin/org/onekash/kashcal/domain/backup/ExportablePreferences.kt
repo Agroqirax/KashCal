@@ -165,6 +165,7 @@ object ExportablePreferences {
         // Device calendar selection IDs: not portable across installs
         PreferencesKeys.ENABLED_DEVICE_CALENDAR_IDS.name,
         PreferencesKeys.HIDDEN_DEVICE_CALENDAR_IDS.name,
+        PreferencesKeys.MUTED_DEVICE_CALENDAR_IDS.name,
         // Stores "room:<id>" or "device:<id>"; neither ID is portable across installs
         PreferencesKeys.DEFAULT_CALENDAR.name,
         // Legacy (superseded)

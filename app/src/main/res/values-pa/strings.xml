@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">ਸਮਾਗਮਾਂ ਨੂੰ ਕਿੰਨਾ ਪਿੱਛੇ ਤੱਕ ਸਿੰਕ ਕਰਨਾ ਹੈ</string>
     <string name="settings_change_notifications">ਤਬਦੀਲੀ ਸੂਚਨਾਵਾਂ</string>
     <string name="settings_change_notifications_info">ਜਦੋਂ ਬੈਕਗ੍ਰਾਊਂਡ ਸਿੰਕ ਨੂੰ ਤੁਹਾਡੇ ਸਮਾਗਮਾਂ ਵਿੱਚ ਤਬਦੀਲੀਆਂ ਮਿਲਦੀਆਂ ਹਨ ਤਾਂ ਸੂਚਨਾ ਭੇਜਦਾ ਹੈ। iCloud ਅਤੇ CalDAV ਕੈਲੰਡਰਾਂ ਲਈ ਕੰਮ ਕਰਦਾ ਹੈ।</string>
+    <string name="settings_calendar_notifications">ਕੈਲੰਡਰ ਸੂਚਨਾਵਾਂ</string>
+    <string name="settings_calendar_notifications_all">ਸਾਰੇ ਕੈਲੰਡਰ</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ਮਿਊਟ ਕੀਤਾ</item>
+        <item quantity="other">%d ਮਿਊਟ ਕੀਤੇ</item>
+    </plurals>
+    <string name="calendar_notifications_intro">ਚੁਣੋ ਕਿ ਕਿਹੜੇ ਕੈਲੰਡਰ ਤੁਹਾਨੂੰ ਸੂਚਿਤ ਕਰ ਸਕਦੇ ਹਨ।</string>
+    <string name="calendar_notifications_info">ਮਿਊਟ ਕੀਤੇ ਕੈਲੰਡਰ ਹਾਲੇ ਵੀ ਦਿਖਾਈ ਦਿੰਦੇ ਹਨ ਅਤੇ ਸਿੰਕ ਹੁੰਦੇ ਹਨ, ਪਰ ਤੁਹਾਨੂੰ ਸੂਚਿਤ ਨਹੀਂ ਕਰਦੇ।</string>
+    <string name="cd_calendar_notifications_info">ਮਿਊਟ ਕੀਤੇ ਕੈਲੰਡਰਾਂ ਬਾਰੇ</string>
+    <string name="cd_state_expanded">ਫੈਲਾਇਆ ਹੋਇਆ</string>
+    <string name="cd_state_collapsed">ਸਮੇਟਿਆ ਹੋਇਆ</string>
+    <string name="calendar_notifications_device_info">ਬਾਅਦ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤੇ ਜਾਣ ਵਾਲਿਆਂ ਸਮੇਤ ਸਾਰੇ ਡਿਵਾਈਸ ਕੈਲੰਡਰ ਮਿਊਟ ਕਰਨ ਲਈ ਬੰਦ ਕਰੋ।</string>
+    <string name="cd_calendar_notifications_device_info">ਡਿਵਾਈਸ ਕੈਲੰਡਰ ਸੂਚਨਾਵਾਂ ਬਾਰੇ</string>
+    <string name="cd_device_calendar_notifications">ਡਿਵਾਈਸ ਕੈਲੰਡਰ ਸੂਚਨਾਵਾਂ</string>
+    <string name="calendar_notifications_hidden">ਲੁਕਿਆ ਹੋਇਆ</string>
+    <string name="calendar_notifications_app_off">ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਵਿੱਚ KashCal ਲਈ ਸੂਚਨਾਵਾਂ ਬੰਦ ਹਨ, ਇਸ ਲਈ ਕੋਈ ਵੀ ਕੈਲੰਡਰ ਤੁਹਾਨੂੰ ਸੂਚਿਤ ਨਹੀਂ ਕਰ ਸਕਦਾ।</string>
+    <string name="calendar_notifications_reminders_off">ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਘਟਨਾ ਯਾਦ-ਦਹਾਨੀਆਂ ਬੰਦ ਹਨ, ਇਸ ਲਈ ਕੋਈ ਯਾਦ-ਦਹਾਨੀ ਨਹੀਂ ਦਿਖਾਈ ਜਾ ਸਕਦੀ।</string>
+    <string name="cd_notifications_off">ਸੂਚਨਾਵਾਂ ਬੰਦ</string>
     <string name="settings_not_set">ਸੈੱਟ ਨਹੀਂ ਹੈ</string>
     <string name="settings_on">ਚਾਲੂ</string>
     <string name="settings_off">ਬੰਦ</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">ਡਿਵਾਈਸ ਕੈਲੰਡਰ</string>
     <string name="label_default_calendar_hint">ਨਵੀਆਂ ਘਟਨਾਵਾਂ ਇਸ ਕੈਲੰਡਰ ਵਿੱਚ ਬਣਾਈਆਂ ਜਾਣਗੀਆਂ</string>
     <string name="label_visible_count">%1$d / %2$d ਦਿੱਸਣਯੋਗ</string>
-    <string name="label_enabled_count">%1$d / %2$d ਸਮਰੱਥ</string>
     <string name="label_reminders_truncated">%1$d ਨਹੀਂ ਦਿਖਾਈਆਂ (%2$d ਕੁੱਲ, ਅਧਿਕਤਮ %3$d ਸੰਪਾਦਨਯੋਗ)</string>
     <string name="label_found_events">ਮਿਲੀਆਂ: %1$d ਘਟਨਾਵਾਂ</string>
     <string name="label_open_debug_menu">ਡੀਬੱਗ ਮੈਨੂ ਖੋਲ੍ਹੋ</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">ਦਿਓ</string>
     <string name="device_calendars_none_found">ਕੋਈ ਡਿਵਾਈਸ ਕੈਲੰਡਰ ਨਹੀਂ ਮਿਲੇ।</string>
     <string name="device_calendars_local">ਸਥਾਨਕ</string>
-    <string name="device_calendars_reminders">ਯਾਦ-ਦਹਾਨੀਆਂ</string>
-    <string name="device_calendars_reminders_desc">ਡਿਵਾਈਸ ਕੈਲੰਡਰ ਘਟਨਾਵਾਂ ਲਈ ਸੂਚਿਤ ਕੀਤਾ ਜਾਓ</string>
     <string name="device_calendars_read_only_no_write">ਸਿਰਫ਼ ਪੜ੍ਹਨ (ਲਿਖਣ ਇਜਾਜ਼ਤ ਨਹੀਂ)</string>
     <string name="device_calendars_read_only_calendar">ਸਿਰਫ਼ ਪੜ੍ਹਨ (ਸਿਰਫ਼-ਪੜ੍ਹਨਯੋਗ ਕੈਲੰਡਰ)</string>
     <string name="settings_developer_options">ਡਿਵੈਲਪਰ ਵਿਕਲਪ</string>

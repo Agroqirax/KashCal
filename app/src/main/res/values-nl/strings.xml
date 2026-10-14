@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Hoe ver terug afspraken worden gesynchroniseerd</string>
     <string name="settings_change_notifications">Wijzigingsmeldingen</string>
     <string name="settings_change_notifications_info">Stuurt een melding wanneer een synchronisatie op de achtergrond wijzigingen in je afspraken vindt. Werkt voor iCloud- en CalDAV-agenda\'s.</string>
+    <string name="settings_calendar_notifications">Agendameldingen</string>
+    <string name="settings_calendar_notifications_all">Alle agenda\'s</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d gedempt</item>
+        <item quantity="other">%d gedempt</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Kies welke agenda\'s je meldingen mogen sturen.</string>
+    <string name="calendar_notifications_info">Gedempte agenda\'s worden nog steeds getoond en gesynchroniseerd, maar sturen je geen meldingen.</string>
+    <string name="cd_calendar_notifications_info">Over gedempte agenda\'s</string>
+    <string name="cd_state_expanded">uitgevouwen</string>
+    <string name="cd_state_collapsed">samengevouwen</string>
+    <string name="calendar_notifications_device_info">Zet dit uit om alle apparaatagenda\'s te dempen, ook die je later toevoegt.</string>
+    <string name="cd_calendar_notifications_device_info">Over meldingen van apparaatagenda\'s</string>
+    <string name="cd_device_calendar_notifications">Meldingen van apparaatagenda\'s</string>
+    <string name="calendar_notifications_hidden">Verborgen</string>
+    <string name="calendar_notifications_app_off">Meldingen voor KashCal staan uit in de systeeminstellingen, dus geen enkele agenda kan je een melding sturen.</string>
+    <string name="calendar_notifications_reminders_off">Afspraakherinneringen staan uit in de systeeminstellingen, dus er kunnen geen herinneringen verschijnen.</string>
+    <string name="cd_notifications_off">meldingen uit</string>
     <string name="settings_not_set">Niet ingesteld</string>
     <string name="settings_on">Aan</string>
     <string name="settings_off">Uit</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Apparaatagenda\'s</string>
     <string name="label_default_calendar_hint">Nieuwe afspraken worden in deze agenda gemaakt</string>
     <string name="label_visible_count">%1$d / %2$d zichtbaar</string>
-    <string name="label_enabled_count">%1$d / %2$d ingeschakeld</string>
     <string name="label_reminders_truncated">%1$d niet getoond (%2$d totaal, max %3$d bewerkbaar)</string>
     <string name="label_found_events">Gevonden: %1$d afspraken</string>
     <string name="label_open_debug_menu">Debug-menu openen</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Verlenen</string>
     <string name="device_calendars_none_found">Geen apparaatagenda\'s gevonden.</string>
     <string name="device_calendars_local">Lokaal</string>
-    <string name="device_calendars_reminders">Herinneringen</string>
-    <string name="device_calendars_reminders_desc">Meldingen ontvangen voor apparaatafspraken</string>
     <string name="device_calendars_read_only_no_write">Alleen lezen (geen schrijftoestemming)</string>
     <string name="device_calendars_read_only_calendar">Alleen lezen (agenda is alleen-lezen)</string>
     <string name="settings_developer_options">Ontwikkelaarsopties</string>

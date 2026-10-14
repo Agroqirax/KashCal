@@ -19,7 +19,9 @@ import org.onekash.kashcal.util.maskEventId
 import javax.inject.Inject
 
 /**
- * Posts a reminder's notification, with Snooze and Dismiss actions, when its alarm fires.
+ * Posts a reminder's notification, with Snooze and Dismiss actions, when its alarm fires; the
+ * guards in [handleAlarm] skip a missing or dismissed row, a gone event, a cancelled occurrence
+ * and a muted calendar.
  *
  * It then arms the reminders now due within [ReminderScheduler.SCHEDULE_WINDOW_DAYS]. The work
  * runs under goAsync() and a 9-second timeout; [handleAlarm] holds the steps.
@@ -123,6 +125,15 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         if (!reminderScheduler.hasLiveOccurrenceForReminder(reminder)) {
             Log.d(TAG, "Suppressed reminder $reminderId for cancelled occurrence of event ${reminder.eventId.maskEventId()}")
             reminderScheduler.cancelReminderForOccurrence(reminder.eventId, reminder.occurrenceTime)
+            return
+        }
+
+        // The calendar may have been muted after this alarm was armed. Post nothing, and mark the
+        // row fired so the scan doesn't create it again; the refill still runs for the others.
+        if (reminderScheduler.isCalendarMutedForReminder(reminder)) {
+            Log.d(TAG, "Suppressed reminder $reminderId of a muted calendar")
+            reminderScheduler.markAsFired(reminderId)
+            refillReminderWindow(reminderScheduler)
             return
         }
 

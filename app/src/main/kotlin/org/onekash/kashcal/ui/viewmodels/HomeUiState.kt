@@ -83,6 +83,13 @@ data class HomeUiState(
     val enabledDeviceCalendars: ImmutableList<DeviceCalendar> = persistentListOf(),
     /** Device calendar ids that are enabled but hidden from view. */
     val hiddenDeviceCalendarIds: PersistentSet<Long> = persistentSetOf(),
+    /** Device calendar ids whose notifications are muted one by one. */
+    val mutedDeviceCalendarIds: PersistentSet<Long> = persistentSetOf(),
+    /**
+     * Whether KashCal reminds for device calendars at all: the Device calendars switch in
+     * Calendar notifications.
+     */
+    val deviceRemindersEnabled: Boolean = true,
 
     // === SYNC STATE ===
     /** Whether sync work is live; only the duplicate-sync guard reads it, not the UI. */

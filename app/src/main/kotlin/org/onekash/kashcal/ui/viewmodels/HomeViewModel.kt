@@ -1325,9 +1325,10 @@ class HomeViewModel(
     }
 
     /**
-     * Keeps the device calendar drawer state in uiState: the feature flag, the enabled calendars
-     * and the hidden IDs. Only a change to the flag or the enabled IDs queries the provider for
-     * the calendar list; a hidden-ID change only updates state.
+     * Keeps the device calendar drawer state in uiState: the device calendars flag, the enabled
+     * calendars, the hidden IDs, the muted IDs and the device reminders setting. Only a change to
+     * the device calendars flag or the enabled IDs queries the provider for the calendar list; the
+     * others only update state.
      */
     private fun observeDeviceCalendarDrawerState() {
         viewModelScope.launch {
@@ -1351,6 +1352,18 @@ class HomeViewModel(
                 _uiState.update {
                     it.copy(hiddenDeviceCalendarIds = hiddenIds.toPersistentSet())
                 }
+            }
+        }
+        viewModelScope.launch {
+            dataStore.mutedDeviceCalendarIds.collect { mutedIds ->
+                _uiState.update {
+                    it.copy(mutedDeviceCalendarIds = mutedIds.toPersistentSet())
+                }
+            }
+        }
+        viewModelScope.launch {
+            dataStore.deviceCalendarRemindersEnabled.collect { enabled ->
+                _uiState.update { it.copy(deviceRemindersEnabled = enabled) }
             }
         }
     }

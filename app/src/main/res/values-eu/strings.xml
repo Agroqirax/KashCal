@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Zenbateraino atzera sinkronizatu gertaerak</string>
     <string name="settings_change_notifications">Aldaketen jakinarazpenak</string>
     <string name="settings_change_notifications_info">Atzeko planoko sinkronizazio batek zure gertaeretan aldaketak aurkitzen dituenean jakinarazpen bat bidaltzen du. iCloud eta CalDAV egutegiekin funtzionatzen du.</string>
+    <string name="settings_calendar_notifications">Egutegiko jakinarazpenak</string>
+    <string name="settings_calendar_notifications_all">Egutegi guztiak</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d isilarazita</item>
+        <item quantity="other">%d isilarazita</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Aukeratu zein egutegik bidal ditzaketen jakinarazpenak.</string>
+    <string name="calendar_notifications_info">Isilarazitako egutegiak erakusten eta sinkronizatzen jarraitzen dute, baina ez dizute jakinarazpenik bidaltzen.</string>
+    <string name="cd_calendar_notifications_info">Isilarazitako egutegiei buruz</string>
+    <string name="cd_state_expanded">zabalduta</string>
+    <string name="cd_state_collapsed">tolestuta</string>
+    <string name="calendar_notifications_device_info">Desaktibatu gailuko egutegi guztiak isilarazteko, geroago gehitzen dituzunak barne.</string>
+    <string name="cd_calendar_notifications_device_info">Gailuko egutegien jakinarazpenei buruz</string>
+    <string name="cd_device_calendar_notifications">Gailuko egutegien jakinarazpenak</string>
+    <string name="calendar_notifications_hidden">Ezkutatuta</string>
+    <string name="calendar_notifications_app_off">KashCal-en jakinarazpenak desaktibatuta daude sistemaren ezarpenetan; beraz, egutegiek ezin dizute jakinarazpenik bidali.</string>
+    <string name="calendar_notifications_reminders_off">Gertaeren oroigarriak desaktibatuta daude sistemaren ezarpenetan; beraz, ezin da oroigarririk erakutsi.</string>
+    <string name="cd_notifications_off">jakinarazpenak desaktibatuta</string>
     <string name="settings_not_set">Ezarri gabe</string>
     <string name="settings_on">Aktibatuta</string>
     <string name="settings_off">Desaktibatuta</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Gailuko egutegiak</string>
     <string name="label_default_calendar_hint">Gertaera berriak egutegi honetan sortuko dira</string>
     <string name="label_visible_count">%1$d / %2$d ikusgai</string>
-    <string name="label_enabled_count">%1$d / %2$d gaituta</string>
     <string name="label_reminders_truncated">%1$d erakutsi gabe (%2$d guztira, gehienez %3$d editagarri)</string>
     <string name="label_found_events">Aurkitutakoak: %1$d gertaera</string>
     <string name="label_open_debug_menu">Arazketa-menua ireki</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Eman</string>
     <string name="device_calendars_none_found">Ez da gailuko egutegirik aurkitu.</string>
     <string name="device_calendars_local">Lokala</string>
-    <string name="device_calendars_reminders">Gogorarazleak</string>
-    <string name="device_calendars_reminders_desc">Jaso jakinarazpenak gailuko egutegiko gertaerentzat</string>
     <string name="device_calendars_read_only_no_write">Irakurtzeko soilik (idazte-baimenik gabe)</string>
     <string name="device_calendars_read_only_calendar">Irakurtzeko soilik (egutegia irakurtzeko soilik da)</string>
     <string name="settings_developer_options">Garatzaile-aukerak</string>

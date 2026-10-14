@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Dè cho fada air ais a shioncronaichear tachartasan</string>
     <string name="settings_change_notifications">Brathan mu atharraichean</string>
     <string name="settings_change_notifications_info">Cuiridh e brath nuair a lorgas sioncronachadh sa chùlaibh atharraichean air na tachartasan agad. Obraichidh e le mìosachain iCloud agus CalDAV.</string>
+    <string name="settings_calendar_notifications">Brathan mìosachain</string>
+    <string name="settings_calendar_notifications_all">Gach mìosachan</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">Mùchte: %d</item>
+        <item quantity="two">Mùchte: %d</item>
+        <item quantity="few">Mùchte: %d</item>
+        <item quantity="other">Mùchte: %d</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Tagh dè na mìosachain a chuireas brathan thugad.</string>
+    <string name="calendar_notifications_info">Thèid mìosachain mhùchte a shealltainn is a shioncronachadh fhathast, ach cha chuir iad brathan thugad.</string>
+    <string name="cd_calendar_notifications_info">Mu mhìosachain mhùchte</string>
+    <string name="cd_state_expanded">air a leudachadh</string>
+    <string name="cd_state_collapsed">air a phasgadh</string>
+    <string name="calendar_notifications_device_info">Cuir dheth seo gus a h-uile mìosachan an uidheim a mhùchadh, nam measg an fheadhainn a chuireas tu ris nas fhaide air adhart.</string>
+    <string name="cd_calendar_notifications_device_info">Mu bhrathan o mhìosachain an uidheim</string>
+    <string name="cd_device_calendar_notifications">Brathan o mhìosachain an uidheim</string>
+    <string name="calendar_notifications_hidden">Falaichte</string>
+    <string name="calendar_notifications_app_off">Tha brathan KashCal dheth ann an roghainnean an t-siostaim, mar sin chan urrainn do mhìosachan sam bith brath a chur thugad.</string>
+    <string name="calendar_notifications_reminders_off">Tha cuimhneachain thachartasan dheth ann an roghainnean an t-siostaim, mar sin chan urrainnear cuimhneachain a shealltainn.</string>
+    <string name="cd_notifications_off">brathan dheth</string>
     <string name="settings_not_set">Gun suidheachadh</string>
     <string name="settings_on">Air</string>
     <string name="settings_off">Dheth</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Mìosachain an Uidheim</string>
     <string name="label_default_calendar_hint">Thèid tachartasan ùra a chruthachadh sa mhìosachan seo</string>
     <string name="label_visible_count">%1$d / %2$d faicsinneach</string>
-    <string name="label_enabled_count">%1$d / %2$d air an cur an comas</string>
     <string name="label_reminders_truncated">%1$d gun sealltainn (%2$d san iomlan, as motha %3$d ri dheasachadh)</string>
     <string name="label_found_events">Air lorg: %1$d tachartas</string>
     <string name="label_open_debug_menu">Fosgail clàr-taice dì-bhugachaidh</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Thoir</string>
     <string name="device_calendars_none_found">Cha deach mìosachain uidheim a lorg.</string>
     <string name="device_calendars_local">Ionadail</string>
-    <string name="device_calendars_reminders">Cuimhneachanan</string>
-    <string name="device_calendars_reminders_desc">Faigh brath mu thachartasan mìosachain an uidheim</string>
     <string name="device_calendars_read_only_no_write">Leughadh a-mhàin (gun chead sgrìobhaidh)</string>
     <string name="device_calendars_read_only_calendar">Leughadh a-mhàin (mìosachan leughaidh a-mhàin)</string>
     <string name="settings_developer_options">Roghainnean Luchd-leasachaidh</string>

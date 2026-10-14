@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Kiasi cha nyuma cha kusawazisha matukio</string>
     <string name="settings_change_notifications">Arifa za mabadiliko</string>
     <string name="settings_change_notifications_info">Hutuma arifa usawazishaji wa chinichini unapopata mabadiliko kwenye matukio yako. Inafanya kazi kwa kalenda za iCloud na CalDAV.</string>
+    <string name="settings_calendar_notifications">Arifa za kalenda</string>
+    <string name="settings_calendar_notifications_all">Kalenda zote</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d imenyamazishwa</item>
+        <item quantity="other">%d zimenyamazishwa</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Chagua kalenda zinazoweza kukuarifu.</string>
+    <string name="calendar_notifications_info">Kalenda zilizonyamazishwa bado zinaonyeshwa na kusawazishwa, lakini hazikuarifu.</string>
+    <string name="cd_calendar_notifications_info">Kuhusu kalenda zilizonyamazishwa</string>
+    <string name="cd_state_expanded">imepanuliwa</string>
+    <string name="cd_state_collapsed">imekunjwa</string>
+    <string name="calendar_notifications_device_info">Zima ili kunyamazisha kalenda zote za kifaa, zikiwemo utakazoongeza baadaye.</string>
+    <string name="cd_calendar_notifications_device_info">Kuhusu arifa za kalenda za kifaa</string>
+    <string name="cd_device_calendar_notifications">Arifa za kalenda za kifaa</string>
+    <string name="calendar_notifications_hidden">Imefichwa</string>
+    <string name="calendar_notifications_app_off">Arifa za KashCal zimezimwa katika mipangilio ya mfumo, kwa hivyo hakuna kalenda inayoweza kukuarifu.</string>
+    <string name="calendar_notifications_reminders_off">Vikumbusho vya matukio vimezimwa katika mipangilio ya mfumo, kwa hivyo hakuna vikumbusho vinavyoweza kuonyeshwa.</string>
+    <string name="cd_notifications_off">arifa zimezimwa</string>
     <string name="settings_not_set">Haijawekwa</string>
     <string name="settings_on">Washa</string>
     <string name="settings_off">Zima</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Kalenda za Kifaa</string>
     <string name="label_default_calendar_hint">Matukio mapya yataundwa katika kalenda hii</string>
     <string name="label_visible_count">%1$d / %2$d zinaonekana</string>
-    <string name="label_enabled_count">%1$d / %2$d zimewashwa</string>
     <string name="label_reminders_truncated">%1$d hazikuonyeshwa (jumla %2$d, upeo %3$d zinazoweza kuhaririwa)</string>
     <string name="label_found_events">Zimepatikana: matukio %1$d</string>
     <string name="label_open_debug_menu">Fungua menyu ya utatuzi</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Ruhusu</string>
     <string name="device_calendars_none_found">Hakuna kalenda za kifaa zilizopatikana.</string>
     <string name="device_calendars_local">Ndani</string>
-    <string name="device_calendars_reminders">Vikumbusho</string>
-    <string name="device_calendars_reminders_desc">Pata arifa za matukio ya kalenda ya kifaa</string>
     <string name="device_calendars_read_only_no_write">Kusoma tu (hakuna ruhusa ya kuandika)</string>
     <string name="device_calendars_read_only_calendar">Kusoma tu (kalenda ya kusoma tu)</string>
     <string name="settings_developer_options">Chaguo za Msanidi</string>

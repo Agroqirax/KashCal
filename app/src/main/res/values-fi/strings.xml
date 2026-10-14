@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Kuinka kauas taakse tapahtumia synkronoidaan</string>
     <string name="settings_change_notifications">Muutosilmoitukset</string>
     <string name="settings_change_notifications_info">Lähettää ilmoituksen, kun taustasynkronointi löytää muutoksia tapahtumiisi. Toimii iCloud- ja CalDAV-kalentereissa.</string>
+    <string name="settings_calendar_notifications">Kalenterien ilmoitukset</string>
+    <string name="settings_calendar_notifications_all">Kaikki kalenterit</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d mykistetty</item>
+        <item quantity="other">%d mykistetty</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Valitse, mitkä kalenterit voivat ilmoittaa sinulle.</string>
+    <string name="calendar_notifications_info">Mykistetyt kalenterit näkyvät ja synkronoituvat edelleen, mutta eivät ilmoita sinulle.</string>
+    <string name="cd_calendar_notifications_info">Tietoja mykistetyistä kalentereista</string>
+    <string name="cd_state_expanded">laajennettu</string>
+    <string name="cd_state_collapsed">kutistettu</string>
+    <string name="calendar_notifications_device_info">Poista käytöstä mykistääksesi kaikki laitteen kalenterit, myös myöhemmin lisättävät.</string>
+    <string name="cd_calendar_notifications_device_info">Tietoja laitteen kalenterien ilmoituksista</string>
+    <string name="cd_device_calendar_notifications">Laitteen kalenterien ilmoitukset</string>
+    <string name="calendar_notifications_hidden">Piilotettu</string>
+    <string name="calendar_notifications_app_off">Sovelluksen KashCal ilmoitukset ovat pois päältä järjestelmäasetuksissa, joten mikään kalenteri ei voi ilmoittaa sinulle.</string>
+    <string name="calendar_notifications_reminders_off">Tapahtumamuistutukset ovat pois päältä järjestelmäasetuksissa, joten muistutuksia ei näytetä.</string>
+    <string name="cd_notifications_off">ilmoitukset pois päältä</string>
     <string name="settings_not_set">Ei asetettu</string>
     <string name="settings_on">Päällä</string>
     <string name="settings_off">Pois</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Laitteen kalenterit</string>
     <string name="label_default_calendar_hint">Uudet tapahtumat luodaan tähän kalenteriin</string>
     <string name="label_visible_count">%1$d / %2$d näkyvissä</string>
-    <string name="label_enabled_count">%1$d / %2$d käytössä</string>
     <string name="label_reminders_truncated">%1$d ei näytetty (%2$d yhteensä, enintään %3$d muokattavissa)</string>
     <string name="label_found_events">Löydetty: %1$d tapahtumaa</string>
     <string name="label_open_debug_menu">Avaa virheenkorjausvalikko</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Myönnä</string>
     <string name="device_calendars_none_found">Laitteen kalentereita ei löytynyt.</string>
     <string name="device_calendars_local">Paikallinen</string>
-    <string name="device_calendars_reminders">Muistutukset</string>
-    <string name="device_calendars_reminders_desc">Saa ilmoituksia laitteen kalenteritapahtumista</string>
     <string name="device_calendars_read_only_no_write">Vain luku (ei kirjoitusoikeutta)</string>
     <string name="device_calendars_read_only_calendar">Vain luku (kalenteri on vain luku -tilassa)</string>
     <string name="settings_developer_options">Kehittäjäasetukset</string>

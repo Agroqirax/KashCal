@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">எவ்வளவு பின்னோக்கி நிகழ்வுகளை ஒத்திசைக்க வேண்டும்</string>
     <string name="settings_change_notifications">மாற்ற அறிவிப்புகள்</string>
     <string name="settings_change_notifications_info">பின்னணி ஒத்திசைவு உங்கள் நிகழ்வுகளில் மாற்றங்களைக் கண்டறியும்போது ஓர் அறிவிப்பை அனுப்பும். iCloud மற்றும் CalDAV நாட்காட்டிகளுக்கு வேலை செய்யும்.</string>
+    <string name="settings_calendar_notifications">நாட்காட்டி அறிவிப்புகள்</string>
+    <string name="settings_calendar_notifications_all">அனைத்து நாட்காட்டிகளும்</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ஒலியடக்கப்பட்டது</item>
+        <item quantity="other">%d ஒலியடக்கப்பட்டன</item>
+    </plurals>
+    <string name="calendar_notifications_intro">எந்த நாட்காட்டிகள் உங்களுக்கு அறிவிக்கலாம் என்பதைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="calendar_notifications_info">ஒலியடக்கப்பட்ட நாட்காட்டிகள் தொடர்ந்து காட்டப்பட்டு ஒத்திசைக்கப்படும், ஆனால் உங்களுக்கு அறிவிக்காது.</string>
+    <string name="cd_calendar_notifications_info">ஒலியடக்கப்பட்ட நாட்காட்டிகள் பற்றி</string>
+    <string name="cd_state_expanded">விரிவாக்கப்பட்டது</string>
+    <string name="cd_state_collapsed">சுருக்கப்பட்டது</string>
+    <string name="calendar_notifications_device_info">பின்னர் சேர்க்கும் நாட்காட்டிகள் உட்பட எல்லா சாதன நாட்காட்டிகளையும் ஒலியடக்க இதை ஆஃப் செய்யவும்.</string>
+    <string name="cd_calendar_notifications_device_info">சாதன நாட்காட்டி அறிவிப்புகள் பற்றி</string>
+    <string name="cd_device_calendar_notifications">சாதன நாட்காட்டி அறிவிப்புகள்</string>
+    <string name="calendar_notifications_hidden">மறைக்கப்பட்டது</string>
+    <string name="calendar_notifications_app_off">கணினி அமைப்புகளில் KashCal-க்கான அறிவிப்புகள் ஆஃபில் உள்ளன, எனவே எந்த நாட்காட்டியும் உங்களுக்கு அறிவிக்க முடியாது.</string>
+    <string name="calendar_notifications_reminders_off">கணினி அமைப்புகளில் நிகழ்வு நினைவூட்டல்கள் ஆஃபில் உள்ளன, எனவே எந்த நினைவூட்டலும் காட்டப்படாது.</string>
+    <string name="cd_notifications_off">அறிவிப்புகள் ஆஃப்</string>
     <string name="settings_not_set">அமைக்கப்படவில்லை</string>
     <string name="settings_on">ஆன்</string>
     <string name="settings_off">ஆஃப்</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">சாதன நாட்காட்டிகள்</string>
     <string name="label_default_calendar_hint">புதிய நிகழ்வுகள் இந்த நாட்காட்டியில் உருவாக்கப்படும்</string>
     <string name="label_visible_count">%1$d / %2$d காணக்கூடியவை</string>
-    <string name="label_enabled_count">%1$d / %2$d இயக்கப்பட்டவை</string>
     <string name="label_reminders_truncated">%1$d காட்டப்படவில்லை (%2$d மொத்தம், அதிகபட்சம் %3$d திருத்தக்கூடியவை)</string>
     <string name="label_found_events">கண்டறியப்பட்டவை: %1$d நிகழ்வுகள்</string>
     <string name="label_open_debug_menu">பிழைத்திருத்த மெனு திற</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">வழங்கு</string>
     <string name="device_calendars_none_found">சாதன நாட்காட்டிகள் கிடைக்கவில்லை.</string>
     <string name="device_calendars_local">உள்ளூர்</string>
-    <string name="device_calendars_reminders">நினைவூட்டல்கள்</string>
-    <string name="device_calendars_reminders_desc">சாதன நாட்காட்டி நிகழ்வுகளுக்கு அறிவிப்பு பெறு</string>
     <string name="device_calendars_read_only_no_write">படிக்க மட்டும் (எழுத அனுமதி இல்லை)</string>
     <string name="device_calendars_read_only_calendar">படிக்க மட்டும் (நாட்காட்டி படிக்க மட்டும்)</string>
     <string name="settings_developer_options">டெவலப்பர் விருப்பங்கள்</string>

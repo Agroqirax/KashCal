@@ -134,6 +134,9 @@ class AccountSettingsScreenViewModelWiringTest {
         every { vm.enabledDeviceCalendarIds } returns MutableStateFlow(emptySet<Long>())
         every { vm.showDeclinedEvents } returns MutableStateFlow(false)
         every { vm.deviceCalendarRemindersEnabled } returns MutableStateFlow(true)
+        every { vm.hiddenDeviceCalendarIds } returns MutableStateFlow(emptySet<Long>())
+        every { vm.mutedDeviceCalendarIds } returns MutableStateFlow(emptySet<Long>())
+        every { vm.calendarNotificationsBlockedBy } returns MutableStateFlow(null)
         every { vm.backupRestoreState } returns MutableStateFlow(BackupRestoreUiState.Idle)
         // The route collects the permission state at the top for the ICS subscription dialog;
         // the hint flow is collected only inside the CalDAV sheet (not shown here).
@@ -245,5 +248,58 @@ class AccountSettingsScreenViewModelWiringTest {
         verify(exactly = 0) { vm.setWidgetMaxEventsPerDay(any()) }
         verify(exactly = 0) { vm.onDefaultEventDurationChange(any()) }
         verify(exactly = 0) { vm.setFirstDayOfWeek(any()) }
+    }
+
+    @Test
+    fun `calendar notifications switches drive the Room and device mute setters apart`() {
+        val vm = mockVm(widget = 8, weekNumbers = false)
+        val work = Calendar(
+            id = 20L, accountId = 2L, caldavUrl = "https://caldav.example.test/work/", displayName = "Work",
+            color = 0xFF4CAF50.toInt(),
+        )
+        val calendars = listOf(localCalendar, work)
+        every { vm.calendars } returns MutableStateFlow(calendars)
+        every { vm.calendarGroups } returns MutableStateFlow(
+            CalendarGroup.fromCalendarsAndAccounts(
+                calendars,
+                listOf(
+                    org.onekash.kashcal.data.db.entity.Account(
+                        id = 1L, provider = org.onekash.kashcal.domain.model.AccountProvider.LOCAL, email = "local"
+                    ),
+                    org.onekash.kashcal.data.db.entity.Account(
+                        id = 2L, provider = org.onekash.kashcal.domain.model.AccountProvider.CALDAV,
+                        email = "me@example.test", displayName = "Nextcloud"
+                    ),
+                ),
+                localLabel = "Offline",
+                icsLabel = "Calendar Feeds",
+            )
+        )
+        every { vm.deviceCalendarsEnabled } returns MutableStateFlow(true)
+        every { vm.hasReadCalendarPermission } returns MutableStateFlow(true)
+        every { vm.deviceCalendars } returns MutableStateFlow(
+            listOf(
+                DeviceCalendar(
+                    id = 100L, displayName = "Phone", color = 0, accountName = "", accountType = "LOCAL",
+                    visible = true, accessLevel = 700,
+                )
+            )
+        )
+        every { vm.enabledDeviceCalendarIds } returns MutableStateFlow(setOf(100L))
+        setRoute(vm)
+
+        composeTestRule.onNodeWithText("Calendar notifications").performClick()
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Work").performClick()
+        composeTestRule.waitForIdle()
+
+        verify(exactly = 1) { vm.onToggleCalendarMuted(20L, true) }
+        verify(exactly = 0) { vm.onToggleDeviceCalendarMuted(any(), any()) }
+
+        composeTestRule.onNodeWithText("Phone").performClick()
+        composeTestRule.waitForIdle()
+
+        verify(exactly = 1) { vm.onToggleDeviceCalendarMuted(100L, true) }
+        verify(exactly = 1) { vm.onToggleCalendarMuted(any(), any()) }
     }
 }

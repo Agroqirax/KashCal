@@ -12,6 +12,7 @@ import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.db.entity.Occurrence
 import org.onekash.kashcal.data.db.entity.ReminderStatus
 import org.onekash.kashcal.data.db.entity.ScheduledReminder
+import org.onekash.kashcal.domain.coordinator.EventCoordinator
 import org.onekash.kashcal.domain.reader.EventReader
 import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
 import org.onekash.kashcal.reminder.receiver.ReminderAlarmReceiver
@@ -34,12 +35,14 @@ class ReminderAlarmFixture(private val context: Context) {
 
     val eventReader = EventReader(database)
 
+    /** Only used to clear notifications, a side effect; tests verify it is left alone. */
+    val channels = mockk<ReminderNotificationChannels>(relaxed = true)
+
     val scheduler = ReminderScheduler(
         context = context,
         scheduledRemindersDao = database.scheduledRemindersDao(),
         eventReader = eventReader,
-        // Only used to clear notifications on dismiss, a side effect
-        channels = mockk<ReminderNotificationChannels>(relaxed = true),
+        channels = channels,
         attendeesDao = database.attendeesDao(),
         accountsDao = database.accountsDao(),
         calendarsDao = database.calendarsDao(),
@@ -48,15 +51,38 @@ class ReminderAlarmFixture(private val context: Context) {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    /**
+     * An [EventCoordinator] over this database and [scheduler], for the calendar mute toggle. Every
+     * other collaborator is a strict mock, so a toggle that touches one fails the test.
+     */
+    fun coordinator(scheduler: ReminderScheduler = this.scheduler) = EventCoordinator(
+        eventWriter = mockk(),
+        eventReader = eventReader,
+        occurrenceGenerator = mockk(),
+        localCalendarInitializer = mockk(),
+        icsSubscriptionRepository = mockk(),
+        contactBirthdayRepository = mockk(),
+        contactAnniversaryRepository = mockk(),
+        accountRepository = mockk(),
+        syncScheduler = mockk(),
+        reminderScheduler = scheduler,
+        widgetUpdateManager = mockk(),
+        inviteNotifier = mockk(),
+        icsRefreshScheduleReconciler = mockk(),
+        dataStore = mockk()
+    )
+
     var calendarId: Long = 0
         private set
+
+    private var accountId: Long = 0
 
     init {
         ShadowAlarmManager.setCanScheduleExactAlarms(true)
     }
 
     suspend fun seedCalendar() {
-        val accountId = database.accountsDao().insert(
+        accountId = database.accountsDao().insert(
             Account(provider = AccountProvider.LOCAL, email = "self@example.test")
         )
         calendarId = database.calendarsDao().insert(
@@ -69,12 +95,28 @@ class ReminderAlarmFixture(private val context: Context) {
         )
     }
 
+    /** Adds another calendar to the account [seedCalendar] created and returns its id. */
+    suspend fun addCalendar(name: String): Long = database.calendarsDao().insert(
+        Calendar(
+            accountId = accountId,
+            caldavUrl = "local://reminder-window/$name",
+            displayName = name,
+            color = -1
+        )
+    )
+
+    /** Mutes or unmutes [calendarId] through the DAO only, with no alarm work. */
+    suspend fun setMuted(calendarId: Long, muted: Boolean) {
+        database.calendarsDao().setNotificationMuted(calendarId, muted)
+    }
+
     /** An event whose first occurrence starts at [startTs], plus its occurrence row. */
     suspend fun insertEvent(
         title: String,
         startTs: Long,
         reminders: List<String>,
-        isAllDay: Boolean = false
+        isAllDay: Boolean = false,
+        calendarId: Long = this.calendarId
     ): Event {
         val event = Event(
             uid = "$title@kashcal.test",

@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -54,11 +52,9 @@ fun DeviceCalendarsScreen(
     hasWritePermission: Boolean,
     deviceCalendars: List<DeviceCalendar>,
     enabledCalendarIds: Set<Long>,
-    deviceCalendarRemindersEnabled: Boolean,
     onNavigateBack: () -> Unit,
     onToggle: (Boolean) -> Unit,
     onToggleCalendar: (Long, Boolean) -> Unit,
-    onToggleDeviceCalendarReminders: (Boolean) -> Unit,
     onRequestWritePermission: () -> Unit,
     onRefresh: () -> Unit = {}
 ) {
@@ -252,41 +248,6 @@ fun DeviceCalendarsScreen(
                                     }
                                 }
                             }
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-                        val enabledCount = enabledCalendarIds.size
-                        val totalCount = deviceCalendars.size
-                        Text(
-                            stringResource(R.string.label_enabled_count, enabledCount, totalCount),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                        )
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    stringResource(R.string.device_calendars_reminders),
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    stringResource(R.string.device_calendars_reminders_desc),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Switch(
-                                checked = deviceCalendarRemindersEnabled,
-                                onCheckedChange = onToggleDeviceCalendarReminders
-                            )
                         }
                     }
                 }

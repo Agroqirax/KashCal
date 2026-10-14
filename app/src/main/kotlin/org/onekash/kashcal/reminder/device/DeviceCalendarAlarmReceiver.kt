@@ -5,20 +5,24 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import org.onekash.kashcal.data.calendar_provider.DeviceReminderCursor
 import org.onekash.kashcal.util.maskEventId
 import javax.inject.Inject
 
 /**
  * Receives [DeviceCalendarReminderScheduler.ACTION_DEVICE_REMINDER_ALARM] for device events.
  *
- * Reads the event from the intent extras, shows the notification when
- * [DeviceCalendarReminderScheduler.shouldFireReminder] allows it, then arms the next reminder.
- * goAsync() allows about 10 seconds, so the work is cut off at [GOASYNC_TIMEOUT_MS].
+ * Reads the event from the intent extras and shows the notification when
+ * [DeviceCalendarReminderScheduler.shouldFireReminder] allows it. A reminder alarm then shows the
+ * other reminders due by now that [DeviceCalendarReminderScheduler.takeDueAndArmNext] returns,
+ * which also arms the next; a snooze alarm only re-arms. goAsync() allows about 10 seconds, so
+ * the work is cut off at [GOASYNC_TIMEOUT_MS].
  *
  * @see DeviceCalendarReminderScheduler
  */
@@ -37,9 +41,13 @@ class DeviceCalendarAlarmReceiver : BroadcastReceiver() {
     lateinit var notificationManager: DeviceCalendarReminderNotificationManager
 
     /**
-     * Shows the reminder unless it's stale, then reschedules. Takes its dependencies as
-     * parameters because `@AndroidEntryPoint`'s generated `onReceive` re-runs field injection
-     * on every dispatch, overwriting fields a test set.
+     * Shows the reminder unless it's stale, then, for a reminder alarm, each due reminder after it
+     * that may still notify, reading the clock once as [nowMs]. A failure showing one reminder is
+     * logged and doesn't stop the others or the arming of the next; if
+     * [DeviceCalendarReminderScheduler.takeDueAndArmNext] throws, it falls back to
+     * [DeviceCalendarReminderScheduler.rescheduleAfterFire]. Takes its
+     * dependencies as parameters because `@AndroidEntryPoint`'s generated `onReceive` re-runs
+     * field injection on every dispatch, overwriting fields a test set.
      */
     internal suspend fun handleAlarm(
         scheduler: DeviceCalendarReminderScheduler,
@@ -52,22 +60,67 @@ class DeviceCalendarAlarmReceiver : BroadcastReceiver() {
         calendarColor: Int,
         calendarId: Long,
         triggerTime: Long,
+        isSnooze: Boolean = false,
+        nowMs: Long = System.currentTimeMillis(),
     ) {
-        if (scheduler.shouldFireReminder(eventId)) {
-            notificationManager.showNotification(
-                eventId = eventId,
-                occurrenceTs = occurrenceTs,
-                title = title,
-                location = location,
-                isAllDay = isAllDay,
-                calendarColor = calendarColor,
-                calendarId = calendarId,
-                triggerTime = triggerTime,
-            )
-        } else {
-            Log.d(TAG, "Suppressed stale reminder for event ${eventId.maskEventId()}")
+        showIfAllowed(
+            scheduler, notificationManager, eventId, occurrenceTs, title, location,
+            isAllDay, calendarColor, calendarId, triggerTime,
+        )
+        if (isSnooze) {
+            scheduler.rescheduleAfterFire()
+            return
         }
-        scheduler.rescheduleAfterFire()
+        val due = try {
+            scheduler.takeDueAndArmNext(DeviceReminderCursor(triggerTime, eventId, occurrenceTs), nowMs)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e(TAG, "Couldn't read the due device reminders, re-arming the next", e)
+            scheduler.rescheduleAfterFire()
+            return
+        }
+        for (reminder in due) {
+            showIfAllowed(
+                scheduler, notificationManager, reminder.eventId, reminder.occurrenceStartTs,
+                reminder.title, reminder.location, reminder.isAllDay, reminder.calendarColor,
+                reminder.calendarId, reminder.triggerTime,
+            )
+        }
+    }
+
+    private suspend fun showIfAllowed(
+        scheduler: DeviceCalendarReminderScheduler,
+        notificationManager: DeviceCalendarReminderNotificationManager,
+        eventId: Long,
+        occurrenceTs: Long,
+        title: String,
+        location: String?,
+        isAllDay: Boolean,
+        calendarColor: Int,
+        calendarId: Long,
+        triggerTime: Long,
+    ) {
+        try {
+            if (scheduler.shouldFireReminder(eventId, calendarId)) {
+                notificationManager.showNotification(
+                    eventId = eventId,
+                    occurrenceTs = occurrenceTs,
+                    title = title,
+                    location = location,
+                    isAllDay = isAllDay,
+                    calendarColor = calendarColor,
+                    calendarId = calendarId,
+                    triggerTime = triggerTime,
+                )
+            } else {
+                Log.d(TAG, "Suppressed stale reminder for event ${eventId.maskEventId()}")
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e(TAG, "Couldn't show the reminder for event ${eventId.maskEventId()}", e)
+        }
     }
 
     override fun onReceive(context: Context, intent: Intent?) {
@@ -83,6 +136,7 @@ class DeviceCalendarAlarmReceiver : BroadcastReceiver() {
         val isAllDay = intent.getBooleanExtra(DeviceCalendarReminderScheduler.EXTRA_IS_ALL_DAY, false)
         val calendarColor = intent.getIntExtra(DeviceCalendarReminderScheduler.EXTRA_CALENDAR_COLOR, 0)
         val calendarId = intent.getLongExtra(DeviceCalendarReminderScheduler.EXTRA_CALENDAR_ID, -1L)
+        val isSnooze = intent.getBooleanExtra(DeviceCalendarReminderScheduler.EXTRA_IS_SNOOZE, false)
 
         if (eventId == -1L || occurrenceTs == -1L) {
             Log.w(TAG, "Missing required extras: eventId=$eventId, occurrenceTs=$occurrenceTs")
@@ -112,6 +166,7 @@ class DeviceCalendarAlarmReceiver : BroadcastReceiver() {
                         calendarColor = calendarColor,
                         calendarId = calendarId,
                         triggerTime = triggerTime,
+                        isSnooze = isSnooze,
                     )
                 }
                 if (completed == null) {

@@ -118,6 +118,9 @@ class AndroidCalendarProviderRepository @Inject constructor(
 
         private const val SORT_ORDER = "${Instances.BEGIN} ASC, ${Instances.END} ASC"
 
+        /** How far past its anchor (`afterMs`, or `nowMs`) a reminder read looks. */
+        private const val REMINDER_WINDOW_MS = 30L * DateUtils.DAY_IN_MILLIS
+
         /** Upper bound for the next-occurrence lookup window (~10 years). */
         private const val TEN_YEARS_MS = 10L * 365L * DateUtils.DAY_IN_MILLIS
     }
@@ -408,13 +411,17 @@ class AndroidCalendarProviderRepository @Inject constructor(
         dataStore: org.onekash.kashcal.data.preferences.KashCalDataStore
     ) {
         val storedIds = dataStore.getEnabledDeviceCalendarIds()
-        if (storedIds.isEmpty()) return
+        val mutedIds = dataStore.getMutedDeviceCalendarIds()
+        if (storedIds.isEmpty() && mutedIds.isEmpty()) return
 
         val actualCalendarIds = getDeviceCalendars().map { it.id }.toSet()
         val staleIds = storedIds - actualCalendarIds
         if (staleIds.isNotEmpty()) {
             Log.i(TAG, "Pruning ${staleIds.size} stale calendar IDs: $staleIds")
             dataStore.setEnabledDeviceCalendarIds(storedIds - staleIds)
+        }
+        if ((mutedIds - actualCalendarIds).isNotEmpty()) {
+            dataStore.pruneMutedDeviceCalendarIds(actualCalendarIds)
         }
     }
 
@@ -2057,92 +2064,121 @@ class AndroidCalendarProviderRepository @Inject constructor(
         if (enabledCalendarIds.isEmpty()) return@withContext null
 
         try {
-            // The next 30 days.
-            val startMs = afterMs
-            val endMs = afterMs + (30L * DateUtils.DAY_IN_MILLIS)
-
-            val builder = Instances.CONTENT_URI.buildUpon()
-            ContentUris.appendId(builder, startMs)
-            ContentUris.appendId(builder, endMs)
-
-            val selection = buildUpcomingReminderSelection()
-
-            val instancesWithAlarms = mutableListOf<InstanceWithAlarm>()
-
-            contentResolver.query(
-                builder.build(),
-                INSTANCES_PROJECTION,
-                selection,
-                null,
-                SORT_ORDER
-            )?.use { cursor ->
-                val colCalendarColor = cursor.getColumnIndexOrThrow(Instances.CALENDAR_COLOR)
-                val colEventColor = cursor.getColumnIndexOrThrow(Instances.EVENT_COLOR)
-                while (cursor.moveToNext()) {
-                    val calendarId = cursor.getLong(COL_CALENDAR_ID)
-                    if (calendarId !in enabledCalendarIds) continue
-
-                    val eventId = cursor.getLong(COL_EVENT_ID)
-                    val beginMs = cursor.getLong(COL_BEGIN)
-                    val isAllDay = cursor.getInt(COL_ALL_DAY) == 1
-                    val title = cursor.getString(COL_TITLE).orEmpty()
-                    val location = cursor.getString(COL_LOCATION)
-                    val calendarColorValue = cursor.getInt(colCalendarColor)
-                    val eventColorValue = cursor.getInt(colEventColor).takeIf { it != 0 }
-
-                    instancesWithAlarms.add(
-                        InstanceWithAlarm(
-                            eventId = eventId,
-                            occurrenceStartTs = beginMs,
-                            title = title,
-                            location = location,
-                            isAllDay = isAllDay,
-                            // The event color if set, else the calendar's.
-                            calendarColor = eventColorValue ?: calendarColorValue,
-                            calendarId = calendarId
-                        )
-                    )
-                }
-            }
-
-            if (instancesWithAlarms.isEmpty()) return@withContext null
-
-            var earliest: UpcomingDeviceReminder? = null
-
-            for (instance in instancesWithAlarms) {
-                val reminders = getReminders(instance.eventId)
-                for (reminderMinutes in reminders) {
-                    val triggerTime = calculateReminderTriggerTime(
-                        occurrenceStartTs = instance.occurrenceStartTs,
-                        reminderMinutes = reminderMinutes,
-                        isAllDay = instance.isAllDay
-                    )
-
-                    if (triggerTime <= afterMs) continue
-
-                    if (earliest == null || triggerTime < earliest.triggerTime) {
-                        earliest = UpcomingDeviceReminder(
-                            eventId = instance.eventId,
-                            occurrenceStartTs = instance.occurrenceStartTs,
-                            title = instance.title,
-                            location = instance.location,
-                            isAllDay = instance.isAllDay,
-                            reminderMinutes = reminderMinutes,
-                            triggerTime = triggerTime,
-                            calendarColor = instance.calendarColor,
-                            calendarId = instance.calendarId
-                        )
-                    }
-                }
-            }
-
-            earliest
+            reminderCandidates(enabledCalendarIds, afterMs, afterMs + REMINDER_WINDOW_MS)
+                .filter { it.triggerTime > afterMs }
+                .minByOrNull { it.cursor }
         } catch (e: SecurityException) {
             Log.w(TAG, "Calendar permission revoked", e)
             null
         } catch (e: Exception) {
             Log.e(TAG, "Error getting next upcoming reminder", e)
             null
+        }
+    }
+
+    override suspend fun getDueAndNextReminders(
+        enabledCalendarIds: Set<Long>,
+        after: DeviceReminderCursor,
+        nowMs: Long,
+        limit: Int,
+    ): DeviceReminderBatch = withContext(Dispatchers.IO) {
+        if (enabledCalendarIds.isEmpty()) return@withContext DeviceReminderBatch.EMPTY
+
+        try {
+            val candidates = reminderCandidates(
+                enabledCalendarIds, minOf(after.triggerTime, nowMs), nowMs + REMINDER_WINDOW_MS
+            )
+            val due = candidates
+                .filter { it.cursor > after && it.triggerTime <= nowMs }
+                .distinctBy { it.cursor }
+                .sortedBy { it.cursor }
+            DeviceReminderBatch(
+                due = due.take(limit),
+                next = due.getOrNull(limit)
+                    ?: candidates.filter { it.triggerTime > nowMs }.minByOrNull { it.cursor },
+                overflowed = due.size > limit,
+            )
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Calendar permission revoked", e)
+            DeviceReminderBatch.EMPTY
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting due device reminders", e)
+            DeviceReminderBatch.EMPTY
+        }
+    }
+
+    /**
+     * Returns every reminder of [enabledCalendarIds]' occurrences with alarms in [fromMs]..[toMs],
+     * declined ones skipped ([buildUpcomingReminderSelection]); the caller filters and orders.
+     */
+    private suspend fun reminderCandidates(
+        enabledCalendarIds: Set<Long>,
+        fromMs: Long,
+        toMs: Long,
+    ): List<UpcomingDeviceReminder> {
+        val builder = Instances.CONTENT_URI.buildUpon()
+        ContentUris.appendId(builder, fromMs)
+        ContentUris.appendId(builder, toMs)
+
+        val selection = buildUpcomingReminderSelection()
+
+        val instancesWithAlarms = mutableListOf<InstanceWithAlarm>()
+
+        contentResolver.query(
+            builder.build(),
+            INSTANCES_PROJECTION,
+            selection,
+            null,
+            SORT_ORDER
+        )?.use { cursor ->
+            val colCalendarColor = cursor.getColumnIndexOrThrow(Instances.CALENDAR_COLOR)
+            val colEventColor = cursor.getColumnIndexOrThrow(Instances.EVENT_COLOR)
+            while (cursor.moveToNext()) {
+                val calendarId = cursor.getLong(COL_CALENDAR_ID)
+                if (calendarId !in enabledCalendarIds) continue
+
+                val eventId = cursor.getLong(COL_EVENT_ID)
+                val beginMs = cursor.getLong(COL_BEGIN)
+                val isAllDay = cursor.getInt(COL_ALL_DAY) == 1
+                val title = cursor.getString(COL_TITLE).orEmpty()
+                val location = cursor.getString(COL_LOCATION)
+                val calendarColorValue = cursor.getInt(colCalendarColor)
+                val eventColorValue = cursor.getInt(colEventColor).takeIf { it != 0 }
+
+                instancesWithAlarms.add(
+                    InstanceWithAlarm(
+                        eventId = eventId,
+                        occurrenceStartTs = beginMs,
+                        title = title,
+                        location = location,
+                        isAllDay = isAllDay,
+                        // The event color if set, else the calendar's.
+                        calendarColor = eventColorValue ?: calendarColorValue,
+                        calendarId = calendarId
+                    )
+                )
+            }
+        }
+
+        val minutesByEvent = getRemindersForEvents(instancesWithAlarms.mapTo(mutableSetOf()) { it.eventId })
+        return instancesWithAlarms.flatMap { instance ->
+            minutesByEvent[instance.eventId].orEmpty().map { reminderMinutes ->
+                UpcomingDeviceReminder(
+                    eventId = instance.eventId,
+                    occurrenceStartTs = instance.occurrenceStartTs,
+                    title = instance.title,
+                    location = instance.location,
+                    isAllDay = instance.isAllDay,
+                    reminderMinutes = reminderMinutes,
+                    triggerTime = calculateReminderTriggerTime(
+                        occurrenceStartTs = instance.occurrenceStartTs,
+                        reminderMinutes = reminderMinutes,
+                        isAllDay = instance.isAllDay
+                    ),
+                    calendarColor = instance.calendarColor,
+                    calendarId = instance.calendarId
+                )
+            }
         }
     }
 

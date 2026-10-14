@@ -1077,17 +1077,47 @@ class EventsDaoTest {
     }
 
     @Test
-    fun `getEventsWithRemindersInRange excludes hidden calendars`() = runTest {
+    fun `getEventsWithRemindersInRange includes hidden calendars`() = runTest {
+        // Hiding is display only, so a hidden calendar's reminders still arm.
+        database.calendarsDao().setVisible(calendarId, false)
+        insertEventWithReminderOn15th("Hidden calendar event")
+
+        assertEquals(1, remindersOn15th().size)
+    }
+
+    @Test
+    fun `getEventsWithRemindersInRange excludes muted calendars`() = runTest {
+        database.calendarsDao().setNotificationMuted(calendarId, true)
+        insertEventWithReminderOn15th("Muted calendar event")
+
+        assertEquals(0, remindersOn15th().size)
+    }
+
+    @Test
+    fun `getEventsWithRemindersInRange excludes an inheriting exception in a muted calendar`() = runTest {
+        // The exception has no reminders of its own, so it comes back through the second SELECT.
+        seedSeriesWithException()
+        database.calendarsDao().setNotificationMuted(calendarId, true)
+
+        assertEquals(emptyList<Long>(), remindersFor15th16th().map { it.targetEventId })
+    }
+
+    @Test
+    fun `getEventsWithRemindersInRange includes an inheriting exception in a hidden calendar`() = runTest {
+        val (masterId, exceptionId) = seedSeriesWithException()
         database.calendarsDao().setVisible(calendarId, false)
 
+        assertEquals(listOf(masterId, exceptionId), remindersFor15th16th().map { it.targetEventId })
+    }
+
+    private suspend fun insertEventWithReminderOn15th(title: String) {
         val eventTime = parseDate("2025-01-15 10:00")
         val eventId = eventsDao.insert(createTestEvent(
-            title = "Hidden calendar event",
+            title = title,
             startTs = eventTime,
             endTs = eventTime + 3600000,
             reminders = listOf("-PT15M")
         ))
-
         database.occurrencesDao().insert(Occurrence(
             eventId = eventId,
             calendarId = calendarId,
@@ -1096,14 +1126,12 @@ class EventsDaoTest {
             startDay = toDayCode("2025-01-15"),
             endDay = toDayCode("2025-01-15")
         ))
-
-        val results = eventsDao.getEventsWithRemindersInRange(
-            parseDate("2025-01-15 00:00"),
-            parseDate("2025-01-15 23:59")
-        )
-
-        assertEquals(0, results.size)
     }
+
+    private suspend fun remindersOn15th() = eventsDao.getEventsWithRemindersInRange(
+        parseDate("2025-01-15 00:00"),
+        parseDate("2025-01-15 23:59")
+    )
 
     @Test
     fun `getEventsWithRemindersInRange returns exception with its own reminders`() = runTest {

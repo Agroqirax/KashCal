@@ -336,7 +336,7 @@ class DeviceEventWriter @Inject constructor(
         return result
     }
 
-    /** Forgets ticked device calendars that no longer exist in the provider. */
+    /** Forgets the ticks and mutes of device calendars that no longer exist in the provider. */
     suspend fun pruneStaleCalendarIds() {
         repository.pruneStaleCalendarIds(dataStore)
     }

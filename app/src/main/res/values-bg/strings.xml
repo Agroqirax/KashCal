@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Колко назад да се синхронизират събитията</string>
     <string name="settings_change_notifications">Известия за промени</string>
     <string name="settings_change_notifications_info">Изпраща известие, когато синхронизирането във фонов режим открие промени във вашите събития. Работи за календари в iCloud и CalDAV.</string>
+    <string name="settings_calendar_notifications">Известия за календари</string>
+    <string name="settings_calendar_notifications_all">Всички календари</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d заглушен</item>
+        <item quantity="other">%d заглушени</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Изберете кои календари могат да ви известяват.</string>
+    <string name="calendar_notifications_info">Заглушените календари продължават да се показват и синхронизират, но не ви известяват.</string>
+    <string name="cd_calendar_notifications_info">За заглушените календари</string>
+    <string name="cd_state_expanded">разгънато</string>
+    <string name="cd_state_collapsed">свито</string>
+    <string name="calendar_notifications_device_info">Изключете, за да заглушите всички календари на устройството, включително тези, които добавите по-късно.</string>
+    <string name="cd_calendar_notifications_device_info">За известията от календарите на устройството</string>
+    <string name="cd_device_calendar_notifications">Известия от календарите на устройството</string>
+    <string name="calendar_notifications_hidden">Скрит</string>
+    <string name="calendar_notifications_app_off">Известията за KashCal са изключени в системните настройки, така че никой календар не може да ви известява.</string>
+    <string name="calendar_notifications_reminders_off">Напомнянията за събития са изключени в системните настройки, така че не могат да се показват напомняния.</string>
+    <string name="cd_notifications_off">известията са изключени</string>
     <string name="settings_not_set">Не е зададено</string>
     <string name="settings_on">Вкл.</string>
     <string name="settings_off">Изкл.</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Календари на устройството</string>
     <string name="label_default_calendar_hint">Новите събития ще се създават в този календар</string>
     <string name="label_visible_count">%1$d / %2$d видими</string>
-    <string name="label_enabled_count">%1$d / %2$d включени</string>
     <string name="label_reminders_truncated">%1$d не са показани (%2$d общо, макс. %3$d редактируеми)</string>
     <string name="label_found_events">Намерени: %1$d събития</string>
     <string name="label_open_debug_menu">Отвори менюто за отстраняване на грешки</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Разреши</string>
     <string name="device_calendars_none_found">Не са намерени календари на устройството.</string>
     <string name="device_calendars_local">Локален</string>
-    <string name="device_calendars_reminders">Напомняния</string>
-    <string name="device_calendars_reminders_desc">Получавай известия за събития от календара на устройството</string>
     <string name="device_calendars_read_only_no_write">Само за четене (няма разрешение за запис)</string>
     <string name="device_calendars_read_only_calendar">Само за четене (календарът е само за четене)</string>
     <string name="settings_developer_options">Опции за разработчици</string>

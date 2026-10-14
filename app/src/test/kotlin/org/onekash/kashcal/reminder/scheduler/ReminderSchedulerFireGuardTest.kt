@@ -189,4 +189,47 @@ class ReminderSchedulerFireGuardTest {
 
         assertTrue(newScheduler().hasLiveOccurrenceForReminder(reminderFor(2L)))
     }
+
+    // ==================== isCalendarMutedForReminder ====================
+
+    private fun calendar(muted: Boolean) = org.onekash.kashcal.data.db.entity.Calendar(
+        id = 10L, accountId = 1L, caldavUrl = "local://fire-guard", displayName = "Work", color = 0,
+        isNotificationMuted = muted
+    )
+
+    @Test
+    fun `isCalendarMutedForReminder is true when the event's calendar is muted`() = runTest {
+        coEvery { eventReader.getEventById(100L) } returns event(100L)
+        coEvery { calendarsDao.getById(10L) } returns calendar(muted = true)
+
+        assertTrue(newScheduler().isCalendarMutedForReminder(reminderFor(100L)))
+    }
+
+    @Test
+    fun `isCalendarMutedForReminder is false when the event's calendar notifies`() = runTest {
+        coEvery { eventReader.getEventById(100L) } returns event(100L)
+        coEvery { calendarsDao.getById(10L) } returns calendar(muted = false)
+
+        assertFalse(newScheduler().isCalendarMutedForReminder(reminderFor(100L)))
+    }
+
+    @Test
+    fun `isCalendarMutedForReminder is false when the event or its calendar is gone`() = runTest {
+        coEvery { eventReader.getEventById(100L) } returns null
+        assertFalse(newScheduler().isCalendarMutedForReminder(reminderFor(100L)))
+
+        coEvery { eventReader.getEventById(100L) } returns event(100L)
+        coEvery { calendarsDao.getById(10L) } returns null
+        assertFalse(newScheduler().isCalendarMutedForReminder(reminderFor(100L)))
+    }
+
+    @Test
+    fun `isCalendarMutedForReminder reads the calendar on every call`() = runTest {
+        coEvery { eventReader.getEventById(100L) } returns event(100L)
+        coEvery { calendarsDao.getById(10L) } returnsMany listOf(calendar(muted = false), calendar(muted = true))
+        val scheduler = newScheduler()
+
+        assertFalse(scheduler.isCalendarMutedForReminder(reminderFor(100L)))
+        assertTrue(scheduler.isCalendarMutedForReminder(reminderFor(100L)))
+    }
 }

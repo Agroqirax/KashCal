@@ -910,6 +910,39 @@
     <string name="settings_change_notifications">Change notifications</string>
     <!-- Info tooltip for the Change notifications toggle; also the description of its notification channel -->
     <string name="settings_change_notifications_info">Sends a notification when a background sync finds changes to your events. Works for iCloud and CalDAV calendars.</string>
+    <!-- Settings row in "Calendars & accounts" and the title of the sheet it opens, where each calendar has an on/off switch for its notifications -->
+    <string name="settings_calendar_notifications">Calendar notifications</string>
+    <!-- Subtitle of the Calendar notifications row when no calendar is muted -->
+    <string name="settings_calendar_notifications_all">All calendars</string>
+    <!-- Subtitle of the Calendar notifications row: how many calendars have their notifications turned off -->
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d muted</item>
+        <item quantity="other">%d muted</item>
+    </plurals>
+    <!-- Always-visible line under the Calendar notifications sheet title saying what the sheet is for; each calendar has an on/off switch for its notifications -->
+    <string name="calendar_notifications_intro">Choose which calendars can notify you.</string>
+    <!-- Detail shown inline when the info button next to the Calendar notifications intro is tapped: a calendar whose switch is off (muted) is still shown and synced, it just sends no notifications -->
+    <string name="calendar_notifications_info">Muted calendars still show and sync, but don\'t notify you.</string>
+    <!-- Read by TalkBack for the info button next to the Calendar notifications intro; tapping it shows or hides what muting a calendar does -->
+    <string name="cd_calendar_notifications_info">About muted calendars</string>
+    <!-- Read by TalkBack after a button's label when the detail it shows is open (lowercase state word, not an action) -->
+    <string name="cd_state_expanded">expanded</string>
+    <!-- Read by TalkBack after a button's label when the detail it shows is closed (lowercase state word, not an action) -->
+    <string name="cd_state_collapsed">collapsed</string>
+    <!-- Detail shown inline when the info button next to the "Device calendars" heading in the Calendar notifications sheet is tapped; that heading has a switch that turns KashCal's reminders off for every device calendar (calendars from other apps on the phone) -->
+    <string name="calendar_notifications_device_info">Turn off to silence all device calendars, including ones you add later.</string>
+    <!-- Read by TalkBack for the info button next to the "Device calendars" heading in the Calendar notifications sheet -->
+    <string name="cd_calendar_notifications_device_info">About device calendar notifications</string>
+    <!-- Read by TalkBack for the switch next to the "Device calendars" heading in the Calendar notifications sheet; it turns KashCal's reminders on or off for every device calendar -->
+    <string name="cd_device_calendar_notifications">Device calendar notifications</string>
+    <!-- Second line of a calendar row in the Calendar notifications sheet: the calendar is hidden from the calendar views (hiding doesn't change its notifications) -->
+    <string name="calendar_notifications_hidden">Hidden</string>
+    <!-- Banner at the top of the Calendar notifications sheet when KashCal's notifications are turned off in Android's system settings; its button opens those settings -->
+    <string name="calendar_notifications_app_off">Notifications are off for KashCal in system settings, so no calendar can notify you.</string>
+    <!-- Banner at the top of the Calendar notifications sheet when only the Event Reminders notification channel is turned off in Android's system settings; its button opens that channel's settings -->
+    <string name="calendar_notifications_reminders_off">Event reminders are off in system settings, so no reminders can show.</string>
+    <!-- Read by TalkBack after a calendar's name in the drawer when that calendar's notifications are muted -->
+    <string name="cd_notifications_off">notifications off</string>
     <string name="settings_not_set">Not set</string>
     <!-- Toggle state: feature is turned on -->
     <string name="settings_on">On</string>
@@ -976,8 +1009,6 @@
     <string name="label_default_calendar_hint">New events will be created in this calendar</string>
     <!-- %1$d = visible count, %2$d = total count -->
     <string name="label_visible_count">%1$d / %2$d visible</string>
-    <!-- %1$d = enabled count, %2$d = total count -->
-    <string name="label_enabled_count">%1$d / %2$d enabled</string>
     <!-- %1$d = truncated count, %2$d = total count, %3$d = max editable -->
     <string name="label_reminders_truncated">%1$d not shown (%2$d total, max %3$d editable)</string>
     <!-- %1$d = event count found from ICS fetch -->
@@ -1004,8 +1035,6 @@
     <string name="device_calendars_grant">Grant</string>
     <string name="device_calendars_none_found">No device calendars found.</string>
     <string name="device_calendars_local">Local</string>
-    <string name="device_calendars_reminders">Reminders</string>
-    <string name="device_calendars_reminders_desc">Get notified for device calendar events</string>
     <string name="device_calendars_read_only_no_write">Read only (no write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (calendar is read-only)</string>
 

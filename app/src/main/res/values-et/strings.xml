@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Kui kaugele tagasi sündmusi sünkroonida</string>
     <string name="settings_change_notifications">Muudatuste teavitused</string>
     <string name="settings_change_notifications_info">Saadab teavituse, kui taustasünkroonimine leiab sinu sündmustes muudatusi. Töötab iCloudi ja CalDAV kalendritega.</string>
+    <string name="settings_calendar_notifications">Kalendrite teavitused</string>
+    <string name="settings_calendar_notifications_all">Kõik kalendrid</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d vaigistatud</item>
+        <item quantity="other">%d vaigistatud</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Vali, millised kalendrid saavad sind teavitada.</string>
+    <string name="calendar_notifications_info">Vaigistatud kalendreid kuvatakse ja sünkroonitakse endiselt, kuid need ei teavita sind.</string>
+    <string name="cd_calendar_notifications_info">Vaigistatud kalendritest</string>
+    <string name="cd_state_expanded">laiendatud</string>
+    <string name="cd_state_collapsed">ahendatud</string>
+    <string name="calendar_notifications_device_info">Lülita välja, et vaigistada kõik seadme kalendrid, ka hiljem lisatavad.</string>
+    <string name="cd_calendar_notifications_device_info">Seadme kalendrite teavitustest</string>
+    <string name="cd_device_calendar_notifications">Seadme kalendrite teavitused</string>
+    <string name="calendar_notifications_hidden">Peidetud</string>
+    <string name="calendar_notifications_app_off">Rakenduse KashCal teavitused on süsteemi seadetes välja lülitatud, seega ükski kalender ei saa sind teavitada.</string>
+    <string name="calendar_notifications_reminders_off">Sündmuste meeldetuletused on süsteemi seadetes välja lülitatud, seega meeldetuletusi ei kuvata.</string>
+    <string name="cd_notifications_off">teavitused väljas</string>
     <string name="settings_not_set">Pole seatud</string>
     <string name="settings_on">Sees</string>
     <string name="settings_off">Väljas</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Seadme kalendrid</string>
     <string name="label_default_calendar_hint">Uued sündmused luuakse sellesse kalendrisse</string>
     <string name="label_visible_count">%1$d / %2$d nähtav</string>
-    <string name="label_enabled_count">%1$d / %2$d lubatud</string>
     <string name="label_reminders_truncated">%1$d pole kuvatud (%2$d kokku, maks %3$d muudetav)</string>
     <string name="label_found_events">Leitud: %1$d sündmust</string>
     <string name="label_open_debug_menu">Ava silumismenüü</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Anna</string>
     <string name="device_calendars_none_found">Seadme kalendreid ei leitud.</string>
     <string name="device_calendars_local">Kohalik</string>
-    <string name="device_calendars_reminders">Meeldetuletused</string>
-    <string name="device_calendars_reminders_desc">Saa teavitusi seadme kalendri sündmuste kohta</string>
     <string name="device_calendars_read_only_no_write">Ainult lugemine (kirjutamisõigus puudub)</string>
     <string name="device_calendars_read_only_calendar">Ainult lugemine (kalender on kirjutuskaitstud)</string>
     <string name="settings_developer_options">Arendaja valikud</string>

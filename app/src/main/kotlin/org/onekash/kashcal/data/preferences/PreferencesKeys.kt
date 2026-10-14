@@ -262,6 +262,12 @@ object PreferencesKeys {
     /** Device calendar ids that are enabled but hidden from view, stored as strings. */
     val HIDDEN_DEVICE_CALENDAR_IDS = stringSetPreferencesKey("hidden_device_calendar_ids")
 
+    /**
+     * Device calendar ids whose notifications are muted, stored as strings. The rule is the one
+     * [org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted] states for Room calendars.
+     */
+    val MUTED_DEVICE_CALENDAR_IDS = stringSetPreferencesKey("muted_device_calendar_ids")
+
     /** KashCal fires reminders for device calendar events. */
     val DEVICE_CALENDAR_REMINDERS_ENABLED = booleanPreferencesKey("device_calendar_reminders_enabled")
 

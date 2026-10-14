@@ -1,0 +1,3 @@
+• Calendar notifications: mute reminders and alerts per calendar (#137)
+• Device calendars: reminders at the same time now all notify
+• Fixes: paused feeds and hidden calendars keep their reminders; emoji on "Anniversary of Death" (#389)

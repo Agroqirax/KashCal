@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">କେତେ ପଛକୁ ଇଭେଣ୍ଟ ସିଙ୍କ କରିବେ</string>
     <string name="settings_change_notifications">ପରିବର୍ତ୍ତନ ବିଜ୍ଞପ୍ତି</string>
     <string name="settings_change_notifications_info">ପୃଷ୍ଠଭୂମି ସିଙ୍କ ଆପଣଙ୍କ ଇଭେଣ୍ଟରେ ପରିବର୍ତ୍ତନ ପାଇଲେ ଏକ ବିଜ୍ଞପ୍ତି ପଠାଏ। iCloud ଏବଂ CalDAV କ୍ୟାଲେଣ୍ଡର ପାଇଁ କାମ କରେ।</string>
+    <string name="settings_calendar_notifications">କ୍ୟାଲେଣ୍ଡର ବିଜ୍ଞପ୍ତି</string>
+    <string name="settings_calendar_notifications_all">ସମସ୍ତ କ୍ୟାଲେଣ୍ଡର</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d ମ୍ୟୁଟ କରାଯାଇଛି</item>
+        <item quantity="other">%d ମ୍ୟୁଟ କରାଯାଇଛି</item>
+    </plurals>
+    <string name="calendar_notifications_intro">କେଉଁ କ୍ୟାଲେଣ୍ଡରଗୁଡ଼ିକ ଆପଣଙ୍କୁ ସୂଚିତ କରିପାରିବ, ତାହା ବାଛନ୍ତୁ।</string>
+    <string name="calendar_notifications_info">ମ୍ୟୁଟ କରାଯାଇଥିବା କ୍ୟାଲେଣ୍ଡରଗୁଡ଼ିକ ଏବେ ବି ଦେଖାଯାଏ ଏବଂ ସିଙ୍କ ହୁଏ, କିନ୍ତୁ ଆପଣଙ୍କୁ ସୂଚିତ କରେ ନାହିଁ।</string>
+    <string name="cd_calendar_notifications_info">ମ୍ୟୁଟ କରାଯାଇଥିବା କ୍ୟାଲେଣ୍ଡର ବିଷୟରେ</string>
+    <string name="cd_state_expanded">ବିସ୍ତାରିତ</string>
+    <string name="cd_state_collapsed">ସଙ୍କୁଚିତ</string>
+    <string name="calendar_notifications_device_info">ପରେ ଯୋଡ଼ାଯିବା କ୍ୟାଲେଣ୍ଡର ସମେତ ସମସ୍ତ ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡରକୁ ମ୍ୟୁଟ କରିବା ପାଇଁ ଏହାକୁ ବନ୍ଦ କରନ୍ତୁ।</string>
+    <string name="cd_calendar_notifications_device_info">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର ବିଜ୍ଞପ୍ତି ବିଷୟରେ</string>
+    <string name="cd_device_calendar_notifications">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର ବିଜ୍ଞପ୍ତି</string>
+    <string name="calendar_notifications_hidden">ଲୁଚାଯାଇଛି</string>
+    <string name="calendar_notifications_app_off">ସିଷ୍ଟମ ସେଟିଂସରେ KashCal ପାଇଁ ବିଜ୍ଞପ୍ତି ବନ୍ଦ ଅଛି, ତେଣୁ କୌଣସି କ୍ୟାଲେଣ୍ଡର ଆପଣଙ୍କୁ ସୂଚିତ କରିପାରିବ ନାହିଁ।</string>
+    <string name="calendar_notifications_reminders_off">ସିଷ୍ଟମ ସେଟିଂସରେ ଇଭେଣ୍ଟ ରିମାଇଣ୍ଡର ବନ୍ଦ ଅଛି, ତେଣୁ କୌଣସି ରିମାଇଣ୍ଡର ଦେଖାଯାଇପାରିବ ନାହିଁ।</string>
+    <string name="cd_notifications_off">ବିଜ୍ଞପ୍ତି ବନ୍ଦ</string>
     <string name="settings_not_set">ସେଟ ହୋଇନାହିଁ</string>
     <string name="settings_on">ଚାଲୁ</string>
     <string name="settings_off">ବନ୍ଦ</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର</string>
     <string name="label_default_calendar_hint">ନୂଆ ଇଭେଣ୍ଟ ଏହି କ୍ୟାଲେଣ୍ଡରରେ ତିଆରି ହେବ</string>
     <string name="label_visible_count">%1$d / %2$d ଦୃଶ୍ୟମାନ</string>
-    <string name="label_enabled_count">%1$d / %2$d ଚାଲୁ</string>
     <string name="label_reminders_truncated">%1$d ଦେଖାଯାଉନାହିଁ (%2$d ମୋଟ, ସର୍ବାଧିକ %3$d ସମ୍ପାଦନାଯୋଗ୍ୟ)</string>
     <string name="label_found_events">ମିଳିଲା: %1$d ଇଭେଣ୍ଟ</string>
     <string name="label_open_debug_menu">ଡିବଗ ମେନୁ ଖୋଲନ୍ତୁ</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">ଅନୁମତି</string>
     <string name="device_calendars_none_found">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର ମିଳିଲା ନାହିଁ।</string>
     <string name="device_calendars_local">ସ୍ଥାନୀୟ</string>
-    <string name="device_calendars_reminders">ରିମାଇଣ୍ଡର</string>
-    <string name="device_calendars_reminders_desc">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର ଇଭେଣ୍ଟ ପାଇଁ ବିଜ୍ଞପ୍ତି ପାଆନ୍ତୁ</string>
     <string name="device_calendars_read_only_no_write">କେବଳ ପଢ଼ିବା (ଲେଖିବା ଅନୁମତି ନାହିଁ)</string>
     <string name="device_calendars_read_only_calendar">କେବଳ ପଢ଼ିବା (କ୍ୟାଲେଣ୍ଡର କେବଳ ପଢ଼ିବା)</string>
     <string name="settings_developer_options">ଡେଭଲପର ବିକଳ୍ପ</string>

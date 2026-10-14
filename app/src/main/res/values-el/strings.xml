@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Πόσο παλιά συμβάντα να συγχρονίζονται</string>
     <string name="settings_change_notifications">Ειδοποιήσεις αλλαγών</string>
     <string name="settings_change_notifications_info">Στέλνει ειδοποίηση όταν ο συγχρονισμός στο παρασκήνιο εντοπίσει αλλαγές στα συμβάντα σας. Λειτουργεί για ημερολόγια iCloud και CalDAV.</string>
+    <string name="settings_calendar_notifications">Ειδοποιήσεις ημερολογίων</string>
+    <string name="settings_calendar_notifications_all">Όλα τα ημερολόγια</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d σε σίγαση</item>
+        <item quantity="other">%d σε σίγαση</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Επιλέξτε ποια ημερολόγια μπορούν να σας ειδοποιούν.</string>
+    <string name="calendar_notifications_info">Τα ημερολόγια σε σίγαση εξακολουθούν να εμφανίζονται και να συγχρονίζονται, αλλά δεν σας ειδοποιούν.</string>
+    <string name="cd_calendar_notifications_info">Σχετικά με τα ημερολόγια σε σίγαση</string>
+    <string name="cd_state_expanded">αναπτυγμένο</string>
+    <string name="cd_state_collapsed">συμπτυγμένο</string>
+    <string name="calendar_notifications_device_info">Απενεργοποιήστε για σίγαση όλων των ημερολογίων συσκευής, συμπεριλαμβανομένων όσων προσθέσετε αργότερα.</string>
+    <string name="cd_calendar_notifications_device_info">Σχετικά με τις ειδοποιήσεις ημερολογίων συσκευής</string>
+    <string name="cd_device_calendar_notifications">Ειδοποιήσεις ημερολογίων συσκευής</string>
+    <string name="calendar_notifications_hidden">Κρυφό</string>
+    <string name="calendar_notifications_app_off">Οι ειδοποιήσεις για το KashCal είναι απενεργοποιημένες στις ρυθμίσεις συστήματος, οπότε κανένα ημερολόγιο δεν μπορεί να σας ειδοποιήσει.</string>
+    <string name="calendar_notifications_reminders_off">Οι Υπενθυμίσεις Συμβάντων είναι απενεργοποιημένες στις ρυθμίσεις συστήματος, οπότε δεν μπορούν να εμφανιστούν υπενθυμίσεις.</string>
+    <string name="cd_notifications_off">ειδοποιήσεις ανενεργές</string>
     <string name="settings_not_set">Δεν έχει οριστεί</string>
     <string name="settings_on">Ενεργό</string>
     <string name="settings_off">Ανενεργό</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Ημερολόγια συσκευής</string>
     <string name="label_default_calendar_hint">Τα νέα συμβάντα θα δημιουργούνται σε αυτό το ημερολόγιο</string>
     <string name="label_visible_count">%1$d / %2$d ορατά</string>
-    <string name="label_enabled_count">%1$d / %2$d ενεργοποιημένα</string>
     <string name="label_reminders_truncated">%1$d δεν εμφανίζονται (%2$d σύνολο, μέγ. %3$d επεξεργάσιμα)</string>
     <string name="label_found_events">Βρέθηκαν: %1$d συμβάντα</string>
     <string name="label_open_debug_menu">Άνοιγμα μενού εντοπισμού σφαλμάτων</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Παραχώρηση</string>
     <string name="device_calendars_none_found">Δεν βρέθηκαν ημερολόγια συσκευής.</string>
     <string name="device_calendars_local">Τοπικό</string>
-    <string name="device_calendars_reminders">Υπενθυμίσεις</string>
-    <string name="device_calendars_reminders_desc">Λήψη ειδοποιήσεων για συμβάντα ημερολογίου συσκευής</string>
     <string name="device_calendars_read_only_no_write">Μόνο ανάγνωση (χωρίς άδεια εγγραφής)</string>
     <string name="device_calendars_read_only_calendar">Μόνο ανάγνωση (ημερολόγιο μόνο για ανάγνωση)</string>
     <string name="settings_developer_options">Επιλογές προγραμματιστή</string>

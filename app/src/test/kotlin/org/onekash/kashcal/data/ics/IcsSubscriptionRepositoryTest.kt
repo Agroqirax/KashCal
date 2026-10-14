@@ -376,7 +376,6 @@ class IcsSubscriptionRepositoryTest {
     @Test
     fun `setSubscriptionEnabled updates enabled state`() = runTest {
         coEvery { icsSubscriptionsDao.getById(1L) } returns testSubscription.copy(enabled = true)
-        coEvery { eventsDao.getAllMasterEventsForCalendar(testSubscription.calendarId) } returns emptyList()
 
         repository.setSubscriptionEnabled(1L, false)
 
@@ -384,7 +383,8 @@ class IcsSubscriptionRepositoryTest {
     }
 
     @Test
-    fun `setSubscriptionEnabled cancels reminders when disabling`() = runTest {
+    fun `disabling a subscription cancels no reminder`() = runTest {
+        // The feed has an event with a reminder, so a cancel on disable would reach it.
         val event1 = Event(
             id = 100L,
             uid = "event-1@test.com",
@@ -402,7 +402,7 @@ class IcsSubscriptionRepositoryTest {
 
         repository.setSubscriptionEnabled(1L, false)
 
-        coVerify { reminderScheduler.cancelRemindersForEvent(100L) }
+        coVerify(exactly = 0) { reminderScheduler.cancelRemindersForEvent(any()) }
         coVerify { icsSubscriptionsDao.setEnabled(1L, false) }
     }
 
@@ -436,7 +436,6 @@ class IcsSubscriptionRepositoryTest {
     @Test
     fun `setSubscriptionEnabled does not refresh when disabling`() = runTest {
         coEvery { icsSubscriptionsDao.getById(1L) } returns testSubscription.copy(enabled = true)
-        coEvery { eventsDao.getAllMasterEventsForCalendar(testSubscription.calendarId) } returns emptyList()
 
         repository.setSubscriptionEnabled(1L, false)
 

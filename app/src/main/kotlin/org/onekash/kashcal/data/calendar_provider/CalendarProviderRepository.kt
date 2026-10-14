@@ -78,8 +78,9 @@ interface CalendarProviderRepository {
     ): List<org.onekash.kashcal.data.db.dao.TitleSuggestion>
 
     /**
-     * Removes enabled device-calendar ids in [dataStore] that [getDeviceCalendars] no longer
-     * returns: an uninstalled sync adapter, a removed account or a deleted calendar.
+     * Removes enabled and muted device-calendar ids in [dataStore] that [getDeviceCalendars] no
+     * longer returns: an uninstalled sync adapter, a removed account or a deleted calendar.
+     * Provider calendar ids can be reused, so a stale mute would silence a new calendar.
      */
     suspend fun pruneStaleCalendarIds(dataStore: org.onekash.kashcal.data.preferences.KashCalDataStore)
 
@@ -428,14 +429,30 @@ interface CalendarProviderRepository {
     // ==================== Reminders ====================
 
     /**
-     * Returns the reminder with the earliest trigger time after [afterMs] among occurrences of
-     * [enabledCalendarIds] with alarms in the next 30 days, or null if there is none.
-     * Occurrences the user declined are skipped. See [UpcomingDeviceReminder] for its key.
+     * Returns the first reminder in [DeviceReminderCursor] order whose trigger time is after
+     * [afterMs], among occurrences of [enabledCalendarIds] with alarms in the 30 days from
+     * [afterMs], or null if there is none. Occurrences the user declined are skipped.
      */
     suspend fun getNextUpcomingReminder(
         enabledCalendarIds: Set<Long>,
         afterMs: Long = System.currentTimeMillis()
     ): UpcomingDeviceReminder?
+
+    /**
+     * Returns, from one read of the occurrences of [enabledCalendarIds] with alarms in the window
+     * from the earlier of [after]'s trigger and [nowMs] to 30 days after [nowMs] (declined ones
+     * skipped, as in [getNextUpcomingReminder]):
+     * - `due`: the reminders after [after] in [DeviceReminderCursor] order whose trigger time is
+     *   at or before [nowMs], in order, at most [limit], with `overflowed` set when more were due;
+     * - `next`: the first due reminder left out when `overflowed`, else the first reminder whose
+     *   trigger time is after [nowMs]. It is not limited by [after].
+     */
+    suspend fun getDueAndNextReminders(
+        enabledCalendarIds: Set<Long>,
+        after: DeviceReminderCursor,
+        nowMs: Long,
+        limit: Int,
+    ): DeviceReminderBatch
 
     /**
      * Returns true if the Events row exists with `DELETED = 0`; false when it's missing, the

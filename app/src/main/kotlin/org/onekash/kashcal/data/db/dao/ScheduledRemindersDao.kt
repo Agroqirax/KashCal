@@ -185,8 +185,10 @@ interface ScheduledRemindersDao {
     suspend fun deleteOldReminders(beforeTime: Long)
 
     /**
-     * Returns the PENDING and SNOOZED reminders of [calendarId]'s events, so their alarms can
-     * be cancelled when the account is removed.
+     * Returns the PENDING and SNOOZED reminders of [calendarId]'s events, whose alarms
+     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.cancelRemindersForCalendar] and
+     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.silenceRemindersForCalendar]
+     * cancel.
      */
     @Query("""
         SELECT sr.* FROM scheduled_reminders sr
@@ -196,12 +198,51 @@ interface ScheduledRemindersDao {
     """)
     suspend fun getPendingForCalendar(calendarId: Long): List<ScheduledReminder>
 
-    /** Deletes every reminder of [calendarId]'s events, when the account is removed. */
+    /** Deletes every reminder of [calendarId]'s events, any status. */
     @Query("""
         DELETE FROM scheduled_reminders
         WHERE event_id IN (SELECT id FROM events WHERE calendar_id = :calendarId)
     """)
     suspend fun deleteForCalendar(calendarId: Long)
+
+    /**
+     * Returns the ids of the muted calendars that still hold a PENDING or SNOOZED reminder, in
+     * one join over the pending reminders.
+     */
+    @Query("""
+        SELECT DISTINCT c.id FROM calendars c
+        INNER JOIN events e ON e.calendar_id = c.id
+        INNER JOIN scheduled_reminders sr ON sr.event_id = e.id
+        WHERE c.is_notification_muted = 1
+        AND sr.status IN ('PENDING', 'SNOOZED')
+    """)
+    suspend fun getMutedCalendarIdsWithPendingReminders(): List<Long>
+
+    /** Returns the PENDING and SNOOZED reminders of [calendarId]'s events while it is muted. */
+    @Query("""
+        SELECT sr.* FROM scheduled_reminders sr
+        INNER JOIN events e ON sr.event_id = e.id
+        INNER JOIN calendars c ON e.calendar_id = c.id
+        WHERE e.calendar_id = :calendarId
+        AND c.is_notification_muted = 1
+        AND sr.status IN ('PENDING', 'SNOOZED')
+    """)
+    suspend fun getPendingForMutedCalendar(calendarId: Long): List<ScheduledReminder>
+
+    /**
+     * Dismisses the reminders [ids] whose event's calendar is muted at the time of the update, so
+     * an unmute that lands first keeps its rows pending.
+     */
+    @Query("""
+        UPDATE scheduled_reminders SET status = 'DISMISSED'
+        WHERE id IN (:ids)
+        AND event_id IN (
+            SELECT e.id FROM events e
+            INNER JOIN calendars c ON e.calendar_id = c.id
+            WHERE c.is_notification_muted = 1
+        )
+    """)
+    suspend fun dismissIfCalendarMuted(ids: List<Long>)
 
     // ========== Statistics ==========
 

@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Gaano kalayo pabalik i-sync ang mga kaganapan</string>
     <string name="settings_change_notifications">Mga notification ng pagbabago</string>
     <string name="settings_change_notifications_info">Nagpapadala ng notification kapag may nakitang pagbabago sa iyong mga event ang pag-sync sa background. Gumagana para sa mga kalendaryo ng iCloud at CalDAV.</string>
+    <string name="settings_calendar_notifications">Mga notification ng kalendaryo</string>
+    <string name="settings_calendar_notifications_all">Lahat ng kalendaryo</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d naka-mute</item>
+        <item quantity="other">%d naka-mute</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Piliin kung aling mga kalendaryo ang puwedeng mag-abiso sa iyo.</string>
+    <string name="calendar_notifications_info">Ipinapakita at sini-sync pa rin ang mga naka-mute na kalendaryo, pero hindi ka nila aabisuhan.</string>
+    <string name="cd_calendar_notifications_info">Tungkol sa mga naka-mute na kalendaryo</string>
+    <string name="cd_state_expanded">nakabukas</string>
+    <string name="cd_state_collapsed">nakasara</string>
+    <string name="calendar_notifications_device_info">I-off para i-mute ang lahat ng device calendar, pati ang mga idaragdag mo sa ibang pagkakataon.</string>
+    <string name="cd_calendar_notifications_device_info">Tungkol sa mga notification ng device calendar</string>
+    <string name="cd_device_calendar_notifications">Mga notification ng device calendar</string>
+    <string name="calendar_notifications_hidden">Nakatago</string>
+    <string name="calendar_notifications_app_off">Naka-off ang mga notification para sa KashCal sa mga setting ng system, kaya walang kalendaryong makakapag-abiso sa iyo.</string>
+    <string name="calendar_notifications_reminders_off">Naka-off ang mga paalala ng event sa mga setting ng system, kaya walang paalalang maipapakita.</string>
+    <string name="cd_notifications_off">naka-off ang mga notification</string>
     <string name="settings_not_set">Hindi pa naka-set</string>
     <string name="settings_on">Bukas</string>
     <string name="settings_off">Sarado</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Mga Device Calendar</string>
     <string name="label_default_calendar_hint">Ang mga bagong event ay gagawin sa kalendaryong ito</string>
     <string name="label_visible_count">%1$d / %2$d nakikita</string>
-    <string name="label_enabled_count">%1$d / %2$d naka-enable</string>
     <string name="label_reminders_truncated">%1$d hindi ipinakita (%2$d kabuuan, max %3$d na mae-edit)</string>
     <string name="label_found_events">Natagpuan: %1$d event</string>
     <string name="label_open_debug_menu">Buksan ang debug menu</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">I-grant</string>
     <string name="device_calendars_none_found">Walang natagpuang device calendar.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Mga Paalala</string>
-    <string name="device_calendars_reminders_desc">Makatanggap ng notification para sa mga device calendar event</string>
     <string name="device_calendars_read_only_no_write">Read only (walang write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (read-only ang kalendaryo)</string>
     <string name="settings_developer_options">Mga Developer Option</string>

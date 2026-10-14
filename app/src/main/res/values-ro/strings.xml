@@ -603,6 +603,25 @@
     <string name="settings_sync_lookback_hint">Cât de mult în urmă se sincronizează evenimentele</string>
     <string name="settings_change_notifications">Notificări despre modificări</string>
     <string name="settings_change_notifications_info">Trimite o notificare când sincronizarea din fundal găsește modificări la evenimentele tale. Funcționează pentru calendarele iCloud și CalDAV.</string>
+    <string name="settings_calendar_notifications">Notificări pentru calendare</string>
+    <string name="settings_calendar_notifications_all">Toate calendarele</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d fără notificări</item>
+        <item quantity="few">%d fără notificări</item>
+        <item quantity="other">%d fără notificări</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Alege ce calendare îți pot trimite notificări.</string>
+    <string name="calendar_notifications_info">Calendarele fără notificări se afișează și se sincronizează în continuare, dar nu îți trimit notificări.</string>
+    <string name="cd_calendar_notifications_info">Despre calendarele fără notificări</string>
+    <string name="cd_state_expanded">extins</string>
+    <string name="cd_state_collapsed">restrâns</string>
+    <string name="calendar_notifications_device_info">Dezactivează pentru a opri notificările de la toate calendarele dispozitiv, inclusiv cele pe care le adaugi ulterior.</string>
+    <string name="cd_calendar_notifications_device_info">Despre notificările calendarelor dispozitiv</string>
+    <string name="cd_device_calendar_notifications">Notificările calendarelor dispozitiv</string>
+    <string name="calendar_notifications_hidden">Ascuns</string>
+    <string name="calendar_notifications_app_off">Notificările pentru KashCal sunt oprite în setările sistemului, așa că niciun calendar nu te poate notifica.</string>
+    <string name="calendar_notifications_reminders_off">Mementourile pentru evenimente sunt oprite în setările sistemului, așa că nu se pot afișa mementouri.</string>
+    <string name="cd_notifications_off">notificări dezactivate</string>
     <string name="settings_not_set">Nesetat</string>
     <string name="settings_on">Pornit</string>
     <string name="settings_off">Oprit</string>
@@ -646,7 +665,6 @@
     <string name="label_device_calendars">Calendare dispozitiv</string>
     <string name="label_default_calendar_hint">Evenimentele noi vor fi create în acest calendar</string>
     <string name="label_visible_count">%1$d / %2$d vizibile</string>
-    <string name="label_enabled_count">%1$d / %2$d activate</string>
     <string name="label_reminders_truncated">%1$d neafișate (%2$d total, max %3$d editabile)</string>
     <string name="label_found_events">Găsite: %1$d evenimente</string>
     <string name="label_open_debug_menu">Deschide meniul de depanare</string>
@@ -668,8 +686,6 @@
     <string name="device_calendars_grant">Acordă</string>
     <string name="device_calendars_none_found">Niciun calendar de dispozitiv găsit.</string>
     <string name="device_calendars_local">Local</string>
-    <string name="device_calendars_reminders">Mementouri</string>
-    <string name="device_calendars_reminders_desc">Primește notificări pentru evenimentele calendarului dispozitivului</string>
     <string name="device_calendars_read_only_no_write">Doar citire (fără permisiune de scriere)</string>
     <string name="device_calendars_read_only_calendar">Doar citire (calendar doar pentru citire)</string>
     <string name="settings_developer_options">Opțiuni dezvoltator</string>

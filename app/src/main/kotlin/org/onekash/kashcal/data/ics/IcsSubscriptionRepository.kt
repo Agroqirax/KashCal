@@ -172,21 +172,17 @@ class IcsSubscriptionRepository @Inject constructor(
     }
 
     /**
-     * Enables or disables a subscription.
+     * Enables or disables ("Sync paused") a subscription.
      *
-     * Disabling cancels the master events' reminders. Enabling refreshes the feed, which
-     * reschedules reminders only when the feed returns a body; a 304 schedules none.
+     * Disabling only stops the feed syncing: its events stay on the calendar and keep their
+     * reminders, which the window scan
+     * ([org.onekash.kashcal.reminder.scheduler.ReminderScheduler.scheduleUpcomingReminders])
+     * keeps armed. Muting the feed's calendar
+     * ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted]) is what silences it.
+     * Enabling refreshes the feed.
      */
     suspend fun setSubscriptionEnabled(subscriptionId: Long, enabled: Boolean) = withContext(Dispatchers.IO) {
         val subscription = icsSubscriptionsDao.getById(subscriptionId)
-
-        if (!enabled && subscription != null) {
-            val events = eventsDao.getAllMasterEventsForCalendar(subscription.calendarId)
-            for (event in events) {
-                reminderScheduler.cancelRemindersForEvent(event.id)
-            }
-            Log.i(TAG, "Cancelled reminders for disabled subscription: ${subscription.name}")
-        }
 
         icsSubscriptionsDao.setEnabled(subscriptionId, enabled)
 

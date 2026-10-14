@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Restore
@@ -59,9 +60,14 @@ import org.onekash.kashcal.ui.components.SettingsTopAppBar
 import org.onekash.kashcal.ui.model.CalendarGroup
 import org.onekash.kashcal.ui.model.localizedDisplayName
 import org.onekash.kashcal.ui.screens.settings.AccountDetailDiscoverStatus
+import org.onekash.kashcal.ui.screens.settings.CalendarNotificationSource
+import org.onekash.kashcal.ui.screens.settings.CalendarNotificationsSheet
+import org.onekash.kashcal.ui.screens.settings.buildCalendarNotificationSections
+import org.onekash.kashcal.ui.screens.settings.mutedCalendarCount
 import org.onekash.kashcal.ui.screens.settings.ContactSyncConfirmation
 import org.onekash.kashcal.ui.screens.settings.AccountDetailSyncStatus
 import org.onekash.kashcal.ui.screens.settings.AccountDetailUiModel
+import org.onekash.kashcal.ui.permission.ChangeNotificationsStep
 import org.onekash.kashcal.ui.permission.LocalNetworkPermissionState
 import org.onekash.kashcal.ui.screens.settings.AddSubscriptionDialog
 import org.onekash.kashcal.ui.screens.settings.AlertPickerSheet
@@ -246,6 +252,13 @@ fun AccountSettingsScreen(
     deviceCalendarRemindersEnabled: Boolean = true,
     onToggleDeviceCalendarReminders: (Boolean) -> Unit = {},
     onRefreshDeviceCalendars: () -> Unit = {},
+    // Calendar notifications (mute per calendar)
+    hiddenDeviceCalendarIds: Set<Long> = emptySet(),
+    mutedDeviceCalendarIds: Set<Long> = emptySet(),
+    calendarNotificationsBlockedBy: ChangeNotificationsStep? = null,
+    onToggleCalendarMuted: (Long, Boolean) -> Unit = { _, _ -> },
+    onToggleDeviceCalendarMuted: (Long, Boolean) -> Unit = { _, _ -> },
+    onFixCalendarNotifications: () -> Unit = {},
     // Display settings
     showEventEmojis: Boolean = true,
     onShowEventEmojisChange: (Boolean) -> Unit = {},
@@ -333,6 +346,7 @@ fun AccountSettingsScreen(
                 var showAddSubscriptionDialog by remember { mutableStateOf(false) }
                 var showSyncLookbackSheet by remember { mutableStateOf(false) }
                 var showSyncFrequencySheet by remember { mutableStateOf(false) }
+                var showCalendarNotificationsSheet by remember { mutableStateOf(false) }
 
                 val defaultCalendarSheetState = rememberModalBottomSheetState()
                 // Alert sheets can swap to the scrollable wheel picker; skip the half-height
@@ -353,6 +367,27 @@ fun AccountSettingsScreen(
                 val resources = LocalResources.current
 
                 val use24Hour = DateTimeUtils.isUse24Hour(timeFormat, DateFormat.is24HourFormat(context))
+
+                // Every calendar KashCal shows, for the Calendar notifications row and sheet
+                val contactsHeader = stringResource(R.string.drawer_contacts)
+                val deviceHeader = stringResource(R.string.drawer_device_calendars)
+                val deviceLocalLabel = stringResource(R.string.device_calendars_local)
+                val calendarNotificationSections = remember(
+                    calendarGroups, deviceCalendarsEnabled, deviceCalendars, enabledDeviceCalendarIds,
+                    hiddenDeviceCalendarIds, mutedDeviceCalendarIds, contactsHeader, deviceHeader, deviceLocalLabel
+                ) {
+                    buildCalendarNotificationSections(
+                        calendarGroups = calendarGroups,
+                        deviceCalendarsEnabled = deviceCalendarsEnabled,
+                        deviceCalendars = deviceCalendars,
+                        enabledDeviceIds = enabledDeviceCalendarIds,
+                        hiddenDeviceIds = hiddenDeviceCalendarIds,
+                        mutedDeviceIds = mutedDeviceCalendarIds,
+                        contactsHeader = contactsHeader,
+                        deviceHeader = deviceHeader,
+                        deviceLocalLabel = deviceLocalLabel,
+                    )
+                }
 
                 // Default calendar name, from a Room or a device calendar
                 val defaultCalendarName = remember(calendars, deviceCalendars, defaultCalendar) {
@@ -456,6 +491,20 @@ fun AccountSettingsScreen(
                                 label = stringResource(R.string.settings_device_calendars),
                                 subtitle = deviceCalendarsSubtitle,
                                 onClick = onNavigateToDeviceCalendars,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+
+                        val mutedCount = mutedCalendarCount(calendarNotificationSections, deviceCalendarRemindersEnabled)
+                        val calendarNotificationsSubtitle = if (mutedCount == 0) stringResource(R.string.settings_calendar_notifications_all)
+                            else pluralStringResource(R.plurals.settings_calendar_notifications_muted_count, mutedCount, mutedCount)
+                        row(label = stringResource(R.string.settings_calendar_notifications), subtitle = calendarNotificationsSubtitle, id = "calendar-notifications") {
+                            SettingsRow(
+                                icon = Icons.Default.NotificationsActive,
+                                label = stringResource(R.string.settings_calendar_notifications),
+                                subtitle = calendarNotificationsSubtitle,
+                                onClick = { showCalendarNotificationsSheet = true },
                                 showDivider = false,
                                 searchQuery = searchQuery
                             )
@@ -892,6 +941,24 @@ fun AccountSettingsScreen(
                         currentLimit = widgetMaxEventsPerDay,
                         onLimitChange = onWidgetMaxEventsPerDayChange,
                         onDismiss = { showWidgetEventLimitSheet = false }
+                    )
+                }
+
+                // Calendar Notifications Sheet
+                if (showCalendarNotificationsSheet) {
+                    CalendarNotificationsSheet(
+                        sections = calendarNotificationSections,
+                        deviceRemindersEnabled = deviceCalendarRemindersEnabled,
+                        notificationsBlockedBy = calendarNotificationsBlockedBy,
+                        onToggle = { row, muted ->
+                            when (row.source) {
+                                CalendarNotificationSource.ROOM -> onToggleCalendarMuted(row.id, muted)
+                                CalendarNotificationSource.DEVICE -> onToggleDeviceCalendarMuted(row.id, muted)
+                            }
+                        },
+                        onSetDeviceReminders = onToggleDeviceCalendarReminders,
+                        onFixNotifications = onFixCalendarNotifications,
+                        onDismiss = { showCalendarNotificationsSheet = false }
                     )
                 }
 

@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Оқиғаларды қаншалықты кері синхрондау</string>
     <string name="settings_change_notifications">Өзгеріс хабарламалары</string>
     <string name="settings_change_notifications_info">Фондық синхрондау оқиғаларыңыздағы өзгерістерді тапқанда хабарлама жібереді. iCloud және CalDAV күнтізбелері үшін жұмыс істейді.</string>
+    <string name="settings_calendar_notifications">Күнтізбе хабарландырулары</string>
+    <string name="settings_calendar_notifications_all">Барлық күнтізбелер</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d дыбысы өшірілген</item>
+        <item quantity="other">%d дыбысы өшірілген</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Қай күнтізбелер сізге хабарлай алатынын таңдаңыз.</string>
+    <string name="calendar_notifications_info">Дыбысы өшірілген күнтізбелер бұрынғыдай көрсетіліп, синхрондалады, бірақ сізге хабарламайды.</string>
+    <string name="cd_calendar_notifications_info">Дыбысы өшірілген күнтізбелер туралы</string>
+    <string name="cd_state_expanded">жайылған</string>
+    <string name="cd_state_collapsed">жиылған</string>
+    <string name="calendar_notifications_device_info">Барлық құрылғы күнтізбелерінің, соның ішінде кейін қосатындарыңыздың да, дыбысын өшіру үшін өшіріңіз.</string>
+    <string name="cd_calendar_notifications_device_info">Құрылғы күнтізбелерінің хабарландырулары туралы</string>
+    <string name="cd_device_calendar_notifications">Құрылғы күнтізбелерінің хабарландырулары</string>
+    <string name="calendar_notifications_hidden">Жасырылған</string>
+    <string name="calendar_notifications_app_off">Жүйе параметрлерінде KashCal хабарландырулары өшірулі, сондықтан ешбір күнтізбе сізге хабарлай алмайды.</string>
+    <string name="calendar_notifications_reminders_off">Жүйе параметрлерінде оқиға еске салулары өшірулі, сондықтан ешбір еске салу көрсетілмейді.</string>
+    <string name="cd_notifications_off">хабарландырулар өшірулі</string>
     <string name="settings_not_set">Орнатылмаған</string>
     <string name="settings_on">Қосулы</string>
     <string name="settings_off">Өшірулі</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Құрылғы күнтізбелері</string>
     <string name="label_default_calendar_hint">Жаңа оқиғалар осы күнтізбеде жасалады</string>
     <string name="label_visible_count">%1$d / %2$d көрінеді</string>
-    <string name="label_enabled_count">%1$d / %2$d қосулы</string>
     <string name="label_reminders_truncated">%1$d көрсетілмейді (барлығы %2$d, макс. %3$d өңделетін)</string>
     <string name="label_found_events">Табылды: %1$d оқиға</string>
     <string name="label_open_debug_menu">Жөндеу мәзірін ашу</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Рұқсат беру</string>
     <string name="device_calendars_none_found">Құрылғы күнтізбелері табылмады.</string>
     <string name="device_calendars_local">Жергілікті</string>
-    <string name="device_calendars_reminders">Еске салғыштар</string>
-    <string name="device_calendars_reminders_desc">Құрылғы күнтізбесі оқиғалары үшін хабарландыру алу</string>
     <string name="device_calendars_read_only_no_write">Тек оқу (жазу рұқсаты жоқ)</string>
     <string name="device_calendars_read_only_calendar">Тек оқу (күнтізбе тек оқуға арналған)</string>
     <string name="settings_developer_options">Әзірлеуші параметрлері</string>

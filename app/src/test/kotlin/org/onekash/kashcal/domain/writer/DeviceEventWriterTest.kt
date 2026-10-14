@@ -52,6 +52,7 @@ class DeviceEventWriterTest {
             coEvery { defaultAllDayReminder } returns MutableStateFlow(600)
             coEvery { getEnabledDeviceCalendarIds() } returns setOf(CAL_ID, 99L)
             coJustRun { setEnabledDeviceCalendarIds(any()) }
+            coEvery { getMutedDeviceCalendarIds() } returns emptySet()
         }
         writer = DeviceEventWriter(repo, manager, dataStore)
     }

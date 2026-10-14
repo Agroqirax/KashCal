@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Milyen messzire szinkronizálja az eseményeket visszamenőleg</string>
     <string name="settings_change_notifications">Változásértesítések</string>
     <string name="settings_change_notifications_info">Értesítést küld, ha a háttérben futó szinkronizálás változásokat talál az eseményeidben. iCloud- és CalDAV-naptárakkal működik.</string>
+    <string name="settings_calendar_notifications">Naptárértesítések</string>
+    <string name="settings_calendar_notifications_all">Minden naptár</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d némítva</item>
+        <item quantity="other">%d némítva</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Válaszd ki, mely naptárak értesíthetnek.</string>
+    <string name="calendar_notifications_info">A némított naptárak továbbra is megjelennek és szinkronizálódnak, de nem értesítenek.</string>
+    <string name="cd_calendar_notifications_info">A némított naptárakról</string>
+    <string name="cd_state_expanded">kinyitva</string>
+    <string name="cd_state_collapsed">összecsukva</string>
+    <string name="calendar_notifications_device_info">Kapcsold ki az összes eszköz naptár némításához, a később hozzáadottakat is beleértve.</string>
+    <string name="cd_calendar_notifications_device_info">Az eszköz naptárak értesítéseiről</string>
+    <string name="cd_device_calendar_notifications">Eszköz naptárak értesítései</string>
+    <string name="calendar_notifications_hidden">Elrejtve</string>
+    <string name="calendar_notifications_app_off">A KashCal értesítései ki vannak kapcsolva a rendszerbeállításokban, így egyetlen naptár sem tud értesíteni.</string>
+    <string name="calendar_notifications_reminders_off">Az eseményemlékeztetők ki vannak kapcsolva a rendszerbeállításokban, így nem jelenhetnek meg emlékeztetők.</string>
+    <string name="cd_notifications_off">értesítések kikapcsolva</string>
     <string name="settings_not_set">Nincs beállítva</string>
     <string name="settings_on">Be</string>
     <string name="settings_off">Ki</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Eszköz naptárak</string>
     <string name="label_default_calendar_hint">Az új események ebben a naptárban jönnek létre</string>
     <string name="label_visible_count">%1$d / %2$d látható</string>
-    <string name="label_enabled_count">%1$d / %2$d engedélyezve</string>
     <string name="label_reminders_truncated">%1$d nem látható (%2$d összesen, max. %3$d szerkeszthető)</string>
     <string name="label_found_events">Találat: %1$d esemény</string>
     <string name="label_open_debug_menu">Hibakeresési menü megnyitása</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Megadás</string>
     <string name="device_calendars_none_found">Nem található eszköz naptár.</string>
     <string name="device_calendars_local">Helyi</string>
-    <string name="device_calendars_reminders">Emlékeztetők</string>
-    <string name="device_calendars_reminders_desc">Értesítések az eszköz naptáreseményeiről</string>
     <string name="device_calendars_read_only_no_write">Csak olvasható (nincs írási engedély)</string>
     <string name="device_calendars_read_only_calendar">Csak olvasható (a naptár csak olvasható)</string>
     <string name="settings_developer_options">Fejlesztői beállítások</string>

@@ -712,6 +712,32 @@ class KashCalDataStore(
     }
 
     /**
+     * Device calendar ids whose notifications are muted
+     * ([PreferencesKeys.MUTED_DEVICE_CALENDAR_IDS]). Stored as strings like
+     * [enabledDeviceCalendarIds].
+     */
+    val mutedDeviceCalendarIds: Flow<Set<Long>>
+        get() = getPreference(PreferencesKeys.MUTED_DEVICE_CALENDAR_IDS, emptySet<String>())
+            .map { strings -> strings.mapNotNull { it.toLongOrNull() }.toSet() }
+
+    suspend fun getMutedDeviceCalendarIds(): Set<Long> = mutedDeviceCalendarIds.first()
+
+    /** Mutes or unmutes [calendarId] in one DataStore edit. */
+    suspend fun setDeviceCalendarMuted(calendarId: Long, muted: Boolean) {
+        updatePreference(PreferencesKeys.MUTED_DEVICE_CALENDAR_IDS) { current ->
+            val ids = current.orEmpty()
+            if (muted) ids + calendarId.toString() else ids - calendarId.toString()
+        }
+    }
+
+    /** Drops muted ids that aren't in [existingIds], so a reused provider id starts unmuted. */
+    suspend fun pruneMutedDeviceCalendarIds(existingIds: Set<Long>) {
+        updatePreference(PreferencesKeys.MUTED_DEVICE_CALENDAR_IDS) { current ->
+            current.orEmpty().filterTo(mutableSetOf()) { it.toLongOrNull() in existingIds }
+        }
+    }
+
+    /**
      * Unhides [calendarId]. Called when a device calendar is disabled, so it comes back visible
      * if re-enabled.
      */

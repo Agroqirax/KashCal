@@ -66,16 +66,21 @@ class ChangeNotifier @Inject constructor(
      * is announced, so the caller skips the in-app snackbar.
      *
      * Returns false, posting nothing, when the setting is off, the notification can't show, or no
-     * row recorded at [batchAt] is left in the log. Rows whose event got an invite notification
-     * since [syncStartedAt] are left out; when that leaves none, it returns true without posting,
-     * since the invite notification already told the user.
+     * row recorded at [batchAt] is left in the log. Rows of muted calendars
+     * ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted], read on each call) and
+     * rows whose event got an invite notification since [syncStartedAt] are left out of the
+     * notification, not the log. When that leaves none it returns true without posting: a muted
+     * calendar wants no announcement, and an invite notification already told the user.
      */
     suspend fun notify(batchAt: Long, syncStartedAt: Long): Boolean {
         if (!dataStore.changeNotificationsEnabled.first() || !channels.canPost()) return false
         val batch = eventReader.observeRecentChanges(batchAt).first().filter { it.detectedAt == batchAt }
         if (batch.isEmpty()) return false
-        val invited = inviteNotifier.eventsNotifiedSince(batch.mapNotNull { it.eventId }, syncStartedAt)
-        val rows = batch.filterNot { it.eventId in invited }
+        val mutedCalendarIds = eventReader.getNotificationMutedCalendarIds()
+        val notifying = batch.filterNot { it.calendarId in mutedCalendarIds }
+        if (notifying.isEmpty()) return true
+        val invited = inviteNotifier.eventsNotifiedSince(notifying.mapNotNull { it.eventId }, syncStartedAt)
+        val rows = notifying.filterNot { it.eventId in invited }
         if (rows.isEmpty()) return true
 
         val is24Hour = DateFormat.is24HourFormat(context)

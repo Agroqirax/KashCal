@@ -64,7 +64,10 @@ data class IcsSubscription(
     @ColumnInfo(name = "sync_interval_hours", defaultValue = "24")
     val syncIntervalHours: Int = 24,
 
-    /** Whether the feed is synced. A disabled feed keeps its events visible. */
+    /**
+     * Whether the feed is synced. A disabled feed keeps its events visible and their reminders
+     * armed ([org.onekash.kashcal.data.ics.IcsSubscriptionRepository.setSubscriptionEnabled]).
+     */
     @ColumnInfo(name = "enabled", defaultValue = "1")
     val enabled: Boolean = true,
 

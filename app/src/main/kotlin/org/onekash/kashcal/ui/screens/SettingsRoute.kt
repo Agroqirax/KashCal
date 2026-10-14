@@ -40,6 +40,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.onekash.kashcal.ui.permission.ChangeNotificationsStep
+import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
+import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
 import org.onekash.kashcal.BuildConfig
 import org.onekash.kashcal.R
 import org.onekash.kashcal.data.ics.IcsParserService
@@ -121,10 +123,11 @@ fun SettingsRoute(
     readBackup: suspend (uri: Uri) -> String,
     resolveLanPermissionState: () -> LocalNetworkPermissionState = { LocalNetworkPermissionState.NotRequired },
     shouldShowLanRationale: () -> Boolean = { false },
-    // Change notifications: whether POST_NOTIFICATIONS can no longer be asked for (needs the
-    // activity), and opening the system notification settings (the channel's when true).
+    // Change and calendar notifications: whether POST_NOTIFICATIONS can no longer be asked for
+    // (needs the activity), and opening the system notification settings (a channel's page for
+    // a channel id, the app's for null).
     isNotificationPermissionPermanentlyDenied: suspend () -> Boolean = { false },
-    openNotificationSettings: (channel: Boolean) -> Unit = {},
+    openNotificationSettings: (channelId: String?) -> Unit = {},
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(initialValue = initialThemeMode)
     val colorSource by viewModel.colorSource.collectAsStateWithLifecycle(initialValue = initialColorSource)
@@ -177,6 +180,9 @@ fun SettingsRoute(
         val enabledDeviceCalendarIds by viewModel.enabledDeviceCalendarIds.collectAsStateWithLifecycle()
         val showDeclinedEvents by viewModel.showDeclinedEvents.collectAsStateWithLifecycle()
         val deviceCalendarRemindersEnabled by viewModel.deviceCalendarRemindersEnabled.collectAsStateWithLifecycle()
+        val hiddenDeviceCalendarIds by viewModel.hiddenDeviceCalendarIds.collectAsStateWithLifecycle()
+        val mutedDeviceCalendarIds by viewModel.mutedDeviceCalendarIds.collectAsStateWithLifecycle()
+        val calendarNotificationsBlockedBy by viewModel.calendarNotificationsBlockedBy.collectAsStateWithLifecycle()
 
         // iCloud account for AccountsScreen, derived from uiState (the single source of truth)
         val iCloudAccount = remember(uiState.iCloudState) {
@@ -306,35 +312,59 @@ fun SettingsRoute(
         val coroutineScope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
 
-        // Change notifications switch. The ViewModel picks the step; the host asks for the
-        // permission or opens system settings, and the next resume finishes a pending enable.
-        // Opens the system settings a step names; the other steps need nothing from the host.
-        val openSettingsForStep: (ChangeNotificationsStep?) -> Unit = { step ->
+        // Change notifications switch and Calendar notifications banner. The ViewModel picks the
+        // step; the host asks for the permission or opens system settings (the app's page, or
+        // the channel's: Calendar updates for the switch, event reminders for the banner), and
+        // the next resume re-reads the state. Each has its own permission launcher, so a grant
+        // from the banner never turns Change notifications on.
+        val openSettingsFor: (ChangeNotificationsStep?, String) -> Unit = { step, channelId ->
             when (step) {
-                ChangeNotificationsStep.OpenAppSettings -> openNotificationSettings(false)
-                ChangeNotificationsStep.OpenChannelSettings -> openNotificationSettings(true)
+                ChangeNotificationsStep.OpenAppSettings -> openNotificationSettings(null)
+                ChangeNotificationsStep.OpenChannelSettings -> openNotificationSettings(channelId)
                 ChangeNotificationsStep.TurnOn, ChangeNotificationsStep.TurnOff,
                 ChangeNotificationsStep.RequestPermission, null -> Unit
             }
         }
+        val runNotificationStep: (ChangeNotificationsStep, () -> Unit, String) -> Unit =
+            { step, launchPermission, channelId ->
+                if (step == ChangeNotificationsStep.RequestPermission) {
+                    coroutineScope.launch {
+                        if (isNotificationPermissionPermanentlyDenied()) {
+                            openNotificationSettings(null)
+                        } else {
+                            launchPermission()
+                        }
+                    }
+                } else {
+                    openSettingsFor(step, channelId)
+                }
+            }
         val changeNotificationsPermissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission()
         ) { granted ->
-            openSettingsForStep(viewModel.onChangeNotificationsPermissionResult(granted))
+            openSettingsFor(viewModel.onChangeNotificationsPermissionResult(granted), ChangeNotificationChannels.CHANNEL_ID)
         }
         val onChangeNotificationsChange: (Boolean) -> Unit = { enable ->
-            val step = viewModel.onChangeNotificationsToggle(enable)
-            if (step == ChangeNotificationsStep.RequestPermission) {
-                coroutineScope.launch {
-                    if (isNotificationPermissionPermanentlyDenied()) {
-                        openNotificationSettings(false)
-                    } else {
-                        changeNotificationsPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-                    }
-                }
-            } else {
-                openSettingsForStep(step)
-            }
+            runNotificationStep(
+                viewModel.onChangeNotificationsToggle(enable),
+                { changeNotificationsPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS) },
+                ChangeNotificationChannels.CHANNEL_ID,
+            )
+        }
+        val calendarNotificationsPermissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { granted ->
+            openSettingsFor(
+                viewModel.onCalendarNotificationsPermissionResult(granted),
+                ReminderNotificationChannels.CHANNEL_REMINDERS,
+            )
+        }
+        val onFixCalendarNotifications: () -> Unit = {
+            runNotificationStep(
+                viewModel.calendarNotificationsStep(),
+                { calendarNotificationsPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS) },
+                ReminderNotificationChannels.CHANNEL_REMINDERS,
+            )
         }
 
         // Resolved at composable scope for the launcher/callback coroutines below.
@@ -647,7 +677,6 @@ fun SettingsRoute(
                             hasWritePermission = hasWriteCalendarPermission,
                             deviceCalendars = deviceCalendars,
                             enabledCalendarIds = enabledDeviceCalendarIds,
-                            deviceCalendarRemindersEnabled = deviceCalendarRemindersEnabled,
                             onNavigateBack = { showDeviceCalendarsScreen = false },
                             onToggle = { enabled ->
                                 if (enabled && !hasReadCalendarPermission) {
@@ -660,7 +689,6 @@ fun SettingsRoute(
                                 }
                             },
                             onToggleCalendar = viewModel::onToggleDeviceCalendar,
-                            onToggleDeviceCalendarReminders = viewModel::onToggleDeviceCalendarReminders,
                             onRequestWritePermission = {
                                 writeCalendarPermissionLauncher.launch(android.Manifest.permission.WRITE_CALENDAR)
                             },
@@ -789,6 +817,13 @@ fun SettingsRoute(
                             deviceCalendarRemindersEnabled = deviceCalendarRemindersEnabled,
                             onToggleDeviceCalendarReminders = viewModel::onToggleDeviceCalendarReminders,
                             onRefreshDeviceCalendars = viewModel::refreshDeviceCalendars,
+                            // Calendar notifications
+                            hiddenDeviceCalendarIds = hiddenDeviceCalendarIds,
+                            mutedDeviceCalendarIds = mutedDeviceCalendarIds,
+                            calendarNotificationsBlockedBy = calendarNotificationsBlockedBy,
+                            onToggleCalendarMuted = viewModel::onToggleCalendarMuted,
+                            onToggleDeviceCalendarMuted = viewModel::onToggleDeviceCalendarMuted,
+                            onFixCalendarNotifications = onFixCalendarNotifications,
                             // Display settings
                             showEventEmojis = showEventEmojis,
                             onShowEventEmojisChange = viewModel::setShowEventEmojis,

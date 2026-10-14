@@ -603,6 +603,28 @@
     <string name="settings_sync_lookback_hint">Pa mor bell yn ôl i gysoni digwyddiadau</string>
     <string name="settings_change_notifications">Hysbysiadau newidiadau</string>
     <string name="settings_change_notifications_info">Yn anfon hysbysiad pan fydd cysoni yn y cefndir yn dod o hyd i newidiadau i dy ddigwyddiadau. Yn gweithio ar gyfer calendrau iCloud a CalDAV.</string>
+    <string name="settings_calendar_notifications">Hysbysiadau calendr</string>
+    <string name="settings_calendar_notifications_all">Pob calendr</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="zero">%d calendr wedi\'u tewi</item>
+        <item quantity="one">%d calendr wedi\'i dewi</item>
+        <item quantity="two">%d galendr wedi\'u tewi</item>
+        <item quantity="few">%d chalendr wedi\'u tewi</item>
+        <item quantity="many">%d chalendr wedi\'u tewi</item>
+        <item quantity="other">%d calendr wedi\'u tewi</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Dewisa pa galendrau sy\'n cael dy hysbysu.</string>
+    <string name="calendar_notifications_info">Mae calendrau wedi\'u tewi yn dal i ymddangos a chysoni, ond dydyn nhw ddim yn dy hysbysu.</string>
+    <string name="cd_calendar_notifications_info">Am galendrau wedi\'u tewi</string>
+    <string name="cd_state_expanded">wedi ehangu</string>
+    <string name="cd_state_collapsed">wedi crebachu</string>
+    <string name="calendar_notifications_device_info">Diffodda hwn i dewi holl galendrau\'r ddyfais, gan gynnwys rhai y byddi di\'n eu hychwanegu wedyn.</string>
+    <string name="cd_calendar_notifications_device_info">Am hysbysiadau calendrau\'r ddyfais</string>
+    <string name="cd_device_calendar_notifications">Hysbysiadau calendrau\'r ddyfais</string>
+    <string name="calendar_notifications_hidden">Wedi\'i guddio</string>
+    <string name="calendar_notifications_app_off">Mae hysbysiadau KashCal i ffwrdd yng ngosodiadau\'r system, felly does dim calendr yn gallu dy hysbysu.</string>
+    <string name="calendar_notifications_reminders_off">Mae atgofion digwyddiadau i ffwrdd yng ngosodiadau\'r system, felly does dim modd dangos nodiadau atgoffa.</string>
+    <string name="cd_notifications_off">hysbysiadau i ffwrdd</string>
     <string name="settings_not_set">Heb ei osod</string>
     <string name="settings_on">Ymlaen</string>
     <string name="settings_off">I ffwrdd</string>
@@ -646,7 +668,6 @@
     <string name="label_device_calendars">Calendrau\'r Ddyfais</string>
     <string name="label_default_calendar_hint">Bydd digwyddiadau newydd yn cael eu creu yn y calendr hwn</string>
     <string name="label_visible_count">%1$d / %2$d gweladwy</string>
-    <string name="label_enabled_count">%1$d / %2$d wedi\'u galluogi</string>
     <string name="label_reminders_truncated">%1$d heb eu dangos (%2$d cyfanswm, uchafswm %3$d y gellir eu golygu)</string>
     <string name="label_found_events">Wedi canfod: %1$d digwyddiad</string>
     <string name="label_open_debug_menu">Agor dewislen dadfygio</string>
@@ -668,8 +689,6 @@
     <string name="device_calendars_grant">Rhoi</string>
     <string name="device_calendars_none_found">Dim calendrau dyfais wedi\'u canfod.</string>
     <string name="device_calendars_local">Lleol</string>
-    <string name="device_calendars_reminders">Nodiadau Atgoffa</string>
-    <string name="device_calendars_reminders_desc">Cael eich hysbysu am ddigwyddiadau calendr y ddyfais</string>
     <string name="device_calendars_read_only_no_write">Darllen yn unig (dim caniatâd ysgrifennu)</string>
     <string name="device_calendars_read_only_calendar">Darllen yn unig (calendr darllen-yn-unig)</string>
     <string name="settings_developer_options">Opsiynau Datblygwr</string>

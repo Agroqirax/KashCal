@@ -106,14 +106,14 @@ data class CalendarGroup(
         /**
          * Groups device calendars by account name, each group's calendars sorted by name.
          *
-         * An empty account name shows as "Local".
-         *
          * @param writableOnly keeps only writable calendars (the default)
+         * @param localLabel the header for calendars with an empty account name
          * @return the groups sorted by account name
          */
         fun fromDeviceCalendars(
             deviceCalendars: List<DeviceCalendar>,
-            writableOnly: Boolean = true
+            writableOnly: Boolean = true,
+            localLabel: String = "Local"
         ): List<CalendarGroup> {
             val filtered = if (writableOnly) {
                 deviceCalendars.filter { it.isWritable }
@@ -125,7 +125,7 @@ data class CalendarGroup(
                 .groupBy { it.accountName }
                 .map { (accountName, calendars) ->
                     CalendarGroup(
-                        accountName = accountName.ifEmpty { "Local" },
+                        accountName = accountName.ifEmpty { localLabel },
                         accountId = -1, // Synthetic ID for device groups
                         calendars = emptyList(),
                         pickerCalendars = calendars
@@ -137,4 +137,28 @@ data class CalendarGroup(
                 .sortedBy { it.accountName.lowercase() }
         }
     }
+}
+
+/**
+ * Room calendar groups split the way the drawer and the Calendar notifications sheet list them:
+ * [regular] accounts, then [contacts] (birthdays and anniversaries), then, after the device
+ * calendars, [offline] ([AccountProvider.LOCAL], KashCal's own calendars). Groups without
+ * calendars are left out.
+ */
+data class DisplaySections(
+    val regular: List<CalendarGroup>,
+    val contacts: List<CalendarGroup>,
+    val offline: List<CalendarGroup>,
+)
+
+/** Splits Room groups into [DisplaySections], keeping their order within each part. */
+fun List<CalendarGroup>.toDisplaySections(): DisplaySections {
+    val listed = filter { it.calendars.isNotEmpty() }
+    return DisplaySections(
+        regular = listed.filter {
+            it.provider != AccountProvider.CONTACTS && it.provider != AccountProvider.LOCAL
+        },
+        contacts = listed.filter { it.provider == AccountProvider.CONTACTS },
+        offline = listed.filter { it.provider == AccountProvider.LOCAL },
+    )
 }

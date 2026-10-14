@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -34,8 +35,8 @@ import org.robolectric.annotation.Config
 
 /**
  * Tests [ChangeNotifier] over the Robolectric NotificationManager: when it posts, which batch rows
- * it words (invites left out), the three content tiers, the lock-screen version and the tap
- * intent [ChangeNotifier.parseTap] reads back.
+ * it words (invites and muted calendars left out), the three content tiers, the lock-screen
+ * version and the tap intent [ChangeNotifier.parseTap] reads back.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE, sdk = [34])
@@ -53,6 +54,7 @@ class ChangeNotifierTest {
     private val syncStartedAt = batchAt - 5_000
     private var rows: List<RecentChangeItem> = emptyList()
     private var invited: Set<Long> = emptySet()
+    private var muted: Set<Long> = emptySet()
 
     @Before
     fun setup() {
@@ -65,6 +67,7 @@ class ChangeNotifierTest {
         coEvery { dataStore.getTimeFormat() } returns "12h"
         eventReader = mockk()
         every { eventReader.observeRecentChanges(any()) } answers { flowOf(rows) }
+        coEvery { eventReader.getNotificationMutedCalendarIds() } answers { muted }
         inviteNotifier = mockk()
         coEvery { inviteNotifier.eventsNotifiedSince(any(), any()) } answers { invited }
         notifier = ChangeNotifier(context, channels, dataStore, eventReader, inviteNotifier)
@@ -86,8 +89,9 @@ class ChangeNotifierTest {
         fields: Set<ChangedField> = emptySet(),
         previousStartTs: Long? = null,
         instanceTs: Long = 0,
+        calendarId: Long = 1,
     ) = RecentChangeItem(
-        id = id, calendarId = 1, eventUid = "uid-$id", instanceTs = instanceTs, eventId = eventId,
+        id = id, calendarId = calendarId, eventUid = "uid-$id", instanceTs = instanceTs, eventId = eventId,
         changeType = type, title = title, startTs = batchAt + 86_400_000, endTs = batchAt + 90_000_000,
         isAllDay = false, isRecurring = false, detectedAt = detectedAt, changedFields = fields,
         previousStartTs = previousStartTs, previousIsAllDay = previousStartTs?.let { false },
@@ -123,6 +127,67 @@ class ChangeNotifierTest {
         assertFalse(notifier.notify(batchAt, syncStartedAt))
         assertNull(posted())
         verify(exactly = 0) { eventReader.observeRecentChanges(any()) }
+    }
+
+    // ==================== Muted calendars ====================
+
+    @Test
+    fun `a mixed batch posts only the rows of calendars that notify`() = runTest {
+        rows = listOf(
+            row(1, "Design review", fields = setOf(ChangedField.LOCATION)),
+            row(2, "Standup", fields = setOf(ChangedField.LOCATION)),
+            row(3, "Bank holiday", type = ChangeType.NEW, calendar = "Holidays", calendarId = 2),
+        )
+        muted = setOf(2L)
+
+        assertTrue(notifier.notify(batchAt, syncStartedAt))
+        val n = posted()!!
+        assertEquals("2 events updated", n.title())
+        assertEquals(listOf("Design review · Location changed", "Standup · Location changed"), n.lines())
+        val shown = n.extras.keySet().joinToString { n.extras.get(it).toString() }
+        assertFalse(shown, shown.contains("Holidays") || shown.contains("Bank holiday"))
+    }
+
+    @Test
+    fun `an all-muted batch posts nothing and still counts as announced`() = runTest {
+        // True keeps the background sync from listing these changes in its snackbar.
+        rows = listOf(row(1, "Bank holiday", calendarId = 2), row(2, "Clocks change", calendarId = 2))
+        muted = setOf(2L)
+
+        assertTrue(notifier.notify(batchAt, syncStartedAt))
+        assertNull(posted())
+    }
+
+    @Test
+    fun `a muted row that was also invited posts nothing`() = runTest {
+        rows = listOf(row(1, "Offsite", calendarId = 2))
+        muted = setOf(2L)
+        invited = setOf(101L)
+
+        assertTrue(notifier.notify(batchAt, syncStartedAt))
+        assertNull(posted())
+    }
+
+    @Test
+    fun `the muted calendars are read on every call`() = runTest {
+        rows = listOf(row(1, "Design review", calendarId = 2))
+        muted = setOf(2L)
+        assertTrue(notifier.notify(batchAt, syncStartedAt))
+        assertNull(posted())
+
+        muted = emptySet()
+
+        assertTrue(notifier.notify(batchAt, syncStartedAt))
+        assertEquals("Design review", posted()!!.title())
+    }
+
+    @Test
+    fun `the muted calendars aren't read while the setting is off`() = runTest {
+        every { dataStore.changeNotificationsEnabled } returns flowOf(false)
+        rows = listOf(row(1, "Design review"))
+
+        assertFalse(notifier.notify(batchAt, syncStartedAt))
+        coVerify(exactly = 0) { eventReader.getNotificationMutedCalendarIds() }
     }
 
     @Test

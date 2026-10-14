@@ -111,6 +111,14 @@ interface CalendarsDao {
     @Query("UPDATE calendars SET is_visible = :visible WHERE id = :id")
     suspend fun setVisible(id: Long, visible: Boolean)
 
+    /** Sets [Calendar.isNotificationMuted] on [id]; writes only that column. */
+    @Query("UPDATE calendars SET is_notification_muted = :muted WHERE id = :id")
+    suspend fun setNotificationMuted(id: Long, muted: Boolean)
+
+    /** Returns the ids of the calendars whose notifications are muted. */
+    @Query("SELECT id FROM calendars WHERE is_notification_muted = 1")
+    suspend fun getNotificationMutedIds(): List<Long>
+
     /** Sets the visibility of every calendar in the account. */
     @Query("UPDATE calendars SET is_visible = :visible WHERE account_id = :accountId")
     suspend fun setVisibleForAccount(accountId: Long, visible: Boolean)

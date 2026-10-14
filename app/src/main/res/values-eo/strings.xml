@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Ĝis kiom retro sinkronigi eventojn</string>
     <string name="settings_change_notifications">Sciigoj pri ŝanĝoj</string>
     <string name="settings_change_notifications_info">Sendas sciigon kiam fona sinkronigo trovas ŝanĝojn en viaj eventoj. Funkcias por iCloud- kaj CalDAV-kalendaroj.</string>
+    <string name="settings_calendar_notifications">Kalendaraj sciigoj</string>
+    <string name="settings_calendar_notifications_all">Ĉiuj kalendaroj</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d silentigita</item>
+        <item quantity="other">%d silentigitaj</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Elektu, kiuj kalendaroj povas sciigi vin.</string>
+    <string name="calendar_notifications_info">Silentigitaj kalendaroj ankoraŭ aperas kaj sinkroniĝas, sed ne sciigas vin.</string>
+    <string name="cd_calendar_notifications_info">Pri silentigitaj kalendaroj</string>
+    <string name="cd_state_expanded">malfaldita</string>
+    <string name="cd_state_collapsed">faldita</string>
+    <string name="calendar_notifications_device_info">Malŝaltu por silentigi ĉiujn aparatajn kalendarojn, inkluzive de tiuj, kiujn vi aldonos poste.</string>
+    <string name="cd_calendar_notifications_device_info">Pri sciigoj de aparataj kalendaroj</string>
+    <string name="cd_device_calendar_notifications">Sciigoj de aparataj kalendaroj</string>
+    <string name="calendar_notifications_hidden">Kaŝita</string>
+    <string name="calendar_notifications_app_off">Sciigoj por KashCal estas malŝaltitaj en la sistemaj agordoj, do neniu kalendaro povas sciigi vin.</string>
+    <string name="calendar_notifications_reminders_off">Eventaj memorigoj estas malŝaltitaj en la sistemaj agordoj, do neniuj memorigoj povas aperi.</string>
+    <string name="cd_notifications_off">sciigoj malŝaltitaj</string>
     <string name="settings_not_set">Ne agordita</string>
     <string name="settings_on">Ŝaltita</string>
     <string name="settings_off">Malŝaltita</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Aparataj kalendaroj</string>
     <string name="label_default_calendar_hint">Novaj eventoj estos kreataj en ĉi tiu kalendaro</string>
     <string name="label_visible_count">%1$d / %2$d videblaj</string>
-    <string name="label_enabled_count">%1$d / %2$d ŝaltitaj</string>
     <string name="label_reminders_truncated">%1$d ne montritaj (%2$d totale, maks. %3$d redakteblaj)</string>
     <string name="label_found_events">Trovitaj: %1$d eventoj</string>
     <string name="label_open_debug_menu">Malfermi sencimigan menuon</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Doni</string>
     <string name="device_calendars_none_found">Neniuj aparataj kalendaroj trovitaj.</string>
     <string name="device_calendars_local">Loka</string>
-    <string name="device_calendars_reminders">Rememoriloj</string>
-    <string name="device_calendars_reminders_desc">Ricevi sciigojn por aparataj kalendaraj eventoj</string>
     <string name="device_calendars_read_only_no_write">Nurlega (sen skribpermeso)</string>
     <string name="device_calendars_read_only_calendar">Nurlega (kalendaro estas nurlega)</string>
     <string name="settings_developer_options">Programistaj elektoj</string>

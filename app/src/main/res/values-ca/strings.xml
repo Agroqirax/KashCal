@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Fins a quan enrere sincronitzar els esdeveniments</string>
     <string name="settings_change_notifications">Notificacions de canvis</string>
     <string name="settings_change_notifications_info">Envia una notificació quan una sincronització en segon pla troba canvis als teus esdeveniments. Funciona amb calendaris iCloud i CalDAV.</string>
+    <string name="settings_calendar_notifications">Notificacions del calendari</string>
+    <string name="settings_calendar_notifications_all">Tots els calendaris</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d silenciat</item>
+        <item quantity="other">%d silenciats</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Tria quins calendaris et poden notificar.</string>
+    <string name="calendar_notifications_info">Els calendaris silenciats es continuen mostrant i sincronitzant, però no et notifiquen.</string>
+    <string name="cd_calendar_notifications_info">Sobre els calendaris silenciats</string>
+    <string name="cd_state_expanded">expandit</string>
+    <string name="cd_state_collapsed">contret</string>
+    <string name="calendar_notifications_device_info">Desactiva-ho per silenciar tots els calendaris del dispositiu, inclosos els que afegeixis més endavant.</string>
+    <string name="cd_calendar_notifications_device_info">Sobre les notificacions dels calendaris del dispositiu</string>
+    <string name="cd_device_calendar_notifications">Notificacions dels calendaris del dispositiu</string>
+    <string name="calendar_notifications_hidden">Amagat</string>
+    <string name="calendar_notifications_app_off">Les notificacions de KashCal estan desactivades als ajustos del sistema, així que cap calendari no et pot notificar.</string>
+    <string name="calendar_notifications_reminders_off">Els recordatoris d\'esdeveniments estan desactivats als ajustos del sistema, així que no es pot mostrar cap recordatori.</string>
+    <string name="cd_notifications_off">notificacions desactivades</string>
     <string name="settings_not_set">No configurat</string>
     <string name="settings_on">Activat</string>
     <string name="settings_off">Desactivat</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Calendaris del dispositiu</string>
     <string name="label_default_calendar_hint">Els nous esdeveniments es crearan en aquest calendari</string>
     <string name="label_visible_count">%1$d / %2$d visibles</string>
-    <string name="label_enabled_count">%1$d / %2$d activats</string>
     <string name="label_reminders_truncated">%1$d no mostrats (%2$d en total, màxim %3$d editables)</string>
     <string name="label_found_events">Trobats: %1$d esdeveniments</string>
     <string name="label_open_debug_menu">Obrir menú de depuració</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Concedir</string>
     <string name="device_calendars_none_found">No s\'han trobat calendaris del dispositiu.</string>
     <string name="device_calendars_local">Local</string>
-    <string name="device_calendars_reminders">Recordatoris</string>
-    <string name="device_calendars_reminders_desc">Rep notificacions per als esdeveniments del calendari del dispositiu</string>
     <string name="device_calendars_read_only_no_write">Només lectura (sense permís d\'escriptura)</string>
     <string name="device_calendars_read_only_calendar">Només lectura (el calendari és de només lectura)</string>
     <string name="settings_developer_options">Opcions de desenvolupador</string>

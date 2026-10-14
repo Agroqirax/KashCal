@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.onekash.kashcal.data.calendar_provider.CalendarProviderRepository
+import org.onekash.kashcal.data.calendar_provider.DeviceReminderCursor
 import org.onekash.kashcal.data.calendar_provider.UpcomingDeviceReminder
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.util.AlarmArming
@@ -21,10 +22,18 @@ import kotlin.math.abs
 /**
  * Arms AlarmManager alarms for device event reminders.
  *
- * - One reminder alarm at a time: the next upcoming reminder. After it fires, the next is
- *   queried and armed. Snooze alarms are separate, one per occurrence.
+ * - One reminder alarm at a time: the next upcoming reminder, in [DeviceReminderCursor] order.
+ *   When it fires, [takeDueAndArmNext] returns the other reminders due by then, up to
+ *   [MAX_BATCH], so reminders at the same instant or overtaken by a late delivery are shown with
+ *   it, and arms the first one left: past the cap the first due one left out (a past time, so
+ *   delivered as soon as the system allows), else the first still ahead. Snooze alarms are
+ *   separate, one per occurrence.
  * - An occurrence is keyed by (eventId, occurrence start), not the provider's instance ID.
  * - Nothing is stored in Room; the alarm's intent extras carry the whole event.
+ * - Muted calendars ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted], kept for
+ *   device calendars in [KashCalDataStore.mutedDeviceCalendarIds]) and calendars that aren't
+ *   enabled are never picked, and an alarm armed before the mute or the untick is dropped when
+ *   it fires ([shouldFireReminder]).
  *
  * Alarms go through [AlarmArming.setAllowWhileIdle]: exact when exact alarms are allowed,
  * otherwise inexact.
@@ -52,6 +61,15 @@ class DeviceCalendarReminderScheduler @Inject constructor(
         const val EXTRA_CALENDAR_ID = "device_calendar_id"
         const val EXTRA_TRIGGER_TIME = "device_trigger_time"
 
+        /** Set on snooze alarms, which show only themselves and don't take the due batch. */
+        const val EXTRA_IS_SNOOZE = "device_is_snooze"
+
+        /**
+         * Most due reminders one delivery shows, so it stays inside the receiver's time limit; the
+         * rest follow on the next delivery, which is armed for the first of them.
+         */
+        const val MAX_BATCH = 20
+
         /** Request code of the one reminder alarm; re-arming replaces it. */
         private const val REQUEST_CODE = 5001
 
@@ -75,36 +93,13 @@ class DeviceCalendarReminderScheduler @Inject constructor(
      * Arms the alarm for the next upcoming reminder in the enabled device calendars.
      *
      * Cancels the pending reminder alarm instead when device reminders or device calendars are
-     * off, READ_CALENDAR isn't granted, no device calendar is enabled, or no reminder is upcoming.
-     * Snooze alarms are left alone.
+     * off, READ_CALENDAR isn't granted, every enabled device calendar is muted (or none is
+     * enabled), or no reminder is upcoming. Snooze alarms are left alone.
      */
     suspend fun scheduleNextReminder() {
-        if (!dataStore.getDeviceCalendarRemindersEnabled()) {
-            Log.d(TAG, "Device calendar reminders disabled, cancelling any pending alarm")
-            cancelPendingAlarm()
-            return
-        }
+        val notifyingCalendarIds = notifyingCalendarIdsOrCancel() ?: return
 
-        if (!dataStore.getDeviceCalendarsEnabled()) {
-            Log.d(TAG, "Device calendars disabled, cancelling any pending alarm")
-            cancelPendingAlarm()
-            return
-        }
-
-        if (!hasReadCalendarPermission()) {
-            Log.w(TAG, "READ_CALENDAR permission not granted, cancelling any pending alarm")
-            cancelPendingAlarm()
-            return
-        }
-
-        val enabledCalendarIds = dataStore.getEnabledDeviceCalendarIds()
-        if (enabledCalendarIds.isEmpty()) {
-            Log.d(TAG, "No enabled device calendars, cancelling any pending alarm")
-            cancelPendingAlarm()
-            return
-        }
-
-        val nextReminder = calendarProviderRepository.getNextUpcomingReminder(enabledCalendarIds)
+        val nextReminder = calendarProviderRepository.getNextUpcomingReminder(notifyingCalendarIds)
         if (nextReminder == null) {
             Log.d(TAG, "No upcoming device calendar reminders found, cancelling any pending alarm")
             cancelPendingAlarm()
@@ -114,22 +109,94 @@ class DeviceCalendarReminderScheduler @Inject constructor(
         scheduleAlarm(nextReminder)
     }
 
-    /** Arms the next reminder after one fired; same as [scheduleNextReminder]. */
+    /**
+     * Returns the reminders due by [nowMs] that come after [fired] in [DeviceReminderCursor] order,
+     * at most [MAX_BATCH], and arms the batch's `next` (or cancels the alarm when there is none)
+     * before returning, so a failure showing them can't leave the next unarmed. A provider error
+     * reads as an empty batch with no next, which cancels the alarm.
+     *
+     * Under the same conditions as [scheduleNextReminder] it cancels the alarm and returns nothing.
+     * The caller still checks each returned reminder with [shouldFireReminder].
+     */
+    suspend fun takeDueAndArmNext(fired: DeviceReminderCursor, nowMs: Long): List<UpcomingDeviceReminder> {
+        val notifyingCalendarIds = notifyingCalendarIdsOrCancel() ?: return emptyList()
+
+        val batch = calendarProviderRepository.getDueAndNextReminders(notifyingCalendarIds, fired, nowMs, MAX_BATCH)
+        if (batch.next != null) {
+            scheduleAlarm(batch.next)
+        } else {
+            Log.d(TAG, "No upcoming device calendar reminders found, cancelling any pending alarm")
+            cancelPendingAlarm()
+        }
+        if (batch.overflowed) {
+            Log.w(TAG, "More than $MAX_BATCH device reminders due at once; the rest follow on the next delivery")
+        }
+        return batch.due
+    }
+
+    /**
+     * Returns the enabled device calendars that aren't muted, or cancels the pending reminder
+     * alarm and returns null when device reminders or device calendars are off, READ_CALENDAR
+     * isn't granted, or no enabled calendar is left to notify.
+     */
+    private suspend fun notifyingCalendarIdsOrCancel(): Set<Long>? {
+        if (!dataStore.getDeviceCalendarRemindersEnabled()) {
+            Log.d(TAG, "Device calendar reminders disabled, cancelling any pending alarm")
+            cancelPendingAlarm()
+            return null
+        }
+
+        if (!dataStore.getDeviceCalendarsEnabled()) {
+            Log.d(TAG, "Device calendars disabled, cancelling any pending alarm")
+            cancelPendingAlarm()
+            return null
+        }
+
+        if (!hasReadCalendarPermission()) {
+            Log.w(TAG, "READ_CALENDAR permission not granted, cancelling any pending alarm")
+            cancelPendingAlarm()
+            return null
+        }
+
+        val enabledCalendarIds = dataStore.getEnabledDeviceCalendarIds()
+        if (enabledCalendarIds.isEmpty()) {
+            Log.d(TAG, "No enabled device calendars, cancelling any pending alarm")
+            cancelPendingAlarm()
+            return null
+        }
+
+        val notifyingCalendarIds = enabledCalendarIds - dataStore.getMutedDeviceCalendarIds()
+        if (notifyingCalendarIds.isEmpty()) {
+            Log.d(TAG, "Every enabled device calendar is muted, cancelling any pending alarm")
+            cancelPendingAlarm()
+            return null
+        }
+        return notifyingCalendarIds
+    }
+
+    /**
+     * Arms the next reminder after a snooze fired, or after [takeDueAndArmNext] failed; same as
+     * [scheduleNextReminder].
+     */
     suspend fun rescheduleAfterFire() {
         scheduleNextReminder()
     }
 
     /**
-     * Returns whether a fired alarm for [eventId] may still notify. The intent extras are fixed
-     * when the alarm is armed; since then the event may have been deleted (`DELETED = 1` counts),
-     * device reminders or device calendars turned off, every device calendar disabled, or
-     * READ_CALENDAR revoked.
+     * Returns whether a fired alarm for [eventId] in [calendarId] may still notify. The intent
+     * extras are fixed when the alarm is armed; since then the event may have been deleted
+     * (`DELETED = 1` counts), device reminders or device calendars turned off, every device
+     * calendar disabled, READ_CALENDAR revoked, or [calendarId] unticked or muted. A [calendarId]
+     * of -1 (the alarm carried none) passes both calendar checks.
      */
-    suspend fun shouldFireReminder(eventId: Long): Boolean {
+    suspend fun shouldFireReminder(eventId: Long, calendarId: Long): Boolean {
         if (!dataStore.getDeviceCalendarRemindersEnabled()) return false
         if (!dataStore.getDeviceCalendarsEnabled()) return false
         if (!hasReadCalendarPermission()) return false
-        if (dataStore.getEnabledDeviceCalendarIds().isEmpty()) return false
+        val enabledIds = dataStore.getEnabledDeviceCalendarIds()
+        if (enabledIds.isEmpty()) return false
+        if (calendarId != -1L && calendarId !in enabledIds) return false
+        if (calendarId in dataStore.getMutedDeviceCalendarIds()) return false
         return calendarProviderRepository.isEventActive(eventId)
     }
 
@@ -236,6 +303,7 @@ class DeviceCalendarReminderScheduler @Inject constructor(
             putExtra(EXTRA_CALENDAR_COLOR, reminder.calendarColor)
             putExtra(EXTRA_CALENDAR_ID, reminder.calendarId)
             putExtra(EXTRA_TRIGGER_TIME, reminder.triggerTime)
+            putExtra(EXTRA_IS_SNOOZE, true)
         }
 
         val requestCode = computeSnoozeRequestCode(reminder.eventId, reminder.occurrenceStartTs)

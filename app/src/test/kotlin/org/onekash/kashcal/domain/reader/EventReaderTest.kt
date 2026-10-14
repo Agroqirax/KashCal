@@ -321,6 +321,20 @@ class EventReaderTest {
     }
 
     @Test
+    fun `setCalendarNotificationMuted is read back by getNotificationMutedCalendarIds`() = runTest {
+        assertEquals(emptySet<Long>(), eventReader.getNotificationMutedCalendarIds())
+
+        eventReader.setCalendarNotificationMuted(iCloudCalendarId, true)
+
+        assertEquals(setOf(iCloudCalendarId), eventReader.getNotificationMutedCalendarIds())
+        assertTrue(eventReader.getCalendarById(iCloudCalendarId)!!.isNotificationMuted)
+
+        eventReader.setCalendarNotificationMuted(iCloudCalendarId, false)
+
+        assertEquals(emptySet<Long>(), eventReader.getNotificationMutedCalendarIds())
+    }
+
+    @Test
     fun `getCalendarsByProvider filters correctly`() = runTest {
         val iCloudCalendars = eventReader.getCalendarsByProvider("icloud").first()
         val localCalendars = eventReader.getCalendarsByProvider("local").first()

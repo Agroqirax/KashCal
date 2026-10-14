@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Fino a quando sincronizzare gli eventi passati</string>
     <string name="settings_change_notifications">Notifiche di modifiche</string>
     <string name="settings_change_notifications_info">Invia una notifica quando una sincronizzazione in secondo piano rileva modifiche ai tuoi eventi. Funziona con i calendari iCloud e CalDAV.</string>
+    <string name="settings_calendar_notifications">Notifiche dei calendari</string>
+    <string name="settings_calendar_notifications_all">Tutti i calendari</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d silenziato</item>
+        <item quantity="other">%d silenziati</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Scegli quali calendari possono avvisarti.</string>
+    <string name="calendar_notifications_info">I calendari silenziati restano visibili e sincronizzati, ma non ti avvisano.</string>
+    <string name="cd_calendar_notifications_info">Informazioni sui calendari silenziati</string>
+    <string name="cd_state_expanded">espanso</string>
+    <string name="cd_state_collapsed">compresso</string>
+    <string name="calendar_notifications_device_info">Disattiva per silenziare tutti i calendari del dispositivo, anche quelli che aggiungerai in seguito.</string>
+    <string name="cd_calendar_notifications_device_info">Informazioni sulle notifiche dei calendari del dispositivo</string>
+    <string name="cd_device_calendar_notifications">Notifiche dei calendari del dispositivo</string>
+    <string name="calendar_notifications_hidden">Nascosto</string>
+    <string name="calendar_notifications_app_off">Le notifiche di KashCal sono disattivate nelle impostazioni di sistema, quindi nessun calendario può avvisarti.</string>
+    <string name="calendar_notifications_reminders_off">I promemoria eventi sono disattivati nelle impostazioni di sistema, quindi nessun promemoria può essere mostrato.</string>
+    <string name="cd_notifications_off">notifiche disattivate</string>
     <string name="settings_not_set">Non impostato</string>
     <string name="settings_on">Attivato</string>
     <string name="settings_off">Disattivato</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Calendari del dispositivo</string>
     <string name="label_default_calendar_hint">I nuovi eventi verranno creati in questo calendario</string>
     <string name="label_visible_count">%1$d / %2$d visibili</string>
-    <string name="label_enabled_count">%1$d / %2$d attivati</string>
     <string name="label_reminders_truncated">%1$d non mostrati (%2$d totali, max %3$d modificabili)</string>
     <string name="label_found_events">Trovati: %1$d eventi</string>
     <string name="label_open_debug_menu">Apri menu debug</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Concedi</string>
     <string name="device_calendars_none_found">Nessun calendario del dispositivo trovato.</string>
     <string name="device_calendars_local">Locale</string>
-    <string name="device_calendars_reminders">Promemoria</string>
-    <string name="device_calendars_reminders_desc">Ricevi notifiche per gli eventi del calendario del dispositivo</string>
     <string name="device_calendars_read_only_no_write">Sola lettura (nessun permesso di scrittura)</string>
     <string name="device_calendars_read_only_calendar">Sola lettura (calendario in sola lettura)</string>
     <string name="settings_developer_options">Opzioni sviluppatore</string>

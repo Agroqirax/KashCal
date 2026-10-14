@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">일정을 동기화할 기간</string>
     <string name="settings_change_notifications">변경 알림</string>
     <string name="settings_change_notifications_info">백그라운드 동기화에서 일정 변경 사항이 발견되면 알림을 보내요. iCloud 및 CalDAV 캘린더에서 작동해요.</string>
+    <string name="settings_calendar_notifications">캘린더 알림</string>
+    <string name="settings_calendar_notifications_all">모든 캘린더</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">%d개 알림 꺼짐</item>
+    </plurals>
+    <string name="calendar_notifications_intro">알림을 보낼 수 있는 캘린더를 선택하세요.</string>
+    <string name="calendar_notifications_info">알림을 끈 캘린더도 계속 표시되고 동기화되지만 알림은 보내지 않아요.</string>
+    <string name="cd_calendar_notifications_info">알림을 끈 캘린더 정보</string>
+    <string name="cd_state_expanded">펼쳐짐</string>
+    <string name="cd_state_collapsed">접힘</string>
+    <string name="calendar_notifications_device_info">끄면 나중에 추가하는 캘린더를 포함해 모든 기기 캘린더의 알림이 꺼져요.</string>
+    <string name="cd_calendar_notifications_device_info">기기 캘린더 알림 정보</string>
+    <string name="cd_device_calendar_notifications">기기 캘린더 알림</string>
+    <string name="calendar_notifications_hidden">숨김</string>
+    <string name="calendar_notifications_app_off">시스템 설정에서 KashCal 알림이 꺼져 있어 어떤 캘린더도 알림을 보낼 수 없어요.</string>
+    <string name="calendar_notifications_reminders_off">시스템 설정에서 일정 알림이 꺼져 있어 알림을 표시할 수 없어요.</string>
+    <string name="cd_notifications_off">알림 꺼짐</string>
     <string name="settings_not_set">설정 안 됨</string>
     <string name="settings_on">켜짐</string>
     <string name="settings_off">꺼짐</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">기기 캘린더</string>
     <string name="label_default_calendar_hint">새 일정이 이 캘린더에 만들어져요</string>
     <string name="label_visible_count">%1$d / %2$d 표시</string>
-    <string name="label_enabled_count">%1$d / %2$d 활성화</string>
     <string name="label_reminders_truncated">%1$d개 미표시 (전체 %2$d개, 최대 %3$d개 편집 가능)</string>
     <string name="label_found_events">발견: 일정 %1$d개</string>
     <string name="label_open_debug_menu">디버그 메뉴 열기</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">허용</string>
     <string name="device_calendars_none_found">기기 캘린더를 찾을 수 없어요.</string>
     <string name="device_calendars_local">로컬</string>
-    <string name="device_calendars_reminders">알림</string>
-    <string name="device_calendars_reminders_desc">기기 캘린더 일정에 대한 알림 받기</string>
     <string name="device_calendars_read_only_no_write">읽기 전용 (쓰기 권한 없음)</string>
     <string name="device_calendars_read_only_calendar">읽기 전용 (읽기 전용 캘린더)</string>
     <string name="settings_developer_options">개발자 옵션</string>

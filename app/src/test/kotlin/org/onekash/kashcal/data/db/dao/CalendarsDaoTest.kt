@@ -80,6 +80,39 @@ class CalendarsDaoTest : BaseDaoTest() {
     }
 
     @Test
+    fun `a new calendar is not muted and setNotificationMuted mutes only that calendar`() = runTest {
+        val id = calendarsDao.insert(createCalendar(displayName = "Work"))
+        val other = calendarsDao.insert(createCalendar(displayName = "Home"))
+        assertEquals(false, calendarsDao.getById(id)!!.isNotificationMuted)
+        assertEquals(emptyList<Long>(), calendarsDao.getNotificationMutedIds())
+
+        calendarsDao.setNotificationMuted(id, true)
+
+        assertEquals(true, calendarsDao.getById(id)!!.isNotificationMuted)
+        assertEquals(false, calendarsDao.getById(other)!!.isNotificationMuted)
+        assertEquals(listOf(id), calendarsDao.getNotificationMutedIds())
+
+        calendarsDao.setNotificationMuted(id, false)
+
+        assertEquals(false, calendarsDao.getById(id)!!.isNotificationMuted)
+        assertEquals(emptyList<Long>(), calendarsDao.getNotificationMutedIds())
+    }
+
+    @Test
+    fun `a muted calendar stays muted through a whole-row update from a fresh copy`() = runTest {
+        // Calendar refresh reads the row, copies it with the server's name and color, and
+        // writes the whole row back.
+        val id = calendarsDao.insert(createCalendar(displayName = "Work"))
+        calendarsDao.setNotificationMuted(id, true)
+
+        calendarsDao.update(calendarsDao.getById(id)!!.copy(displayName = "Renamed", color = 1))
+
+        val updated = calendarsDao.getById(id)!!
+        assertEquals("Renamed", updated.displayName)
+        assertEquals(true, updated.isNotificationMuted)
+    }
+
+    @Test
     fun `auto_schedule_supported defaults to null then round-trips tri-state`() = runTest {
         val id = calendarsDao.insert(createCalendar())
         assertNull(calendarsDao.getById(id)!!.autoScheduleSupported)

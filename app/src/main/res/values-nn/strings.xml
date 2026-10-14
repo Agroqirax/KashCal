@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Kor langt tilbake hendingar vert synkroniserte</string>
     <string name="settings_change_notifications">Endringsvarsel</string>
     <string name="settings_change_notifications_info">Sender eit varsel når ei bakgrunnssynkronisering finn endringar i hendingane dine. Fungerer for iCloud- og CalDAV-kalendrar.</string>
+    <string name="settings_calendar_notifications">Kalendervarsel</string>
+    <string name="settings_calendar_notifications_all">Alle kalendrar</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d dempa</item>
+        <item quantity="other">%d dempa</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Vel kva kalendrar som kan varsle deg.</string>
+    <string name="calendar_notifications_info">Dempa kalendrar blir framleis viste og synkroniserte, men varslar deg ikkje.</string>
+    <string name="cd_calendar_notifications_info">Om dempa kalendrar</string>
+    <string name="cd_state_expanded">utvida</string>
+    <string name="cd_state_collapsed">minimert</string>
+    <string name="calendar_notifications_device_info">Slå av for å dempe alle einingskalendrar, også dei du legg til seinare.</string>
+    <string name="cd_calendar_notifications_device_info">Om varsel frå einingskalendrar</string>
+    <string name="cd_device_calendar_notifications">Varsel frå einingskalendrar</string>
+    <string name="calendar_notifications_hidden">Gøymd</string>
+    <string name="calendar_notifications_app_off">Varsel for KashCal er slått av i systeminnstillingane, så ingen kalender kan varsle deg.</string>
+    <string name="calendar_notifications_reminders_off">Hendingspåminningar er slått av i systeminnstillingane, så ingen påminningar kan visast.</string>
+    <string name="cd_notifications_off">varsel av</string>
     <string name="settings_not_set">Ikkje sett</string>
     <string name="settings_on">På</string>
     <string name="settings_off">Av</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Einingskalendrar</string>
     <string name="label_default_calendar_hint">Nye hendingar vert oppretta i denne kalenderen</string>
     <string name="label_visible_count">%1$d / %2$d synlege</string>
-    <string name="label_enabled_count">%1$d / %2$d aktiverte</string>
     <string name="label_reminders_truncated">%1$d ikkje viste (%2$d totalt, maks %3$d redigerbare)</string>
     <string name="label_found_events">Funne: %1$d hendingar</string>
     <string name="label_open_debug_menu">Opne feilsøkingsmeny</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Gje tilgang</string>
     <string name="device_calendars_none_found">Ingen einingskalendrar funne.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Påminningar</string>
-    <string name="device_calendars_reminders_desc">Få varsel for eininga sine kalenderhendingar</string>
     <string name="device_calendars_read_only_no_write">Skriveverna (ikkje skriveløyve)</string>
     <string name="device_calendars_read_only_calendar">Skriveverna (kalenderen er skriveverna)</string>
     <string name="settings_developer_options">Utviklavalternativ</string>

@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">എത്ര പിന്നിലേക്ക് ഇവന്റുകൾ സിങ്ക് ചെയ്യണം</string>
     <string name="settings_change_notifications">മാറ്റങ്ങളുടെ അറിയിപ്പുകൾ</string>
     <string name="settings_change_notifications_info">പശ്ചാത്തല സിങ്ക് നിങ്ങളുടെ ഇവന്റുകളിൽ മാറ്റങ്ങൾ കണ്ടെത്തുമ്പോൾ ഒരു അറിയിപ്പ് അയയ്ക്കുന്നു. iCloud, CalDAV കലണ്ടറുകൾക്ക് പ്രവർത്തിക്കുന്നു.</string>
+    <string name="settings_calendar_notifications">കലണ്ടർ അറിയിപ്പുകൾ</string>
+    <string name="settings_calendar_notifications_all">എല്ലാ കലണ്ടറുകളും</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d എണ്ണം മ്യൂട്ട് ചെയ്‌തു</item>
+        <item quantity="other">%d എണ്ണം മ്യൂട്ട് ചെയ്‌തു</item>
+    </plurals>
+    <string name="calendar_notifications_intro">ഏതൊക്കെ കലണ്ടറുകൾക്ക് നിങ്ങളെ അറിയിക്കാമെന്ന് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="calendar_notifications_info">മ്യൂട്ട് ചെയ്‌ത കലണ്ടറുകൾ തുടർന്നും കാണിക്കുകയും സിങ്ക് ചെയ്യുകയും ചെയ്യും, പക്ഷേ നിങ്ങളെ അറിയിക്കില്ല.</string>
+    <string name="cd_calendar_notifications_info">മ്യൂട്ട് ചെയ്‌ത കലണ്ടറുകളെക്കുറിച്ച്</string>
+    <string name="cd_state_expanded">വികസിപ്പിച്ചിരിക്കുന്നു</string>
+    <string name="cd_state_collapsed">ചുരുക്കിയിരിക്കുന്നു</string>
+    <string name="calendar_notifications_device_info">പിന്നീട് ചേർക്കുന്നവ ഉൾപ്പെടെ എല്ലാ ഉപകരണ കലണ്ടറുകളും മ്യൂട്ട് ചെയ്യാൻ ഇത് ഓഫാക്കുക.</string>
+    <string name="cd_calendar_notifications_device_info">ഉപകരണ കലണ്ടർ അറിയിപ്പുകളെക്കുറിച്ച്</string>
+    <string name="cd_device_calendar_notifications">ഉപകരണ കലണ്ടർ അറിയിപ്പുകൾ</string>
+    <string name="calendar_notifications_hidden">മറച്ചിരിക്കുന്നു</string>
+    <string name="calendar_notifications_app_off">സിസ്റ്റം ക്രമീകരണങ്ങളിൽ KashCal-ന്റെ അറിയിപ്പുകൾ ഓഫാണ്, അതിനാൽ ഒരു കലണ്ടറിനും നിങ്ങളെ അറിയിക്കാനാവില്ല.</string>
+    <string name="calendar_notifications_reminders_off">സിസ്റ്റം ക്രമീകരണങ്ങളിൽ ഇവന്റ് റിമൈൻഡറുകൾ ഓഫാണ്, അതിനാൽ റിമൈൻഡറുകളൊന്നും കാണിക്കാനാവില്ല.</string>
+    <string name="cd_notifications_off">അറിയിപ്പുകൾ ഓഫ്</string>
     <string name="settings_not_set">സെറ്റ് ചെയ്തിട്ടില്ല</string>
     <string name="settings_on">ഓൺ</string>
     <string name="settings_off">ഓഫ്</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">ഉപകരണ കലണ്ടറുകൾ</string>
     <string name="label_default_calendar_hint">പുതിയ ഇവന്റുകൾ ഈ കലണ്ടറിൽ സൃഷ്ടിക്കും</string>
     <string name="label_visible_count">%1$d / %2$d ദൃശ്യം</string>
-    <string name="label_enabled_count">%1$d / %2$d ഓൺ</string>
     <string name="label_reminders_truncated">%1$d കാണിച്ചില്ല (%2$d ആകെ, പരമാവധി %3$d തിരുത്താവുന്നവ)</string>
     <string name="label_found_events">കണ്ടെത്തി: %1$d ഇവന്റുകൾ</string>
     <string name="label_open_debug_menu">ഡീബഗ് മെനു തുറക്കുക</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">അനുമതിക്കുക</string>
     <string name="device_calendars_none_found">ഉപകരണ കലണ്ടറുകൾ കണ്ടെത്തിയില്ല.</string>
     <string name="device_calendars_local">ലോക്കൽ</string>
-    <string name="device_calendars_reminders">റിമൈൻഡറുകൾ</string>
-    <string name="device_calendars_reminders_desc">ഉപകരണ കലണ്ടർ ഇവന്റുകൾക്ക് നോട്ടിഫിക്കേഷൻ ലഭിക്കുക</string>
     <string name="device_calendars_read_only_no_write">വായന മാത്രം (എഴുത്ത് അനുമതി ഇല്ല)</string>
     <string name="device_calendars_read_only_calendar">വായന മാത്രം (കലണ്ടർ വായന-മാത്രം)</string>
     <string name="settings_developer_options">ഡെവലപ്പർ ഓപ്ഷനുകൾ</string>

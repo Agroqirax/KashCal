@@ -190,7 +190,6 @@ fun AttendeePickerSheet(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f),
             )
-            org.onekash.kashcal.ui.screens.settings.BetaBadge()
         }
 
         OutlinedTextField(

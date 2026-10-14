@@ -23,6 +23,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.data.calendar_provider.DeviceReminderCursor
 import org.onekash.kashcal.data.calendar_provider.FakeCalendarProviderRepository
 import org.onekash.kashcal.data.calendar_provider.UpcomingDeviceReminder
 import org.onekash.kashcal.data.preferences.KashCalDataStore
@@ -158,10 +159,20 @@ class DeviceCalendarReminderSchedulerAlarmCapTest {
     }
 
     @Test
-    fun `rescheduling after a reminder fires survives the alarm limit`() = runTest {
+    fun `re-arming after a snooze fires survives the alarm limit`() = runTest {
         enableDeviceReminders()
 
         scheduler.rescheduleAfterFire()
+
+        verify(exactly = 1) { alarmManager.setExactAndAllowWhileIdle(any(), triggerTime, any()) }
+    }
+
+    @Test
+    fun `arming the next after a reminder fires survives the alarm limit`() = runTest {
+        enableDeviceReminders()
+        fakeRepository.upcomingReminders = listOf(fakeRepository.nextUpcomingReminder!!)
+
+        scheduler.takeDueAndArmNext(DeviceReminderCursor(triggerTime - 60_000, 0L, 0L), triggerTime - 1)
 
         verify(exactly = 1) { alarmManager.setExactAndAllowWhileIdle(any(), triggerTime, any()) }
     }

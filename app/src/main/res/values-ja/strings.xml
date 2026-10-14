@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">予定を同期する遡り期間</string>
     <string name="settings_change_notifications">変更の通知</string>
     <string name="settings_change_notifications_info">バックグラウンド同期で予定の変更が見つかったときに通知を送信します。iCloud と CalDAV のカレンダーで利用できます。</string>
+    <string name="settings_calendar_notifications">カレンダーの通知</string>
+    <string name="settings_calendar_notifications_all">すべてのカレンダー</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">%d 件ミュート中</item>
+    </plurals>
+    <string name="calendar_notifications_intro">通知を受け取るカレンダーを選択してください。</string>
+    <string name="calendar_notifications_info">ミュート中のカレンダーも表示と同期は続きますが、通知はされません。</string>
+    <string name="cd_calendar_notifications_info">ミュート中のカレンダーについて</string>
+    <string name="cd_state_expanded">展開中</string>
+    <string name="cd_state_collapsed">折りたたみ中</string>
+    <string name="calendar_notifications_device_info">オフにすると、後から追加するものも含め、すべてのデバイスカレンダーがミュートされます。</string>
+    <string name="cd_calendar_notifications_device_info">デバイスカレンダーの通知について</string>
+    <string name="cd_device_calendar_notifications">デバイスカレンダーの通知</string>
+    <string name="calendar_notifications_hidden">非表示</string>
+    <string name="calendar_notifications_app_off">システム設定でKashCalの通知がオフになっているため、どのカレンダーからも通知されません。</string>
+    <string name="calendar_notifications_reminders_off">システム設定で予定のリマインダーがオフになっているため、リマインダーは表示されません。</string>
+    <string name="cd_notifications_off">通知オフ</string>
     <string name="settings_not_set">未設定</string>
     <string name="settings_on">オン</string>
     <string name="settings_off">オフ</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">デバイスカレンダー</string>
     <string name="label_default_calendar_hint">新しい予定はこのカレンダーに作成されます</string>
     <string name="label_visible_count">%1$d / %2$d 表示中</string>
-    <string name="label_enabled_count">%1$d / %2$d 有効</string>
     <string name="label_reminders_truncated">%1$d件が非表示（合計%2$d件、最大%3$d件まで編集可能）</string>
     <string name="label_found_events">検出: %1$d件の予定</string>
     <string name="label_open_debug_menu">デバッグメニューを開く</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">許可</string>
     <string name="device_calendars_none_found">デバイスカレンダーが見つかりません。</string>
     <string name="device_calendars_local">ローカル</string>
-    <string name="device_calendars_reminders">リマインダー</string>
-    <string name="device_calendars_reminders_desc">デバイスカレンダーの予定通知を受け取る</string>
     <string name="device_calendars_read_only_no_write">読み取り専用（書き込み許可なし）</string>
     <string name="device_calendars_read_only_calendar">読み取り専用（カレンダーが読み取り専用）</string>
     <string name="settings_developer_options">開発者オプション</string>

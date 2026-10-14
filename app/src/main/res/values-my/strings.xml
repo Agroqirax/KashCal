@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">ဖြစ်ရပ်များကို မည်မျှ နောက်ပြန်ချိန်ကိုက်မည်</string>
     <string name="settings_change_notifications">ပြောင်းလဲမှု အကြောင်းကြားချက်များ</string>
     <string name="settings_change_notifications_info">နောက်ခံ ချိန်ကိုက်မှုက သင့်ပွဲများတွင် ပြောင်းလဲမှုများကို တွေ့ရှိသည့်အခါ အကြောင်းကြားချက် ပို့ပေးသည်။ iCloud နှင့် CalDAV ပြက္ခဒိန်များအတွက် အလုပ်လုပ်သည်။</string>
+    <string name="settings_calendar_notifications">ပြက္ခဒိန် အကြောင်းကြားချက်များ</string>
+    <string name="settings_calendar_notifications_all">ပြက္ခဒိန်အားလုံး</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">%d ခု ပိတ်ထားသည်</item>
+    </plurals>
+    <string name="calendar_notifications_intro">သင့်ကို အကြောင်းကြားနိုင်မည့် ပြက္ခဒိန်များကို ရွေးပါ။</string>
+    <string name="calendar_notifications_info">ပိတ်ထားသော ပြက္ခဒိန်များကို ဆက်ပြသပြီး ချိန်ကိုက်နေဆဲဖြစ်သော်လည်း သင့်ကို အကြောင်းမကြားပါ။</string>
+    <string name="cd_calendar_notifications_info">ပိတ်ထားသော ပြက္ခဒိန်များအကြောင်း</string>
+    <string name="cd_state_expanded">ချဲ့ထားသည်</string>
+    <string name="cd_state_collapsed">ခေါက်ထားသည်</string>
+    <string name="calendar_notifications_device_info">စက် ပြက္ခဒိန်အားလုံး၏ အကြောင်းကြားချက်များကို ပိတ်ရန် ဤခလုတ်ကို ပိတ်ပါ၊ နောက်မှ ထည့်မည့် ပြက္ခဒိန်များလည်း ပါဝင်သည်။</string>
+    <string name="cd_calendar_notifications_device_info">စက် ပြက္ခဒိန် အကြောင်းကြားချက်များအကြောင်း</string>
+    <string name="cd_device_calendar_notifications">စက် ပြက္ခဒိန် အကြောင်းကြားချက်များ</string>
+    <string name="calendar_notifications_hidden">ဖျောက်ထားသည်</string>
+    <string name="calendar_notifications_app_off">စနစ်ဆက်တင်များတွင် KashCal အတွက် အကြောင်းကြားချက်များ ပိတ်ထားသဖြင့် မည်သည့် ပြက္ခဒိန်ကမျှ သင့်ကို အကြောင်းကြားနိုင်မည် မဟုတ်ပါ။</string>
+    <string name="calendar_notifications_reminders_off">စနစ်ဆက်တင်များတွင် ပွဲသတိပေးချက်များ ပိတ်ထားသဖြင့် မည်သည့် သတိပေးချက်မျှ ပြသနိုင်မည် မဟုတ်ပါ။</string>
+    <string name="cd_notifications_off">အကြောင်းကြားချက် ပိတ်ထား</string>
     <string name="settings_not_set">မသတ်မှတ်ရ</string>
     <string name="settings_on">ဖွင့်</string>
     <string name="settings_off">ပိတ်</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">စက် ပြက္ခဒိန်များ</string>
     <string name="label_default_calendar_hint">ပွဲအသစ်များကို ဤပြက္ခဒိန်တွင် ဖန်တီးပါမည်</string>
     <string name="label_visible_count">%1$d / %2$d မြင်နိုင်</string>
-    <string name="label_enabled_count">%1$d / %2$d ဖွင့်ထား</string>
     <string name="label_reminders_truncated">%1$d ခု မပြထား (%2$d ခု စုစုပေါင်း, အများဆုံး %3$d ခု ပြင်ဆင်နိုင်)</string>
     <string name="label_found_events">တွေ့ရှိ: ပွဲ %1$d ခု</string>
     <string name="label_open_debug_menu">ဒီဘတ်မီနူး ဖွင့်</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">ခွင့်ပြု</string>
     <string name="device_calendars_none_found">စက် ပြက္ခဒိန်များ မတွေ့ရှိပါ။</string>
     <string name="device_calendars_local">ဒေသဆိုင်ရာ</string>
-    <string name="device_calendars_reminders">သတိပေးချက်များ</string>
-    <string name="device_calendars_reminders_desc">စက်ပြက္ခဒိန်ပွဲများအတွက် အကြောင်းကြားချက် ရယူ</string>
     <string name="device_calendars_read_only_no_write">ဖတ်ရုံ (ရေးသားခွင့် မရှိ)</string>
     <string name="device_calendars_read_only_calendar">ဖတ်ရုံ (ပြက္ခဒိန်သည် ဖတ်ရုံသာ)</string>
     <string name="settings_developer_options">ဆော့ဖ်ဝဲရေးသားသူ ရွေးစရာများ</string>

@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">Đồng bộ sự kiện từ bao lâu trước</string>
     <string name="settings_change_notifications">Thông báo thay đổi</string>
     <string name="settings_change_notifications_info">Gửi thông báo khi đồng bộ chạy nền phát hiện thay đổi trong sự kiện của bạn. Hoạt động với lịch iCloud và CalDAV.</string>
+    <string name="settings_calendar_notifications">Thông báo lịch</string>
+    <string name="settings_calendar_notifications_all">Tất cả lịch</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">Đã tắt tiếng %d</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Chọn lịch nào có thể thông báo cho bạn.</string>
+    <string name="calendar_notifications_info">Lịch đã tắt tiếng vẫn hiển thị và đồng bộ, nhưng không thông báo cho bạn.</string>
+    <string name="cd_calendar_notifications_info">Giới thiệu về lịch đã tắt tiếng</string>
+    <string name="cd_state_expanded">đã mở rộng</string>
+    <string name="cd_state_collapsed">đã thu gọn</string>
+    <string name="calendar_notifications_device_info">Tắt để tắt tiếng mọi lịch thiết bị, kể cả lịch bạn thêm sau này.</string>
+    <string name="cd_calendar_notifications_device_info">Giới thiệu về thông báo lịch thiết bị</string>
+    <string name="cd_device_calendar_notifications">Thông báo lịch thiết bị</string>
+    <string name="calendar_notifications_hidden">Đã ẩn</string>
+    <string name="calendar_notifications_app_off">Thông báo của KashCal đang tắt trong cài đặt hệ thống, nên không lịch nào có thể thông báo cho bạn.</string>
+    <string name="calendar_notifications_reminders_off">Nhắc nhở sự kiện đang tắt trong cài đặt hệ thống, nên không thể hiển thị nhắc nhở nào.</string>
+    <string name="cd_notifications_off">đã tắt thông báo</string>
     <string name="settings_not_set">Chưa đặt</string>
     <string name="settings_on">Bật</string>
     <string name="settings_off">Tắt</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">Lịch thiết bị</string>
     <string name="label_default_calendar_hint">Sự kiện mới sẽ được tạo trong lịch này</string>
     <string name="label_visible_count">%1$d / %2$d hiển thị</string>
-    <string name="label_enabled_count">%1$d / %2$d đã bật</string>
     <string name="label_reminders_truncated">%1$d bị ẩn (tổng %2$d, tối đa chỉnh sửa %3$d)</string>
     <string name="label_found_events">Tìm thấy: %1$d sự kiện</string>
     <string name="label_open_debug_menu">Mở menu gỡ lỗi</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">Cấp quyền</string>
     <string name="device_calendars_none_found">Không tìm thấy lịch thiết bị.</string>
     <string name="device_calendars_local">Nội bộ</string>
-    <string name="device_calendars_reminders">Nhắc nhở</string>
-    <string name="device_calendars_reminders_desc">Nhận thông báo cho sự kiện lịch thiết bị</string>
     <string name="device_calendars_read_only_no_write">Chỉ đọc (không có quyền ghi)</string>
     <string name="device_calendars_read_only_calendar">Chỉ đọc (lịch chỉ đọc)</string>
     <string name="settings_developer_options">Tùy chọn nhà phát triển</string>

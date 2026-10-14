@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">Hoe ver terug om gebeurtenisse te sinkroniseer</string>
     <string name="settings_change_notifications">Veranderingskennisgewings</string>
     <string name="settings_change_notifications_info">Stuur \'n kennisgewing wanneer \'n agtergrondsinkronisering veranderinge aan jou gebeurtenisse vind. Werk vir iCloud- en CalDAV-kalenders.</string>
+    <string name="settings_calendar_notifications">Kalenderkennisgewings</string>
+    <string name="settings_calendar_notifications_all">Alle kalenders</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d gedemp</item>
+        <item quantity="other">%d gedemp</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Kies watter kalenders jou in kennis kan stel.</string>
+    <string name="calendar_notifications_info">Gedempte kalenders word steeds gewys en gesinkroniseer, maar stel jou nie in kennis nie.</string>
+    <string name="cd_calendar_notifications_info">Oor gedempte kalenders</string>
+    <string name="cd_state_expanded">uitgevou</string>
+    <string name="cd_state_collapsed">ingevou</string>
+    <string name="calendar_notifications_device_info">Skakel af om alle toestelkalenders te demp, insluitend dié wat jy later byvoeg.</string>
+    <string name="cd_calendar_notifications_device_info">Oor toestelkalenderkennisgewings</string>
+    <string name="cd_device_calendar_notifications">Toestelkalenderkennisgewings</string>
+    <string name="calendar_notifications_hidden">Versteek</string>
+    <string name="calendar_notifications_app_off">Kennisgewings is af vir KashCal in stelselinstellings, so geen kalender kan jou in kennis stel nie.</string>
+    <string name="calendar_notifications_reminders_off">Gebeurtenisherinneringe is af in stelselinstellings, so geen herinneringe kan verskyn nie.</string>
+    <string name="cd_notifications_off">kennisgewings af</string>
     <string name="settings_not_set">Nie gestel nie</string>
     <string name="settings_on">Aan</string>
     <string name="settings_off">Af</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">Toestelkalenders</string>
     <string name="label_default_calendar_hint">Nuwe gebeurtenisse sal in hierdie kalender geskep word</string>
     <string name="label_visible_count">%1$d / %2$d sigbaar</string>
-    <string name="label_enabled_count">%1$d / %2$d geaktiveer</string>
     <string name="label_reminders_truncated">%1$d nie gewys nie (%2$d totaal, maks %3$d redigeerbaar)</string>
     <string name="label_found_events">Gevind: %1$d gebeurtenisse</string>
     <string name="label_open_debug_menu">Open ontfoutkieslys</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">Verleen</string>
     <string name="device_calendars_none_found">Geen toestelkalenders gevind nie.</string>
     <string name="device_calendars_local">Plaaslik</string>
-    <string name="device_calendars_reminders">Herinneringe</string>
-    <string name="device_calendars_reminders_desc">Word in kennis gestel vir toestelkalendergebeurtenisse</string>
     <string name="device_calendars_read_only_no_write">Leesalleen (geen skryftoestemming)</string>
     <string name="device_calendars_read_only_calendar">Leesalleen (kalender is leesalleen)</string>
     <string name="settings_developer_options">Ontwikkelaaropsies</string>

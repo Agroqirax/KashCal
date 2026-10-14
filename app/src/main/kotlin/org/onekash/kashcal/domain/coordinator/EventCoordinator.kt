@@ -15,6 +15,10 @@ import org.onekash.kashcal.domain.identity.matchesAttendee
 import org.onekash.kashcal.util.AddressNormalizer
 import android.util.Log
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import org.onekash.kashcal.data.contacts.ContactAnniversaryRepository
@@ -85,6 +89,9 @@ class EventCoordinator @Inject constructor(
     private val icsRefreshScheduleReconciler: IcsRefreshScheduleReconciler,
     private val dataStore: KashCalDataStore
 ) {
+    /** Serializes [setCalendarMuted]'s alarm step. */
+    private val muteStepMutex = Mutex()
+
     // ========== Initialization ==========
 
     /** Creates the local calendar if missing and returns its id; call on app startup. */
@@ -601,6 +608,48 @@ class EventCoordinator @Inject constructor(
         eventReader.setCalendarVisibility(calendarId, visible)
     }
 
+    /**
+     * Mutes or unmutes [calendarId]'s notifications ([Calendar.isNotificationMuted]).
+     *
+     * The flag is written first and is the authority; the alarm step after it is best effort.
+     * Muting cancels the calendar's armed reminders and keeps their rows
+     * ([ReminderScheduler.silenceRemindersForCalendar]); unmuting re-arms the kept rows
+     * ([ReminderScheduler.restoreRemindersForCalendar]) and then arms the rest of its next
+     * [ReminderScheduler.SCHEDULE_WINDOW_DAYS] days, even if the restore fails. The step follows
+     * the flag as read back under [muteStepMutex], not [muted], so taps in quick succession end
+     * with alarms that match the last one whatever order the steps run in. Once the flag write
+     * returns, neither waiting for the lock nor the step is cancelled with its caller. A failure is
+     * logged, not thrown; the window scan and the fire-time check in ReminderAlarmReceiver catch
+     * most of what it missed, but a failed restore can lose a reminder the scan can't rebuild
+     * (see [ReminderScheduler.silenceRemindersForCalendar]).
+     */
+    suspend fun setCalendarMuted(calendarId: Long, muted: Boolean) {
+        eventReader.setCalendarNotificationMuted(calendarId, muted)
+        withContext(NonCancellable) {
+            muteStepMutex.withLock {
+                try {
+                    val calendar = eventReader.getCalendarById(calendarId) ?: return@withLock
+                    if (calendar.isNotificationMuted) {
+                        reminderScheduler.silenceRemindersForCalendar(calendarId)
+                    } else {
+                        try {
+                            reminderScheduler.restoreRemindersForCalendar(calendarId)
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Restoring calendar $calendarId's kept reminders failed", e)
+                        }
+                        reminderScheduler.scheduleUpcomingReminders()
+                    }
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Log.e(TAG, "Reminder update after muting calendar $calendarId failed", e)
+                }
+            }
+        }
+    }
+
     fun getOccurrencesInRange(startTs: Long, endTs: Long): Flow<List<Occurrence>> {
         return eventReader.getOccurrencesInRange(startTs, endTs)
     }
@@ -833,7 +882,10 @@ class EventCoordinator @Inject constructor(
         icsRefreshScheduleReconciler.reconcile()
     }
 
-    /** Enables a subscription (refreshing it) or disables it (cancelling its reminders). */
+    /**
+     * Enables a subscription (refreshing it) or disables it, which only stops it syncing
+     * ([IcsSubscriptionRepository.setSubscriptionEnabled]).
+     */
     suspend fun setIcsSubscriptionEnabled(subscriptionId: Long, enabled: Boolean) {
         icsSubscriptionRepository.setSubscriptionEnabled(subscriptionId, enabled)
         icsRefreshScheduleReconciler.reconcile()

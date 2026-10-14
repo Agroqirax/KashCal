@@ -831,8 +831,10 @@ interface EventsDao {
 
     /**
      * Returns an [EventWithOccurrenceAndColor] for each non-cancelled occurrence starting in
-     * [fromTime]..[toTime] in a visible calendar whose event has reminders. ReminderScheduler
-     * scans it for reminders not yet scheduled.
+     * [fromTime]..[toTime] in a calendar that notifies
+     * ([org.onekash.kashcal.data.db.entity.Calendar.isNotificationMuted] false)
+     * whose event has reminders; hidden calendars are included. ReminderScheduler scans it for
+     * reminders not yet scheduled.
      *
      * An occurrence with an exception loads the exception (COALESCE(exception_event_id,
      * event_id)), so the notification shows the exception's title and location. The UNION
@@ -857,7 +859,7 @@ interface EventsDao {
           AND o.start_ts >= :fromTime
           AND o.start_ts <= :toTime
           AND o.is_cancelled = 0
-          AND c.is_visible = 1
+          AND c.is_notification_muted = 0
           AND NOT (e.status = 'CANCELLED' AND (e.import_source IS NOT NULL OR EXISTS (
               SELECT 1 FROM events m WHERE m.id = e.original_event_id AND m.import_source IS NOT NULL)))
         UNION
@@ -875,7 +877,7 @@ interface EventsDao {
           AND o.start_ts >= :fromTime
           AND o.start_ts <= :toTime
           AND o.is_cancelled = 0
-          AND c.is_visible = 1
+          AND c.is_notification_muted = 0
           AND NOT (exc.status = 'CANCELLED' AND (exc.import_source IS NOT NULL OR master.import_source IS NOT NULL))
           AND NOT (master.status = 'CANCELLED' AND master.import_source IS NOT NULL)
         ORDER BY occurrence_start_ts ASC

@@ -603,6 +603,23 @@
     <string name="settings_sync_lookback_hint">同步事件的回溯時長</string>
     <string name="settings_change_notifications">變更通知</string>
     <string name="settings_change_notifications_info">背景同步偵測到事件有變更時傳送通知。適用於 iCloud 和 CalDAV 行事曆。</string>
+    <string name="settings_calendar_notifications">行事曆通知</string>
+    <string name="settings_calendar_notifications_all">所有行事曆</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="other">已靜音 %d 個</item>
+    </plurals>
+    <string name="calendar_notifications_intro">選擇哪些行事曆可以通知你。</string>
+    <string name="calendar_notifications_info">已靜音的行事曆仍會顯示及同步，但不會通知你。</string>
+    <string name="cd_calendar_notifications_info">關於已靜音的行事曆</string>
+    <string name="cd_state_expanded">已展開</string>
+    <string name="cd_state_collapsed">已收合</string>
+    <string name="calendar_notifications_device_info">關閉後，所有裝置行事曆都會靜音，包括之後新增的行事曆。</string>
+    <string name="cd_calendar_notifications_device_info">關於裝置行事曆通知</string>
+    <string name="cd_device_calendar_notifications">裝置行事曆通知</string>
+    <string name="calendar_notifications_hidden">已隱藏</string>
+    <string name="calendar_notifications_app_off">系統設定中已關閉開序曆的通知，因此所有行事曆都無法通知你。</string>
+    <string name="calendar_notifications_reminders_off">系統設定中已關閉事件提醒，因此無法顯示任何提醒。</string>
+    <string name="cd_notifications_off">通知已關閉</string>
     <string name="settings_not_set">未設定</string>
     <string name="settings_on">開</string>
     <string name="settings_off">關</string>
@@ -646,7 +663,6 @@
     <string name="label_device_calendars">裝置行事曆</string>
     <string name="label_default_calendar_hint">新事件將在此行事曆中建立</string>
     <string name="label_visible_count">%1$d / %2$d 可見</string>
-    <string name="label_enabled_count">%1$d / %2$d 已啟用</string>
     <string name="label_reminders_truncated">%1$d 個未顯示（共 %2$d 個，最多可編輯 %3$d 個）</string>
     <string name="label_found_events">找到：%1$d 個事件</string>
     <string name="label_open_debug_menu">開啟偵錯選單</string>
@@ -668,8 +684,6 @@
     <string name="device_calendars_grant">授權</string>
     <string name="device_calendars_none_found">找不到裝置行事曆。</string>
     <string name="device_calendars_local">本機</string>
-    <string name="device_calendars_reminders">提醒</string>
-    <string name="device_calendars_reminders_desc">接收裝置行事曆事件通知</string>
     <string name="device_calendars_read_only_no_write">唯讀（無寫入權限）</string>
     <string name="device_calendars_read_only_calendar">唯讀（行事曆為唯讀）</string>
     <string name="settings_developer_options">開發人員選項</string>

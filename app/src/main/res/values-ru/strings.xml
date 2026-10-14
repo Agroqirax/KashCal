@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Насколько давние события синхронизировать</string>
     <string name="settings_change_notifications">Уведомления об изменениях</string>
     <string name="settings_change_notifications_info">Отправляет уведомление, когда фоновая синхронизация находит изменения в твоих событиях. Работает с календарями iCloud и CalDAV.</string>
+    <string name="settings_calendar_notifications">Уведомления календарей</string>
+    <string name="settings_calendar_notifications_all">Все календари</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">Без уведомлений: %d</item>
+        <item quantity="few">Без уведомлений: %d</item>
+        <item quantity="many">Без уведомлений: %d</item>
+        <item quantity="other">Без уведомлений: %d</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Выбери, какие календари могут присылать тебе уведомления.</string>
+    <string name="calendar_notifications_info">Календари без уведомлений по-прежнему отображаются и синхронизируются, но не присылают уведомлений.</string>
+    <string name="cd_calendar_notifications_info">О календарях без уведомлений</string>
+    <string name="cd_state_expanded">развёрнуто</string>
+    <string name="cd_state_collapsed">свёрнуто</string>
+    <string name="calendar_notifications_device_info">Выключи, и все календари устройства, включая добавленные позже, будут без уведомлений.</string>
+    <string name="cd_calendar_notifications_device_info">Об уведомлениях календарей устройства</string>
+    <string name="cd_device_calendar_notifications">Уведомления календарей устройства</string>
+    <string name="calendar_notifications_hidden">Скрыт</string>
+    <string name="calendar_notifications_app_off">Уведомления KashCal отключены в системных настройках, поэтому ни один календарь не сможет присылать уведомления.</string>
+    <string name="calendar_notifications_reminders_off">Напоминания о событиях отключены в системных настройках, поэтому напоминания не будут показываться.</string>
+    <string name="cd_notifications_off">уведомления отключены</string>
     <string name="settings_not_set">Не задано</string>
     <string name="settings_on">Вкл.</string>
     <string name="settings_off">Выкл.</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Календари устройства</string>
     <string name="label_default_calendar_hint">Новые события создаются в этом календаре</string>
     <string name="label_visible_count">%1$d / %2$d видимых</string>
-    <string name="label_enabled_count">%1$d / %2$d включено</string>
     <string name="label_reminders_truncated">%1$d не показано (%2$d всего, макс. %3$d редактируемых)</string>
     <string name="label_found_events">Найдено: %1$d событий</string>
     <string name="label_open_debug_menu">Открыть меню отладки</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Разрешить</string>
     <string name="device_calendars_none_found">Календари устройства не найдены.</string>
     <string name="device_calendars_local">Локальный</string>
-    <string name="device_calendars_reminders">Напоминания</string>
-    <string name="device_calendars_reminders_desc">Получать уведомления о событиях календаря устройства</string>
     <string name="device_calendars_read_only_no_write">Только чтение (нет разрешения на запись)</string>
     <string name="device_calendars_read_only_calendar">Только чтение (календарь доступен только для чтения)</string>
     <string name="settings_developer_options">Для разработчиков</string>

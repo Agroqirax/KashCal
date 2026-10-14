@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Wie weit zurück Termine synchronisiert werden</string>
     <string name="settings_change_notifications">Änderungsbenachrichtigungen</string>
     <string name="settings_change_notifications_info">Sendet eine Benachrichtigung, wenn eine Hintergrund-Synchronisierung Änderungen an deinen Terminen findet. Funktioniert für iCloud- und CalDAV-Kalender.</string>
+    <string name="settings_calendar_notifications">Kalenderbenachrichtigungen</string>
+    <string name="settings_calendar_notifications_all">Alle Kalender</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d stummgeschaltet</item>
+        <item quantity="other">%d stummgeschaltet</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Wähle, welche Kalender dich benachrichtigen dürfen.</string>
+    <string name="calendar_notifications_info">Stummgeschaltete Kalender werden weiterhin angezeigt und synchronisiert, benachrichtigen dich aber nicht.</string>
+    <string name="cd_calendar_notifications_info">Über stummgeschaltete Kalender</string>
+    <string name="cd_state_expanded">ausgeklappt</string>
+    <string name="cd_state_collapsed">eingeklappt</string>
+    <string name="calendar_notifications_device_info">Schalte dies aus, um alle Gerätekalender stummzuschalten, auch die, die du später hinzufügst.</string>
+    <string name="cd_calendar_notifications_device_info">Über Benachrichtigungen von Gerätekalendern</string>
+    <string name="cd_device_calendar_notifications">Benachrichtigungen von Gerätekalendern</string>
+    <string name="calendar_notifications_hidden">Ausgeblendet</string>
+    <string name="calendar_notifications_app_off">Benachrichtigungen für KashCal sind in den Systemeinstellungen ausgeschaltet, daher kann dich kein Kalender benachrichtigen.</string>
+    <string name="calendar_notifications_reminders_off">Terminerinnerungen sind in den Systemeinstellungen ausgeschaltet, daher können keine Erinnerungen angezeigt werden.</string>
+    <string name="cd_notifications_off">Benachrichtigungen aus</string>
     <string name="settings_not_set">Nicht festgelegt</string>
     <string name="settings_on">An</string>
     <string name="settings_off">Aus</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Gerätekalender</string>
     <string name="label_default_calendar_hint">Neue Termine werden in diesem Kalender erstellt</string>
     <string name="label_visible_count">%1$d / %2$d sichtbar</string>
-    <string name="label_enabled_count">%1$d / %2$d aktiviert</string>
     <string name="label_reminders_truncated">%1$d nicht angezeigt (%2$d gesamt, max. %3$d bearbeitbar)</string>
     <string name="label_found_events">Gefunden: %1$d Termine</string>
     <string name="label_open_debug_menu">Debug-Menü öffnen</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Erteilen</string>
     <string name="device_calendars_none_found">Keine Gerätekalender gefunden.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Erinnerungen</string>
-    <string name="device_calendars_reminders_desc">Benachrichtigungen für Gerätekalendertermine erhalten</string>
     <string name="device_calendars_read_only_no_write">Nur Lesen (keine Schreibberechtigung)</string>
     <string name="device_calendars_read_only_calendar">Nur Lesen (Kalender ist schreibgeschützt)</string>
     <string name="settings_developer_options">Entwickleroptionen</string>

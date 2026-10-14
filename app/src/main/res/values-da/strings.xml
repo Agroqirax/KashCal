@@ -602,6 +602,24 @@
     <string name="settings_sync_lookback_hint">Hvor langt tilbage begivenheder synkroniseres</string>
     <string name="settings_change_notifications">Notifikationer om ændringer</string>
     <string name="settings_change_notifications_info">Sender en notifikation, når en baggrundssynkronisering finder ændringer i dine begivenheder. Virker med iCloud- og CalDAV-kalendere.</string>
+    <string name="settings_calendar_notifications">Kalendernotifikationer</string>
+    <string name="settings_calendar_notifications_all">Alle kalendere</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d lydløs</item>
+        <item quantity="other">%d lydløse</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Vælg, hvilke kalendere der må give dig besked.</string>
+    <string name="calendar_notifications_info">Lydløse kalendere vises og synkroniseres stadig, men giver dig ikke besked.</string>
+    <string name="cd_calendar_notifications_info">Om lydløse kalendere</string>
+    <string name="cd_state_expanded">foldet ud</string>
+    <string name="cd_state_collapsed">foldet sammen</string>
+    <string name="calendar_notifications_device_info">Slå fra for at gøre alle enhedskalendere lydløse, også dem, du tilføjer senere.</string>
+    <string name="cd_calendar_notifications_device_info">Om notifikationer fra enhedskalendere</string>
+    <string name="cd_device_calendar_notifications">Notifikationer fra enhedskalendere</string>
+    <string name="calendar_notifications_hidden">Skjult</string>
+    <string name="calendar_notifications_app_off">Notifikationer for KashCal er slået fra i systemindstillingerne, så ingen kalender kan give dig besked.</string>
+    <string name="calendar_notifications_reminders_off">Begivenhedspåmindelser er slået fra i systemindstillingerne, så der kan ikke vises påmindelser.</string>
+    <string name="cd_notifications_off">notifikationer fra</string>
     <string name="settings_not_set">Ikke angivet</string>
     <string name="settings_on">Til</string>
     <string name="settings_off">Fra</string>
@@ -645,7 +663,6 @@
     <string name="label_device_calendars">Enhedskalendere</string>
     <string name="label_default_calendar_hint">Nye begivenheder oprettes i denne kalender</string>
     <string name="label_visible_count">%1$d / %2$d synlige</string>
-    <string name="label_enabled_count">%1$d / %2$d aktiveret</string>
     <string name="label_reminders_truncated">%1$d ikke vist (%2$d i alt, maks %3$d redigerbare)</string>
     <string name="label_found_events">Fundet: %1$d begivenheder</string>
     <string name="label_open_debug_menu">Åbn debug-menu</string>
@@ -667,8 +684,6 @@
     <string name="device_calendars_grant">Giv adgang</string>
     <string name="device_calendars_none_found">Ingen enhedskalendere fundet.</string>
     <string name="device_calendars_local">Lokal</string>
-    <string name="device_calendars_reminders">Påmindelser</string>
-    <string name="device_calendars_reminders_desc">Få notifikationer for enhedskalenderbegivenheder</string>
     <string name="device_calendars_read_only_no_write">Skrivebeskyttet (ingen skrivetilladelse)</string>
     <string name="device_calendars_read_only_calendar">Skrivebeskyttet (kalenderen er skrivebeskyttet)</string>
     <string name="settings_developer_options">Udviklermuligheder</string>

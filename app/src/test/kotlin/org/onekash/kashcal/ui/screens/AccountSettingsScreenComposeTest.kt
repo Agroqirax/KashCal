@@ -2,6 +2,16 @@ package org.onekash.kashcal.ui.screens
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.Role
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.activity.ComponentDialog
+import org.robolectric.shadows.ShadowDialog
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -12,8 +22,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
+import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
+import org.onekash.kashcal.domain.model.AccountProvider
+import org.onekash.kashcal.ui.model.CalendarGroup
 import org.onekash.kashcal.ui.screens.settings.ICloudConnectionState
 import org.onekash.kashcal.ui.theme.KashCalTheme
 import org.robolectric.RobolectricTestRunner
@@ -456,5 +470,166 @@ class AccountSettingsScreenComposeTest {
         render(rec)
         composeTestRule.onNodeWithText("Device calendars").performClick()
         assertOnlyNav(rec, fired = "deviceCalendars")
+    }
+
+    // ==================== Calendar notifications ====================
+
+    private val work = Calendar(
+        id = 20L, accountId = 2L, caldavUrl = "https://caldav.example.test/work/", displayName = "Work",
+        color = 0xFF4CAF50.toInt(), isNotificationMuted = false,
+    )
+    private val phone = DeviceCalendar(
+        id = 100L, displayName = "Phone", color = 0xFF607D8B.toInt(), accountName = "",
+        accountType = "LOCAL", visible = true, accessLevel = 700,
+    )
+
+    private val mutedCalls = mutableListOf<Triple<String, Long, Boolean>>()
+
+    private val deviceReminderCalls = mutableListOf<Boolean>()
+
+    private fun renderMute(
+        workMuted: Boolean = false,
+        mutedDevice: Set<Long> = emptySet(),
+        searchQuery: String = "",
+        deviceRemindersEnabled: Boolean = true,
+        devices: List<DeviceCalendar> = listOf(phone),
+    ) {
+        // Held here as the ViewModel holds it, so the switch follows each tap.
+        var remindersEnabled by mutableStateOf(deviceRemindersEnabled)
+        val calendars = listOf(localCalendar, work.copy(isNotificationMuted = workMuted))
+        composeTestRule.setContent {
+            KashCalTheme {
+                AccountSettingsScreen(
+                    uiState = AccountSettingsUiState(iCloudState = ICloudConnectionState.NotConnected()),
+                    calendars = calendars,
+                    calendarGroups = CalendarGroup.fromCalendarsAndAccounts(
+                        calendars,
+                        listOf(
+                            Account(id = 1L, provider = AccountProvider.LOCAL, email = "local"),
+                            Account(id = 2L, provider = AccountProvider.CALDAV, email = "me@example.test", displayName = "Nextcloud"),
+                        ),
+                        localLabel = "Offline",
+                        icsLabel = "Calendar Feeds",
+                    ),
+                    deviceCalendarsEnabled = true,
+                    hasReadCalendarPermission = true,
+                    deviceCalendars = devices,
+                    enabledDeviceCalendarIds = devices.mapTo(mutableSetOf()) { it.id },
+                    mutedDeviceCalendarIds = mutedDevice,
+                    deviceCalendarRemindersEnabled = remindersEnabled,
+                    onToggleDeviceCalendarReminders = { enabled ->
+                        deviceReminderCalls += enabled
+                        remindersEnabled = enabled
+                    },
+                    onToggleCalendarMuted = { id, muted -> mutedCalls += Triple("room", id, muted) },
+                    onToggleDeviceCalendarMuted = { id, muted -> mutedCalls += Triple("device", id, muted) },
+                    isSearchActive = searchQuery.isNotEmpty(),
+                    searchQuery = searchQuery,
+                    versionName = "1.0.0",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `calendar notifications row reads All calendars when nothing is muted`() {
+        renderMute()
+
+        composeTestRule.onNodeWithText("Calendar notifications").assertIsDisplayed()
+        composeTestRule.onNodeWithText("All calendars").assertIsDisplayed()
+    }
+
+    @Test
+    fun `with device reminders off the row counts every device calendar as muted`() {
+        val devices = listOf(
+            phone,
+            phone.copy(id = 101L, displayName = "Gym"),
+            phone.copy(id = 102L, displayName = "Family"),
+        )
+        renderMute(deviceRemindersEnabled = false, devices = devices)
+
+        composeTestRule.onNodeWithText("3 muted").assertExists()
+        composeTestRule.onNodeWithText("All calendars").assertDoesNotExist()
+    }
+
+    @Test
+    fun `the Device calendars row keeps its enabled count`() {
+        renderMute()
+
+        composeTestRule.onNodeWithText("1 enabled").assertExists()
+    }
+
+    @Test
+    fun `the sheet's Device calendars switch turns device reminders off and on`() {
+        renderMute()
+
+        composeTestRule.onNodeWithText("Calendar notifications").performClick()
+        val deviceSwitch = composeTestRule.onNode(
+            hasContentDescription("Device calendar notifications") and SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Switch)
+        )
+        deviceSwitch.performClick()
+        deviceSwitch.performClick()
+
+        assertEquals(listOf(false, true), deviceReminderCalls)
+    }
+
+    @Test
+    fun `calendar notifications row counts Room and device mutes`() {
+        renderMute(workMuted = true, mutedDevice = setOf(phone.id))
+
+        composeTestRule.onNodeWithText("2 muted").assertIsDisplayed()
+    }
+
+    @Test
+    fun `settings search finds calendar notifications by its label`() {
+        renderMute(searchQuery = "notifications")
+
+        composeTestRule.onNodeWithText("Calendar notifications", substring = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun `settings search finds calendar notifications by muted only once one is muted`() {
+        renderMute(workMuted = true, searchQuery = "muted")
+        composeTestRule.onNodeWithText("Calendar notifications", substring = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun `settings search for muted finds nothing while every calendar notifies`() {
+        renderMute(searchQuery = "muted")
+        assertEquals(0, composeTestRule.onAllNodesWithText("Calendar notifications", substring = true).fetchSemanticsNodes().size)
+    }
+
+    @Test
+    fun `the row opens the sheet, whose switches route Room and device calendars apart`() {
+        renderMute()
+
+        composeTestRule.onNodeWithText("Calendar notifications").performClick()
+        composeTestRule.onNodeWithText("Choose which calendars can notify you.").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Work").performClick()
+        composeTestRule.onNodeWithText("Phone").performClick()
+
+        assertEquals(listOf(Triple("room", 20L, true), Triple("device", 100L, true)), mutedCalls)
+    }
+
+    @Test
+    fun `the sheet's muted-calendar detail starts hidden again after the sheet is closed and reopened`() {
+        renderMute()
+        val detail = "Muted calendars still show and sync, but don't notify you."
+
+        composeTestRule.onNodeWithText("Calendar notifications").performClick()
+        composeTestRule.onNodeWithContentDescription("About muted calendars").performClick()
+        composeTestRule.onNodeWithText(detail).assertIsDisplayed()
+
+        // The sheet is its own dialog window; its back dispatcher is what a system back reaches.
+        composeTestRule.runOnUiThread {
+            (ShadowDialog.getLatestDialog() as ComponentDialog).onBackPressedDispatcher.onBackPressed()
+        }
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Choose which calendars can notify you.").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Calendar notifications").performClick()
+
+        composeTestRule.onNodeWithText("Choose which calendars can notify you.").assertIsDisplayed()
+        composeTestRule.onNodeWithText(detail).assertDoesNotExist()
     }
 }

@@ -603,6 +603,26 @@
     <string name="settings_sync_lookback_hint">Jak daleko wstecz synchronizować wydarzenia</string>
     <string name="settings_change_notifications">Powiadomienia o zmianach</string>
     <string name="settings_change_notifications_info">Wysyła powiadomienie, gdy synchronizacja w tle wykryje zmiany w Twoich wydarzeniach. Działa z kalendarzami iCloud i CalDAV.</string>
+    <string name="settings_calendar_notifications">Powiadomienia kalendarzy</string>
+    <string name="settings_calendar_notifications_all">Wszystkie kalendarze</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d wyciszony</item>
+        <item quantity="few">%d wyciszone</item>
+        <item quantity="many">%d wyciszonych</item>
+        <item quantity="other">%d wyciszonych</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Wybierz, które kalendarze mogą Cię powiadamiać.</string>
+    <string name="calendar_notifications_info">Wyciszone kalendarze nadal się wyświetlają i synchronizują, ale nie wysyłają powiadomień.</string>
+    <string name="cd_calendar_notifications_info">Informacje o wyciszonych kalendarzach</string>
+    <string name="cd_state_expanded">rozwinięte</string>
+    <string name="cd_state_collapsed">zwinięte</string>
+    <string name="calendar_notifications_device_info">Wyłącz, aby wyciszyć wszystkie kalendarze urządzenia, także te dodane później.</string>
+    <string name="cd_calendar_notifications_device_info">Informacje o powiadomieniach kalendarzy urządzenia</string>
+    <string name="cd_device_calendar_notifications">Powiadomienia kalendarzy urządzenia</string>
+    <string name="calendar_notifications_hidden">Ukryty</string>
+    <string name="calendar_notifications_app_off">Powiadomienia aplikacji KashCal są wyłączone w ustawieniach systemu, więc żaden kalendarz nie może Cię powiadomić.</string>
+    <string name="calendar_notifications_reminders_off">Przypomnienia o wydarzeniach są wyłączone w ustawieniach systemu, więc żadne przypomnienia nie mogą się wyświetlić.</string>
+    <string name="cd_notifications_off">powiadomienia wyłączone</string>
     <string name="settings_not_set">Nie ustawiono</string>
     <string name="settings_on">Wł.</string>
     <string name="settings_off">Wył.</string>
@@ -646,7 +666,6 @@
     <string name="label_device_calendars">Kalendarze urządzenia</string>
     <string name="label_default_calendar_hint">Nowe wydarzenia będą tworzone w tym kalendarzu</string>
     <string name="label_visible_count">%1$d / %2$d widocznych</string>
-    <string name="label_enabled_count">%1$d / %2$d włączonych</string>
     <string name="label_reminders_truncated">%1$d niepokazanych (%2$d łącznie, maks. %3$d edytowalnych)</string>
     <string name="label_found_events">Znaleziono: %1$d wydarzeń</string>
     <string name="label_open_debug_menu">Otwórz menu debugowania</string>
@@ -668,8 +687,6 @@
     <string name="device_calendars_grant">Nadaj</string>
     <string name="device_calendars_none_found">Nie znaleziono kalendarzy urządzenia.</string>
     <string name="device_calendars_local">Lokalne</string>
-    <string name="device_calendars_reminders">Przypomnienia</string>
-    <string name="device_calendars_reminders_desc">Otrzymuj powiadomienia o wydarzeniach kalendarza urządzenia</string>
     <string name="device_calendars_read_only_no_write">Tylko do odczytu (brak uprawnień do zapisu)</string>
     <string name="device_calendars_read_only_calendar">Tylko do odczytu (kalendarz tylko do odczytu)</string>
     <string name="settings_developer_options">Opcje programisty</string>

@@ -603,6 +603,27 @@
     <string name="settings_sync_lookback_hint">Cé chomh fada siar is a shioncronaítear imeachtaí</string>
     <string name="settings_change_notifications">Fógraí athruithe</string>
     <string name="settings_change_notifications_info">Seolann sé fógra nuair a aimsíonn sioncronú cúlra athruithe ar d\'imeachtaí. Oibríonn sé le féilirí iCloud agus CalDAV.</string>
+    <string name="settings_calendar_notifications">Fógraí féilire</string>
+    <string name="settings_calendar_notifications_all">Gach féilire</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">Balbhaithe: %d</item>
+        <item quantity="two">Balbhaithe: %d</item>
+        <item quantity="few">Balbhaithe: %d</item>
+        <item quantity="many">Balbhaithe: %d</item>
+        <item quantity="other">Balbhaithe: %d</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Roghnaigh na féilirí ar féidir leo fógraí a thabhairt duit.</string>
+    <string name="calendar_notifications_info">Taispeántar agus sioncronaítear féilirí balbhaithe fós, ach ní thugann siad fógraí duit.</string>
+    <string name="cd_calendar_notifications_info">Maidir le féilirí balbhaithe</string>
+    <string name="cd_state_expanded">leathnaithe</string>
+    <string name="cd_state_collapsed">laghdaithe</string>
+    <string name="calendar_notifications_device_info">Múch é seo chun féilirí na gléine go léir a bhalbhú, lena n-áirítear iad siúd a chuirfidh tú leis ar ball.</string>
+    <string name="cd_calendar_notifications_device_info">Maidir le fógraí ó fhéilirí na gléine</string>
+    <string name="cd_device_calendar_notifications">Fógraí ó fhéilirí na gléine</string>
+    <string name="calendar_notifications_hidden">I bhfolach</string>
+    <string name="calendar_notifications_app_off">Tá fógraí KashCal as i socruithe an chórais, mar sin ní féidir le féilire ar bith fógra a thabhairt duit.</string>
+    <string name="calendar_notifications_reminders_off">Tá meabhrúcháin imeachtaí as i socruithe an chórais, mar sin ní féidir meabhrúcháin a thaispeáint.</string>
+    <string name="cd_notifications_off">fógraí as</string>
     <string name="settings_not_set">Gan socrú</string>
     <string name="settings_on">Air</string>
     <string name="settings_off">As</string>
@@ -646,7 +667,6 @@
     <string name="label_device_calendars">Féilirí na Gléine</string>
     <string name="label_default_calendar_hint">Cruthófar imeachtaí nua san fhéilire seo</string>
     <string name="label_visible_count">%1$d / %2$d infheicthe</string>
-    <string name="label_enabled_count">%1$d / %2$d cumasaithe</string>
     <string name="label_reminders_truncated">%1$d gan taispeáint (%2$d san iomlán, uasmhéid %3$d ineagarthóireachta)</string>
     <string name="label_found_events">Aimsíodh: %1$d imeacht</string>
     <string name="label_open_debug_menu">Oscail roghchlár dífhabhtaithe</string>
@@ -668,8 +688,6 @@
     <string name="device_calendars_grant">Tabhair</string>
     <string name="device_calendars_none_found">Ní bhfuarthas aon fhéilire gléine.</string>
     <string name="device_calendars_local">Áitiúil</string>
-    <string name="device_calendars_reminders">Meabhrúcháin</string>
-    <string name="device_calendars_reminders_desc">Faigh fógra faoi imeachtaí féilire na gléine</string>
     <string name="device_calendars_read_only_no_write">Léitheoireacht amháin (gan cead scríofa)</string>
     <string name="device_calendars_read_only_calendar">Léitheoireacht amháin (féilire léitheoireachta amháin)</string>
     <string name="settings_developer_options">Roghanna Forbróra</string>

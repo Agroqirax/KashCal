@@ -272,6 +272,8 @@ class HomeViewModelTest {
         every { dataStore.deviceCalendarsEnabled } returns flowOf(false)
         every { dataStore.enabledDeviceCalendarIds } returns flowOf(emptySet())
         every { dataStore.hiddenDeviceCalendarIds } returns flowOf(emptySet())
+        every { dataStore.mutedDeviceCalendarIds } returns flowOf(emptySet())
+        every { dataStore.deviceCalendarRemindersEnabled } returns flowOf(true)
         coEvery { dataStore.getDeviceCalendarsEnabled() } returns false
         coEvery { dataStore.getEnabledDeviceCalendarIds() } returns emptySet()
     }
@@ -5076,5 +5078,33 @@ class HomeViewModelTest {
         advanceUntilIdle()
 
         assertEquals("", saved.captured)
+    }
+
+    @Test
+    fun `the muted device calendar ids reach the drawer state`() = runTest {
+        val mutedFlow = MutableStateFlow<Set<Long>>(emptySet())
+        every { dataStore.mutedDeviceCalendarIds } returns mutedFlow
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertTrue(viewModel.uiState.value.mutedDeviceCalendarIds.isEmpty())
+
+        mutedFlow.value = setOf(10L)
+        advanceUntilIdle()
+
+        assertEquals(setOf(10L), viewModel.uiState.value.mutedDeviceCalendarIds)
+    }
+
+    @Test
+    fun `the device reminders setting reaches the drawer state`() = runTest {
+        val enabledFlow = MutableStateFlow(true)
+        every { dataStore.deviceCalendarRemindersEnabled } returns enabledFlow
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertTrue(viewModel.uiState.value.deviceRemindersEnabled)
+
+        enabledFlow.value = false
+        advanceUntilIdle()
+
+        assertFalse(viewModel.uiState.value.deviceRemindersEnabled)
     }
 }

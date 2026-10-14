@@ -603,6 +603,25 @@
     <string name="settings_sync_lookback_hint">Koliko unazad sinhronizirati događaje</string>
     <string name="settings_change_notifications">Obavještenja o promjenama</string>
     <string name="settings_change_notifications_info">Šalje obavještenje kada sinhronizacija u pozadini pronađe promjene u vašim događajima. Radi za iCloud i CalDAV kalendare.</string>
+    <string name="settings_calendar_notifications">Obavještenja kalendara</string>
+    <string name="settings_calendar_notifications_all">Svi kalendari</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d utišan</item>
+        <item quantity="few">%d utišana</item>
+        <item quantity="other">%d utišanih</item>
+    </plurals>
+    <string name="calendar_notifications_intro">Odaberite koji vas kalendari mogu obavještavati.</string>
+    <string name="calendar_notifications_info">Utišani kalendari se i dalje prikazuju i sinhroniziraju, ali vas ne obavještavaju.</string>
+    <string name="cd_calendar_notifications_info">O utišanim kalendarima</string>
+    <string name="cd_state_expanded">prošireno</string>
+    <string name="cd_state_collapsed">skupljeno</string>
+    <string name="calendar_notifications_device_info">Isključite da biste utišali sve kalendare uređaja, uključujući one koje kasnije dodate.</string>
+    <string name="cd_calendar_notifications_device_info">O obavještenjima kalendara uređaja</string>
+    <string name="cd_device_calendar_notifications">Obavještenja kalendara uređaja</string>
+    <string name="calendar_notifications_hidden">Sakriven</string>
+    <string name="calendar_notifications_app_off">Obavještenja za KashCal su isključena u sistemskim postavkama, pa vas nijedan kalendar ne može obavijestiti.</string>
+    <string name="calendar_notifications_reminders_off">Podsjećanja za događaje su isključena u sistemskim postavkama, pa se nijedno podsjećanje ne može prikazati.</string>
+    <string name="cd_notifications_off">obavještenja isključena</string>
     <string name="settings_not_set">Nije podešeno</string>
     <string name="settings_on">Uklj.</string>
     <string name="settings_off">Isklj.</string>
@@ -646,7 +665,6 @@
     <string name="label_device_calendars">Kalendari uređaja</string>
     <string name="label_default_calendar_hint">Novi događaji će se kreirati u ovom kalendaru</string>
     <string name="label_visible_count">%1$d / %2$d vidljivih</string>
-    <string name="label_enabled_count">%1$d / %2$d omogućeno</string>
     <string name="label_reminders_truncated">%1$d neprikazanih (%2$d ukupno, maks %3$d za uređivanje)</string>
     <string name="label_found_events">Pronađeno: %1$d događaja</string>
     <string name="label_open_debug_menu">Otvori meni za otklanjanje grešaka</string>
@@ -668,8 +686,6 @@
     <string name="device_calendars_grant">Dodijeli</string>
     <string name="device_calendars_none_found">Nema pronađenih kalendara uređaja.</string>
     <string name="device_calendars_local">Lokalni</string>
-    <string name="device_calendars_reminders">Podsjetnici</string>
-    <string name="device_calendars_reminders_desc">Primaj obavještenja za događaje kalendara uređaja</string>
     <string name="device_calendars_read_only_no_write">Samo za čitanje (nema dozvole za pisanje)</string>
     <string name="device_calendars_read_only_calendar">Samo za čitanje (kalendar je samo za čitanje)</string>
     <string name="settings_developer_options">Razvojne opcije</string>

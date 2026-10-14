@@ -32,7 +32,8 @@ import org.robolectric.annotation.Config
  * - Fire path, through [ReminderAlarmReceiver.handleAlarm] over strict mocks: a live reminder
  *   posts and is marked fired (FIRED and SNOOZED rows included); a missing row or a DISMISSED
  *   one does nothing; a gone event cancels all its reminders; a cancelled occurrence cancels
- *   only that occurrence's reminders.
+ *   only that occurrence's reminders; a muted calendar's reminder posts nothing, is marked fired
+ *   and refills the window, and the gone-event and cancelled-occurrence paths come first.
  * - Coalescing: the occurrence's other notifications are cleared after building and before
  *   posting, never its own, and none when it has one reminder; a suppressed reminder doesn't
  *   look them up, and a cleared sibling keeps its row. A failed lookup still posts; a failed
@@ -106,6 +107,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -197,6 +199,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -216,6 +219,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -259,6 +263,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns listOf(41L, 42L)
         every { notificationManager.cancelNotification(any()) } returns Unit
         stubPost(notificationManager, reminder)
@@ -287,6 +292,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns listOf(41L)
         every { notificationManager.cancelNotification(any()) } returns Unit
         stubPost(notificationManager, reminder)
@@ -306,6 +312,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         stubPost(notificationManager, reminder)
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -327,6 +334,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } throws RuntimeException("database closed")
         stubPost(notificationManager, reminder)
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -379,6 +387,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns listOf(41L)
         every { notificationManager.cancelNotification(any()) } returns Unit
         stubPost(notificationManager, reminder)
@@ -403,6 +412,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         // A sibling to clear, so "nothing was cleared" is an observation; an empty list
         // would pass vacuously.
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns listOf(41L)
@@ -427,6 +437,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -449,6 +460,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -468,6 +480,7 @@ class ReminderAlarmReceiverTest {
         coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
         coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
         coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns false
         stubPost(notificationManager, reminder)
         coEvery { scheduler.getSiblingReminderIds(reminder) } returns emptyList()
         coJustRun { scheduler.markAsFired(REMINDER_ID) }
@@ -502,6 +515,62 @@ class ReminderAlarmReceiverTest {
         receiver.handleAlarm(scheduler, notificationManager, REMINDER_ID)
 
         coVerify(exactly = 0) { scheduler.scheduleUpcomingReminders() }
+    }
+
+    // ==================== Muted calendar ====================
+
+    @Test
+    fun `handleAlarm posts nothing for a muted calendar, marks it fired and refills`() = runTest {
+        val scheduler = mockk<ReminderScheduler>()
+        val notificationManager = mockk<ReminderNotificationManager>()
+        val reminder = reminder(status = ReminderStatus.PENDING)
+        coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
+        coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
+        coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns true
+        coEvery { scheduler.isCalendarMutedForReminder(reminder) } returns true
+        coJustRun { scheduler.markAsFired(REMINDER_ID) }
+        coEvery { scheduler.scheduleUpcomingReminders() } returns 0
+
+        receiver.handleAlarm(scheduler, notificationManager, REMINDER_ID)
+
+        coVerify(exactly = 0) { notificationManager.buildNotification(any()) }
+        verify(exactly = 0) { notificationManager.postNotification(any(), any()) }
+        verify(exactly = 0) { notificationManager.cancelNotification(any()) }
+        coVerify(exactly = 0) { scheduler.getSiblingReminderIds(any()) }
+        coVerify(exactly = 1) { scheduler.markAsFired(REMINDER_ID) }
+        coVerify(exactly = 1) { scheduler.scheduleUpcomingReminders() }
+    }
+
+    @Test
+    fun `a muted calendar's reminder for a gone event still takes the stale path`() = runTest {
+        val scheduler = mockk<ReminderScheduler>()
+        val notificationManager = mockk<ReminderNotificationManager>()
+        coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder(status = ReminderStatus.PENDING)
+        coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns false
+        coJustRun { scheduler.cancelRemindersForEvent(EVENT_ID) }
+
+        receiver.handleAlarm(scheduler, notificationManager, REMINDER_ID)
+
+        coVerify(exactly = 1) { scheduler.cancelRemindersForEvent(EVENT_ID) }
+        coVerify(exactly = 0) { scheduler.isCalendarMutedForReminder(any()) }
+        coVerify(exactly = 0) { scheduler.markAsFired(any()) }
+    }
+
+    @Test
+    fun `a muted calendar's reminder for a cancelled occurrence still takes the occurrence path`() = runTest {
+        val scheduler = mockk<ReminderScheduler>()
+        val notificationManager = mockk<ReminderNotificationManager>()
+        val reminder = reminder(status = ReminderStatus.PENDING)
+        coEvery { scheduler.getReminder(REMINDER_ID) } returns reminder
+        coEvery { scheduler.shouldFireReminder(EVENT_ID) } returns true
+        coEvery { scheduler.hasLiveOccurrenceForReminder(reminder) } returns false
+        coJustRun { scheduler.cancelReminderForOccurrence(EVENT_ID, reminder.occurrenceTime) }
+
+        receiver.handleAlarm(scheduler, notificationManager, REMINDER_ID)
+
+        coVerify(exactly = 1) { scheduler.cancelReminderForOccurrence(EVENT_ID, reminder.occurrenceTime) }
+        coVerify(exactly = 0) { scheduler.isCalendarMutedForReminder(any()) }
+        coVerify(exactly = 0) { scheduler.markAsFired(any()) }
     }
 
     // ==================== Helpers ====================

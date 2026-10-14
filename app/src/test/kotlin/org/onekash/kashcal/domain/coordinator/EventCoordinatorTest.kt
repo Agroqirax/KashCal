@@ -2111,4 +2111,64 @@ class EventCoordinatorTest {
         assertEquals("master + exception persisted", 2, count)
         coVerify(exactly = 2) { reminderScheduler.scheduleRemindersForEvent(any(), any(), any()) }
     }
+
+    // ==================== Calendar mute ====================
+
+    private fun calendarMuted(muted: Boolean) = Calendar(
+        id = 7L, accountId = 1L, caldavUrl = "local://mute", displayName = "Work", color = -1,
+        isNotificationMuted = muted
+    )
+
+    @Test
+    fun `setCalendarMuted keeps the flag and returns when silencing the alarms fails`() = runTest {
+        coEvery { eventReader.getCalendarById(7L) } returns calendarMuted(true)
+        coEvery { reminderScheduler.silenceRemindersForCalendar(7L) } throws IllegalStateException("db")
+
+        coordinator.setCalendarMuted(7L, true)
+
+        coVerify(exactly = 1) { eventReader.setCalendarNotificationMuted(7L, true) }
+        coVerify(exactly = 1) { reminderScheduler.silenceRemindersForCalendar(7L) }
+        coVerify(exactly = 0) { reminderScheduler.cancelRemindersForCalendar(any()) }
+    }
+
+    @Test
+    fun `setCalendarMuted still runs the scan when restoring the kept reminders fails`() = runTest {
+        coEvery { eventReader.getCalendarById(7L) } returns calendarMuted(false)
+        coEvery { reminderScheduler.restoreRemindersForCalendar(7L) } throws IllegalStateException("db")
+        coEvery { reminderScheduler.scheduleUpcomingReminders() } returns 0
+
+        coordinator.setCalendarMuted(7L, false)
+
+        coVerify(exactly = 1) { reminderScheduler.restoreRemindersForCalendar(7L) }
+        coVerify(exactly = 1) { reminderScheduler.scheduleUpcomingReminders() }
+    }
+
+    @Test
+    fun `setCalendarMuted rethrows a cancellation from the alarm step`() = runTest {
+        coEvery { eventReader.getCalendarById(7L) } returns calendarMuted(false)
+        coEvery { reminderScheduler.scheduleUpcomingReminders() } throws CancellationException("gone")
+
+        var thrown: Throwable? = null
+        try {
+            coordinator.setCalendarMuted(7L, false)
+        } catch (e: CancellationException) {
+            thrown = e
+        }
+
+        assertNotNull(thrown)
+        coVerify(exactly = 1) { eventReader.setCalendarNotificationMuted(7L, false) }
+    }
+
+    @Test
+    fun `setCalendarMuted applies the step for the flag it reads back`() = runTest {
+        // A later tap already unmuted the calendar, so this mute's step arms instead of cancelling.
+        coEvery { eventReader.getCalendarById(7L) } returns calendarMuted(false)
+        coEvery { reminderScheduler.scheduleUpcomingReminders() } returns 0
+
+        coordinator.setCalendarMuted(7L, true)
+
+        coVerify(exactly = 0) { reminderScheduler.silenceRemindersForCalendar(any()) }
+        coVerify(exactly = 1) { reminderScheduler.restoreRemindersForCalendar(7L) }
+        coVerify(exactly = 1) { reminderScheduler.scheduleUpcomingReminders() }
+    }
 }

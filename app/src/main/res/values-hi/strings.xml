@@ -603,6 +603,24 @@
     <string name="settings_sync_lookback_hint">इवेंट कितने पीछे तक सिंक करें</string>
     <string name="settings_change_notifications">बदलाव की सूचनाएँ</string>
     <string name="settings_change_notifications_info">जब बैकग्राउंड सिंक को आपके इवेंट में बदलाव मिलते हैं, तो एक सूचना भेजता है। iCloud और CalDAV कैलेंडर के लिए काम करता है।</string>
+    <string name="settings_calendar_notifications">कैलेंडर सूचनाएँ</string>
+    <string name="settings_calendar_notifications_all">सभी कैलेंडर</string>
+    <plurals name="settings_calendar_notifications_muted_count">
+        <item quantity="one">%d म्यूट</item>
+        <item quantity="other">%d म्यूट</item>
+    </plurals>
+    <string name="calendar_notifications_intro">चुनें कि कौन-से कैलेंडर आपको सूचित कर सकते हैं।</string>
+    <string name="calendar_notifications_info">म्यूट किए गए कैलेंडर अब भी दिखते और सिंक होते हैं, लेकिन आपको सूचित नहीं करते।</string>
+    <string name="cd_calendar_notifications_info">म्यूट किए गए कैलेंडर के बारे में</string>
+    <string name="cd_state_expanded">विस्तारित</string>
+    <string name="cd_state_collapsed">संक्षिप्त</string>
+    <string name="calendar_notifications_device_info">सभी डिवाइस कैलेंडर म्यूट करने के लिए बंद करें, जिनमें बाद में जोड़े गए कैलेंडर भी शामिल हैं।</string>
+    <string name="cd_calendar_notifications_device_info">डिवाइस कैलेंडर सूचनाओं के बारे में</string>
+    <string name="cd_device_calendar_notifications">डिवाइस कैलेंडर सूचनाएँ</string>
+    <string name="calendar_notifications_hidden">छिपा हुआ</string>
+    <string name="calendar_notifications_app_off">सिस्टम सेटिंग्स में KashCal की सूचनाएँ बंद हैं, इसलिए कोई भी कैलेंडर आपको सूचित नहीं कर सकता।</string>
+    <string name="calendar_notifications_reminders_off">सिस्टम सेटिंग्स में इवेंट रिमाइंडर बंद हैं, इसलिए कोई रिमाइंडर नहीं दिख सकता।</string>
+    <string name="cd_notifications_off">सूचनाएँ बंद</string>
     <string name="settings_not_set">सेट नहीं</string>
     <string name="settings_on">चालू</string>
     <string name="settings_off">बंद</string>
@@ -646,7 +664,6 @@
     <string name="label_device_calendars">डिवाइस कैलेंडर</string>
     <string name="label_default_calendar_hint">नए इवेंट इस कैलेंडर में बनाए जाएँगे</string>
     <string name="label_visible_count">%1$d / %2$d दृश्य</string>
-    <string name="label_enabled_count">%1$d / %2$d चालू</string>
     <string name="label_reminders_truncated">%1$d नहीं दिखाए (%2$d कुल, अधिकतम %3$d संपादन योग्य)</string>
     <string name="label_found_events">मिले: %1$d इवेंट</string>
     <string name="label_open_debug_menu">डीबग मेन्यू खोलें</string>
@@ -668,8 +685,6 @@
     <string name="device_calendars_grant">अनुमति दें</string>
     <string name="device_calendars_none_found">कोई डिवाइस कैलेंडर नहीं मिला।</string>
     <string name="device_calendars_local">स्थानीय</string>
-    <string name="device_calendars_reminders">रिमाइंडर</string>
-    <string name="device_calendars_reminders_desc">डिवाइस कैलेंडर इवेंट के लिए सूचना पाएँ</string>
     <string name="device_calendars_read_only_no_write">केवल पठन (लिखने की अनुमति नहीं)</string>
     <string name="device_calendars_read_only_calendar">केवल पठन (कैलेंडर केवल पठन योग्य)</string>
     <string name="settings_developer_options">डेवलपर विकल्प</string>

@@ -179,4 +179,31 @@ class DeviceCalendarPreferencesTest {
         val ids = dataStore.hiddenDeviceCalendarIds.first()
         assertTrue(ids.isEmpty())
     }
+
+    // ========== mutedDeviceCalendarIds ==========
+
+    @Test
+    fun `mutedDeviceCalendarIds defaults to empty set`() = runTest {
+        assertTrue(dataStore.getMutedDeviceCalendarIds().isEmpty())
+        assertTrue(dataStore.mutedDeviceCalendarIds.first().isEmpty())
+    }
+
+    @Test
+    fun `setDeviceCalendarMuted adds and removes one id at a time`() = runTest {
+        dataStore.setDeviceCalendarMuted(5L, true)
+        dataStore.setDeviceCalendarMuted(7L, true)
+        dataStore.setDeviceCalendarMuted(5L, false)
+
+        assertEquals(setOf(7L), dataStore.getMutedDeviceCalendarIds())
+        assertEquals(setOf(7L), dataStore.mutedDeviceCalendarIds.first())
+    }
+
+    @Test
+    fun `unmuting an id that is not muted leaves the set unchanged`() = runTest {
+        dataStore.setDeviceCalendarMuted(7L, true)
+
+        dataStore.setDeviceCalendarMuted(99L, false)
+
+        assertEquals(setOf(7L), dataStore.getMutedDeviceCalendarIds())
+    }
 }

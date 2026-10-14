@@ -65,6 +65,8 @@ object TestDataStoreFactory {
         every { quickAddEnabled } returns MutableStateFlow(false)
         every { onboardingDismissed } returns MutableStateFlow(true)
         every { hiddenDeviceCalendarIds } returns MutableStateFlow(emptySet())
+        every { mutedDeviceCalendarIds } returns MutableStateFlow(emptySet())
+        every { deviceCalendarRemindersEnabled } returns MutableStateFlow(true)
         every { defaultEventDuration } returns MutableStateFlow(KashCalDataStore.DEFAULT_EVENT_DURATION_MINUTES)
         every { defaultCalendar } returns MutableStateFlow(null)
         every { defaultCalendarId } returns MutableStateFlow(null)

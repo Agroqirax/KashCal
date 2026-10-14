@@ -726,7 +726,7 @@ object Migrations {
 
     /**
      * Migrates 15 to 16: adds four columns.
-     * - calendars.is_notification_muted: mute reminders per calendar (#137); nothing reads it yet.
+     * - calendars.is_notification_muted: mute a calendar's notifications (#137).
      * - calendars.local_color_override: the user's color for a CalDAV calendar (#102).
      * - calendars.default_reminder: a calendar's default reminder offset.
      * - events.end_timezone: a separate timezone for the event end (#39).
