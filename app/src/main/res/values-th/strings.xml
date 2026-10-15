@@ -953,6 +953,14 @@
     <string name="cd_active_view">มุมมองที่ใช้งาน</string>
     <string name="view_agenda">กำหนดการ</string>
     <string name="view_month_full">เดือน (เต็ม)</string>
+    <string name="view_planner">แพลนเนอร์</string>
+    <string name="planner_free_day">วันว่าง</string>
+    <string name="cd_planner_show_day_events">แสดงกิจกรรมของวันนั้น</string>
+    <string name="planner_different_this_week">ที่ต่างไปในสัปดาห์นี้</string>
+    <string name="planner_usual_week">เป็นสัปดาห์ตามปกติ</string>
+    <string name="planner_moved_was">เดิม %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">วัน</string>
     <string name="view_three_days">3 วัน</string>
     <string name="view_year">ปี</string>

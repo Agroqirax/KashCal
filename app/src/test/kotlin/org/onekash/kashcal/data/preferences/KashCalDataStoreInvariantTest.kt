@@ -71,7 +71,7 @@ class KashCalDataStoreInvariantTest {
     @Test
     fun `setDefaultCalendarView accepts all real view keys`() = runTest {
         // Each real key is accepted (require() doesn't fire) and persisted.
-        for (view in listOf("month", "agenda", "day", "three_days", "week", "month_full", "year")) {
+        for (view in listOf("month", "agenda", "day", "three_days", "week", "planner", "month_full", "year")) {
             dataStore.setDefaultCalendarView(view)
             assertEquals(view, dataStore.getDefaultCalendarView())
         }

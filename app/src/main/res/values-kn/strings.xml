@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">ಸಕ್ರಿಯ ವೀಕ್ಷಣೆ</string>
     <string name="view_agenda">ಕಾರ್ಯಸೂಚಿ</string>
     <string name="view_month_full">ತಿಂಗಳು (ಪೂರ್ಣ)</string>
+    <string name="view_planner">ಪ್ಲಾನರ್</string>
+    <string name="planner_free_day">ಬಿಡುವಿನ ದಿನ</string>
+    <string name="cd_planner_show_day_events">ಈ ದಿನದ ಈವೆಂಟ್‌ಗಳನ್ನು ತೋರಿಸಿ</string>
+    <string name="planner_different_this_week">ಈ ವಾರ ಭಿನ್ನ</string>
+    <string name="planner_usual_week">ಸಾಮಾನ್ಯ ವಾರ.</string>
+    <string name="planner_moved_was">ಹಿಂದೆ %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">ದಿನ</string>
     <string name="view_three_days">3 ದಿನಗಳು</string>
     <string name="view_year">ವರ್ಷ</string>

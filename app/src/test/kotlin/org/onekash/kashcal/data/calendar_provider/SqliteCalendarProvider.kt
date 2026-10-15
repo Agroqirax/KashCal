@@ -1217,7 +1217,7 @@ class SqliteCalendarProvider : ContentProvider() {
             Instances.CALENDAR_DISPLAY_NAME, Events.STATUS, Events.AVAILABILITY, Instances.HAS_ALARM,
             Events.SELF_ATTENDEE_STATUS, Instances.CALENDAR_ACCESS_LEVEL, Events.ORIGINAL_ID,
             Events.ORIGINAL_INSTANCE_TIME, Events.EVENT_TIMEZONE, Instances.CALENDAR_COLOR, Events.EVENT_COLOR,
-            Events.DTSTART, Calendars.VISIBLE,
+            Events.DTSTART, Calendars.VISIBLE, Events.ORIGINAL_ALL_DAY,
         )
 
         private fun instanceColumnDef(col: String) = if (col in TEXT_COLUMNS) "$col TEXT" else "$col INTEGER"

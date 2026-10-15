@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Ukubuka okusebenzayo</string>
     <string name="view_agenda">I-Agenda</string>
     <string name="view_month_full">Inyanga (Ephelele)</string>
+    <string name="view_planner">Umhleli</string>
+    <string name="planner_free_day">Usuku olukhululekile</string>
+    <string name="cd_planner_show_day_events">Bonisa imicimbi yalolu suku</string>
+    <string name="planner_different_this_week">Okuhlukile kuleli sonto</string>
+    <string name="planner_usual_week">Isonto elijwayelekile.</string>
+    <string name="planner_moved_was">ngaphambili %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Usuku</string>
     <string name="view_three_days">Izinsuku Ezi-3</string>
     <string name="view_year">Unyaka</string>

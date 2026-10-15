@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">සක්‍රිය දසුන</string>
     <string name="view_agenda">කාර්ය සටහන</string>
     <string name="view_month_full">මාසය (සම්පූර්ණ)</string>
+    <string name="view_planner">සැලසුම්කරු</string>
+    <string name="planner_free_day">නිදහස් දිනය</string>
+    <string name="cd_planner_show_day_events">මෙම දිනයේ සිදුවීම් පෙන්වන්න</string>
+    <string name="planner_different_this_week">මෙම සතියේ වෙනස්කම්</string>
+    <string name="planner_usual_week">සුපුරුදු සතිය.</string>
+    <string name="planner_moved_was">කලින් %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">දිනය</string>
     <string name="view_three_days">දින 3</string>
     <string name="view_year">වසර</string>

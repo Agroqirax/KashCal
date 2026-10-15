@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktiewe aansig</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Maand (Vol)</string>
+    <string name="view_planner">Beplanner</string>
+    <string name="planner_free_day">Vry dag</string>
+    <string name="cd_planner_show_day_events">Wys hierdie dag se gebeurtenisse</string>
+    <string name="planner_different_this_week">Anders hierdie week</string>
+    <string name="planner_usual_week">Die gewone week.</string>
+    <string name="planner_moved_was">was %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dag</string>
     <string name="view_three_days">3 Dae</string>
     <string name="view_year">Jaar</string>

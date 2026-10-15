@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">செயலில் காட்சி</string>
     <string name="view_agenda">நிகழ்ச்சி நிரல்</string>
     <string name="view_month_full">மாதம் (முழு)</string>
+    <string name="view_planner">பிளானர்</string>
+    <string name="planner_free_day">ஓய்வு நாள்</string>
+    <string name="cd_planner_show_day_events">இந்த நாளின் நிகழ்வுகளைக் காட்டு</string>
+    <string name="planner_different_this_week">இந்த வாரம் வேறுபட்டவை</string>
+    <string name="planner_usual_week">வழக்கமான வாரம்.</string>
+    <string name="planner_moved_was">முன்பு %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">நாள்</string>
     <string name="view_three_days">3 நாட்கள்</string>
     <string name="view_year">ஆண்டு</string>

@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Sealladh gnìomhach</string>
     <string name="view_agenda">Clàr-gnothaich</string>
     <string name="view_month_full">Mìos (Slàn)</string>
+    <string name="view_planner">Planadair</string>
+    <string name="planner_free_day">Latha saor</string>
+    <string name="cd_planner_show_day_events">Seall tachartasan an latha seo</string>
+    <string name="planner_different_this_week">Eadar-dhealaichte an t-seachdain seo</string>
+    <string name="planner_usual_week">An t-seachdain àbhaisteach.</string>
+    <string name="planner_moved_was">bha %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Latha</string>
     <string name="view_three_days">3 Làithean</string>
     <string name="view_year">Bliadhna</string>

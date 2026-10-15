@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">సక్రియ వీక్షణ</string>
     <string name="view_agenda">ఎజెండా</string>
     <string name="view_month_full">నెల (పూర్తి)</string>
+    <string name="view_planner">ప్లానర్</string>
+    <string name="planner_free_day">ఖాళీ రోజు</string>
+    <string name="cd_planner_show_day_events">ఈ రోజు ఈవెంట్‌లను చూపించు</string>
+    <string name="planner_different_this_week">ఈ వారం భిన్నంగా</string>
+    <string name="planner_usual_week">సాధారణ వారం.</string>
+    <string name="planner_moved_was">గతంలో %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">రోజు</string>
     <string name="view_three_days">3 రోజులు</string>
     <string name="view_year">సంవత్సరం</string>

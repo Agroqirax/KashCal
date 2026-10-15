@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktív nézet</string>
     <string name="view_agenda">Napirend</string>
     <string name="view_month_full">Hónap (teljes)</string>
+    <string name="view_planner">Tervező</string>
+    <string name="planner_free_day">Szabad nap</string>
+    <string name="cd_planner_show_day_events">A nap eseményeinek megjelenítése</string>
+    <string name="planner_different_this_week">Ezen a héten más</string>
+    <string name="planner_usual_week">A szokásos hét.</string>
+    <string name="planner_moved_was">korábban %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Nap</string>
     <string name="view_three_days">3 nap</string>
     <string name="view_year">Év</string>

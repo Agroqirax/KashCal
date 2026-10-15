@@ -1,6 +1,7 @@
 package org.onekash.kashcal.domain.reader
 
 import android.provider.CalendarContract.Attendees
+import app.cash.turbine.test
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -45,7 +46,10 @@ class DisplayEventRepositoryDeviceRealProviderTest {
     private val f = DeviceRoundTripFixture()
     private var showDeclined = true
     private var enabledIds = setOf(SYNCED_CAL, LOCAL_CAL)
-    private var hiddenIds = emptySet<Long>()
+    private val hiddenFlow = MutableStateFlow(emptySet<Long>())
+    private var hiddenIds: Set<Long>
+        get() = hiddenFlow.value
+        set(value) { hiddenFlow.value = value }
 
     private lateinit var display: DisplayEventRepository
 
@@ -63,6 +67,7 @@ class DisplayEventRepositoryDeviceRealProviderTest {
             coEvery { getDeviceCalendarsEnabled() } returns true
             coEvery { getEnabledDeviceCalendarIds() } answers { enabledIds }
             coEvery { getHiddenDeviceCalendarIds() } answers { hiddenIds }
+            every { hiddenDeviceCalendarIds } returns hiddenFlow
             every { showDeclinedEvents } answers { MutableStateFlow(showDeclined) }
         }
         // No Room events, so the declined-policy lookups are never reached; the
@@ -112,6 +117,42 @@ class DisplayEventRepositoryDeviceRealProviderTest {
         hiddenIds = emptySet()
         enabledIds = setOf(LOCAL_CAL)
         assertEquals(listOf("Personal"), titlesByDay()[DAY_CODE])
+    }
+
+    @Test
+    fun `hiding a device calendar updates the open views`() = runTest {
+        create("Work", calendarId = SYNCED_CAL)
+        create("Personal", calendarId = LOCAL_CAL)
+        val titles = { events: List<DisplayEvent>? ->
+            events.orEmpty().map { (it as DisplayEvent.Device).instance.title }.sorted()
+        }
+        val start = DAY0
+        val end = DAY0 + DAY - 1
+
+        // The month grid and Planner, the week grid and agenda, and the day pager, as each
+        // view collects them while it shows.
+        display.getDisplayEventsForDateRange(DAY_CODE, DAY_CODE).test {
+            assertEquals(listOf("Personal", "Work"), titles(awaitItem()[DAY_CODE]))
+            hiddenIds = setOf(LOCAL_CAL)
+            assertEquals(listOf("Work"), titles(awaitItem()[DAY_CODE]))
+            // Showing it again brings its events back.
+            hiddenIds = emptySet()
+            assertEquals(listOf("Personal", "Work"), titles(awaitItem()[DAY_CODE]))
+            cancelAndIgnoreRemainingEvents()
+        }
+        display.getDisplayEventsForRange(start, end).test {
+            assertEquals(listOf("Personal", "Work"), titles(awaitItem()))
+            hiddenIds = setOf(SYNCED_CAL)
+            assertEquals(listOf("Personal"), titles(awaitItem()))
+            cancelAndIgnoreRemainingEvents()
+        }
+        hiddenIds = emptySet()
+        display.getDisplayEventsForDayRange(T0).test {
+            assertEquals(listOf("Personal", "Work"), titles(awaitItem()[DAY_CODE]))
+            hiddenIds = setOf(LOCAL_CAL)
+            assertEquals(listOf("Work"), titles(awaitItem()[DAY_CODE]))
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test

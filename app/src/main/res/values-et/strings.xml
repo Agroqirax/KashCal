@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktiivne vaade</string>
     <string name="view_agenda">Päevakord</string>
     <string name="view_month_full">Kuu (täis)</string>
+    <string name="view_planner">Planeerija</string>
+    <string name="planner_free_day">Vaba päev</string>
+    <string name="cd_planner_show_day_events">Kuva selle päeva sündmused</string>
+    <string name="planner_different_this_week">Sel nädalal teisiti</string>
+    <string name="planner_usual_week">Tavaline nädal.</string>
+    <string name="planner_moved_was">varem %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Päev</string>
     <string name="view_three_days">3 päeva</string>
     <string name="view_year">Aasta</string>

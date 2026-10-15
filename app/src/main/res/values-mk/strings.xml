@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Активен преглед</string>
     <string name="view_agenda">Распоред</string>
     <string name="view_month_full">Месец (целосен)</string>
+    <string name="view_planner">Планер</string>
+    <string name="planner_free_day">Слободен ден</string>
+    <string name="cd_planner_show_day_events">Прикажување на настаните за денот</string>
+    <string name="planner_different_this_week">Поинаку оваа недела</string>
+    <string name="planner_usual_week">Вообичаената недела.</string>
+    <string name="planner_moved_was">беше %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Ден</string>
     <string name="view_three_days">3 дена</string>
     <string name="view_year">Година</string>

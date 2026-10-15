@@ -953,6 +953,14 @@
     <string name="cd_active_view">目前檢視</string>
     <string name="view_agenda">行程</string>
     <string name="view_month_full">月（完整）</string>
+    <string name="view_planner">規劃表</string>
+    <string name="planner_free_day">沒有行程</string>
+    <string name="cd_planner_show_day_events">顯示這天的事件</string>
+    <string name="planner_different_this_week">本週異動</string>
+    <string name="planner_usual_week">與平常無異的一週。</string>
+    <string name="planner_moved_was">原本%1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">日</string>
     <string name="view_three_days">3天</string>
     <string name="view_year">年</string>

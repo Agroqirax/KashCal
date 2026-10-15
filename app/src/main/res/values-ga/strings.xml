@@ -1141,6 +1141,14 @@
     <string name="cd_active_view">Amharc gníomhach</string>
     <string name="view_agenda">Clár Oibre</string>
     <string name="view_month_full">Mí (Iomláin)</string>
+    <string name="view_planner">Pleanálaí</string>
+    <string name="planner_free_day">Lá saor</string>
+    <string name="cd_planner_show_day_events">Taispeáin imeachtaí an lae seo</string>
+    <string name="planner_different_this_week">Difriúil an tseachtain seo</string>
+    <string name="planner_usual_week">An ghnáthsheachtain.</string>
+    <string name="planner_moved_was">bhí %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Lá</string>
     <string name="view_three_days">3 Lá</string>
     <string name="view_year">Bliain</string>

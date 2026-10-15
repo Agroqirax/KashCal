@@ -6,10 +6,11 @@ import org.onekash.kashcal.ui.viewmodels.ViewMode
 
 /**
  * Tests [TopBarTitleAction.forViewMode], what tapping the top-bar title does per view: AGENDA
- * and DAY toggle their inline week bar, the other time-grid views (THREE_DAYS, WEEK) open the
- * modal date picker, and MONTH and MONTH_FULL take the month-header action, which toggles the
- * year overlay (YEAR and INSIGHTS take it too, not asserted here). A silent regression would
- * route DAY to the date picker in place of its toggle.
+ * and DAY toggle their inline week bar, the other time-grid views (THREE_DAYS, WEEK) and the
+ * Planner open the modal date picker, and MONTH and MONTH_FULL take the month-header action,
+ * which toggles the year overlay (YEAR and INSIGHTS take it too, not asserted here). A silent
+ * regression would route DAY to the date picker in place of its toggle, or the Planner to the
+ * year overlay.
  */
 class TopBarTitleActionTest {
 
@@ -31,6 +32,13 @@ class TopBarTitleActionTest {
     @Test
     fun `WEEK opens the date picker`() {
         assertEquals(TopBarTitleAction.OPEN_DATE_PICKER, TopBarTitleAction.forViewMode(ViewMode.WEEK))
+    }
+
+    @Test
+    fun `PLANNER opens the date picker`() {
+        // The Planner is not a time grid, so without its own branch it would take the
+        // month-header action.
+        assertEquals(TopBarTitleAction.OPEN_DATE_PICKER, TopBarTitleAction.forViewMode(ViewMode.PLANNER))
     }
 
     @Test

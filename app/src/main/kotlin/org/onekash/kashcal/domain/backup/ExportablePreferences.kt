@@ -137,6 +137,8 @@ object ExportablePreferences {
         PreferencesKeys.WEEK_VIEW_SCROLL_MINUTES.name,
         // The timeline's last pinch-to-zoom hour height: per-device view state, not a setting
         PreferencesKeys.WEEK_VIEW_HOUR_HEIGHT.name,
+        // The Planner's last pinch-to-zoom scale: per-device view state, not a setting
+        PreferencesKeys.PLANNER_ZOOM.name,
         PreferencesKeys.CONTACT_BIRTHDAYS_LAST_SYNC.name,
         PreferencesKeys.CONTACT_ANNIVERSARIES_LAST_SYNC.name,
         PreferencesKeys.NOTIFICATION_PERMISSION_DENIED_COUNT.name,

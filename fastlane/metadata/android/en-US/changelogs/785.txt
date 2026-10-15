@@ -1,0 +1,3 @@
+• Planner: the whole week on one screen, with a "Different this week" box for what breaks the routine
+• The day's events sheet in the full-height month view opens at full height
+• Fixed hiding a device calendar not updating the open view

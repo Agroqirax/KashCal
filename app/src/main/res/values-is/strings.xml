@@ -999,6 +999,14 @@
     <string name="cd_active_view">Virk sýn</string>
     <string name="view_agenda">Dagskrá</string>
     <string name="view_month_full">Mánuður (Heill)</string>
+    <string name="view_planner">Vikuplan</string>
+    <string name="planner_free_day">Frídagur</string>
+    <string name="cd_planner_show_day_events">Sýna viðburði þessa dags</string>
+    <string name="planner_different_this_week">Öðruvísi þessa viku</string>
+    <string name="planner_usual_week">Venjuleg vika.</string>
+    <string name="planner_moved_was">áður %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dagur</string>
     <string name="view_three_days">3 dagar</string>
     <string name="view_year">Ár</string>

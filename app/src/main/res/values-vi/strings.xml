@@ -953,6 +953,14 @@
     <string name="cd_active_view">Chế độ xem đang dùng</string>
     <string name="view_agenda">Lịch trình</string>
     <string name="view_month_full">Tháng (đầy đủ)</string>
+    <string name="view_planner">Kế hoạch</string>
+    <string name="planner_free_day">Ngày trống</string>
+    <string name="cd_planner_show_day_events">Hiện sự kiện của ngày này</string>
+    <string name="planner_different_this_week">Khác biệt tuần này</string>
+    <string name="planner_usual_week">Một tuần như thường lệ.</string>
+    <string name="planner_moved_was">trước đó %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Ngày</string>
     <string name="view_three_days">3 ngày</string>
     <string name="view_year">Năm</string>

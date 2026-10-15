@@ -178,6 +178,7 @@ class MainActivity : FragmentActivity() {
                 val weekEvents by homeViewModel.weekEvents.collectAsStateWithLifecycle()
                 val agendaEvents by homeViewModel.agendaEvents.collectAsStateWithLifecycle()
                 val monthEvents by homeViewModel.monthEvents.collectAsStateWithLifecycle()
+                val plannerState by homeViewModel.plannerState.collectAsStateWithLifecycle()
                 val isOnline by homeViewModel.isOnline.collectAsStateWithLifecycle()
                 val appLockEnabled by appLockViewModel.appLockEnabled.collectAsStateWithLifecycle()
                 val defaultReminderTimed by homeViewModel.defaultReminderTimed.collectAsStateWithLifecycle()
@@ -543,6 +544,7 @@ class MainActivity : FragmentActivity() {
                     weekEvents = weekEvents,
                     agendaEvents = agendaEvents,
                     monthEvents = monthEvents,
+                    plannerState = plannerState,
                     isOnline = isOnline,
                     // Navigation callbacks
                     onDateSelected = { dateMillis -> homeViewModel.selectDate(dateMillis) },
@@ -571,7 +573,7 @@ class MainActivity : FragmentActivity() {
                         if (quickAddEnabled) {
                             showQuickAddDialog = true
                         } else {
-                            val eventTimestamp = if (uiState.viewMode.isTimeGrid) {
+                            val eventTimestamp = if (uiState.viewMode.seedsNewEventsFromToday) {
                                 // Today at the next hour.
                                 homeViewModel.computeTimeGridEventSeedTs()
                             } else {
@@ -670,6 +672,9 @@ class MainActivity : FragmentActivity() {
                         homeViewModel.setAllDayRowsExpanded(!homeViewModel.uiState.value.allDayRowsExpanded)
                     },
                     onClearPendingWeekPagerPosition = { homeViewModel.clearPendingWeekViewPagerPosition() },
+                    onPlannerPageChanged = { page -> homeViewModel.onPlannerPageChanged(page) },
+                    onClearPendingPlannerPagerPosition = { homeViewModel.clearPendingPlannerPagerPosition() },
+                    onPlannerZoomChange = { zoom -> homeViewModel.setPlannerZoom(zoom) },
                     onReschedule = { displayEvent, targetDate, targetStartMinutes ->
                         homeViewModel.rescheduleEvent(displayEvent, targetDate, targetStartMinutes)
                     },
@@ -1360,8 +1365,8 @@ class MainActivity : FragmentActivity() {
                             // Undated input defaults to the day being viewed. The time-grid
                             // views (Day, 3-Day, Week) don't track selectedDate as the grid
                             // pages, and their full-form FAB seeds today, so they use today
-                            // too instead of a stale selectedDate.
-                            val anchorMs = if (uiState.viewMode.isTimeGrid) {
+                            // too instead of a stale selectedDate. So does the Planner.
+                            val anchorMs = if (uiState.viewMode.seedsNewEventsFromToday) {
                                 System.currentTimeMillis()
                             } else {
                                 uiState.selectedDate.takeIf { it != 0L }

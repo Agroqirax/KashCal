@@ -183,6 +183,12 @@ object PreferencesKeys {
      */
     val WEEK_VIEW_HOUR_HEIGHT = floatPreferencesKey("week_view_hour_height")
 
+    /**
+     * Pinch-to-zoom scale of the Planner's box contents, restored on cold launch and clamped by
+     * `clampPlannerZoom` on restore. Absent means no zoom.
+     */
+    val PLANNER_ZOOM = floatPreferencesKey("planner_zoom")
+
     // ========== Migration Flags ==========
 
     /** Data migration from v1 completed. Nothing reads it today. */

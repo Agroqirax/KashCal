@@ -1188,6 +1188,14 @@
     <string name="cd_active_view">Golwg gweithredol</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Mis (Llawn)</string>
+    <string name="view_planner">Cynllunydd</string>
+    <string name="planner_free_day">Diwrnod rhydd</string>
+    <string name="cd_planner_show_day_events">Dangos digwyddiadau\'r diwrnod hwn</string>
+    <string name="planner_different_this_week">Gwahanol yr wythnos hon</string>
+    <string name="planner_usual_week">Yr wythnos arferol.</string>
+    <string name="planner_moved_was">gynt %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dydd</string>
     <string name="view_three_days">3 Diwrnod</string>
     <string name="view_year">Blwyddyn</string>

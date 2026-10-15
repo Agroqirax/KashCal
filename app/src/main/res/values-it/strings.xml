@@ -1030,6 +1030,14 @@
     <string name="cd_active_view">Vista attiva</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Mese (completo)</string>
+    <string name="view_planner">Planner</string>
+    <string name="planner_free_day">Giorno libero</string>
+    <string name="cd_planner_show_day_events">Mostra gli eventi di questo giorno</string>
+    <string name="planner_different_this_week">Diverso questa settimana</string>
+    <string name="planner_usual_week">La solita settimana.</string>
+    <string name="planner_moved_was">prima %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Giorno</string>
     <string name="view_three_days">3 giorni</string>
     <string name="view_year">Anno</string>

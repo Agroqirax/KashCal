@@ -18,6 +18,7 @@ object TopBarTitleFormatter {
         yearLabel: String,
         locale: Locale = Locale.getDefault(),
         today: LocalDate = LocalDate.now(),
+        plannerWeekStart: LocalDate? = null,
     ): String {
         return when (viewMode) {
             ViewMode.MONTH, ViewMode.MONTH_FULL, ViewMode.AGENDA -> {
@@ -32,6 +33,13 @@ object TopBarTitleFormatter {
                     firstDayOfWeek,
                 )
                 WeekViewUtils.formatMonthYear(centerDate)
+            }
+            ViewMode.PLANNER -> {
+                // Labelled by the week's start, as WEEK is; a caller without a Planner week
+                // (tests) passes null and gets this week.
+                WeekViewUtils.formatMonthYear(
+                    plannerWeekStart ?: WeekViewUtils.getWeekStart(today, firstDayOfWeek)
+                )
             }
             ViewMode.THREE_DAYS -> {
                 val centerDate = WeekViewUtils.pageToDate(weekViewPagerPosition + 1)

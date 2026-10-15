@@ -111,13 +111,14 @@ class SqliteCalendarProviderInstancesTest {
         originalSyncId: String? = "series-1",
         status: Int = Events.STATUS_CONFIRMED,
         deleted: Boolean = false,
+        originalAllDay: Int? = null,
     ): Long = provider.insertRow(
         SqliteCalendarProvider.EVENTS,
         Events.CALENDAR_ID to CAL, Events.TITLE to "Standup (moved)", Events.DTSTART to start,
         Events.DTEND to start + HOUR, Events.EVENT_TIMEZONE to "America/New_York",
         Events.ORIGINAL_ID to masterId, Events.ORIGINAL_SYNC_ID to originalSyncId,
         Events.ORIGINAL_INSTANCE_TIME to originalTime, Events.STATUS to status,
-        Events.DELETED to if (deleted) 1 else 0,
+        Events.DELETED to if (deleted) 1 else 0, Events.ORIGINAL_ALL_DAY to originalAllDay,
     )
 
     private fun instancesUri(begin: Long, end: Long): Uri =
@@ -135,6 +136,21 @@ class SqliteCalendarProviderInstancesTest {
 
     private suspend fun dayRange(vararg calendars: Long = longArrayOf(CAL), hideDeclined: Boolean = false) =
         repo.getInstancesForDayRange(DAY_START, DAY_END, calendars.toSet(), hideDeclined)
+
+    // ---- columns ----
+
+    @Test
+    fun `the view serves an exception row's ORIGINAL_ALL_DAY`() {
+        // The platform's Instances projection map is a copy of the Events map, which carries
+        // ORIGINAL_ALL_DAY, so the view returns it for every instance row.
+        val master = series()
+        val ex = exception(master, originalTime = T0 + WEEK, originalAllDay = 0)
+        val values = context.contentResolver.query(
+            instancesUri(T0 + WEEK, T0 + WEEK + 3 * HOUR),
+            arrayOf(Instances.EVENT_ID, Instances.ORIGINAL_ALL_DAY), null, null, null,
+        )!!.use { c -> buildList { while (c.moveToNext()) add(c.getLong(0) to (if (c.isNull(1)) null else c.getInt(1))) } }
+        assertTrue("exception row returned, got $values", values.contains(ex to 0))
+    }
 
     // ---- window ----
 

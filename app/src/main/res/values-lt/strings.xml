@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Aktyvus vaizdas</string>
     <string name="view_agenda">Darbotvarkė</string>
     <string name="view_month_full">Mėnuo (pilnas)</string>
+    <string name="view_planner">Planuoklis</string>
+    <string name="planner_free_day">Laisva diena</string>
+    <string name="cd_planner_show_day_events">Rodyti šios dienos įvykius</string>
+    <string name="planner_different_this_week">Kitaip šią savaitę</string>
+    <string name="planner_usual_week">Įprasta savaitė.</string>
+    <string name="planner_moved_was">anksčiau %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Diena</string>
     <string name="view_three_days">3 dienos</string>
     <string name="view_year">Metai</string>

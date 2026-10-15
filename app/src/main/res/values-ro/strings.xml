@@ -1047,6 +1047,14 @@
     <string name="cd_active_view">Vizualizare activă</string>
     <string name="view_agenda">Agendă</string>
     <string name="view_month_full">Lună (completă)</string>
+    <string name="view_planner">Planificator</string>
+    <string name="planner_free_day">Zi liberă</string>
+    <string name="cd_planner_show_day_events">Arată evenimentele din această zi</string>
+    <string name="planner_different_this_week">Diferit săptămâna aceasta</string>
+    <string name="planner_usual_week">Săptămâna obișnuită.</string>
+    <string name="planner_moved_was">era %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Zi</string>
     <string name="view_three_days">3 zile</string>
     <string name="view_year">An</string>

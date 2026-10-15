@@ -953,6 +953,14 @@
     <string name="cd_active_view">Tampilan aktif</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Bulan (Penuh)</string>
+    <string name="view_planner">Perencana</string>
+    <string name="planner_free_day">Hari bebas</string>
+    <string name="cd_planner_show_day_events">Tampilkan acara hari tersebut</string>
+    <string name="planner_different_this_week">Berbeda minggu ini</string>
+    <string name="planner_usual_week">Minggu seperti biasa.</string>
+    <string name="planner_moved_was">sebelumnya %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Hari</string>
     <string name="view_three_days">3 Hari</string>
     <string name="view_year">Tahun</string>

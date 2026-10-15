@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.onekash.kashcal.ui.components.weekview.WeekViewUtils
 import org.onekash.kashcal.ui.viewmodels.ViewMode
 import org.robolectric.RobolectricTestRunner
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Locale
 
@@ -169,6 +170,40 @@ class TopBarTitleFormatterTest {
             locale = Locale.US,
         )
         assertTrue("Should match 'Mmm yyyy', got: $result", result.matches(Regex("\\w+ \\d{4}")))
+    }
+
+    @Test
+    fun `format PLANNER returns the month and year of the planner week start`() {
+        // A Monday-first week from 28 Sep to 4 Oct is labelled by its start, like WEEK.
+        val result = TopBarTitleFormatter.format(
+            viewMode = ViewMode.PLANNER,
+            viewingYear = 2026,
+            viewingMonth = 9,
+            weekViewPagerPosition = 0,
+            firstDayOfWeek = Calendar.MONDAY,
+            yearLabel = yearLabel,
+            locale = Locale.US,
+            today = LocalDate.of(2026, 10, 15),
+            plannerWeekStart = LocalDate.of(2026, 9, 28),
+        )
+        assertEquals(WeekViewUtils.formatMonthYear(LocalDate.of(2026, 9, 28)), result)
+        assertTrue("Should contain Sep, got: $result", result.contains("Sep"))
+    }
+
+    @Test
+    fun `format PLANNER without a week start uses this week's start`() {
+        // 15 Oct 2026 is a Thursday; the Sunday-first week starts on 11 Oct.
+        val result = TopBarTitleFormatter.format(
+            viewMode = ViewMode.PLANNER,
+            viewingYear = 2026,
+            viewingMonth = 0,
+            weekViewPagerPosition = 0,
+            firstDayOfWeek = Calendar.SUNDAY,
+            yearLabel = yearLabel,
+            locale = Locale.US,
+            today = LocalDate.of(2026, 10, 15),
+        )
+        assertEquals(WeekViewUtils.formatMonthYear(LocalDate.of(2026, 10, 11)), result)
     }
 
     @Test

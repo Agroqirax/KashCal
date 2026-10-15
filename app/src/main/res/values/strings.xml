@@ -1442,6 +1442,16 @@
     <!-- View Picker Labels -->
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Month (Full)</string>
+    <string name="view_planner">Planner</string>
+    <string name="planner_free_day">Free day</string>
+    <!-- Screen-reader action on a Planner event row or the space beside it: opens a sheet listing that day's events. -->
+    <string name="cd_planner_show_day_events">Show this day\'s events</string>
+    <string name="planner_different_this_week">Different this week</string>
+    <string name="planner_usual_week">The usual week.</string>
+    <string name="planner_moved_was">was %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <!-- A Planner row's time range, start and end, e.g. "4:30–6 pm". Use the same joiner as planner_day_range. -->
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Day</string>
     <string name="view_three_days">3 Days</string>
     <string name="view_year">Year</string>

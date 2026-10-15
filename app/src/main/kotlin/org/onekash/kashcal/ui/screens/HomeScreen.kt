@@ -177,7 +177,11 @@ import org.onekash.kashcal.ui.components.weekview.WeekViewUtils
 import org.onekash.kashcal.ui.permission.AppPermissionKind
 import org.onekash.kashcal.ui.permission.AppPermissionsScreen
 import org.onekash.kashcal.ui.model.MonthGrid
+import org.onekash.kashcal.domain.planner.PlannerWeekState
 import org.onekash.kashcal.ui.screens.insights.InsightsScreen
+import org.onekash.kashcal.ui.screens.planner.PlannerView
+import org.onekash.kashcal.ui.screens.planner.dayDetailEvents
+import org.onekash.kashcal.ui.util.plannerShownWeekStart
 import org.onekash.kashcal.ui.screens.insights.InsightsViewModel
 import org.onekash.kashcal.ui.util.DayPagerUtils
 import org.onekash.kashcal.ui.util.MonthPagerUtils
@@ -210,6 +214,7 @@ fun HomeScreen(
     weekEvents: WeekEventsUiState = WeekEventsUiState.EMPTY,
     agendaEvents: AgendaUiState = AgendaUiState.EMPTY,
     monthEvents: ImmutableMap<Int, ImmutableList<DisplayEvent>> = persistentMapOf(),
+    plannerState: PlannerWeekState? = null,
     isOnline: Boolean = true,
     // Navigation callbacks
     onDateSelected: (Long) -> Unit,
@@ -284,6 +289,10 @@ fun HomeScreen(
     // All-day strip collapse/expand toggle for the time-grid views (persisted)
     onAllDayRowsToggle: () -> Unit = {},
     onClearPendingWeekPagerPosition: () -> Unit = {},
+    // Planner callbacks
+    onPlannerPageChanged: (Int) -> Unit = {},
+    onClearPendingPlannerPagerPosition: () -> Unit = {},
+    onPlannerZoomChange: (Float) -> Unit = {},
     onReschedule: (DisplayEvent, LocalDate, Int) -> Unit = { _, _, _ -> },
     onConfirmReschedule: (EditScope) -> Unit = {},
     onCancelPendingReschedule: () -> Unit = {},
@@ -353,6 +362,16 @@ fun HomeScreen(
     val (nowMs, todayDayCode) = remember(refreshKey) {
         val now = System.currentTimeMillis()
         now to DateTimeUtils.eventTsToDayCode(now, isAllDay = false)
+    }
+
+    // The week the Planner shows, as epoch ms, null in other views. The Planner never writes
+    // selectedDate, so its day-header and Jump to date snapshots, and the date picker, use this.
+    val plannerWeekStartMs = if (uiState.viewMode == ViewMode.PLANNER) {
+        WeekViewUtils.dateToEpochMs(
+            plannerShownWeekStart(uiState.plannerAnchorDayCode, uiState.plannerWeekPagerPosition, uiState.firstDayOfWeek)
+        )
+    } else {
+        null
     }
 
     // Agenda list scroll state is hoisted above the top bar so its title can show the month of
@@ -860,9 +879,38 @@ fun HomeScreen(
                                             modifier = Modifier.fillMaxSize()
                                         )
                                     }
-                                    else -> {} // MONTH and MONTH_FULL handled below
+                                    else -> {} // MONTH, MONTH_FULL and PLANNER handled below
                                 }
                             }
+                        }
+                        uiState.viewMode == ViewMode.PLANNER -> {
+                            PlannerView(
+                                plannerState = plannerState,
+                                anchorDayCode = uiState.plannerAnchorDayCode,
+                                pagerPosition = uiState.plannerWeekPagerPosition,
+                                pendingNavigateToPage = uiState.pendingPlannerPagerPosition,
+                                firstDayOfWeek = uiState.firstDayOfWeek,
+                                todayDayCode = todayDayCode,
+                                nowMs = nowMs,
+                                timePattern = timePattern,
+                                showEventEmojis = uiState.showEventEmojis,
+                                zoom = uiState.plannerZoom,
+                                widthDp = configuration.screenWidthDp,
+                                isCompactHeight = isCompactHeight,
+                                onPageChanged = onPlannerPageChanged,
+                                onNavigationConsumed = onClearPendingPlannerPagerPosition,
+                                onEmptyDayTap = onCreateEventWithDateTime,
+                                onDayClick = onShowDayDetail,
+                                onDayHeaderClick = { date ->
+                                    // Back from the Day view returns to the week the Planner
+                                    // showed.
+                                    preJumpViewMode = ViewMode.PLANNER
+                                    preJumpDate = plannerWeekStartMs ?: 0L
+                                    onWeekDayHeaderClick(date)
+                                },
+                                onZoomChange = onPlannerZoomChange,
+                                modifier = Modifier.fillMaxSize(),
+                            )
                         }
                         uiState.viewMode == ViewMode.MONTH_FULL -> {
                             HorizontalPager(
@@ -1107,10 +1155,11 @@ fun HomeScreen(
         )
     }
 
-    // Date picker for the 3-day and week views
+    // Date picker for the 3-day and week views and the Planner, opening on the Planner's week
+    // there and on today in the time grids.
     if (uiState.showWeekViewDatePicker) {
         WeekViewDatePickerSheet(
-            currentWeekStartMs = System.currentTimeMillis(),
+            currentWeekStartMs = plannerWeekStartMs ?: System.currentTimeMillis(),
             onDateSelected = onWeekDateSelected,
             onDismiss = onWeekDatePickerDismiss,
             firstDayOfWeek = uiState.firstDayOfWeek
@@ -1121,10 +1170,11 @@ fun HomeScreen(
     // before navigating so the pager page is computed for day pages, not week pages.
     if (showJumpToDatePicker) {
         WeekViewDatePickerSheet(
-            currentWeekStartMs = uiState.selectedDate.takeIf { it != 0L } ?: System.currentTimeMillis(),
+            currentWeekStartMs = plannerWeekStartMs
+                ?: uiState.selectedDate.takeIf { it != 0L } ?: System.currentTimeMillis(),
             onDateSelected = { dateMs ->
                 preJumpViewMode = uiState.viewMode
-                preJumpDate = uiState.selectedDate
+                preJumpDate = plannerWeekStartMs ?: uiState.selectedDate
                 onViewSelect(ViewMode.DAY)
                 onWeekDateSelected(dateMs)
                 showJumpToDatePicker = false
@@ -1216,10 +1266,10 @@ fun HomeScreen(
         )
     }
 
-    // Day events sheet for the full-height month view
+    // Day events sheet for the full-height month view and the Planner
     if (uiState.showDayDetailSheet) {
         val dayCode = DayPagerUtils.msToDayCode(uiState.dayDetailDate)
-        val dayEvents = monthEvents[dayCode] ?: persistentListOf()
+        val dayEvents = dayDetailEvents(uiState.viewMode, monthEvents, plannerState, dayCode)
         DayEventsSheet(
             dateMs = uiState.dayDetailDate,
             events = dayEvents,
@@ -1436,6 +1486,11 @@ private fun HomeTopAppBar(
                 firstDayOfWeek = uiState.firstDayOfWeek,
                 yearLabel = yearLabel,
                 today = today,
+                plannerWeekStart = if (uiState.viewMode == ViewMode.PLANNER) {
+                    plannerShownWeekStart(uiState.plannerAnchorDayCode, uiState.plannerWeekPagerPosition, uiState.firstDayOfWeek, today)
+                } else {
+                    null
+                },
             )
             // AGENDA and DAY show a collapsible week bar, toggled by the title chevron. The other
             // views use a plain title (see the else branch).
@@ -1482,7 +1537,7 @@ private fun HomeTopAppBar(
                         }
                     } else {
                         // YEAR has no title action; MONTH and MONTH_FULL open the year overlay,
-                        // THREE_DAYS and WEEK the date picker.
+                        // THREE_DAYS, WEEK and PLANNER the date picker.
                         val titleModifier = if (uiState.viewMode != ViewMode.YEAR) {
                             Modifier.clickable(onClick = onTitleClick)
                         } else {

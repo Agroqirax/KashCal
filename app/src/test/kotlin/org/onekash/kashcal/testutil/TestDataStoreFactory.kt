@@ -78,6 +78,9 @@ object TestDataStoreFactory {
         every { accentSeed } returns MutableStateFlow(KashCalDataStore.ACCENT_SEED_DEFAULT)
         coEvery { getWeekViewScrollMinutes() } returns KashCalDataStore.WEEK_VIEW_SCROLL_NOT_SAVED
         coEvery { getWeekViewHourHeight() } returns KashCalDataStore.DEFAULT_HOUR_HEIGHT_DP
+        every { plannerZoom } returns MutableStateFlow(1f)
+        coEvery { getPlannerZoom() } returns 1f
+        coJustRun { setPlannerZoom(any()) }
         coEvery { getTitleSuggestionsEnabled() } returns true
         coEvery { getLastWhatsNewVersionShown() } returns Int.MAX_VALUE
         coEvery { getEnabledDeviceCalendarIds() } returns enabledDeviceCalendarIds

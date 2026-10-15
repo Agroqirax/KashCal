@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">সক্রিয় দৃশ্য</string>
     <string name="view_agenda">কার্যসূচি</string>
     <string name="view_month_full">মাস (সম্পূর্ণ)</string>
+    <string name="view_planner">প্ল্যানার</string>
+    <string name="planner_free_day">ফাঁকা দিন</string>
+    <string name="cd_planner_show_day_events">এই দিনের ইভেন্ট দেখান</string>
+    <string name="planner_different_this_week">এই সপ্তাহে ভিন্ন</string>
+    <string name="planner_usual_week">সাধারণ সপ্তাহ।</string>
+    <string name="planner_moved_was">আগে %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">দিন</string>
     <string name="view_three_days">৩ দিন</string>
     <string name="view_year">বছর</string>

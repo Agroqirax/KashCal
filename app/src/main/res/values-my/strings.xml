@@ -953,6 +953,14 @@
     <string name="cd_active_view">လက်ရှိ အမြင်</string>
     <string name="view_agenda">အစီအစဉ်</string>
     <string name="view_month_full">လ (အပြည့်)</string>
+    <string name="view_planner">အစီအစဉ်</string>
+    <string name="planner_free_day">အားလပ်ရက်</string>
+    <string name="cd_planner_show_day_events">ဤနေ့၏ ပွဲများကို ပြပါ</string>
+    <string name="planner_different_this_week">ဤအပတ် ကွဲပြားချက်များ</string>
+    <string name="planner_usual_week">ပုံမှန်အပတ်ဖြစ်သည်။</string>
+    <string name="planner_moved_was">ယခင် %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">နေ့</string>
     <string name="view_three_days">၃ ရက်</string>
     <string name="view_year">နှစ်</string>

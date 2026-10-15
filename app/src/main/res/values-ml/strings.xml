@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">സജീവ കാഴ്ച</string>
     <string name="view_agenda">അജണ്ട</string>
     <string name="view_month_full">മാസം (പൂർണ്ണം)</string>
+    <string name="view_planner">പ്ലാനർ</string>
+    <string name="planner_free_day">ഒഴിവു ദിവസം</string>
+    <string name="cd_planner_show_day_events">ഈ ദിവസത്തെ ഇവന്റുകൾ കാണിക്കുക</string>
+    <string name="planner_different_this_week">ഈ ആഴ്ച വ്യത്യസ്തം</string>
+    <string name="planner_usual_week">സാധാരണ ആഴ്ച.</string>
+    <string name="planner_moved_was">മുമ്പ് %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">ദിവസം</string>
     <string name="view_three_days">3 ദിവസം</string>
     <string name="view_year">വർഷം</string>

@@ -465,6 +465,19 @@ class KashCalDataStore(
     }
 
     /**
+     * Pinch-to-zoom scale of the Planner's box contents, or 1 when never saved. Not clamped here:
+     * the ViewModel clamps on restore with `clampPlannerZoom`.
+     */
+    val plannerZoom: Flow<Float>
+        get() = getPreference(PreferencesKeys.PLANNER_ZOOM, 1f)
+
+    suspend fun getPlannerZoom(): Float = plannerZoom.first()
+
+    suspend fun setPlannerZoom(zoom: Float) {
+        setPreference(PreferencesKeys.PLANNER_ZOOM, zoom)
+    }
+
+    /**
      * Time format: "system" follows the device's 24-hour setting, "12h" shows 2:30 PM, "24h"
      * shows 14:30. The setter throws on any other value.
      */
@@ -1028,8 +1041,11 @@ class KashCalDataStore(
         const val VIEW_MONTH_FULL = "month_full"
         const val VIEW_WEEK = "week"
         const val VIEW_YEAR = "year"
+        const val VIEW_PLANNER = "planner"
 
-        private val VALID_VIEWS = setOf(VIEW_MONTH, VIEW_AGENDA, VIEW_DAY, VIEW_THREE_DAYS, VIEW_WEEK, VIEW_MONTH_FULL, VIEW_YEAR)
+        private val VALID_VIEWS = setOf(
+            VIEW_MONTH, VIEW_AGENDA, VIEW_DAY, VIEW_THREE_DAYS, VIEW_WEEK, VIEW_PLANNER, VIEW_MONTH_FULL, VIEW_YEAR,
+        )
 
         const val TIME_FORMAT_SYSTEM = "system"
         const val TIME_FORMAT_12H = "12h"

@@ -16,8 +16,9 @@ import org.robolectric.annotation.Config
 
 /**
  * Pins the view picker's entries so an edit to [viewOptions] can't silently scramble what the
- * user sees: Agenda first, then the grid views from shortest span to longest, each selectable
- * view once (not INSIGHTS) with a distinct icon that [iconForMode] finds by mode.
+ * user sees: Agenda first, then the grid views from shortest span to longest (the Planner sits
+ * next to Week, which shows the same week), each selectable view once (not INSIGHTS) with a
+ * distinct icon that [iconForMode] finds by mode.
  *
  * The order is asserted twice on purpose: on the list itself, and on the rendered dropdown by
  * comparing each row's top bound. [viewOptions] also feeds the navigation drawer's view rows,
@@ -36,6 +37,7 @@ class ViewPickerOrderTest {
         ViewMode.DAY,
         ViewMode.THREE_DAYS,
         ViewMode.WEEK,
+        ViewMode.PLANNER,
         ViewMode.MONTH,
         ViewMode.MONTH_FULL,
         ViewMode.YEAR,
@@ -80,7 +82,7 @@ class ViewPickerOrderTest {
 
         composeTestRule.onNodeWithContentDescription("Calendar view").performClick()
 
-        val labels = listOf("Agenda", "Day", "3 Days", "Week", "Month", "Month (Full)", "Year")
+        val labels = listOf("Agenda", "Day", "3 Days", "Week", "Planner", "Month", "Month (Full)", "Year")
         val tops = labels.map { label ->
             composeTestRule.onNodeWithText(label, useUnmergedTree = true)
                 .assertIsDisplayed()

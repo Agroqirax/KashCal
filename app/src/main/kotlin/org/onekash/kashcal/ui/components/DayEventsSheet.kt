@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,8 +40,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 /**
- * Shows a bottom sheet of every event on a day tapped in the full-height month view, which uses
- * it in place of the month view's `DayEventsPager`, with a New event button for that day.
+ * Shows a bottom sheet of every event on a day tapped in the full-height month view (in place
+ * of the month view's `DayEventsPager`) or the Planner, with a New event button for that day.
+ * It always opens at full height, so it doesn't stop half way and doesn't change size when the
+ * day's events arrive after it opened (`DayEventsSheetSizeTest`).
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +58,7 @@ internal fun DayEventsSheet(
     onDismiss: () -> Unit,
     attendeesByEventId: Map<Long, List<org.onekash.kashcal.ui.components.attendees.AttendeeUiModel>> = emptyMap()
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val locale = LocalLocale.current.platformLocale
     val dateLabel = SimpleDateFormat(DateTimeUtils.localizedPattern("yEEEEMMMMd"), locale)
@@ -63,11 +67,11 @@ internal fun DayEventsSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        dragHandle = { Box(Modifier) } // No drag handle; the date header anchors the sheet
+        modifier = Modifier.fillMaxHeight()
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp)
                 // Announce the sheet (by its date) when it opens.
@@ -78,7 +82,7 @@ internal fun DayEventsSheet(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(top = 16.dp, bottom = 12.dp)
+                    .padding(bottom = 12.dp)
                     .semantics { heading() }
             )
 
@@ -96,6 +100,8 @@ internal fun DayEventsSheet(
                     )
                 }
             } else {
+                // Takes only the room its events need, so New event follows the last one; a long
+                // day scrolls here and keeps New event in view.
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.weight(1f, fill = false)

@@ -41,8 +41,20 @@ class ExportablePreferencesTest {
     }
 
     @Test
-    fun `exclude list contains exactly 26 key names`() {
-        assertEquals(26, ExportablePreferences.EXCLUDED_KEY_NAMES.size)
+    fun `exclude list contains exactly 27 key names`() {
+        assertEquals(27, ExportablePreferences.EXCLUDED_KEY_NAMES.size)
+    }
+
+    @Test
+    fun `PLANNER_ZOOM is excluded because it is per-device zoom state`() {
+        assertTrue(
+            "PLANNER_ZOOM must be in EXCLUDED_KEY_NAMES",
+            ExportablePreferences.EXCLUDED_KEY_NAMES.contains(PreferencesKeys.PLANNER_ZOOM.name),
+        )
+        assertFalse(
+            "PLANNER_ZOOM must not be in the allow-list",
+            ExportablePreferences.KEYS.any { it.name == PreferencesKeys.PLANNER_ZOOM.name },
+        )
     }
 
     @Test

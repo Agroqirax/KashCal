@@ -62,8 +62,29 @@ class ViewModeTest {
     }
 
     @Test
-    fun `ViewMode has 8 entries`() {
-        assertEquals(8, ViewMode.entries.size)
+    fun `ViewMode has 9 entries`() {
+        assertEquals(9, ViewMode.entries.size)
+    }
+
+    @Test
+    fun `fromKey planner returns PLANNER`() {
+        assertEquals(ViewMode.PLANNER, ViewMode.fromKey("planner"))
+    }
+
+    @Test
+    fun `PLANNER key is planner`() {
+        assertEquals("planner", ViewMode.PLANNER.key)
+    }
+
+    @Test
+    fun `PLANNER is not a time grid`() {
+        assertEquals(false, ViewMode.PLANNER.isTimeGrid)
+    }
+
+    @Test
+    fun `new events start from today in the time grids and the Planner only`() {
+        val fromToday = ViewMode.entries.filter { it.seedsNewEventsFromToday }.toSet()
+        assertEquals(setOf(ViewMode.DAY, ViewMode.THREE_DAYS, ViewMode.WEEK, ViewMode.PLANNER), fromToday)
     }
 
     @Test
@@ -108,6 +129,7 @@ class ViewModeTest {
         assertEquals(null, ViewMode.MONTH_FULL.visibleDays)
         assertEquals(null, ViewMode.YEAR.visibleDays)
         assertEquals(null, ViewMode.INSIGHTS.visibleDays)
+        assertEquals(null, ViewMode.PLANNER.visibleDays)
     }
 
     @Test
@@ -127,5 +149,6 @@ class ViewModeTest {
         assertEquals(null, ViewMode.MONTH_FULL.pagerNextStep)
         assertEquals(null, ViewMode.YEAR.pagerNextStep)
         assertEquals(null, ViewMode.INSIGHTS.pagerNextStep)
+        assertEquals(null, ViewMode.PLANNER.pagerNextStep)
     }
 }

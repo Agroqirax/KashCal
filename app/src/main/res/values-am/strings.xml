@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">ንቁ እይታ</string>
     <string name="view_agenda">አጀንዳ</string>
     <string name="view_month_full">ወር (ሙሉ)</string>
+    <string name="view_planner">ዕቅድ</string>
+    <string name="planner_free_day">ነፃ ቀን</string>
+    <string name="cd_planner_show_day_events">የዚህን ቀን ክስተቶች አሳይ</string>
+    <string name="planner_different_this_week">በዚህ ሳምንት የተለየ</string>
+    <string name="planner_usual_week">የተለመደ ሳምንት።</string>
+    <string name="planner_moved_was">ቀድሞ %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">ቀን</string>
     <string name="view_three_days">3 ቀናት</string>
     <string name="view_year">ዓመት</string>

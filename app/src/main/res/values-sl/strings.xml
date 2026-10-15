@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Aktivni pogled</string>
     <string name="view_agenda">Urnik</string>
     <string name="view_month_full">Mesec (poln)</string>
+    <string name="view_planner">Načrtovalnik</string>
+    <string name="planner_free_day">Prost dan</string>
+    <string name="cd_planner_show_day_events">Prikaži dogodke tega dne</string>
+    <string name="planner_different_this_week">Ta teden drugače</string>
+    <string name="planner_usual_week">Običajen teden.</string>
+    <string name="planner_moved_was">prej %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dan</string>
     <string name="view_three_days">3 dnevi</string>
     <string name="view_year">Leto</string>

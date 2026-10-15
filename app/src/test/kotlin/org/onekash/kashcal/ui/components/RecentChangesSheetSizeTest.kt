@@ -22,7 +22,6 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeUp
-import androidx.compose.ui.unit.IntSize
 import kotlinx.coroutines.delay
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -105,14 +104,6 @@ class RecentChangesSheetSizeTest {
 
     private fun titleTop(): Float = composeTestRule.topFraction(composeTestRule.onNodeWithText("Recent changes"))
 
-    /**
-     * Returns the measured size of every node with a pane title; Material3 sets one on the sheet.
-     * Sizes, not window bounds: bounds are clipped while the sheet slides up.
-     */
-    private fun sheetSizes(): List<IntSize> =
-        composeTestRule.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsProperties.PaneTitle))
-            .fetchSemanticsNodes().map { it.size }
-
     // ---- full height ----
 
     @Test
@@ -158,14 +149,14 @@ class RecentChangesSheetSizeTest {
         composeTestRule.mainClock.autoAdvance = false
         render(count = 40, lateMs = 100)
         composeTestRule.mainClock.advanceTimeBy(50)
-        val before = sheetSizes()
+        val before = composeTestRule.sheetSizes()
         assertTrue("no sheet found", before.isNotEmpty())
 
         composeTestRule.mainClock.advanceTimeBy(3_000)
         composeTestRule.mainClock.autoAdvance = true
         composeTestRule.waitForIdle()
 
-        assertEquals(before, sheetSizes())
+        assertEquals(before, composeTestRule.sheetSizes())
         assertTrue("title at ${titleTop()}, expected at the top", titleTop() < 0.2f)
     }
 
@@ -174,14 +165,14 @@ class RecentChangesSheetSizeTest {
         composeTestRule.mainClock.autoAdvance = false
         render(count = 40, lateMs = 1_500)
         composeTestRule.mainClock.advanceTimeBy(1_000)
-        val before = sheetSizes()
+        val before = composeTestRule.sheetSizes()
         assertTrue("no sheet found", before.isNotEmpty())
 
         composeTestRule.mainClock.advanceTimeBy(3_000)
         composeTestRule.mainClock.autoAdvance = true
         composeTestRule.waitForIdle()
 
-        assertEquals(before, sheetSizes())
+        assertEquals(before, composeTestRule.sheetSizes())
         assertTrue("title at ${titleTop()}, expected at the top", titleTop() < 0.2f)
     }
 

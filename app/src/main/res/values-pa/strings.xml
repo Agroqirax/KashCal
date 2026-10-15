@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">ਸਰਗਰਮ ਦ੍ਰਿਸ਼</string>
     <string name="view_agenda">ਏਜੰਡਾ</string>
     <string name="view_month_full">ਮਹੀਨਾ (ਪੂਰਾ)</string>
+    <string name="view_planner">ਯੋਜਨਾਕਾਰ</string>
+    <string name="planner_free_day">ਖਾਲੀ ਦਿਨ</string>
+    <string name="cd_planner_show_day_events">ਇਸ ਦਿਨ ਦੀਆਂ ਘਟਨਾਵਾਂ ਦਿਖਾਓ</string>
+    <string name="planner_different_this_week">ਇਸ ਹਫ਼ਤੇ ਵੱਖਰਾ</string>
+    <string name="planner_usual_week">ਆਮ ਵਾਂਗ ਹਫ਼ਤਾ।</string>
+    <string name="planner_moved_was">ਪਹਿਲਾਂ %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">ਦਿਨ</string>
     <string name="view_three_days">3 ਦਿਨ</string>
     <string name="view_year">ਸਾਲ</string>

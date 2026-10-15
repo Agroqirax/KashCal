@@ -999,6 +999,14 @@
     <string name="cd_active_view">Actieve weergave</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Maand (Volledig)</string>
+    <string name="view_planner">Weekplanner</string>
+    <string name="planner_free_day">Vrije dag</string>
+    <string name="cd_planner_show_day_events">Afspraken van deze dag tonen</string>
+    <string name="planner_different_this_week">Anders deze week</string>
+    <string name="planner_usual_week">De gewone week.</string>
+    <string name="planner_moved_was">was %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dag</string>
     <string name="view_three_days">3 dagen</string>
     <string name="view_year">Jaar</string>

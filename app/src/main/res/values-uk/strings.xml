@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Активний вигляд</string>
     <string name="view_agenda">Порядок денний</string>
     <string name="view_month_full">Місяць (повний)</string>
+    <string name="view_planner">Планер</string>
+    <string name="planner_free_day">Вільний день</string>
+    <string name="cd_planner_show_day_events">Показати події цього дня</string>
+    <string name="planner_different_this_week">Відмінності цього тижня</string>
+    <string name="planner_usual_week">Звичайний тиждень.</string>
+    <string name="planner_moved_was">раніше %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">День</string>
     <string name="view_three_days">3 дні</string>
     <string name="view_year">Рік</string>

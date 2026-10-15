@@ -1047,6 +1047,14 @@
     <string name="cd_active_view">Aktīvais skats</string>
     <string name="view_agenda">Dienas kārtība</string>
     <string name="view_month_full">Mēnesis (pilns)</string>
+    <string name="view_planner">Plānotājs</string>
+    <string name="planner_free_day">Brīva diena</string>
+    <string name="cd_planner_show_day_events">Rādīt šīs dienas notikumus</string>
+    <string name="planner_different_this_week">Citādi šonedēļ</string>
+    <string name="planner_usual_week">Parasta nedēļa.</string>
+    <string name="planner_moved_was">agrāk %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Diena</string>
     <string name="view_three_days">3 dienas</string>
     <string name="view_year">Gads</string>

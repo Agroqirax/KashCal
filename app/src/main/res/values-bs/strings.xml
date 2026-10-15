@@ -1047,6 +1047,14 @@
     <string name="cd_active_view">Aktivni prikaz</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Mjesec (pun)</string>
+    <string name="view_planner">Planer</string>
+    <string name="planner_free_day">Slobodan dan</string>
+    <string name="cd_planner_show_day_events">Prikaži događaje ovog dana</string>
+    <string name="planner_different_this_week">Drugačije ove sedmice</string>
+    <string name="planner_usual_week">Uobičajena sedmica.</string>
+    <string name="planner_moved_was">ranije %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dan</string>
     <string name="view_three_days">3 dana</string>
     <string name="view_year">Godina</string>

@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktibong view</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Buwan (Buong)</string>
+    <string name="view_planner">Tagaplano</string>
+    <string name="planner_free_day">Malayang araw</string>
+    <string name="cd_planner_show_day_events">Ipakita ang mga event sa araw na ito</string>
+    <string name="planner_different_this_week">Iba ngayong linggo</string>
+    <string name="planner_usual_week">Karaniwang linggo.</string>
+    <string name="planner_moved_was">dati %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Araw</string>
     <string name="view_three_days">3 Araw</string>
     <string name="view_year">Taon</string>

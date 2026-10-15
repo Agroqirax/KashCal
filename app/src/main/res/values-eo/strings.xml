@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktiva vido</string>
     <string name="view_agenda">Tagordo</string>
     <string name="view_month_full">Monato (plena)</string>
+    <string name="view_planner">Planilo</string>
+    <string name="planner_free_day">Libera tago</string>
+    <string name="cd_planner_show_day_events">Montri la eventojn de ĉi tiu tago</string>
+    <string name="planner_different_this_week">Malsame ĉi-semajne</string>
+    <string name="planner_usual_week">La kutima semajno.</string>
+    <string name="planner_moved_was">antaŭe %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Tago</string>
     <string name="view_three_days">3 tagoj</string>
     <string name="view_year">Jaro</string>

@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktiivinen näkymä</string>
     <string name="view_agenda">Päiväjärjestys</string>
     <string name="view_month_full">Kuukausi (koko)</string>
+    <string name="view_planner">Suunnittelija</string>
+    <string name="planner_free_day">Vapaa päivä</string>
+    <string name="cd_planner_show_day_events">Näytä päivän tapahtumat</string>
+    <string name="planner_different_this_week">Tällä viikolla toisin</string>
+    <string name="planner_usual_week">Tavallinen viikko.</string>
+    <string name="planner_moved_was">aiemmin %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Päivä</string>
     <string name="view_three_days">3 päivää</string>
     <string name="view_year">Vuosi</string>

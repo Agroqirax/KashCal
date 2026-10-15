@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Vista activa</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Mes (complet)</string>
+    <string name="view_planner">Planificador</string>
+    <string name="planner_free_day">Dia lliure</string>
+    <string name="cd_planner_show_day_events">Mostra els esdeveniments d\'aquest dia</string>
+    <string name="planner_different_this_week">Diferent aquesta setmana</string>
+    <string name="planner_usual_week">La setmana habitual.</string>
+    <string name="planner_moved_was">abans %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dia</string>
     <string name="view_three_days">3 dies</string>
     <string name="view_year">Any</string>

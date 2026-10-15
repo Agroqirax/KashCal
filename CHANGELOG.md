@@ -1,3 +1,19 @@
+## [2026.10.15]
+
+If you're the parent who knows when swimming is, that the dentist is on Tuesday, that Friday is a school holiday and that Saturday's birthday party still needs a present, this release is for you. You've been carrying the family's week around in your head. KashCal now has somewhere to put it down.
+
+Open the view menu and pick Planner. The whole week fits on one screen, a box for each day, with every event's time and name. When a day is too full to show everything, the box tells you how many more there are, and a tap lists them all. A day with nothing in it shows a sun and says "Free day". Guard it.
+
+The eighth box is called "Different this week". It lists the trip, the school closure, the swimming lesson that moved to four, the class that was cancelled. The things that happen every week stay out, because you already know about those.
+
+The present is still your job. At least now you'll see Saturday coming.
+
+### Everything in this release
+
+- Added the `Planner` view, after Week in the view menu: the week as seven day boxes plus `Different this week`, which lists one-off all-day events, moved occurrences and cancellations; tap a day to see all its events, pinch to zoom
+- Changed the day's events sheet in the full-height month view to always open at full height with a drag handle, so it no longer stops halfway or grows as the events load
+- Fixed hiding or showing a calendar from another app in the drawer leaving Week, 3-day, Day, Agenda and the full-height month view on the old events until you left the view
+
 ## [2026.10.14]
 
 Every calendar you subscribe to thinks it is the most important one. The team calendar, the school newsletter feed, the shared family calendar where someone sets a reminder for the bins: each one wants to ping you, and each one is sure it has a good reason.

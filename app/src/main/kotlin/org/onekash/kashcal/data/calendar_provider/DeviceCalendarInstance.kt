@@ -60,6 +60,13 @@ data class DeviceCalendarInstance(
      * when it has none or the read failed. Filled after the Instances query, like [reminders].
      */
     val categories: List<String> = emptyList(),
+    /**
+     * `ORIGINAL_ALL_DAY` of an exception: whether the series whose occurrence it replaces is
+     * all-day, which says how to read [originalInstanceTime] (UTC midnight for an all-day series).
+     * Null for an event that isn't an exception, or when the writer left it unset, as some sync
+     * adapters do.
+     */
+    val originalAllDay: Boolean? = null,
 ) {
     /**
      * True for an occurrence of a series or an exception. Checks RRULE (an occurrence),

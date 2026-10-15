@@ -953,6 +953,14 @@
     <string name="cd_active_view">当前视图</string>
     <string name="view_agenda">日程</string>
     <string name="view_month_full">月（完整）</string>
+    <string name="view_planner">计划本</string>
+    <string name="planner_free_day">无安排</string>
+    <string name="cd_planner_show_day_events">查看当天的事件</string>
+    <string name="planner_different_this_week">本周变化</string>
+    <string name="planner_usual_week">和往常一样的一周。</string>
+    <string name="planner_moved_was">原为%1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">日</string>
     <string name="view_three_days">3天</string>
     <string name="view_year">年</string>

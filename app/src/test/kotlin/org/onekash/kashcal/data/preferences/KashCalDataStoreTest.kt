@@ -365,6 +365,29 @@ class KashCalDataStoreTest {
         assertEquals(60f, dataStore.getWeekViewHourHeight())
     }
 
+    // ==================== Planner Zoom Restore Tests ====================
+
+    @Test
+    fun `plannerZoom defaults to 1 when never saved`() = runTest {
+        dataStore.plannerZoom.test {
+            assertEquals(1f, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1f, dataStore.getPlannerZoom())
+    }
+
+    @Test
+    fun `setPlannerZoom round-trips a saved zoom level`() = runTest {
+        dataStore.plannerZoom.test {
+            assertEquals(1f, awaitItem())
+
+            dataStore.setPlannerZoom(1.3f)
+            assertEquals(1.3f, awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
     // ==================== First Day of Week Tests ====================
 
     @Test
@@ -431,6 +454,19 @@ class KashCalDataStoreTest {
 
             dataStore.setDefaultCalendarView(KashCalDataStore.VIEW_WEEK)
             assertEquals(KashCalDataStore.VIEW_WEEK, awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `setDefaultCalendarView VIEW_PLANNER round-trip`() = runTest {
+        dataStore.defaultCalendarView.test {
+            assertEquals(KashCalDataStore.VIEW_MONTH, awaitItem())
+
+            dataStore.setDefaultCalendarView(KashCalDataStore.VIEW_PLANNER)
+            assertEquals(KashCalDataStore.VIEW_PLANNER, awaitItem())
+            assertEquals("planner", KashCalDataStore.VIEW_PLANNER)
 
             cancelAndIgnoreRemainingEvents()
         }

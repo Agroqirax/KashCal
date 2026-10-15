@@ -999,6 +999,14 @@
     <string name="cd_active_view">Aktiv visning</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Måned (Full)</string>
+    <string name="view_planner">Ukeplan</string>
+    <string name="planner_free_day">Fri dag</string>
+    <string name="cd_planner_show_day_events">Vis hendelser for denne dagen</string>
+    <string name="planner_different_this_week">Annerledes denne uken</string>
+    <string name="planner_usual_week">Den vanlige uken.</string>
+    <string name="planner_moved_was">før %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dag</string>
     <string name="view_three_days">3 dager</string>
     <string name="view_year">År</string>

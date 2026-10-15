@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Mtazamo unaotumika</string>
     <string name="view_agenda">Ratiba</string>
     <string name="view_month_full">Mwezi (Kamili)</string>
+    <string name="view_planner">Mpangaji</string>
+    <string name="planner_free_day">Siku huru</string>
+    <string name="cd_planner_show_day_events">Onyesha matukio ya siku hii</string>
+    <string name="planner_different_this_week">Tofauti wiki hii</string>
+    <string name="planner_usual_week">Wiki ya kawaida.</string>
+    <string name="planner_moved_was">awali %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Siku</string>
     <string name="view_three_days">Siku 3</string>
     <string name="view_year">Mwaka</string>

@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Aktif görünüm</string>
     <string name="view_agenda">Gündem</string>
     <string name="view_month_full">Ay (Tam)</string>
+    <string name="view_planner">Planlayıcı</string>
+    <string name="planner_free_day">Boş gün</string>
+    <string name="cd_planner_show_day_events">Bu günün etkinliklerini göster</string>
+    <string name="planner_different_this_week">Bu hafta farklı</string>
+    <string name="planner_usual_week">Her zamanki hafta.</string>
+    <string name="planner_moved_was">önceden %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Gün</string>
     <string name="view_three_days">3 Gün</string>
     <string name="view_year">Yıl</string>

@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Белсенді көрініс</string>
     <string name="view_agenda">Күн тәртібі</string>
     <string name="view_month_full">Ай (толық)</string>
+    <string name="view_planner">Жоспарлағыш</string>
+    <string name="planner_free_day">Бос күн</string>
+    <string name="cd_planner_show_day_events">Осы күннің оқиғаларын көрсету</string>
+    <string name="planner_different_this_week">Осы аптада басқаша</string>
+    <string name="planner_usual_week">Әдеттегі апта.</string>
+    <string name="planner_moved_was">бұрын %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Күн</string>
     <string name="view_three_days">3 күн</string>
     <string name="view_year">Жыл</string>

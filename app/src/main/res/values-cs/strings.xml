@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Aktivní pohled</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Měsíc (celý)</string>
+    <string name="view_planner">Plánovač</string>
+    <string name="planner_free_day">Volný den</string>
+    <string name="cd_planner_show_day_events">Zobrazit události tohoto dne</string>
+    <string name="planner_different_this_week">Tento týden jinak</string>
+    <string name="planner_usual_week">Běžný týden.</string>
+    <string name="planner_moved_was">dříve %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Den</string>
     <string name="view_three_days">3 dny</string>
     <string name="view_year">Rok</string>

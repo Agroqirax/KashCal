@@ -87,7 +87,8 @@ class AndroidCalendarProviderRepository @Inject constructor(
             // The color columns are read by name, so a projection reorder can't shift them.
             Instances.CALENDAR_COLOR,    // 19 - raw calendar color (identity)
             Instances.EVENT_COLOR,       // 20 - raw event override (0 = no override)
-            Instances.DTSTART            // 21 - the event row's DTSTART (first-occurrence anchor)
+            Instances.DTSTART,           // 21 - the event row's DTSTART (first-occurrence anchor)
+            Instances.ORIGINAL_ALL_DAY   // 22 - the series' all-day flag, for exceptions
         )
 
         // Column indices
@@ -111,6 +112,7 @@ class AndroidCalendarProviderRepository @Inject constructor(
         private const val COL_ORIGINAL_INSTANCE_TIME = 17
         private const val COL_EVENT_TIMEZONE = 18
         private const val COL_DTSTART = 21
+        private const val COL_ORIGINAL_ALL_DAY = 22
 
         private const val SELECTION_VISIBLE = "${Calendars.VISIBLE} = 1"
         private const val SELECTION_HIDE_DECLINED = "$SELECTION_VISIBLE AND " +
@@ -270,6 +272,7 @@ class AndroidCalendarProviderRepository @Inject constructor(
                     originalInstanceTime = originalInstanceTime,
                     timezone = cursor.getString(COL_EVENT_TIMEZONE),
                     eventStartTs = cursor.getLong(COL_DTSTART),
+                    originalAllDay = if (cursor.isNull(COL_ORIGINAL_ALL_DAY)) null else cursor.getInt(COL_ORIGINAL_ALL_DAY) == 1,
                 )
             )
         }

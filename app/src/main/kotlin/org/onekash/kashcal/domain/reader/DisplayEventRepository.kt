@@ -61,7 +61,9 @@ class DisplayEventRepository @Inject constructor(
      *
      * Re-emits, re-querying CalendarProvider, when the Room flow
      * ([EventReader.getVisibleOccurrencesWithEventsInRangeFlow]), the device change signal, the
-     * show-declined preference or any attendee row changes.
+     * show-declined preference, any attendee row or the device calendars hidden from the drawer
+     * ([KashCalDataStore.hiddenDeviceCalendarIds]) change. Hiding one bumps no change signal, so
+     * without that last source an open view would keep its events.
      */
     fun getDisplayEventsForDayRange(
         centerDateMs: Long
@@ -75,8 +77,9 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(rangeStart, rangeEnd),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            dataStore.hiddenDeviceCalendarIds
+        ) { roomOccurrences, _, showDeclined, _, _ ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
             val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
             mergeAndGroupByDay(roomEvents, deviceEvents, startDayCode, endDayCode)
@@ -99,8 +102,9 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(startMs, endMs),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            dataStore.hiddenDeviceCalendarIds
+        ) { roomOccurrences, _, showDeclined, _, _ ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
             val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
             (roomEvents + deviceEvents)
@@ -125,8 +129,9 @@ class DisplayEventRepository @Inject constructor(
             eventReader.getVisibleOccurrencesWithEventsInRangeFlow(startMs, endMs),
             calendarProviderManager.changeSignal,
             dataStore.showDeclinedEvents,
-            attendeesDao.attendeesChangeSignal()
-        ) { roomOccurrences, _, showDeclined, _ ->
+            attendeesDao.attendeesChangeSignal(),
+            dataStore.hiddenDeviceCalendarIds
+        ) { roomOccurrences, _, showDeclined, _, _ ->
             val roomEvents = applyDeclinedPolicy(roomOccurrences, showDeclined)
             val deviceEvents = queryDeviceEvents(startDayCode, endDayCode)
             mergeAndGroupByDay(roomEvents, deviceEvents, startDayCode, endDayCode)

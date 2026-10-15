@@ -1000,6 +1000,14 @@
     <string name="cd_active_view">Ενεργή προβολή</string>
     <string name="view_agenda">Ατζέντα</string>
     <string name="view_month_full">Μήνας (Πλήρης)</string>
+    <string name="view_planner">Πλάνο</string>
+    <string name="planner_free_day">Ελεύθερη ημέρα</string>
+    <string name="cd_planner_show_day_events">Εμφάνιση συμβάντων της ημέρας</string>
+    <string name="planner_different_this_week">Διαφορετικά αυτή την εβδομάδα</string>
+    <string name="planner_usual_week">Η συνηθισμένη εβδομάδα.</string>
+    <string name="planner_moved_was">ήταν %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Ημέρα</string>
     <string name="view_three_days">3 Ημέρες</string>
     <string name="view_year">Έτος</string>

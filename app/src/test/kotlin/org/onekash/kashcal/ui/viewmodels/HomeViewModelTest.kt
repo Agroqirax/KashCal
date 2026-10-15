@@ -265,6 +265,7 @@ class HomeViewModelTest {
         // to MIN_HOUR_HEIGHT_DP and shift the seeded default. Mirrors the scroll-minutes stubs.
         every { dataStore.weekViewHourHeight } returns flowOf(60f)
         coEvery { dataStore.getWeekViewHourHeight() } returns 60f
+        coEvery { dataStore.getPlannerZoom() } returns 1f
         coEvery { dataStore.setWeekViewHourHeight(any()) } returns Unit
 
         // Device-calendar prefs: the flows for observeCalendars and the drawer state, the

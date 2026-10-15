@@ -953,6 +953,14 @@
     <string name="cd_active_view">アクティブな表示</string>
     <string name="view_agenda">アジェンダ</string>
     <string name="view_month_full">月（フル）</string>
+    <string name="view_planner">プランナー</string>
+    <string name="planner_free_day">予定なし</string>
+    <string name="cd_planner_show_day_events">この日の予定を表示</string>
+    <string name="planner_different_this_week">今週の変更点</string>
+    <string name="planner_usual_week">いつもどおりの週です。</string>
+    <string name="planner_moved_was">元は%1$s</string>
+    <string name="planner_day_range">%1$s〜%2$s</string>
+    <string name="planner_time_range">%1$s〜%2$s</string>
     <string name="view_day">日</string>
     <string name="view_three_days">3日間</string>
     <string name="view_year">年</string>

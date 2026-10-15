@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Aktywny widok</string>
     <string name="view_agenda">Agenda</string>
     <string name="view_month_full">Miesiąc (pełny)</string>
+    <string name="view_planner">Planer</string>
+    <string name="planner_free_day">Wolny dzień</string>
+    <string name="cd_planner_show_day_events">Pokaż wydarzenia z tego dnia</string>
+    <string name="planner_different_this_week">Inaczej w tym tygodniu</string>
+    <string name="planner_usual_week">Zwykły tydzień.</string>
+    <string name="planner_moved_was">wcześniej %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">Dzień</string>
     <string name="view_three_days">3 dni</string>
     <string name="view_year">Rok</string>

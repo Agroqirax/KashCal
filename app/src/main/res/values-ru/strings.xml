@@ -1094,6 +1094,14 @@
     <string name="cd_active_view">Активный вид</string>
     <string name="view_agenda">Повестка</string>
     <string name="view_month_full">Месяц (полный)</string>
+    <string name="view_planner">Планер</string>
+    <string name="planner_free_day">Свободный день</string>
+    <string name="cd_planner_show_day_events">Показать события этого дня</string>
+    <string name="planner_different_this_week">Отличия этой недели</string>
+    <string name="planner_usual_week">Обычная неделя.</string>
+    <string name="planner_moved_was">ранее %1$s</string>
+    <string name="planner_day_range">%1$s–%2$s</string>
+    <string name="planner_time_range">%1$s–%2$s</string>
     <string name="view_day">День</string>
     <string name="view_three_days">3 дня</string>
     <string name="view_year">Год</string>
