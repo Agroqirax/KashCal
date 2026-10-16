@@ -478,6 +478,19 @@ class KashCalDataStore(
     }
 
     /**
+     * Pinch-to-zoom scale of the full-height month view's day cells, or 1 when never saved. Not
+     * clamped here: the ViewModel clamps on restore with `clampMonthFullZoom`.
+     */
+    val monthFullZoom: Flow<Float>
+        get() = getPreference(PreferencesKeys.MONTH_FULL_ZOOM, 1f)
+
+    suspend fun getMonthFullZoom(): Float = monthFullZoom.first()
+
+    suspend fun setMonthFullZoom(zoom: Float) {
+        setPreference(PreferencesKeys.MONTH_FULL_ZOOM, zoom)
+    }
+
+    /**
      * Time format: "system" follows the device's 24-hour setting, "12h" shows 2:30 PM, "24h"
      * shows 14:30. The setter throws on any other value.
      */

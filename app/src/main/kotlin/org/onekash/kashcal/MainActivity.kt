@@ -663,6 +663,7 @@ class MainActivity : FragmentActivity() {
                     onDayPagerPageChanged = { page -> homeViewModel.onDayPagerPageChanged(page) },
                     onWeekDatePickerRequest = { homeViewModel.showWeekViewDatePicker() },
                     onWeekDayHeaderClick = { date -> homeViewModel.onWeekViewDayHeaderClick(date) },
+                    onWeekPinchViewSwitch = { visibleDays, date -> homeViewModel.onWeekViewPinchSwitch(visibleDays, date) },
                     onWeekDatePickerDismiss = { homeViewModel.hideWeekViewDatePicker() },
                     onWeekDateSelected = { dateMs -> homeViewModel.onWeekViewDateSelected(dateMs) },
                     onWeekScrollPositionChange = { position -> homeViewModel.setWeekViewScrollPosition(position) },
@@ -675,6 +676,7 @@ class MainActivity : FragmentActivity() {
                     onPlannerPageChanged = { page -> homeViewModel.onPlannerPageChanged(page) },
                     onClearPendingPlannerPagerPosition = { homeViewModel.clearPendingPlannerPagerPosition() },
                     onPlannerZoomChange = { zoom -> homeViewModel.setPlannerZoom(zoom) },
+                    onMonthFullZoomChange = { zoom -> homeViewModel.setMonthFullZoom(zoom) },
                     onReschedule = { displayEvent, targetDate, targetStartMinutes ->
                         homeViewModel.rescheduleEvent(displayEvent, targetDate, targetStartMinutes)
                     },

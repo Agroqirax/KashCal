@@ -1,3 +1,33 @@
+## [2026.10.16]
+
+Calendars have a habit of telling you that something called "Quarterly plann…" is happening at some point on Thursday. This release is about reading the whole name.
+
+In Week, 3-day and Day, an event's title now wraps over as many lines as its block has room for, with the place underneath, and nothing ends in three dots. When two events overlap, the later one is drawn on top of the first, a little to the right, so the earlier one keeps its name in view instead of being squeezed into half a column. The full-height month view fits as many rows into each day as the day has room for, and a small count in the corner says how many more there are. Pinch it to zoom.
+
+Moving between those views got easier too. Pinch sideways on the week and it opens three days around your fingers, then the day itself; pinch the other way to step back. Events that have already ended fade as the clock passes them.
+
+Thursday's meeting is still at ten. Now you can read what it's about.
+
+### Everything in this release
+
+- Changed event titles in Week, 3-day and Day to wrap over the lines their block fits, cut at the last line with no ellipsis; the location follows, and the time when it fits on one line, #361
+- Added cascading overlaps in Week, 3-day and Day: a later event is drawn on top of the one it overlaps, indented a quarter of the column, when the earlier one still shows its first line; otherwise they sit side by side as before, #277
+- Changed the 7-day view to a more compact title style, so more of each title fits a narrow column
+- Changed the hour column to the width of its widest label, which gives the days more room
+- Added sideways pinch in Week, 3-day and Day: spread to show fewer days around your fingers, pinch in to show more; the view you land on is the one the app opens in next time
+- Fixed a slow pinch in Week, 3-day and Day not zooming the hours
+- Added fading of past events in Week, 3-day and Day, the minute each one ends, including all-day events and the list behind a `+N` count
+- Added faint dashed half-hour lines in Week, 3-day and Day at the default zoom and closer
+- Changed the Week header, the Day view's week strip and the Agenda's week strip to one date style: a small weekday letter above the number in a round circle that grows with large text; the Day view's dates now sit where the Week view's do
+- Changed the all-day strip to drop its caption and toggle from any blank space, with the chevron centred
+- Fixed dragging an indented or right-hand event sideways changing day a quarter or half a column late
+- Improved screen-reader support in Week, 3-day and Day: each day column reads its date and can create an event there, and each Week header reads its full date
+- Changed the full-height month view to fit as many rows into each day as it has room for, cut titles at the edge with no ellipsis, show a `+N` count in the corner for the rest, and open the day from anywhere in its cell, #361
+- Added pinch zoom to the full-height month view, saved per device
+- Changed the full-height month view to fade past events and past dates, and to read each day as one item to screen readers
+- Fixed the themed (Material You) Today's date icon showing a blank calendar instead of the day's number
+- Fixed a very long event title, such as a pasted note, crashing the Planner, the full-height month view and the all-day strip
+
 ## [2026.10.15]
 
 If you're the parent who knows when swimming is, that the dentist is on Tuesday, that Friday is a school holiday and that Saturday's birthday party still needs a present, this release is for you. You've been carrying the family's week around in your head. KashCal now has somewhere to put it down.

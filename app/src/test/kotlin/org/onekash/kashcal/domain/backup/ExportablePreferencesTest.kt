@@ -41,8 +41,20 @@ class ExportablePreferencesTest {
     }
 
     @Test
-    fun `exclude list contains exactly 27 key names`() {
-        assertEquals(27, ExportablePreferences.EXCLUDED_KEY_NAMES.size)
+    fun `exclude list contains exactly 28 key names`() {
+        assertEquals(28, ExportablePreferences.EXCLUDED_KEY_NAMES.size)
+    }
+
+    @Test
+    fun `MONTH_FULL_ZOOM is excluded because it is per-device zoom state`() {
+        assertTrue(
+            "MONTH_FULL_ZOOM must be in EXCLUDED_KEY_NAMES",
+            ExportablePreferences.EXCLUDED_KEY_NAMES.contains(PreferencesKeys.MONTH_FULL_ZOOM.name),
+        )
+        assertFalse(
+            "MONTH_FULL_ZOOM must not be in the allow-list",
+            ExportablePreferences.KEYS.any { it.name == PreferencesKeys.MONTH_FULL_ZOOM.name },
+        )
     }
 
     @Test

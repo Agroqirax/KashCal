@@ -81,6 +81,9 @@ object TestDataStoreFactory {
         every { plannerZoom } returns MutableStateFlow(1f)
         coEvery { getPlannerZoom() } returns 1f
         coJustRun { setPlannerZoom(any()) }
+        every { monthFullZoom } returns MutableStateFlow(1f)
+        coEvery { getMonthFullZoom() } returns 1f
+        coJustRun { setMonthFullZoom(any()) }
         coEvery { getTitleSuggestionsEnabled() } returns true
         coEvery { getLastWhatsNewVersionShown() } returns Int.MAX_VALUE
         coEvery { getEnabledDeviceCalendarIds() } returns enabledDeviceCalendarIds

@@ -4805,6 +4805,86 @@ class HomeViewModelTest {
     }
 
     @Test
+    fun `a sideways pinch to 3-day saves it as the startup view and opens on the anchor date`() = runTest {
+        every { dataStore.defaultCalendarView } returns flowOf(KashCalDataStore.VIEW_WEEK)
+        coEvery { dataStore.getDefaultCalendarView() } returns KashCalDataStore.VIEW_WEEK
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val anchor = LocalDate.now().plusDays(2)
+
+        viewModel.onWeekViewPinchSwitch(visibleDays = 3, date = anchor)
+        advanceUntilIdle()
+
+        assertEquals(ViewMode.THREE_DAYS, viewModel.uiState.value.viewMode)
+        coVerify(exactly = 1) { dataStore.setDefaultCalendarView("three_days") }
+        assertEquals(WeekViewUtils.dateToPage(anchor), viewModel.uiState.value.pendingWeekViewPagerPosition)
+    }
+
+    @Test
+    fun `a sideways pinch to Day opens the anchor date`() = runTest {
+        every { dataStore.defaultCalendarView } returns flowOf(KashCalDataStore.VIEW_THREE_DAYS)
+        coEvery { dataStore.getDefaultCalendarView() } returns KashCalDataStore.VIEW_THREE_DAYS
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val anchor = LocalDate.now().plusDays(1)
+
+        viewModel.onWeekViewPinchSwitch(visibleDays = 1, date = anchor)
+        advanceUntilIdle()
+
+        assertEquals(ViewMode.DAY, viewModel.uiState.value.viewMode)
+        coVerify(exactly = 1) { dataStore.setDefaultCalendarView("day") }
+        assertEquals(WeekViewUtils.dateToPage(anchor), viewModel.uiState.value.pendingWeekViewPagerPosition)
+    }
+
+    @Test
+    fun `a sideways pinch to Week opens the week holding the anchor date`() = runTest {
+        every { dataStore.defaultCalendarView } returns flowOf(KashCalDataStore.VIEW_THREE_DAYS)
+        coEvery { dataStore.getDefaultCalendarView() } returns KashCalDataStore.VIEW_THREE_DAYS
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val anchor = LocalDate.now().plusDays(9)
+
+        viewModel.onWeekViewPinchSwitch(visibleDays = 7, date = anchor)
+        advanceUntilIdle()
+
+        assertEquals(ViewMode.WEEK, viewModel.uiState.value.viewMode)
+        coVerify(exactly = 1) { dataStore.setDefaultCalendarView("week") }
+        assertEquals(
+            WeekViewUtils.dateToWeekPage(anchor, viewModel.uiState.value.firstDayOfWeek),
+            viewModel.uiState.value.pendingWeekViewPagerPosition,
+        )
+    }
+
+    @Test
+    fun `a pinch to the view already shown does nothing`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.setViewMode(ViewMode.THREE_DAYS)
+        advanceUntilIdle()
+        val pendingBefore = viewModel.uiState.value.pendingWeekViewPagerPosition
+
+        viewModel.onWeekViewPinchSwitch(visibleDays = 3, date = LocalDate.now().plusDays(20))
+        advanceUntilIdle()
+
+        assertEquals(pendingBefore, viewModel.uiState.value.pendingWeekViewPagerPosition)
+    }
+
+    @Test
+    fun `a pinch to a day count with no view does nothing`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val modeBefore = viewModel.uiState.value.viewMode
+        val pendingBefore = viewModel.uiState.value.pendingWeekViewPagerPosition
+
+        viewModel.onWeekViewPinchSwitch(visibleDays = 5, date = LocalDate.now().plusDays(20))
+        advanceUntilIdle()
+
+        assertEquals(modeBefore, viewModel.uiState.value.viewMode)
+        assertEquals(pendingBefore, viewModel.uiState.value.pendingWeekViewPagerPosition)
+        coVerify(exactly = 0) { dataStore.setDefaultCalendarView(any()) }
+    }
+
+    @Test
     fun `init loads default view from DataStore`() = runTest {
         // The default view is AGENDA, stubbed before createViewModel.
         coEvery { dataStore.getDefaultCalendarView() } returns KashCalDataStore.VIEW_AGENDA

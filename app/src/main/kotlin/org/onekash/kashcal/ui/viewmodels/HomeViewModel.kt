@@ -64,6 +64,7 @@ import org.onekash.kashcal.domain.model.DisplayEvent
 import org.onekash.kashcal.domain.model.isStripItem
 import org.onekash.kashcal.domain.planner.PlannerWeekState
 import org.onekash.kashcal.domain.planner.isChangedOccurrence
+import org.onekash.kashcal.domain.monthfull.clampMonthFullZoom
 import org.onekash.kashcal.domain.planner.clampPlannerZoom
 import org.onekash.kashcal.ui.util.plannerPageForDate
 import org.onekash.kashcal.ui.util.plannerWeekStart
@@ -271,6 +272,12 @@ class HomeViewModel(
 
     /** Planner zoom scales awaiting persistence, debounced like [hourHeightToPersist]. */
     private val plannerZoomToPersist = MutableSharedFlow<Float>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
+    /** Month view zoom scales awaiting persistence, debounced like [hourHeightToPersist]. */
+    private val monthFullZoomToPersist = MutableSharedFlow<Float>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
@@ -811,6 +818,7 @@ class HomeViewModel(
         // Persists the settled pinch-zoom level across restarts.
         observeHourHeightPersistence()
         observePlannerZoomPersistence()
+        observeMonthFullZoomPersistence()
     }
 
     /**
@@ -866,7 +874,8 @@ class HomeViewModel(
                     previousNonInsightsMode = defaultView,
                     weekViewSavedScrollMinutes = savedScrollMinutes,
                     weekViewHourHeight = savedHourHeight,
-                    plannerZoom = clampPlannerZoom(dataStore.getPlannerZoom())
+                    plannerZoom = clampPlannerZoom(dataStore.getPlannerZoom()),
+                    monthFullZoom = clampMonthFullZoom(dataStore.getMonthFullZoom())
                 )
             }
 
@@ -2083,6 +2092,25 @@ class HomeViewModel(
         onWeekViewDateSelected(WeekViewUtils.dateToEpochMs(date))
     }
 
+    /**
+     * Switches the time grid to [visibleDays] (1, 3 or 7) after a sideways pinch and opens it on
+     * [date]: that day, a 3-day view starting on it, or the week holding it. Unlike a header
+     * drill-in it is a view choice, saved as the startup view the way the drawer saves one. Any
+     * other count, or the view already shown, does nothing.
+     */
+    fun onWeekViewPinchSwitch(visibleDays: Int, date: LocalDate) {
+        val mode = when (visibleDays) {
+            1 -> ViewMode.DAY
+            3 -> ViewMode.THREE_DAYS
+            7 -> ViewMode.WEEK
+            else -> return
+        }
+        if (_uiState.value.viewMode == mode) return
+        // Mode first, as in onWeekViewDayHeaderClick.
+        setViewMode(mode)
+        onWeekViewDateSelected(WeekViewUtils.dateToEpochMs(date))
+    }
+
     /** Clears the pending pager position once the UI has consumed it. */
     fun clearPendingWeekViewPagerPosition() {
         _uiState.update { it.copy(pendingWeekViewPagerPosition = null) }
@@ -2177,6 +2205,27 @@ class HomeViewModel(
                 .debounce(1000)
                 .distinctUntilChanged()
                 .collect { dataStore.setPlannerZoom(it) }
+        }
+    }
+
+    /**
+     * Sets the full-height month view's pinch zoom at once and queues it for debounced
+     * persistence.
+     */
+    fun setMonthFullZoom(zoom: Float) {
+        val clamped = clampMonthFullZoom(zoom)
+        _uiState.update { it.copy(monthFullZoom = clamped) }
+        monthFullZoomToPersist.tryEmit(clamped)
+    }
+
+    /** Persists the settled month view zoom, debounced so a pinch writes DataStore once. */
+    private fun observeMonthFullZoomPersistence() {
+        viewModelScope.launch {
+            @OptIn(FlowPreview::class)
+            monthFullZoomToPersist
+                .debounce(1000)
+                .distinctUntilChanged()
+                .collect { dataStore.setMonthFullZoom(it) }
         }
     }
 

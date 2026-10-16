@@ -189,6 +189,12 @@ object PreferencesKeys {
      */
     val PLANNER_ZOOM = floatPreferencesKey("planner_zoom")
 
+    /**
+     * Pinch-to-zoom scale of the full-height month view's day cells, restored on cold launch and
+     * clamped by `clampMonthFullZoom` on restore. Absent means no zoom.
+     */
+    val MONTH_FULL_ZOOM = floatPreferencesKey("month_full_zoom")
+
     // ========== Migration Flags ==========
 
     /** Data migration from v1 completed. Nothing reads it today. */

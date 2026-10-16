@@ -388,6 +388,30 @@ class KashCalDataStoreTest {
         }
     }
 
+    // ==================== Month Zoom Restore Tests ====================
+
+    @Test
+    fun `monthFullZoom defaults to 1 when never saved`() = runTest {
+        dataStore.monthFullZoom.test {
+            assertEquals(1f, awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1f, dataStore.getMonthFullZoom())
+    }
+
+    @Test
+    fun `setMonthFullZoom round-trips a saved zoom level and leaves the Planner's alone`() = runTest {
+        dataStore.monthFullZoom.test {
+            assertEquals(1f, awaitItem())
+
+            dataStore.setMonthFullZoom(0.9f)
+            assertEquals(0.9f, awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1f, dataStore.getPlannerZoom())
+    }
+
     // ==================== First Day of Week Tests ====================
 
     @Test

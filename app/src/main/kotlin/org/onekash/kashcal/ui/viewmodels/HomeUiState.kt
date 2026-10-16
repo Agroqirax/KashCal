@@ -164,6 +164,11 @@ data class HomeUiState(
     val pendingPlannerPagerPosition: Int? = null,
     /** Pinch-to-zoom scale of the Planner's box contents, clamped by `clampPlannerZoom`. */
     val plannerZoom: Float = 1f,
+    /**
+     * Pinch-to-zoom scale of the full-height month view's day cells, clamped by
+     * `clampMonthFullZoom`.
+     */
+    val monthFullZoom: Float = 1f,
 
     // === DAY DETAIL SHEET (full-height month view) ===
     /** Whether the day events sheet shows. */
