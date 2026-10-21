@@ -35,7 +35,9 @@ sealed class ICloudConnectionState {
         val appleId: String,
         val lastSyncTime: Long? = null,
         val calendarCount: Int = 0,
-        val consecutiveSyncFailures: Int = 0
+        val consecutiveSyncFailures: Int = 0,
+        /** Mirrors [org.onekash.kashcal.data.db.entity.Account.isEnabled]. */
+        val isEnabled: Boolean = true
     ) : ICloudConnectionState()
 }
 
@@ -52,7 +54,22 @@ data class ICloudAccountUiModel(
     /** 0 when healthy. */
     val consecutiveSyncFailures: Int = 0,
     /** Null when the account never synced. */
-    val lastSuccessfulSyncAt: Long? = null
+    val lastSuccessfulSyncAt: Long? = null,
+    /**
+     * Mirrors [org.onekash.kashcal.data.db.entity.Account.isEnabled]; false shows a
+     * [SyncOffBadge].
+     */
+    val isEnabled: Boolean = true
+)
+
+/** Maps the Connected iCloud state to its row in the accounts list. */
+fun ICloudConnectionState.Connected.toAccountUiModel() = ICloudAccountUiModel(
+    accountId = accountId,
+    email = appleId,
+    calendarCount = calendarCount,
+    consecutiveSyncFailures = consecutiveSyncFailures,
+    lastSuccessfulSyncAt = lastSyncTime,
+    isEnabled = isEnabled
 )
 
 /**

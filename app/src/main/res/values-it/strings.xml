@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Connetti iCloud</string>
     <string name="signin_caldav_title">Aggiungi account CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Accedi di nuovo</string>
     <string name="signin_connected_to">Connesso a %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Errore imprevisto. Riprova.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nSe si tratta di un server sulla tua rete locale, consenti l\'accesso alla rete locale per poterti connettere.</string>
     <string name="caldav_error_connection_refused_insecure">Il server ha reindirizzato la connessione verso una destinazione che KashCal non segue (un indirizzo non cifrato o un ciclo di reindirizzamenti), quindi KashCal si è fermato prima di inviare la tua password. Controlla l\'indirizzo del server.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Questo è un account diverso. Accedi con il nome utente e il server usati da questo account.</string>
     <string name="local_network_banner_title">Accesso alla rete locale necessario</string>
     <string name="local_network_banner_body">Questo server sembra trovarsi sulla tua rete locale. Consenti l\'accesso alla rete locale in modo che KashCal possa connettersi.</string>
     <string name="local_network_banner_allow">Consenti accesso</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Torna indietro</string>
     <string name="accounts_sync_issue">Problema di sincronizzazione</string>
     <string name="accounts_cd_sync_warning">Avviso di sincronizzazione</string>
+    <string name="accounts_cd_sync_off">sincronizzazione disattivata</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Feed calendario</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Ricerca…</string>
     <string name="account_detail_discover_calendars">Scopri nuovi calendari</string>
     <string name="account_detail_change_password">Cambia password</string>
+    <string name="account_detail_sign_in_again">Accedi di nuovo</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal non ha più la password di questo account. Accedi per sincronizzare di nuovo. I tuoi calendari ed eventi restano al loro posto.</string>
     <string name="account_detail_sign_out">Esci</string>
     <string name="account_detail_never_synced">Mai sincronizzato</string>
     <string name="account_detail_last_success">Ultimo successo: %1$s</string>
@@ -944,6 +949,9 @@
     <string name="dialog_move_recurring_title">Sposta</string>
     <string name="snackbar_event_rescheduled">Evento spostato</string>
     <string name="snackbar_reschedule_failed">Impossibile spostare l\'evento</string>
+    <string name="snackbar_move_failed">Impossibile spostare \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" è stato modificato altrove, quindi non è stato spostato</string>
+    <string name="event_untitled">Evento senza titolo</string>
     <string name="recurring_this_event">Questo evento</string>
     <string name="recurring_all_events">Tutti gli eventi</string>
 
@@ -1244,6 +1252,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Salva evento</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sinc. disattivata</string>
     <string name="badge_new">Nuovo</string>
     <string name="color_red">Rosso</string>
     <string name="color_orange">Arancione</string>

@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ceangail iCloud</string>
     <string name="signin_caldav_title">Cuir Cunntas CalDAV Ris</string>
+    <string name="signin_caldav_sign_in_again_title">Clàraich a-steach a-rithist</string>
     <string name="signin_connected_to">Ceangailte ri %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Mearachd ris nach robh dùil. Feuch ris a-rithist.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nMas e frithealaiche air an lìonra ionadail agad a tha seo, ceadaich inntrigeadh don lìonra ionadail gus ceangal.</string>
     <string name="caldav_error_connection_refused_insecure">Dh\'ath-stiùir am frithealaiche an ceangal gu àite nach lean KashCal (seòladh gun chrioptachadh no lùb ath-stiùiridh), mar sin stad KashCal mus deach am facal-faire agad a chur. Thoir sùil air seòladh an fhrithealaiche.</string>
+    <string name="caldav_error_sign_in_again_mismatch">\'S e cunntas eile a tha seo. Clàraich a-steach leis an ainm-cleachdaiche agus leis an fhrithealaiche a bhios an cunntas seo a\' cleachdadh.</string>
     <string name="local_network_banner_title">Tha feum air inntrigeadh don lìonra ionadail</string>
     <string name="local_network_banner_body">Tha coltas gu bheil am frithealaiche seo air an lìonra ionadail agad. Ceadaich inntrigeadh don lìonra ionadail gus an urrainn do KashCal ceangal ris.</string>
     <string name="local_network_banner_allow">Ceadaich inntrigeadh</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Stiùir air ais</string>
     <string name="accounts_sync_issue">Duilgheadas sioncronachaidh</string>
     <string name="accounts_cd_sync_warning">Rabhadh sioncronachaidh</string>
+    <string name="accounts_cd_sync_off">sioncronachadh dheth</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Inbhirean Mìosachain</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">A\' lorg…</string>
     <string name="account_detail_discover_calendars">Lorg Mìosachain Ùra</string>
     <string name="account_detail_change_password">Atharraich Facal-faire</string>
+    <string name="account_detail_sign_in_again">Clàraich a-steach a-rithist</string>
+    <string name="account_detail_sign_in_again_subtitle">Chan eil facal-faire a\' chunntais seo aig KashCal tuilleadh. Clàraich a-steach gus sioncronachadh a-rithist. Fanaidh na mìosachain is na tachartasan agad.</string>
     <string name="account_detail_sign_out">Clàraich a-mach</string>
     <string name="account_detail_never_synced">Nach deach a shioncronachadh riamh</string>
     <string name="account_detail_last_success">Soirbheachadh mu dheireadh: %1$s</string>
@@ -996,6 +1001,9 @@
     <string name="dialog_move_recurring_title">Gluais</string>
     <string name="snackbar_event_rescheduled">Chaidh an tachartas a ghluasad</string>
     <string name="snackbar_reschedule_failed">Cha b\'urrainnear an tachartas a ghluasad</string>
+    <string name="snackbar_move_failed">Cha b\'urrainnear \"%1$s\" a ghluasad</string>
+    <string name="snackbar_move_changed_elsewhere">Chaidh \"%1$s\" atharrachadh ann an àite eile, mar sin cha deach a ghluasad</string>
+    <string name="event_untitled">Tachartas gun tiotal</string>
     <string name="recurring_this_event">An tachartas seo</string>
     <string name="recurring_all_events">Gach tachartas</string>
 
@@ -1320,6 +1328,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Sàbhail tachartas</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sionc. dheth</string>
     <string name="badge_new">Ùr</string>
     <string name="color_red">Dearg</string>
     <string name="color_orange">Orains</string>

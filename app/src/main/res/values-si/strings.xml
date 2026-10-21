@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud සම්බන්ධ කරන්න</string>
     <string name="signin_caldav_title">CalDAV ගිණුමක් එකතු කරන්න</string>
+    <string name="signin_caldav_sign_in_again_title">නැවත පිවිසෙන්න</string>
     <string name="signin_connected_to">%1$s වෙත සම්බන්ධයි</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">බලාපොරොත්තු නොවූ දෝෂයක්. නැවත උත්සාහ කරන්න.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nමෙය ඔබේ ස්ථානීය ජාලයේ සේවාදායකයක් නම්, සම්බන්ධ වීමට ස්ථානීය ජාල ප්‍රවේශයට ඉඩ දෙන්න.</string>
     <string name="caldav_error_connection_refused_insecure">KashCal නොයන තැනකට (සංකේතනය නොකළ ලිපිනයකට, හෝ නැවත යොමු කිරීමේ ලූපයකට) සේවාදායකය සම්බන්ධතාවය හරවා යැවූ නිසා, ඔබේ මුරපදය යැවීමට පෙර KashCal නැවතුණි. සේවාදායක ලිපිනය පරීක්ෂා කරන්න.</string>
+    <string name="caldav_error_sign_in_again_mismatch">මෙය වෙනත් ගිණුමකි. මෙම ගිණුම භාවිත කරන පරිශීලක නාමය සහ සේවාදායකය සමඟ පිවිසෙන්න.</string>
     <string name="local_network_banner_title">ස්ථානීය ජාල ප්‍රවේශය අවශ්‍යයි</string>
     <string name="local_network_banner_body">මෙම සේවාදායකය ඔබේ ස්ථානීය ජාලයේ ඇති බව පෙනේ. KashCal හට එයට සම්බන්ධ විය හැකි වන පරිදි ස්ථානීය ජාල ප්‍රවේශයට ඉඩ දෙන්න.</string>
     <string name="local_network_banner_allow">ප්‍රවේශයට ඉඩ දෙන්න</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">ආපසු යන්න</string>
     <string name="accounts_sync_issue">සමමුහුර්ත ගැටලුව</string>
     <string name="accounts_cd_sync_warning">සමමුහුර්ත අනතුරු ඇඟවීම</string>
+    <string name="accounts_cd_sync_off">සමමුහුර්ත අක්‍රියයි</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">දින දර්ශන පෝෂණ</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">සොයා ගනිමින්…</string>
     <string name="account_detail_discover_calendars">නව දින දර්ශන සොයන්න</string>
     <string name="account_detail_change_password">මුරපදය වෙනස් කරන්න</string>
+    <string name="account_detail_sign_in_again">නැවත පිවිසෙන්න</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal සතුව තවදුරටත් මෙම ගිණුමේ මුරපදය නැත. නැවත සමමුහුර්ත කිරීමට පිවිසෙන්න. ඔබේ දින දර්ශන සහ සිදුවීම් එලෙසම පවතී.</string>
     <string name="account_detail_sign_out">පිටවන්න</string>
     <string name="account_detail_never_synced">කිසිවිටක සමමුහුර්ත කර නැත</string>
     <string name="account_detail_last_success">අවසන් සාර්ථකත්වය: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">ගෙනයන්න</string>
     <string name="snackbar_event_rescheduled">සිදුවීම නැවත කාලසටහන් කරන ලදී</string>
     <string name="snackbar_reschedule_failed">සිදුවීම නැවත කාලසටහන් කළ නොහැකි විය</string>
+    <string name="snackbar_move_failed">\"%1$s\" ගෙන යා නොහැකි විය</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" වෙනත් තැනක වෙනස් කර ඇති නිසා එය ගෙන නොයන ලදී</string>
+    <string name="event_untitled">මාතෘකාවක් නැති සිදුවීම</string>
     <string name="recurring_this_event">මෙම සිදුවීම</string>
     <string name="recurring_all_events">සියලු සිදුවීම්</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">සිදුවීම සුරකින්න</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">සමමුහුර්ත අක්‍රියයි</string>
     <string name="badge_new">නව</string>
     <string name="color_red">රතු</string>
     <string name="color_orange">තැඹිලි</string>

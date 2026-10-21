@@ -108,7 +108,8 @@ class HomeViewModelSaveAttendeeRemindersTest {
         attendeeBackfill = mockk(relaxed = true),
         contactEmailReader = mockk(relaxed = true),
         context = mockk(relaxed = true),
-        ioDispatcher = testDispatcher
+        ioDispatcher = testDispatcher,
+        applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher)
     )
 
     @Test

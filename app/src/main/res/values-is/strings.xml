@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Tengja iCloud</string>
     <string name="signin_caldav_title">Bæta við CalDAV-reikningi</string>
+    <string name="signin_caldav_sign_in_again_title">Skrá inn aftur</string>
     <string name="signin_connected_to">Tengt við %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Óvænt villa. Reyndu aftur.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nEf þetta er þjónn á staðarnetinu þínu skaltu leyfa aðgang að staðarneti til að tengjast.</string>
     <string name="caldav_error_connection_refused_insecure">Þjónninn vísaði tengingunni eitthvert sem KashCal fylgir ekki (á ódulkóðað vistfang eða í endurvísunarlykkju), svo KashCal hætti áður en lykilorðið þitt var sent. Athugaðu vistfang þjónsins.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Þetta er annar reikningur. Skráðu þig inn með notandanafninu og þjóninum sem þessi reikningur notar.</string>
     <string name="local_network_banner_title">Aðgangur að staðarneti nauðsynlegur</string>
     <string name="local_network_banner_body">Þessi þjónn virðist vera á staðarnetinu þínu. Leyfðu aðgang að staðarneti svo KashCal geti tengst honum.</string>
     <string name="local_network_banner_allow">Leyfa aðgang</string>
@@ -503,6 +505,7 @@
     <string name="accounts_cd_back">Til baka</string>
     <string name="accounts_sync_issue">Samstillingarvandamál</string>
     <string name="accounts_cd_sync_warning">Samstillingarviðvörun</string>
+    <string name="accounts_cd_sync_off">samstilling af</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Dagatalsstraumar</string>
@@ -563,6 +566,8 @@
     <string name="account_detail_discovering">Uppgötva…</string>
     <string name="account_detail_discover_calendars">Uppgötva ný dagatöl</string>
     <string name="account_detail_change_password">Breyta lykilorði</string>
+    <string name="account_detail_sign_in_again">Skrá inn aftur</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal er ekki lengur með lykilorð þessa reiknings. Skráðu þig inn til að samstilla aftur. Dagatölin þín og viðburðir haldast óbreytt.</string>
     <string name="account_detail_sign_out">Skrá út</string>
     <string name="account_detail_never_synced">Aldrei samstillt</string>
     <string name="account_detail_last_success">Síðast heppnaðist: %1$s</string>
@@ -913,6 +918,9 @@
     <string name="dialog_move_recurring_title">Flytja</string>
     <string name="snackbar_event_rescheduled">Viðburður færður</string>
     <string name="snackbar_reschedule_failed">Ekki tókst að færa viðburð</string>
+    <string name="snackbar_move_failed">Ekki tókst að færa \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" var breytt annars staðar, svo ekki tókst að færa viðburðinn</string>
+    <string name="event_untitled">Viðburður án titils</string>
     <string name="recurring_this_event">Þennan viðburð</string>
     <string name="recurring_all_events">Alla viðburði</string>
 
@@ -1203,6 +1211,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Vista viðburð</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Samstilling af</string>
     <string name="badge_new">Nýtt</string>
     <string name="color_red">Rauður</string>
     <string name="color_orange">Appelsínugulur</string>

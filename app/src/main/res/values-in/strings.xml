@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Hubungkan iCloud</string>
     <string name="signin_caldav_title">Tambah Akun CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Masuk Lagi</string>
     <string name="signin_connected_to">Terhubung ke %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Kesalahan tak terduga. Silakan coba lagi.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nKalau ini server di jaringan lokalmu, izinkan akses jaringan lokal untuk terhubung.</string>
     <string name="caldav_error_connection_refused_insecure">Server mengalihkan koneksi ke tempat yang tidak diikuti KashCal (alamat tanpa enkripsi, atau pengalihan berulang), jadi KashCal berhenti sebelum mengirim kata sandi Anda. Periksa alamat server.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ini akun yang berbeda. Masuk dengan nama pengguna dan server yang digunakan akun ini.</string>
     <string name="local_network_banner_title">Perlu akses jaringan lokal</string>
     <string name="local_network_banner_body">Server ini sepertinya ada di jaringan lokalmu. Izinkan akses jaringan lokal agar KashCal bisa terhubung ke server ini.</string>
     <string name="local_network_banner_allow">Izinkan akses</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Kembali</string>
     <string name="accounts_sync_issue">Masalah sinkronisasi</string>
     <string name="accounts_cd_sync_warning">Peringatan sinkronisasi</string>
+    <string name="accounts_cd_sync_off">sinkronisasi nonaktif</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Umpan Kalender</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Menemukan…</string>
     <string name="account_detail_discover_calendars">Temukan Kalender Baru</string>
     <string name="account_detail_change_password">Ubah Kata Sandi</string>
+    <string name="account_detail_sign_in_again">Masuk Lagi</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal tidak lagi menyimpan kata sandi akun ini. Masuk untuk menyinkronkan lagi. Kalender dan acara Anda tetap tersimpan.</string>
     <string name="account_detail_sign_out">Keluar</string>
     <string name="account_detail_never_synced">Belum pernah disinkronkan</string>
     <string name="account_detail_last_success">Sukses terakhir: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">Pindahkan</string>
     <string name="snackbar_event_rescheduled">Acara dijadwalkan ulang</string>
     <string name="snackbar_reschedule_failed">Tidak dapat menjadwalkan ulang acara</string>
+    <string name="snackbar_move_failed">Tidak dapat memindahkan \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" diubah di tempat lain, jadi tidak dipindahkan</string>
+    <string name="event_untitled">Acara tanpa judul</string>
     <string name="recurring_this_event">Acara ini</string>
     <string name="recurring_all_events">Semua acara</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Simpan Acara</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sinkron nonaktif</string>
     <string name="badge_new">Baru</string>
     <string name="color_red">Merah</string>
     <string name="color_orange">Oranye</string>

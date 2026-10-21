@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">連接 iCloud</string>
     <string name="signin_caldav_title">新增 CalDAV 帳號</string>
+    <string name="signin_caldav_sign_in_again_title">重新登入</string>
     <string name="signin_connected_to">已連接到 %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">意外錯誤。請重試。</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\n如果這是本機網路上的伺服器，請允許存取本機網路以進行連線。</string>
     <string name="caldav_error_connection_refused_insecure">伺服器將連線重新導向到開序曆不會跟隨的位置（未加密的位址或重新導向迴圈），因此開序曆在傳送你的密碼前就已停止。請檢查伺服器位址。</string>
+    <string name="caldav_error_sign_in_again_mismatch">這是另一個帳號。請使用此帳號所用的使用者名稱與伺服器登入。</string>
     <string name="local_network_banner_title">需要存取本機網路</string>
     <string name="local_network_banner_body">此伺服器似乎位於您的本機網路中。請允許存取本機網路，讓開序曆可以連線至它。</string>
     <string name="local_network_banner_allow">允許存取</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">返回</string>
     <string name="accounts_sync_issue">同步問題</string>
     <string name="accounts_cd_sync_warning">同步警告</string>
+    <string name="accounts_cd_sync_off">同步已停用</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">行事曆訂閱源</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">探索中…</string>
     <string name="account_detail_discover_calendars">探索新行事曆</string>
     <string name="account_detail_change_password">變更密碼</string>
+    <string name="account_detail_sign_in_again">重新登入</string>
+    <string name="account_detail_sign_in_again_subtitle">開序曆已不再保有此帳號的密碼。登入即可繼續同步，您的行事曆與事件都會保留。</string>
     <string name="account_detail_sign_out">登出</string>
     <string name="account_detail_never_synced">從未同步</string>
     <string name="account_detail_last_success">上次成功：%1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">移動</string>
     <string name="snackbar_event_rescheduled">已重新排定事件</string>
     <string name="snackbar_reschedule_failed">無法重新排定事件</string>
+    <string name="snackbar_move_failed">無法移動「%1$s」</string>
+    <string name="snackbar_move_changed_elsewhere">「%1$s」已在別處變更，所以沒有移動</string>
+    <string name="event_untitled">無標題事件</string>
     <string name="recurring_this_event">僅此事件</string>
     <string name="recurring_all_events">所有事件</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">儲存事件</string>
     <string name="badge_beta">測試版</string>
+    <string name="badge_sync_off">同步已停用</string>
     <string name="badge_new">新</string>
     <string name="color_red">紅色</string>
     <string name="color_orange">橙色</string>

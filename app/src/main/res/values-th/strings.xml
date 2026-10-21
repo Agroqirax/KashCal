@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">เชื่อมต่อ iCloud</string>
     <string name="signin_caldav_title">เพิ่มบัญชี CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">ลงชื่อเข้าใช้อีกครั้ง</string>
     <string name="signin_connected_to">เชื่อมต่อกับ %1$s แล้ว</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">เกิดข้อผิดพลาดที่ไม่คาดคิด โปรดลองอีกครั้ง</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nหากนี่คือเซิร์ฟเวอร์บนเครือข่ายภายในของคุณ ให้อนุญาตการเข้าถึงเครือข่ายภายในเพื่อเชื่อมต่อ</string>
     <string name="caldav_error_connection_refused_insecure">เซิร์ฟเวอร์เปลี่ยนเส้นทางการเชื่อมต่อไปยังที่ที่ KashCal ไม่ตามไป (ที่อยู่ที่ไม่เข้ารหัส หรือการเปลี่ยนเส้นทางวนซ้ำ) KashCal จึงหยุดก่อนส่งรหัสผ่านของคุณ โปรดตรวจสอบที่อยู่เซิร์ฟเวอร์</string>
+    <string name="caldav_error_sign_in_again_mismatch">นี่เป็นบัญชีอื่น ลงชื่อเข้าใช้ด้วยชื่อผู้ใช้และเซิร์ฟเวอร์ที่บัญชีนี้ใช้</string>
     <string name="local_network_banner_title">ต้องอนุญาตการเข้าถึงเครือข่ายภายใน</string>
     <string name="local_network_banner_body">เซิร์ฟเวอร์นี้ดูเหมือนจะอยู่บนเครือข่ายภายในของคุณ อนุญาตการเข้าถึงเครือข่ายภายในเพื่อให้ KashCal เชื่อมต่อได้</string>
     <string name="local_network_banner_allow">อนุญาตการเข้าถึง</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">ย้อนกลับ</string>
     <string name="accounts_sync_issue">ปัญหาการซิงค์</string>
     <string name="accounts_cd_sync_warning">คำเตือนการซิงค์</string>
+    <string name="accounts_cd_sync_off">ปิดซิงค์</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">ฟีดปฏิทิน</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">กำลังค้นหา…</string>
     <string name="account_detail_discover_calendars">ค้นหาปฏิทินใหม่</string>
     <string name="account_detail_change_password">เปลี่ยนรหัสผ่าน</string>
+    <string name="account_detail_sign_in_again">ลงชื่อเข้าใช้อีกครั้ง</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal ไม่มีรหัสผ่านของบัญชีนี้แล้ว ลงชื่อเข้าใช้เพื่อซิงค์อีกครั้ง ปฏิทินและกิจกรรมของคุณยังอยู่ครบ</string>
     <string name="account_detail_sign_out">ลงชื่อออก</string>
     <string name="account_detail_never_synced">ยังไม่เคยซิงค์</string>
     <string name="account_detail_last_success">สำเร็จล่าสุด: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">ย้าย</string>
     <string name="snackbar_event_rescheduled">เลื่อนกิจกรรมแล้ว</string>
     <string name="snackbar_reschedule_failed">เลื่อนกิจกรรมไม่สำเร็จ</string>
+    <string name="snackbar_move_failed">ย้าย \"%1$s\" ไม่สำเร็จ</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" ถูกเปลี่ยนแปลงจากที่อื่น จึงไม่ได้ย้าย</string>
+    <string name="event_untitled">กิจกรรมที่ไม่มีชื่อ</string>
     <string name="recurring_this_event">กิจกรรมนี้เท่านั้น</string>
     <string name="recurring_all_events">กิจกรรมทั้งหมด</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">บันทึกกิจกรรม</string>
     <string name="badge_beta">เบต้า</string>
+    <string name="badge_sync_off">ปิดซิงค์</string>
     <string name="badge_new">ใหม่</string>
     <string name="color_red">แดง</string>
     <string name="color_orange">ส้ม</string>

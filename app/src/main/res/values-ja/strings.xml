@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloudに接続</string>
     <string name="signin_caldav_title">CalDAVアカウントを追加</string>
+    <string name="signin_caldav_sign_in_again_title">もう一度サインイン</string>
     <string name="signin_connected_to">%1$sに接続済み</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">予期しないエラーが発生しました。もう一度お試しください。</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nこのサーバーがローカルネットワーク上にある場合は、接続するためにローカルネットワークへのアクセスを許可してください。</string>
     <string name="caldav_error_connection_refused_insecure">サーバーが KashCal の追わない接続先（暗号化されていないアドレス、またはリダイレクトのループ）に転送したため、パスワードを送信する前に KashCal は中止しました。サーバーのアドレスを確認してください。</string>
+    <string name="caldav_error_sign_in_again_mismatch">これは別のアカウントです。このアカウントで使用しているユーザー名とサーバーでサインインしてください。</string>
     <string name="local_network_banner_title">ローカルネットワークへのアクセスが必要です</string>
     <string name="local_network_banner_body">このサーバーはローカルネットワーク上にあるようです。KashCal が接続できるように、ローカルネットワークへのアクセスを許可してください。</string>
     <string name="local_network_banner_allow">アクセスを許可</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">戻る</string>
     <string name="accounts_sync_issue">同期の問題</string>
     <string name="accounts_cd_sync_warning">同期の警告</string>
+    <string name="accounts_cd_sync_off">同期オフ</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">カレンダーフィード</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">検出中…</string>
     <string name="account_detail_discover_calendars">新しいカレンダーを検出</string>
     <string name="account_detail_change_password">パスワードを変更</string>
+    <string name="account_detail_sign_in_again">もう一度サインイン</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal にこのアカウントのパスワードが保存されていません。サインインすると再び同期できます。カレンダーと予定はそのまま残ります。</string>
     <string name="account_detail_sign_out">サインアウト</string>
     <string name="account_detail_never_synced">未同期</string>
     <string name="account_detail_last_success">最終成功: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">移動</string>
     <string name="snackbar_event_rescheduled">予定を移動しました</string>
     <string name="snackbar_reschedule_failed">予定を移動できませんでした</string>
+    <string name="snackbar_move_failed">「%1$s」を移動できませんでした</string>
+    <string name="snackbar_move_changed_elsewhere">「%1$s」は別の場所で変更されたため、移動しませんでした</string>
+    <string name="event_untitled">無題の予定</string>
     <string name="recurring_this_event">この予定のみ</string>
     <string name="recurring_all_events">すべての予定</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">予定を保存</string>
     <string name="badge_beta">ベータ</string>
+    <string name="badge_sync_off">同期オフ</string>
     <string name="badge_new">新規</string>
     <string name="color_red">赤</string>
     <string name="color_orange">オレンジ</string>

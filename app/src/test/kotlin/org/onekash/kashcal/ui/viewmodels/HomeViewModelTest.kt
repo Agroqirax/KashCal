@@ -309,6 +309,7 @@ class HomeViewModelTest {
             contactEmailReader = io.mockk.mockk(relaxed = true),
             context = context,
             ioDispatcher = testDispatcher,
+            applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher),
             currentDayCodeProvider = provider
         )
     }
@@ -378,6 +379,37 @@ class HomeViewModelTest {
         viewModel.uiState.value.pendingSnackbarAction!!.invoke()
 
         assertTrue(viewModel.uiState.value.isRecentChangesOpen)
+    }
+
+    @Test
+    fun `the sync changes snackbar labels its action View`() = runTest {
+        publish(listOf(recordedEntry(org.onekash.kashcal.sync.model.ChangeType.NEW, "Dentist")))
+        val context: android.content.Context = androidx.test.core.app.ApplicationProvider.getApplicationContext()
+
+        val viewModel = createViewModel(context = context)
+        advanceUntilIdle()
+
+        assertEquals(context.getString(org.onekash.kashcal.R.string.action_view), viewModel.uiState.value.pendingSnackbarActionLabel)
+    }
+
+    @Test
+    fun `each snackbar gets a new id and a stale clear leaves the newer one`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.showSnackbar("First")
+        val firstId = viewModel.uiState.value.pendingSnackbarId
+        viewModel.showSnackbar("First")
+        val secondId = viewModel.uiState.value.pendingSnackbarId
+        assertTrue(secondId > firstId)
+
+        viewModel.clearSnackbar(firstId)
+        assertEquals("First", viewModel.uiState.value.pendingSnackbarMessage)
+
+        viewModel.clearSnackbar(secondId)
+        assertNull(viewModel.uiState.value.pendingSnackbarMessage)
+        assertNull(viewModel.uiState.value.pendingSnackbarActionLabel)
+        assertNull(viewModel.uiState.value.pendingSnackbarAction)
     }
 
     @Test

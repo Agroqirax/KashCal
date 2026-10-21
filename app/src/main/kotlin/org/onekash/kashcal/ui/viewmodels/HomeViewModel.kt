@@ -19,6 +19,8 @@ import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
@@ -39,9 +41,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.onekash.kashcal.R
@@ -54,6 +58,7 @@ import org.onekash.kashcal.data.preferences.PreferencesKeys
 import org.onekash.kashcal.domain.identity.canEditAsOrganizer
 import org.onekash.kashcal.domain.identity.effectiveAddresses
 import org.onekash.kashcal.data.repository.AccountRepository
+import org.onekash.kashcal.di.ApplicationScope
 import org.onekash.kashcal.di.IoDispatcher
 import org.onekash.kashcal.domain.changes.RecentChangeItem
 import org.onekash.kashcal.domain.changes.isSeriesRow
@@ -117,6 +122,12 @@ private const val TAG = "HomeViewModel"
 /** Upcoming window shown by the agenda view (90 days). */
 private const val AGENDA_WINDOW_MS = 90L * 24 * 60 * 60 * 1000
 
+/**
+ * How long a saved drag stays drawn when the grid's data hasn't dropped the original occurrence,
+ * for example a device row that keeps its instance id; see [HomeViewModel.releaseRefreshedMoves].
+ */
+private const val SAVED_MOVE_REFRESH_TIMEOUT_MS = 2_000L
+
 private data class CalendarsSnapshot(
     val calendars: List<org.onekash.kashcal.data.db.entity.Calendar>,
     val groups: List<CalendarGroup>,
@@ -168,6 +179,58 @@ private data class RawWeekEvents(
         val EMPTY = RawWeekEvents()
     }
 }
+
+/**
+ * A drag-to-reschedule drop waiting out its Undo window. Nothing is written until
+ * [HomeViewModel] saves it; until then the time grid shows [shown] in place of [original].
+ *
+ * @property original the occurrence as the grid showed it at the drop
+ * @property shown [original] at [newStartTs], drawn over it on the grid
+ * @property snackbarId the Undo snackbar's [HomeUiState.pendingSnackbarId]
+ */
+internal data class PendingMove(
+    val original: DisplayEvent,
+    val shown: DisplayEvent,
+    val scope: EditScope,
+    val newStartTs: Long,
+    val newEndTs: Long,
+    val snackbarId: Long,
+    val state: State = State.PENDING,
+) {
+    enum class State {
+        /** Undo is on offer; nothing is written. */
+        PENDING,
+
+        /**
+         * Dropped again on another day; the new spot is being checked for the move's scope.
+         * The window ending saves nothing in this state; a save still saves the first spot.
+         */
+        HELD,
+
+        /** Being written; Undo no longer applies. */
+        SAVING,
+
+        /** Written; [shown] stays drawn until the grid's data has caught up. */
+        SAVED,
+    }
+}
+
+/** How a drag's save ended. */
+internal enum class MoveSaveOutcome {
+    SAVED,
+
+    /** Nothing written: the event changed since the drop, or its series no longer allows it. */
+    CHANGED,
+
+    /** Nothing written: the event is gone, or (device) couldn't be read. */
+    GONE,
+
+    /** The write failed. */
+    FAILED,
+}
+
+/** A drag the stored series no longer allows, refused before any write. */
+private class MoveRefusedException(message: String) : IllegalStateException(message)
 
 /** UI state for the agenda's upcoming-events list; [isLoading] drives its spinner. */
 data class AgendaUiState(
@@ -222,6 +285,8 @@ class HomeViewModel(
     private val contactEmailReader: org.onekash.kashcal.data.contacts.ContactEmailReader,
     private val context: Context,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    /** Runs a drag's save, which must finish even when this ViewModel is cleared. */
+    private val applicationScope: CoroutineScope,
     private val currentDayCodeProvider: () -> Int
 ) : ViewModel() {
 
@@ -240,6 +305,7 @@ class HomeViewModel(
         contactEmailReader: org.onekash.kashcal.data.contacts.ContactEmailReader,
         @ApplicationContext context: Context,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        @ApplicationScope applicationScope: CoroutineScope,
     ) : this(
         eventCoordinator,
         eventReader,
@@ -254,11 +320,33 @@ class HomeViewModel(
         contactEmailReader,
         context,
         ioDispatcher,
+        applicationScope,
         { DayPagerUtils.msToDayCode(System.currentTimeMillis()) }
     )
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    /** The drag waiting out its Undo window, or being saved; see [savePendingMove]. */
+    private val _pendingMove = MutableStateFlow<PendingMove?>(null)
+
+    /** [_pendingMove], read-only, for tests to wait on a save. */
+    internal val pendingMoveState: StateFlow<PendingMove?> = _pendingMove.asStateFlow()
+
+    /**
+     * A move still saving, or saved and still drawn, when a newer drop took [_pendingMove], so
+     * the grid keeps drawing it until its data catches up.
+     */
+    private val _settlingMove = MutableStateFlow<PendingMove?>(null)
+
+    /** [_settlingMove], read-only, for tests. */
+    internal val settlingMoveState: StateFlow<PendingMove?> = _settlingMove.asStateFlow()
+
+    /** The last drag save; the next one waits for it. */
+    private var moveSaveJob: Job? = null
+
+    /** The check of a moved copy dropped on another day; see [retargetPendingMove]. */
+    private var retargetCheckJob: Job? = null
 
     /**
      * Pinch-zoom hour-heights awaiting persistence. A pinch calls the setter many times per
@@ -528,6 +616,13 @@ class HomeViewModel(
                         }
                 }
             }
+            .combine(combine(_pendingMove, _settlingMove, ::Pair)) { raw, (move, settling) ->
+                Triple(raw, move, settling)
+            }
+            // Releases a saved move the data has caught up with, then draws the rest; the next
+            // emission draws without a released move.
+            .onEach { (raw, move, settling) -> releaseRefreshedMoves(raw, move, settling) }
+            .map { (raw, move, settling) -> withPendingMove(withPendingMove(raw, settling), move) }
             // Combined after flatMapLatest so toggling the preference re-partitions the events in
             // memory; combined before it, a toggle would cancel and restart the DB query.
             .combine(dataStore.showMultiDayTimedInAllDayStrip) { raw, showMultiDayTimedInAllDayStrip ->
@@ -1101,7 +1196,7 @@ class HomeViewModel(
                     val message = generateSnackbarMessage(changes, context.resources)
                     if (message != null) {
                         Log.d(TAG, "Sync changes notification: ${changes.size} changes")
-                        showSnackbar(message) { openRecentChanges() }
+                        showSnackbar(message, context.getString(R.string.action_view)) { openRecentChanges() }
                     }
                     syncScheduler.clearSyncChanges()
                 }
@@ -2788,6 +2883,8 @@ class HomeViewModel(
     fun setViewMode(mode: ViewMode, persist: Boolean = true) {
         val oldMode = _uiState.value.viewMode
         if (oldMode == mode) return
+        // Only the time grids draw a pending drag.
+        if (!mode.isTimeGrid) savePendingMove()
 
         _uiState.update {
             if (mode == ViewMode.INSIGHTS) {
@@ -2873,23 +2970,59 @@ class HomeViewModel(
 
     // ==================== Snackbar ====================
 
-    /** Shows a snackbar, with an optional action. Internal, not private, for tests. */
-    internal fun showSnackbar(message: String, action: (() -> Unit)? = null) {
-        _uiState.update {
+    /**
+     * Shows a snackbar under a new [HomeUiState.pendingSnackbarId], with an optional button
+     * labelled [actionLabel] that runs [action], after saving any drag still waiting on its
+     * Undo. Internal, not private, for tests.
+     */
+    internal fun showSnackbar(message: String, actionLabel: String? = null, action: (() -> Unit)? = null) {
+        // This message replaces a drag's Undo snackbar, so its window ends here.
+        savePendingMove()
+        postSnackbar(message, actionLabel) { action }
+    }
+
+    /**
+     * Posts a snackbar under a new id, its action built from that id, and returns the id. Saves
+     * nothing; [showSnackbar] is the entry point for messages other than a drag's Undo.
+     */
+    private fun postSnackbar(message: String, actionLabel: String?, action: (Long) -> (() -> Unit)?): Long =
+        _uiState.updateAndGet {
+            val id = it.pendingSnackbarId + 1
             it.copy(
                 pendingSnackbarMessage = message,
-                pendingSnackbarAction = action
+                pendingSnackbarActionLabel = actionLabel,
+                pendingSnackbarAction = action(id),
+                pendingSnackbarId = id,
             )
+        }.pendingSnackbarId
+
+    /**
+     * Ends the snackbar the UI has finished with: clears it, and saves the drag it offered to
+     * undo unless Undo was tapped. A no-op when [id] isn't the pending snackbar, so a result
+     * reported for an older message can't end a newer one.
+     */
+    fun clearSnackbar(id: Long) {
+        withdrawSnackbar(id)
+        if (_pendingMove.value?.let { it.snackbarId == id && it.state == PendingMove.State.PENDING } == true) {
+            savePendingMove()
         }
     }
 
-    /** Clears the snackbar once the UI has consumed it. */
-    fun clearSnackbar() {
+    /** Ends whatever snackbar is pending, as [clearSnackbar] does. */
+    fun clearSnackbar() = clearSnackbar(_uiState.value.pendingSnackbarId)
+
+    /** Takes snackbar [id] off screen if it is still the pending one, without saving anything. */
+    private fun withdrawSnackbar(id: Long) {
         _uiState.update {
-            it.copy(
-                pendingSnackbarMessage = null,
-                pendingSnackbarAction = null
-            )
+            if (it.pendingSnackbarId != id) {
+                it
+            } else {
+                it.copy(
+                    pendingSnackbarMessage = null,
+                    pendingSnackbarActionLabel = null,
+                    pendingSnackbarAction = null,
+                )
+            }
         }
     }
 
@@ -3331,11 +3464,27 @@ class HomeViewModel(
         targetStartMinutes: Int,
         editScope: EditScope = EditScope.THIS_EVENT
     ) {
-        val isRecurringNeedingDialog = when (displayEvent) {
-            is DisplayEvent.Room -> displayEvent.event.rrule != null && displayEvent.event.originalEventId == null
-            is DisplayEvent.Device -> displayEvent.instance.hasRrule
+        val move = _pendingMove.value
+        if (move != null) {
+            if (displayEvent == move.shown) {
+                // The moved copy again: move the pending move, unless it is past its window
+                // (being checked, saving or saved).
+                if (move.state == PendingMove.State.PENDING) {
+                    retargetPendingMove(move, targetDate, targetStartMinutes)
+                } else {
+                    showSnackbar(context.getString(R.string.snackbar_reschedule_failed))
+                }
+                return
+            }
+            savePendingMove()
+            if (move.changesSeriesOf(displayEvent)) {
+                // This copy was read before the series changed under it.
+                showSnackbar(context.getString(R.string.snackbar_reschedule_failed))
+                return
+            }
         }
-        if (isRecurringNeedingDialog && editScope == EditScope.THIS_EVENT) {
+
+        if (displayEvent.isSeriesOccurrence && editScope == EditScope.THIS_EVENT) {
             // A same-day drop blocks nothing and is known at once; a cross-day
             // drop is checked off the main thread against the stored series,
             // and the sheet greys the series scopes until the check lands.
@@ -3357,6 +3506,16 @@ class HomeViewModel(
         val pending = _uiState.value.pendingDragReschedule ?: return
         dragAvailabilityJob?.cancel()
         _uiState.update { it.copy(pendingDragReschedule = null) }
+        // A series scope the drop's check blocked, or hasn't cleared yet, would only fail at
+        // the save, after the Undo window; refuse it now. The recurring device All events
+        // case is left to performReschedule, which refuses it without a message.
+        val blocked = pending.blockedScopes
+        if (editScope != EditScope.THIS_EVENT && !isRefusedDeviceSeriesMove(pending.displayEvent, editScope) &&
+            (blocked == null || editScope in blocked)
+        ) {
+            showSnackbar(context.getString(R.string.snackbar_reschedule_failed))
+            return
+        }
         performReschedule(pending.displayEvent, pending.targetDate, pending.targetStartMinutes, editScope)
     }
 
@@ -3365,11 +3524,45 @@ class HomeViewModel(
         _uiState.update { it.copy(pendingDragReschedule = null) }
     }
 
+    /**
+     * Returns this occurrence moved to [newStartTs] with its length kept, day codes recomputed
+     * the way its source computes them, for drawing a [PendingMove].
+     */
+    private fun DisplayEvent.movedTo(newStartTs: Long): DisplayEvent {
+        val newEndTs = newStartTs + (endTs - startTs)
+        val endDay = DateTimeUtils.eventTsToEndDayCode(endTs = newEndTs, startTs = newStartTs, isAllDay = isAllDay)
+        return when (this) {
+            // A single row (a one-off or a changed occurrence) moves its own times too, so a
+            // copy dragged again after its save matches the row it saved.
+            is DisplayEvent.Room -> copy(
+                event = if (isSeriesOccurrence) event else event.copy(startTs = newStartTs, endTs = newEndTs),
+                occurrence = occurrence.copy(
+                    startTs = newStartTs,
+                    endTs = newEndTs,
+                    startDay = Occurrence.toDayFormat(newStartTs, isAllDay),
+                    endDay = endDay,
+                )
+            )
+            is DisplayEvent.Device -> copy(
+                instance = instance.copy(
+                    startTs = newStartTs,
+                    endTs = newEndTs,
+                    startDay = DateTimeUtils.eventTsToDayCode(newStartTs, isAllDay),
+                    endDay = endDay,
+                )
+            )
+        }
+    }
+
     /** Returns a drop's new start: [targetDate] at the clamped minute, in the phone's zone. */
-    private fun droppedStartTs(displayEvent: DisplayEvent, targetDate: LocalDate, targetStartMinutes: Int): Long {
+    private fun droppedStartTs(displayEvent: DisplayEvent, targetDate: LocalDate, targetStartMinutes: Int): Long =
+        droppedTimes(displayEvent, targetDate, targetStartMinutes).first
+
+    /** Returns a drop's new start and end, the occurrence's length kept in whole minutes. */
+    private fun droppedTimes(displayEvent: DisplayEvent, targetDate: LocalDate, targetStartMinutes: Int): Pair<Long, Long> {
         val durationMinutes = ((displayEvent.endTs - displayEvent.startTs) / 60000).toInt()
         val clampedStart = WeekViewUtils.clampDragStartMinutes(targetStartMinutes, durationMinutes)
-        return WeekViewUtils.calculateNewTimestamps(targetDate, clampedStart, durationMinutes).first
+        return WeekViewUtils.calculateNewTimestamps(targetDate, clampedStart, durationMinutes)
     }
 
     /** Returns true when [droppedStartTs] is on another day than the occurrence, in its zone. */
@@ -3387,20 +3580,9 @@ class HomeViewModel(
     private fun resolveDragAvailability(pending: PendingDragReschedule) {
         val dropped = pending.displayEvent
         dragAvailabilityJob = viewModelScope.launch {
-            val blocked = withContext(ioDispatcher) {
-                try {
-                    val droppedStartTs = droppedStartTs(dropped, pending.targetDate, pending.targetStartMinutes)
-                    when (dropped) {
-                        is DisplayEvent.Room -> blockedDragScopes(dropped, droppedStartTs)
-                        is DisplayEvent.Device -> blockedDeviceDragScopes(dropped, droppedStartTs)
-                    }
-                } catch (e: CancellationException) {
-                    throw e
-                } catch (e: Exception) {
-                    Log.w(TAG, "Couldn't check the drop's scopes", e)
-                    setOf(EditScope.ALL_EVENTS, EditScope.THIS_AND_FUTURE)
-                }
-            }
+            val blocked = blockedScopesFor(
+                dropped, droppedStartTs(dropped, pending.targetDate, pending.targetStartMinutes),
+            )
             _uiState.update { state ->
                 val current = state.pendingDragReschedule
                 if (current != null && current.isSameDropAs(pending)) {
@@ -3411,6 +3593,25 @@ class HomeViewModel(
             }
         }
     }
+
+    /**
+     * The series scopes a drop of [dropped] at [droppedStartTs] can't use, from the source's own
+     * check off the main thread; both series scopes when the check fails.
+     */
+    private suspend fun blockedScopesFor(dropped: DisplayEvent, droppedStartTs: Long): Set<EditScope> =
+        withContext(ioDispatcher) {
+            try {
+                when (dropped) {
+                    is DisplayEvent.Room -> blockedDragScopes(dropped, droppedStartTs)
+                    is DisplayEvent.Device -> blockedDeviceDragScopes(dropped, droppedStartTs)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.w(TAG, "Couldn't check the drop's scopes", e)
+                setOf(EditScope.ALL_EVENTS, EditScope.THIS_AND_FUTURE)
+            }
+        }
 
     /**
      * The series scopes a cross-day drop of [room] can't use, read from the
@@ -3609,20 +3810,21 @@ class HomeViewModel(
      * another day, rewriting its repeat rule so every moved occurrence lands on
      * its new day at the dropped time in the event's zone. Checked again against
      * the stored series first; a move the rule can't express, or one that would
-     * strand deleted, added or edited occurrences, throws before any write.
+     * strand deleted, added or edited occurrences, throws [MoveRefusedException]
+     * before any write.
      */
     private suspend fun moveSeriesToAnotherDay(room: DisplayEvent.Room, newStartTs: Long, scope: EditScope) {
         val masterId = room.event.originalEventId ?: room.event.id
         val master = eventReader.getEventById(masterId) ?: throw IllegalStateException("Series not found")
         val occurrenceTs = room.occurrence.startTs
         if (scope in blockedDragScopes(room, newStartTs)) {
-            throw IllegalStateException("This move can't be applied to $scope")
+            throw MoveRefusedException("This move can't be applied to $scope")
         }
         val now = System.currentTimeMillis()
         if (scope == EditScope.ALL_EVENTS) {
             val start = RruleShift.movedStart(master, occurrenceTs, newStartTs)
             val rule = master.rrule?.let { RruleShift.shift(it, master.startTs, start, master.timezone, master.isAllDay) }
-                ?: throw IllegalStateException("The repeat rule can't follow this move")
+                ?: throw MoveRefusedException("The repeat rule can't follow this move")
             eventCoordinator.updateEvent(
                 master.copy(startTs = start, endTs = start + (master.endTs - master.startTs), rrule = rule, updatedAt = now)
             )
@@ -3633,7 +3835,7 @@ class HomeViewModel(
                 splitTimeMs = occurrenceTs,
                 changes = { fresh ->
                     val rule = fresh.rrule?.let { RruleShift.shift(it, occurrenceTs, newStartTs, fresh.timezone, fresh.isAllDay) }
-                        ?: throw IllegalStateException("The repeat rule can't follow this move")
+                        ?: throw MoveRefusedException("The repeat rule can't follow this move")
                     // The check refused any deleted or added date from the split on, so the ones
                     // left are all before it. Carried over they could hit a slot of the new series
                     // (a move to an earlier day), so the new series starts without them.
@@ -3646,6 +3848,14 @@ class HomeViewModel(
         }
     }
 
+    /** Whether [scope] is All events on a device series, which [performReschedule] refuses. */
+    private fun isRefusedDeviceSeriesMove(displayEvent: DisplayEvent, scope: EditScope): Boolean =
+        displayEvent is DisplayEvent.Device && displayEvent.instance.hasRrule && scope == EditScope.ALL_EVENTS
+
+    /**
+     * Stages a drop at [targetDate] and [targetStartMinutes] as a [PendingMove] behind an Undo
+     * snackbar; [savePendingMove] writes it once the window ends.
+     */
     private fun performReschedule(
         displayEvent: DisplayEvent,
         targetDate: LocalDate,
@@ -3657,166 +3867,388 @@ class HomeViewModel(
         // to move the master's DTSTART, which can leave it out of step with a BYDAY
         // rule (RFC 5545 §3.8.5.3 leaves such a recurrence set undefined). Refuse it
         // here too so a caller can't request it directly.
-        if (displayEvent is DisplayEvent.Device &&
-            displayEvent.instance.hasRrule &&
-            editScope == EditScope.ALL_EVENTS
-        ) {
-            Log.w(TAG, "Refusing all-events drag of recurring device event ${displayEvent.instance.eventId}")
+        if (isRefusedDeviceSeriesMove(displayEvent, editScope)) {
+            Log.w(TAG, "Refusing all-events drag of a recurring device event")
             return
         }
 
-        viewModelScope.launch {
-            try {
-                val durationMs = displayEvent.endTs - displayEvent.startTs
-                val durationMinutes = (durationMs / 60000).toInt()
-                val clampedStart = WeekViewUtils.clampDragStartMinutes(targetStartMinutes, durationMinutes)
-                val (newStartTs, newEndTs) = WeekViewUtils.calculateNewTimestamps(
-                    targetDate, clampedStart, durationMinutes
-                )
+        val (newStartTs, newEndTs) = droppedTimes(displayEvent, targetDate, targetStartMinutes)
+        stageMove(
+            PendingMove(
+                original = displayEvent,
+                shown = displayEvent.movedTo(newStartTs),
+                scope = editScope,
+                newStartTs = newStartTs,
+                newEndTs = newEndTs,
+                snackbarId = 0L,
+            )
+        )
+    }
 
-                // Device writes report failure through Result rather than throwing,
-                // so the device branch hands its Result back; Room writes throw and
-                // are handled by the catch below.
-                val deviceWriteResult: Result<*>? = withContext(ioDispatcher) {
-                    when (displayEvent) {
-                        is DisplayEvent.Room -> {
-                            val event = displayEvent.event
-                            val isRecurring = event.rrule != null
-                            val isException = event.originalEventId != null
+    /**
+     * Re-reads the event [move] changes and, when it is as the grid showed it at the drop
+     * ([checkRoomMove], [checkDeviceMove]), writes the move through the event's own path:
+     * [EventCoordinator] for a Room event, [DeviceEventWriter] for a device one.
+     */
+    private suspend fun writeMove(move: PendingMove): MoveSaveOutcome {
+        val displayEvent = move.original
+        val editScope = move.scope
+        val newStartTs = move.newStartTs
+        val newEndTs = move.newEndTs
+        return try {
+            // Device writes report failure through Result rather than throwing; Room writes
+            // throw and are handled by the catch below.
+            withContext(ioDispatcher) {
+                when (displayEvent) {
+                    is DisplayEvent.Room -> {
+                        // The stored row, so fields a sync changed since the drop are kept.
+                        val event = eventReader.getEventById(displayEvent.event.id)
+                        when (checkRoomMove(displayEvent.event, event)) {
+                            DragSaveCheck.GONE -> return@withContext MoveSaveOutcome.GONE
+                            DragSaveCheck.CHANGED -> return@withContext MoveSaveOutcome.CHANGED
+                            DragSaveCheck.FRESH -> Unit
+                        }
+                        if (event == null) return@withContext MoveSaveOutcome.GONE
+                        val isRecurring = event.rrule != null
+                        val isException = event.originalEventId != null
 
-                            when {
-                                !isRecurring || isException -> {
-                                    eventCoordinator.updateEvent(
-                                        event.copy(startTs = newStartTs, endTs = newEndTs, updatedAt = System.currentTimeMillis())
-                                    )
-                                }
-                                editScope == EditScope.THIS_EVENT -> {
-                                    val masterEventId = event.originalEventId ?: event.id
-                                    eventCoordinator.editSingleOccurrence(
-                                        masterEventId = masterEventId,
-                                        occurrenceTimeMs = displayEvent.occurrence.startTs,
-                                        changes = { master ->
-                                            master.copy(
-                                                startTs = newStartTs,
-                                                endTs = newEndTs,
-                                                rrule = null,
-                                                updatedAt = System.currentTimeMillis()
-                                            )
-                                        }
-                                    )
-                                }
-                                // Another day, whole series or its future: move the repeat
-                                // rule with it (RFC 5545 section 3.8.5.3), or refuse.
-                                isCrossDayMove(displayEvent, newStartTs) ->
-                                    moveSeriesToAnotherDay(displayEvent, newStartTs, editScope)
-                                editScope == EditScope.THIS_AND_FUTURE -> {
-                                    val masterEventId = event.originalEventId ?: event.id
-                                    eventCoordinator.editThisAndFuture(
-                                        masterEventId = masterEventId,
-                                        splitTimeMs = displayEvent.occurrence.startTs,
-                                        changes = { master ->
-                                            // endTs follows the dragged occurrence's own
-                                            // duration. master.endTs + delta would sit
-                                            // days before the new startTs, and RFC 5545
-                                            // §3.8.2.2 says DTEND MUST be later than
-                                            // DTSTART.
-                                            val draggedDuration =
-                                                displayEvent.endTs - displayEvent.startTs
-                                            master.copy(
-                                                startTs = newStartTs,
-                                                endTs = newStartTs + draggedDuration,
-                                                updatedAt = System.currentTimeMillis(),
-                                            )
-                                        }
-                                    )
-                                }
-                                editScope == EditScope.ALL_EVENTS -> {
-                                    val delta = newStartTs - displayEvent.startTs
-                                    eventCoordinator.updateEvent(
-                                        event.copy(
-                                            startTs = event.startTs + delta,
-                                            endTs = event.endTs + delta,
+                        when {
+                            !isRecurring || isException -> {
+                                eventCoordinator.updateEvent(
+                                    event.copy(startTs = newStartTs, endTs = newEndTs, updatedAt = System.currentTimeMillis())
+                                )
+                            }
+                            editScope == EditScope.THIS_EVENT -> {
+                                val masterEventId = event.originalEventId ?: event.id
+                                eventCoordinator.editSingleOccurrence(
+                                    masterEventId = masterEventId,
+                                    occurrenceTimeMs = displayEvent.occurrence.startTs,
+                                    changes = { master ->
+                                        master.copy(
+                                            startTs = newStartTs,
+                                            endTs = newEndTs,
+                                            rrule = null,
                                             updatedAt = System.currentTimeMillis()
                                         )
-                                    )
-                                }
-                            }
-                            null
-                        }
-                        is DisplayEvent.Device -> {
-                            val instance = displayEvent.instance
-                            // Provider writes set AVAILABILITY and EVENT_COLOR on every call,
-                            // and a new exception row otherwise gets the defaults, so carry the
-                            // instance's current values or the drag resets the event to busy and
-                            // strips its per-event colour. Guests and tags are not passed: an
-                            // existing row keeps its own, and a new exception or the future half
-                            // of a split copies the series'.
-                            // Reminders are null so the provider keeps them as stored, types
-                            // included: the instance only carries their minutes, and none at all
-                            // when the range load failed to read them.
-                            val draft = DeviceEventDraft(
-                                calendarId = instance.calendarId,
-                                title = instance.title,
-                                description = instance.description,
-                                location = instance.location,
-                                startTs = newStartTs,
-                                endTs = newEndTs,
-                                isAllDay = instance.isAllDay,
-                                rrule = instance.rrule,
-                                timezone = instance.timezone ?: TimezoneUtils.getDeviceTimezone(),
-                                reminders = null,
-                                availability = instance.availability,
-                                eventColor = instance.eventColor,
-                            )
-                            when {
-                                instance.hasRrule && editScope == EditScope.THIS_EVENT ->
-                                    deviceEventWriter.editSingleOccurrence(
-                                        masterEventId = instance.eventId,
-                                        originalInstanceTime = instance.startTs,
-                                        draft = draft,
-                                    )
-                                instance.hasRrule && editScope == EditScope.THIS_AND_FUTURE -> {
-                                    // Another day: the rule moves with the occurrence (RFC 5545
-                                    // section 3.8.5.3), or nothing is written. Checked again here,
-                                    // since the series can change between the drop and the pick.
-                                    val rule = if (isCrossDayMove(displayEvent, newStartTs)) {
-                                        shiftedDeviceRule(displayEvent, newStartTs)
-                                    } else {
-                                        instance.rrule
                                     }
-                                    if (rule == null) {
-                                        Result.failure(IllegalStateException("The repeat rule can't follow this move"))
-                                    } else {
-                                        deviceEventWriter.editThisAndFuture(
-                                            masterEventId = instance.eventId,
-                                            fromTimeMs = instance.startTs,
-                                            draft = draft.copy(rrule = rule),
+                                )
+                            }
+                            // Another day, whole series or its future: move the repeat
+                            // rule with it (RFC 5545 section 3.8.5.3), or refuse.
+                            isCrossDayMove(displayEvent, newStartTs) ->
+                                moveSeriesToAnotherDay(displayEvent, newStartTs, editScope)
+                            editScope == EditScope.THIS_AND_FUTURE -> {
+                                val masterEventId = event.originalEventId ?: event.id
+                                eventCoordinator.editThisAndFuture(
+                                    masterEventId = masterEventId,
+                                    splitTimeMs = displayEvent.occurrence.startTs,
+                                    changes = { master ->
+                                        // endTs follows the dragged occurrence's own
+                                        // duration. master.endTs + delta would sit
+                                        // days before the new startTs, and RFC 5545
+                                        // §3.8.2.2 says DTEND MUST be later than
+                                        // DTSTART.
+                                        val draggedDuration =
+                                            displayEvent.endTs - displayEvent.startTs
+                                        master.copy(
+                                            startTs = newStartTs,
+                                            endTs = newStartTs + draggedDuration,
+                                            updatedAt = System.currentTimeMillis(),
                                         )
                                     }
-                                }
-                                // Non-recurring event or a modified occurrence: a single row.
-                                else -> deviceEventWriter.updateEvent(instance.eventId, draft)
+                                )
+                            }
+                            editScope == EditScope.ALL_EVENTS -> {
+                                val delta = newStartTs - displayEvent.startTs
+                                eventCoordinator.updateEvent(
+                                    event.copy(
+                                        startTs = event.startTs + delta,
+                                        endTs = event.endTs + delta,
+                                        updatedAt = System.currentTimeMillis()
+                                    )
+                                )
                             }
                         }
+                        MoveSaveOutcome.SAVED
+                    }
+                    is DisplayEvent.Device -> {
+                        val instance = displayEvent.instance
+                        val stored = deviceEventReader.getDeviceEvent(instance.eventId)
+                        val isActive = stored != null && deviceEventReader.isEventActive(instance.eventId)
+                        when (checkDeviceMove(instance, stored, isActive)) {
+                            DragSaveCheck.GONE -> return@withContext MoveSaveOutcome.GONE
+                            DragSaveCheck.CHANGED -> return@withContext MoveSaveOutcome.CHANGED
+                            DragSaveCheck.FRESH -> Unit
+                        }
+                        // Provider writes set AVAILABILITY and EVENT_COLOR on every call,
+                        // and a new exception row otherwise gets the defaults, so carry the
+                        // instance's current values or the drag resets the event to busy and
+                        // strips its per-event colour. Guests and tags are not passed: an
+                        // existing row keeps its own, and a new exception or the future half
+                        // of a split copies the series'.
+                        // Reminders are null so the provider keeps them as stored, types
+                        // included: the instance only carries their minutes, and none at all
+                        // when the range load failed to read them.
+                        val draft = DeviceEventDraft(
+                            calendarId = instance.calendarId,
+                            title = instance.title,
+                            description = instance.description,
+                            location = instance.location,
+                            startTs = newStartTs,
+                            endTs = newEndTs,
+                            isAllDay = instance.isAllDay,
+                            rrule = instance.rrule,
+                            timezone = instance.timezone ?: TimezoneUtils.getDeviceTimezone(),
+                            reminders = null,
+                            availability = instance.availability,
+                            eventColor = instance.eventColor,
+                        )
+                        when {
+                            instance.hasRrule && editScope == EditScope.THIS_EVENT ->
+                                deviceEventWriter.editSingleOccurrence(
+                                    masterEventId = instance.eventId,
+                                    originalInstanceTime = instance.startTs,
+                                    draft = draft,
+                                )
+                            instance.hasRrule && editScope == EditScope.THIS_AND_FUTURE -> {
+                                // Another day: the rule moves with the occurrence (RFC 5545
+                                // section 3.8.5.3), or nothing is written. Checked again here,
+                                // since the series can change between the drop and the pick.
+                                val rule = if (isCrossDayMove(displayEvent, newStartTs)) {
+                                    shiftedDeviceRule(displayEvent, newStartTs)
+                                } else {
+                                    instance.rrule
+                                }
+                                if (rule == null) {
+                                    Result.failure(MoveRefusedException("The repeat rule can't follow this move"))
+                                } else {
+                                    deviceEventWriter.editThisAndFuture(
+                                        masterEventId = instance.eventId,
+                                        fromTimeMs = instance.startTs,
+                                        draft = draft.copy(rrule = rule),
+                                    )
+                                }
+                            }
+                            // Non-recurring event or a modified occurrence: a single row.
+                            else -> deviceEventWriter.updateEvent(instance.eventId, draft)
+                        }.fold(
+                            onSuccess = { MoveSaveOutcome.SAVED },
+                            onFailure = { e ->
+                                Log.e(TAG, "Failed to reschedule device event", e)
+                                if (e is MoveRefusedException) MoveSaveOutcome.CHANGED else MoveSaveOutcome.FAILED
+                            },
+                        )
                     }
                 }
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: MoveRefusedException) {
+            Log.w(TAG, "The stored series no longer allows the move", e)
+            MoveSaveOutcome.CHANGED
+        } catch (e: Exception) {
+            Log.e(TAG, "Error rescheduling event", e)
+            MoveSaveOutcome.FAILED
+        }
+    }
 
-                deviceWriteResult?.exceptionOrNull()?.let { e ->
-                    Log.e(TAG, "Failed to reschedule device event", e)
-                    showSnackbar(context.getString(R.string.snackbar_reschedule_failed))
-                    return@launch
-                }
+    /** Shows [move] on the grid and offers Undo for it; nothing is written. */
+    private fun stageMove(move: PendingMove) {
+        val id = postSnackbar(
+            context.getString(R.string.snackbar_event_rescheduled),
+            context.getString(R.string.snackbar_action_undo),
+        ) { id -> { undoPendingMove(id) } }
+        // A move still saving keeps being drawn from the second slot.
+        _pendingMove.value?.takeIf { it.state == PendingMove.State.SAVING || it.state == PendingMove.State.SAVED }
+            ?.let { _settlingMove.value = it }
+        _pendingMove.value = move.copy(snackbarId = id, state = PendingMove.State.PENDING)
+    }
 
-                reloadCurrentView()
-                showSnackbar(context.getString(R.string.snackbar_event_rescheduled))
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Log.e(TAG, "Error rescheduling event", e)
+    /** Replaces [old] with [new] in whichever slot holds it; returns false when neither does. */
+    private fun replaceMove(old: PendingMove, new: PendingMove?): Boolean =
+        _pendingMove.compareAndSet(old, new) || _settlingMove.compareAndSet(old, new)
+
+    /** Drops the move behind Undo snackbar [snackbarId] while it is still unsaved. */
+    private fun undoPendingMove(snackbarId: Long) {
+        _pendingMove.update { move ->
+            if (move?.snackbarId == snackbarId && move.state == PendingMove.State.PENDING) null else move
+        }
+    }
+
+    /**
+     * Moves the pending [move] to [targetDate] and [targetStartMinutes], keeping its scope and
+     * the occurrence it started from, under a fresh Undo snackbar. A series scope moved to
+     * another day is checked first, as the scope sheet checks a drop; the move is
+     * [PendingMove.State.HELD] meanwhile. A spot that blocks the scope gets the drop-time
+     * message, which saves the first spot.
+     */
+    private fun retargetPendingMove(move: PendingMove, targetDate: LocalDate, targetStartMinutes: Int) {
+        val original = move.original
+        val (newStartTs, newEndTs) = droppedTimes(original, targetDate, targetStartMinutes)
+        val retargeted = move.copy(
+            shown = original.movedTo(newStartTs),
+            newStartTs = newStartTs,
+            newEndTs = newEndTs,
+        )
+        val needsCheck = move.scope != EditScope.THIS_EVENT && original.isSeriesOccurrence &&
+            isCrossDayMove(original, newStartTs)
+        if (!needsCheck) {
+            stageMove(retargeted)
+            return
+        }
+        val held = move.copy(state = PendingMove.State.HELD)
+        _pendingMove.value = held
+        withdrawSnackbar(move.snackbarId)
+        retargetCheckJob?.cancel()
+        retargetCheckJob = viewModelScope.launch {
+            val blocked = blockedScopesFor(original, newStartTs)
+            if (!_pendingMove.compareAndSet(held, move)) return@launch
+            if (move.scope in blocked) {
                 showSnackbar(context.getString(R.string.snackbar_reschedule_failed))
+            } else {
+                stageMove(retargeted)
             }
         }
     }
+
+    /**
+     * Returns whether this move rewrites the series [other] belongs to (This and following or
+     * All events on a series occurrence), so a copy of [other] read before it is out of date.
+     */
+    private fun PendingMove.changesSeriesOf(other: DisplayEvent): Boolean =
+        scope != EditScope.THIS_EVENT && original.isSeriesOccurrence && original.seriesId == other.seriesId
+
+    /** The series an occurrence belongs to, or the event itself, keyed by its source. */
+    private val DisplayEvent.seriesId: String
+        get() = when (this) {
+            is DisplayEvent.Room -> "room:${event.originalEventId ?: event.id}"
+            is DisplayEvent.Device -> "device:${instance.originalId ?: instance.eventId}"
+        }
+
+    /** Whether this is an occurrence of a repeating series, not a one-off or a changed one. */
+    private val DisplayEvent.isSeriesOccurrence: Boolean
+        get() = when (this) {
+            is DisplayEvent.Room -> event.rrule != null && event.originalEventId == null
+            is DisplayEvent.Device -> instance.hasRrule
+        }
+
+    /**
+     * Handles a tap on [displayEvent] in a time grid: saves a pending drag, and returns whether
+     * to open the event. The moved copy never opens, nor does another copy of a series the move
+     * rewrites: what they show isn't what the save writes.
+     */
+    fun onTimeGridEventTap(displayEvent: DisplayEvent): Boolean {
+        val move = _pendingMove.value ?: return true
+        savePendingMove()
+        return displayEvent != move.shown && !move.changesSeriesOf(displayEvent)
+    }
+
+    /** Saves a pending drag when Home stops: the Undo snackbar is no longer seen. */
+    fun onHomeStopped() {
+        savePendingMove()
+    }
+
+    /**
+     * Writes the pending move, once: the step to SAVING happens on one state, so a second
+     * trigger finds nothing to save. A HELD move saves its first spot and drops the check.
+     * Takes its Undo snackbar down first. Writes on [applicationScope], so a cleared ViewModel
+     * still finishes the write. A save that writes nothing clears the move at once and the
+     * event returns to its stored place; a written one keeps [PendingMove.shown] drawn until
+     * [releaseRefreshedMoves] sees the grid's data catch up, or [SAVED_MOVE_REFRESH_TIMEOUT_MS]
+     * passes.
+     */
+    private fun savePendingMove() {
+        val move = _pendingMove.value ?: return
+        if (move.state != PendingMove.State.PENDING && move.state != PendingMove.State.HELD) return
+        val saving = move.copy(state = PendingMove.State.SAVING)
+        if (!_pendingMove.compareAndSet(move, saving)) return
+        retargetCheckJob?.cancel()
+        withdrawSnackbar(move.snackbarId)
+        runMoveSave(saving)
+    }
+
+    /**
+     * Writes [saving] after any earlier drag save, one write at a time in drop order (a later
+     * move of the same series reads what an earlier one wrote), and reports a save that wrote
+     * nothing by the event's title.
+     */
+    private fun runMoveSave(saving: PendingMove) {
+        val previous = moveSaveJob
+        moveSaveJob = applicationScope.launch(Dispatchers.Main.immediate) {
+            previous?.join()
+            val outcome = writeMove(saving)
+            if (outcome != MoveSaveOutcome.SAVED) {
+                replaceMove(saving, null)
+                val title = saving.original.title.ifBlank { context.getString(R.string.event_untitled) }
+                // A Room row that is gone stays gone; a device read can fail on a revoked
+                // permission, which a retry after granting it gets past.
+                val retryable = outcome == MoveSaveOutcome.FAILED ||
+                    (outcome == MoveSaveOutcome.GONE && saving.original is DisplayEvent.Device)
+                when {
+                    outcome == MoveSaveOutcome.CHANGED ->
+                        showSnackbar(context.getString(R.string.snackbar_move_changed_elsewhere, title))
+                    retryable -> showMoveFailed(saving, title)
+                    else -> showSnackbar(context.getString(R.string.snackbar_move_failed, title))
+                }
+                return@launch
+            }
+            val saved = saving.copy(state = PendingMove.State.SAVED)
+            replaceMove(saving, saved)
+            reloadCurrentView()
+            // Only drawing waits on this, so it ends with the ViewModel.
+            viewModelScope.launch {
+                delay(SAVED_MOVE_REFRESH_TIMEOUT_MS)
+                replaceMove(saved, null)
+            }
+        }
+    }
+
+    /** Reports a failed drag save with a Retry that saves it again, re-read included. */
+    private fun showMoveFailed(saving: PendingMove, title: String) {
+        showSnackbar(
+            message = context.getString(R.string.snackbar_move_failed, title),
+            actionLabel = context.getString(R.string.action_retry),
+        ) {
+            // Drawn again while it saves, without displacing a newer move.
+            if (!_pendingMove.compareAndSet(null, saving)) _settlingMove.value = saving
+            runMoveSave(saving)
+        }
+    }
+
+    /** Draws [move]'s [PendingMove.shown] in place of its original, when [raw] holds it. */
+    private fun withPendingMove(raw: RawWeekEvents, move: PendingMove?): RawWeekEvents {
+        if (move == null || raw.error != null) return raw
+        val key = move.original.stableKey
+        if (raw.events.none { it.stableKey == key }) return raw
+        return raw.copy(events = raw.events.map { if (it.stableKey == key) move.shown else it })
+    }
+
+    /**
+     * Releases each saved move whose original occurrence the grid's data no longer holds, since
+     * the data then shows the move itself; until then the original would draw at its old time.
+     * Checks in the order [withPendingMove] draws: [settling] against [raw], then [move]
+     * against [raw] with [settling] drawn.
+     */
+    private fun releaseRefreshedMoves(raw: RawWeekEvents, move: PendingMove?, settling: PendingMove?) {
+        if (raw.error != null) return
+        fun releaseIfRefreshed(candidate: PendingMove?, data: RawWeekEvents) {
+            if (candidate?.state != PendingMove.State.SAVED) return
+            val key = candidate.original.stableKey
+            if (data.events.none { it.stableKey == key }) replaceMove(candidate, null)
+        }
+        releaseIfRefreshed(settling, raw)
+        releaseIfRefreshed(move, withPendingMove(raw, settling))
+    }
+
+    /** Saves a move still in its Undo window: the screen is going away. */
+    override fun onCleared() {
+        savePendingMove()
+        super.onCleared()
+    }
+
+    /** Exposes [onCleared] to tests; [ViewModel.onCleared] is `protected`. */
+    @androidx.annotation.VisibleForTesting
+    internal fun onClearedForTest() = onCleared()
 
     /**
      * Deletes a Room event and reloads the view; a failure, an exception row included, comes
@@ -4417,7 +4849,7 @@ class HomeViewModel(
             is ErrorActionCallback.OpenSettings -> {
                 Log.d(TAG, "Error action: OpenSettings")
                 clearError()
-                _uiState.update { it.copy(pendingSnackbarMessage = null) }
+                clearSnackbar()
             }
             is ErrorActionCallback.OpenAppSettings -> {
                 Log.d(TAG, "Error action: OpenAppSettings")

@@ -219,8 +219,15 @@ data class HomeUiState(
     // === SNACKBAR EVENTS ===
     /** Snackbar message waiting to show. */
     val pendingSnackbarMessage: String? = null,
-    /** Action for the pending snackbar's View button, or null for no button. */
+    /** The pending snackbar's button text; the button shows only with [pendingSnackbarAction]. */
+    val pendingSnackbarActionLabel: String? = null,
+    /** Action for the pending snackbar's button, or null for no button. */
     val pendingSnackbarAction: (() -> Unit)? = null,
+    /**
+     * Identifies the pending snackbar; every message gets a new one, so a repeated text shows
+     * again and a result reported for an older message can be told apart.
+     */
+    val pendingSnackbarId: Long = 0L,
 
     // === PENDING ACTIONS (from intents) ===
     /** Action from an intent, consumed once by the UI; see [PendingAction]. */

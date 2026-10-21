@@ -52,6 +52,8 @@ import org.onekash.kashcal.ui.components.withTimedStart
 import org.onekash.kashcal.ui.viewmodels.DeviceHomeViewModelTestFactory
 import org.onekash.kashcal.ui.viewmodels.EditScope
 import org.onekash.kashcal.ui.viewmodels.HomeViewModel
+import org.onekash.kashcal.ui.viewmodels.dragSaveSettled
+import org.onekash.kashcal.ui.viewmodels.endDragUndoWindow
 import org.onekash.kashcal.util.TimezoneUtils
 import org.robolectric.ParameterizedRobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -349,7 +351,11 @@ class MultiServerRecurringSeriesMoveTest(private val config: CalDavServerConfig)
         viewModel.rescheduleEvent(DisplayEvent.Room(e, occurrence, null), date, hour * 60 + minute)
         waitFor("the drop's check") { viewModel.uiState.value.pendingDragReschedule?.blockedScopes != null }
         viewModel.confirmReschedule(scope)
-        waitFor("the reschedule") { viewModel.uiState.value.pendingSnackbarMessage != null }
+        waitFor("the Undo snackbar") { viewModel.uiState.value.pendingSnackbarMessage != null }
+        // Ends the Undo window so the move saves, then waits for the write itself: nothing
+        // here collects the grid, so the drawn copy is never released by a refresh.
+        viewModel.endDragUndoWindow()
+        waitFor("the save") { viewModel.dragSaveSettled }
         // A split creates the future series under a new UID: track it for the checks and the
         // cleanup.
         createdUids += masterUids() - before

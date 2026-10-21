@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud இணை</string>
     <string name="signin_caldav_title">CalDAV கணக்கு சேர்</string>
+    <string name="signin_caldav_sign_in_again_title">மீண்டும் உள்நுழை</string>
     <string name="signin_connected_to">%1$s இல் இணைக்கப்பட்டது</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">எதிர்பாராத பிழை. மீண்டும் முயற்சிக்கவும்.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nஇது உங்கள் லோக்கல் நெட்வொர்க்கில் உள்ள சர்வராக இருந்தால், இணைக்க லோக்கல் நெட்வொர்க் அணுகலை அனுமதிக்கவும்.</string>
     <string name="caldav_error_connection_refused_insecure">KashCal பின்தொடராத இடத்திற்கு (மறையாக்கம் இல்லாத முகவரி அல்லது திசைதிருப்பல் சுழற்சி) சேவையகம் இணைப்பைத் திருப்பியது, எனவே உங்கள் கடவுச்சொல்லை அனுப்பும் முன்பே KashCal நின்றது. சேவையக முகவரியைச் சரிபார்க்கவும்.</string>
+    <string name="caldav_error_sign_in_again_mismatch">இது வேறு கணக்கு. இந்தக் கணக்கு பயன்படுத்தும் பயனர் பெயர் மற்றும் சேவையகத்துடன் உள்நுழையவும்.</string>
     <string name="local_network_banner_title">லோக்கல் நெட்வொர்க் அணுகல் தேவை</string>
     <string name="local_network_banner_body">இந்த சர்வர் உங்கள் லோக்கல் நெட்வொர்க்கில் இருப்பது போல் தெரிகிறது. KashCal இதனுடன் இணைய லோக்கல் நெட்வொர்க் அணுகலை அனுமதிக்கவும்.</string>
     <string name="local_network_banner_allow">அணுகலை அனுமதி</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">பின்செல்</string>
     <string name="accounts_sync_issue">ஒத்திசைவுச் சிக்கல்</string>
     <string name="accounts_cd_sync_warning">ஒத்திசைவு எச்சரிக்கை</string>
+    <string name="accounts_cd_sync_off">ஒத்திசைவு ஆஃப்</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">நாட்காட்டி ஊட்டங்கள்</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">கண்டறிகிறது…</string>
     <string name="account_detail_discover_calendars">புதிய நாட்காட்டிகளைக் கண்டறி</string>
     <string name="account_detail_change_password">கடவுச்சொல் மாற்று</string>
+    <string name="account_detail_sign_in_again">மீண்டும் உள்நுழை</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal-இடம் இந்தக் கணக்கின் கடவுச்சொல் இனி இல்லை. மீண்டும் ஒத்திசைக்க உள்நுழையவும். உங்கள் நாட்காட்டிகளும் நிகழ்வுகளும் அப்படியே இருக்கும்.</string>
     <string name="account_detail_sign_out">வெளியேறு</string>
     <string name="account_detail_never_synced">ஒருபோதும் ஒத்திசைக்கப்படவில்லை</string>
     <string name="account_detail_last_success">கடைசி வெற்றி: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">நகர்த்து</string>
     <string name="snackbar_event_rescheduled">நிகழ்வு நேரம் மாற்றப்பட்டது</string>
     <string name="snackbar_reschedule_failed">நிகழ்வு நேரத்தை மாற்ற முடியவில்லை</string>
+    <string name="snackbar_move_failed">\"%1$s\" ஐ நகர்த்த முடியவில்லை</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" வேறு இடத்தில் மாற்றப்பட்டதால் நகர்த்தப்படவில்லை</string>
+    <string name="event_untitled">தலைப்பில்லாத நிகழ்வு</string>
     <string name="recurring_this_event">இந்த நிகழ்வு</string>
     <string name="recurring_all_events">அனைத்து நிகழ்வுகளும்</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">நிகழ்வைச் சேமி</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">ஒத்திசைவு ஆஃப்</string>
     <string name="badge_new">புதிய</string>
     <string name="color_red">சிவப்பு</string>
     <string name="color_orange">ஆரஞ்சு</string>

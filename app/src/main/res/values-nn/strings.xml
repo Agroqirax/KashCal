@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Kopla til iCloud</string>
     <string name="signin_caldav_title">Legg til CalDAV-konto</string>
+    <string name="signin_caldav_sign_in_again_title">Logg inn igjen</string>
     <string name="signin_connected_to">Kopla til %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Uventa feil. Prøv igjen.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nDersom dette er ein tenar på det lokale nettverket ditt, må du tillate tilgang til lokalt nettverk for å kople til.</string>
     <string name="caldav_error_connection_refused_insecure">Tenaren sende tilkoplinga vidare til ein stad KashCal ikkje følgjer (ei ukryptert adresse eller ei omdirigeringssløyfe), så KashCal stoppa før passordet ditt vart sendt. Sjekk tenaradressa.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Dette er ein annan konto. Logg inn med brukarnamnet og tenaren som denne kontoen brukar.</string>
     <string name="local_network_banner_title">Tilgang til lokalt nettverk krevst</string>
     <string name="local_network_banner_body">Denne tenaren ser ut til å vere på det lokale nettverket ditt. Tillat tilgang til lokalt nettverk så KashCal kan kople til han.</string>
     <string name="local_network_banner_allow">Tillat tilgang</string>
@@ -503,6 +505,7 @@
     <string name="accounts_cd_back">Tilbake</string>
     <string name="accounts_sync_issue">Synkroniseringsproblem</string>
     <string name="accounts_cd_sync_warning">Synkroniseringsåtvaring</string>
+    <string name="accounts_cd_sync_off">synkronisering av</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Kalenderstraumar</string>
@@ -563,6 +566,8 @@
     <string name="account_detail_discovering">Oppdagar…</string>
     <string name="account_detail_discover_calendars">Oppdag nye kalendrar</string>
     <string name="account_detail_change_password">Endre passord</string>
+    <string name="account_detail_sign_in_again">Logg inn igjen</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal har ikkje lenger passordet til denne kontoen. Logg inn for å synkronisere igjen. Kalendrane og hendingane dine blir verande.</string>
     <string name="account_detail_sign_out">Logg ut</string>
     <string name="account_detail_never_synced">Aldri synkronisert</string>
     <string name="account_detail_last_success">Sist vellukka: %1$s</string>
@@ -913,6 +918,9 @@
     <string name="dialog_move_recurring_title">Flytt</string>
     <string name="snackbar_event_rescheduled">Hendinga er flytta</string>
     <string name="snackbar_reschedule_failed">Kunne ikkje flytta hendinga</string>
+    <string name="snackbar_move_failed">Kunne ikkje flytta \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" vart endra ein annan stad og vart difor ikkje flytta</string>
+    <string name="event_untitled">Hending utan tittel</string>
     <string name="recurring_this_event">Denne hendinga</string>
     <string name="recurring_all_events">Alle hendingar</string>
 
@@ -1203,6 +1211,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Lagra hending</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Synk av</string>
     <string name="badge_new">Ny</string>
     <string name="color_red">Rød</string>
     <string name="color_orange">Oransje</string>

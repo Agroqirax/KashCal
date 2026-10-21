@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Поврзи iCloud</string>
     <string name="signin_caldav_title">Додај CalDAV сметка</string>
+    <string name="signin_caldav_sign_in_again_title">Најави се повторно</string>
     <string name="signin_connected_to">Поврзано со %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Неочекувана грешка. Обидете се повторно.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nАко ова е сервер во вашата локална мрежа, дозволете пристап до локалната мрежа за да се поврзете.</string>
     <string name="caldav_error_connection_refused_insecure">Серверот ја пренасочи врската кон место каде што KashCal не оди (нешифрирана адреса или јамка на пренасочувања), па KashCal запре пред да ја испрати Вашата лозинка. Проверете ја адресата на серверот.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ова е друга сметка. Најавете се со корисничкото име и серверот што ги користи оваа сметка.</string>
     <string name="local_network_banner_title">Потребен е пристап до локалната мрежа</string>
     <string name="local_network_banner_body">Овој сервер изгледа дека е во вашата локална мрежа. Дозволете пристап до локалната мрежа за да може KashCal да се поврзе со него.</string>
     <string name="local_network_banner_allow">Дозволи пристап</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Назад</string>
     <string name="accounts_sync_issue">Проблем со синхронизација</string>
     <string name="accounts_cd_sync_warning">Предупредување за синхронизација</string>
+    <string name="accounts_cd_sync_off">синхронизацијата е исклучена</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Канали со календар</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Откривање…</string>
     <string name="account_detail_discover_calendars">Откриј нови календари</string>
     <string name="account_detail_change_password">Промени лозинка</string>
+    <string name="account_detail_sign_in_again">Најави се повторно</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal веќе ја нема лозинката за оваа сметка. Најавете се за повторно да синхронизирате. Вашите календари и настани остануваат зачувани.</string>
     <string name="account_detail_sign_out">Одјави се</string>
     <string name="account_detail_never_synced">Никогаш не е синхронизирано</string>
     <string name="account_detail_last_success">Последен успех: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Премести</string>
     <string name="snackbar_event_rescheduled">Настанот е преместен</string>
     <string name="snackbar_reschedule_failed">Настанот не можеше да се премести</string>
+    <string name="snackbar_move_failed">„%1$s“ не можеше да се премести</string>
+    <string name="snackbar_move_changed_elsewhere">„%1$s“ е променет на друго место, затоа не е преместен</string>
+    <string name="event_untitled">Настан без наслов</string>
     <string name="recurring_this_event">Овој настан</string>
     <string name="recurring_all_events">Сите настани</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Зачувај настан</string>
     <string name="badge_beta">Бета</string>
+    <string name="badge_sync_off">Синхр. искл.</string>
     <string name="badge_new">Ново</string>
     <string name="color_red">Црвена</string>
     <string name="color_orange">Портокалова</string>

@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ikonekta ang iCloud</string>
     <string name="signin_caldav_title">Magdagdag ng CalDAV Account</string>
+    <string name="signin_caldav_sign_in_again_title">Mag-sign In Muli</string>
     <string name="signin_connected_to">Nakakonekta sa %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Hindi inaasahang error. Subukan ulit.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nKung ito ay isang server sa iyong lokal na network, payagan ang access sa lokal na network para makakonekta.</string>
     <string name="caldav_error_connection_refused_insecure">Inilipat ng server ang koneksyon sa lugar na hindi sinusundan ng KashCal (isang address na walang encryption, o paulit-ulit na redirect), kaya huminto ang KashCal bago ipadala ang iyong password. Suriin ang address ng server.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ibang account ito. Mag-sign in gamit ang username at server na ginagamit ng account na ito.</string>
     <string name="local_network_banner_title">Kailangan ng access sa lokal na network</string>
     <string name="local_network_banner_body">Mukhang nasa iyong lokal na network ang server na ito. Payagan ang access sa lokal na network para makakonekta dito ang KashCal.</string>
     <string name="local_network_banner_allow">Payagan ang access</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Bumalik</string>
     <string name="accounts_sync_issue">Sync issue</string>
     <string name="accounts_cd_sync_warning">Babala sa sync</string>
+    <string name="accounts_cd_sync_off">naka-off ang sync</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Mga Calendar Feed</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Nagdi-discover…</string>
     <string name="account_detail_discover_calendars">Mag-discover ng Bagong Kalendaryo</string>
     <string name="account_detail_change_password">Palitan ang Password</string>
+    <string name="account_detail_sign_in_again">Mag-sign In Muli</string>
+    <string name="account_detail_sign_in_again_subtitle">Wala na sa KashCal ang password ng account na ito. Mag-sign in para muling mag-sync. Mananatili ang iyong mga kalendaryo at event.</string>
     <string name="account_detail_sign_out">Mag-sign Out</string>
     <string name="account_detail_never_synced">Hindi pa na-sync kailanman</string>
     <string name="account_detail_last_success">Huling tagumpay: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Ilipat</string>
     <string name="snackbar_event_rescheduled">Na-iskedyul muli ang event</string>
     <string name="snackbar_reschedule_failed">Hindi ma-iskedyul muli ang event</string>
+    <string name="snackbar_move_failed">Hindi mailipat ang \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">Binago ang \"%1$s\" sa ibang lugar, kaya hindi ito nailipat</string>
+    <string name="event_untitled">Event na walang pamagat</string>
     <string name="recurring_this_event">Event na ito</string>
     <string name="recurring_all_events">Lahat ng event</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">I-save ang Kaganapan</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Off ang sync</string>
     <string name="badge_new">Bago</string>
     <string name="color_red">Pula</string>
     <string name="color_orange">Kahel</string>

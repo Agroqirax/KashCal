@@ -1,3 +1,13 @@
+## [2026.10.21]
+
+- Added `Sign In Again` for a CalDAV account whose saved password KashCal can no longer read, prefilled with its server, username and name, keeping its calendars and events, #371
+- Fixed signing in again to an existing CalDAV or iCloud account deleting it, with its calendars and events, when the password couldn't be stored, #370
+- Fixed saved passwords staying unreadable after the phone's encryption key changed; KashCal now clears the unreadable store so you can sign in again, #370
+- Changed a saved password that can't be decrypted to count as missing, so sync and the account screens keep working instead of failing
+- Changed `Add iCloud` to fill in the Apple ID of an iCloud account that needs signing in again
+- Added a `Sync off` badge in Settings → Calendar accounts on accounts whose sync is turned off
+- Added `Undo` to a drag-to-reschedule in Week, 3-day and Day: the event moves at once with an `Event rescheduled` snackbar and is saved when the snackbar ends; a change made elsewhere in the meantime is not overwritten
+
 ## [2026.10.16]
 
 Calendars have a habit of telling you that something called "Quarterly plann…" is happening at some point on Thursday. This release is about reading the whole name.

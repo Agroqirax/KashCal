@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Yhdistä iCloud</string>
     <string name="signin_caldav_title">Lisää CalDAV-tili</string>
+    <string name="signin_caldav_sign_in_again_title">Kirjaudu uudelleen</string>
     <string name="signin_connected_to">Yhdistetty palveluun %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Odottamaton virhe. Yritä uudelleen.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nJos tämä on palvelin lähiverkossasi, salli lähiverkon käyttö yhteyden muodostamiseksi.</string>
     <string name="caldav_error_connection_refused_insecure">Palvelin ohjasi yhteyden paikkaan, jonne KashCal ei seuraa (salaamattomaan osoitteeseen tai uudelleenohjaussilmukkaan), joten KashCal pysähtyi ennen salasanasi lähettämistä. Tarkista palvelimen osoite.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Tämä on eri tili. Kirjaudu sisään käyttäjänimellä ja palvelimella, joita tämä tili käyttää.</string>
     <string name="local_network_banner_title">Lähiverkon käyttöoikeus tarvitaan</string>
     <string name="local_network_banner_body">Tämä palvelin näyttää olevan lähiverkossasi. Salli lähiverkon käyttö, jotta KashCal voi muodostaa siihen yhteyden.</string>
     <string name="local_network_banner_allow">Salli käyttö</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Siirry takaisin</string>
     <string name="accounts_sync_issue">Synkronointiongelma</string>
     <string name="accounts_cd_sync_warning">Synkronointivaroitus</string>
+    <string name="accounts_cd_sync_off">synkronointi pois päältä</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Kalenterisyötteet</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Etsitään…</string>
     <string name="account_detail_discover_calendars">Etsi uusia kalentereita</string>
     <string name="account_detail_change_password">Vaihda salasana</string>
+    <string name="account_detail_sign_in_again">Kirjaudu uudelleen</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCalilla ei ole enää tämän tilin salasanaa. Kirjaudu sisään, niin synkronointi jatkuu. Kalenterisi ja tapahtumasi säilyvät.</string>
     <string name="account_detail_sign_out">Kirjaudu ulos</string>
     <string name="account_detail_never_synced">Ei koskaan synkronoitu</string>
     <string name="account_detail_last_success">Viimeisin onnistuminen: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Siirrä</string>
     <string name="snackbar_event_rescheduled">Tapahtuma siirretty</string>
     <string name="snackbar_reschedule_failed">Tapahtuman siirto epäonnistui</string>
+    <string name="snackbar_move_failed">Tapahtuman ”%1$s” siirto epäonnistui</string>
+    <string name="snackbar_move_changed_elsewhere">Tapahtumaa ”%1$s” muutettiin muualla, joten sitä ei siirretty</string>
+    <string name="event_untitled">Nimetön tapahtuma</string>
     <string name="recurring_this_event">Tämä tapahtuma</string>
     <string name="recurring_all_events">Kaikki tapahtumat</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Tallenna tapahtuma</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Synkr. pois</string>
     <string name="badge_new">Uusi</string>
     <string name="color_red">Punainen</string>
     <string name="color_orange">Oranssi</string>

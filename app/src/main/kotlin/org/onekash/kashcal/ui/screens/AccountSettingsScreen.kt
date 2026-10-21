@@ -107,6 +107,8 @@ data class AccountSettingsUiState(
     /** Sign-in state for generic CalDAV servers. */
     val calDavState: CalDavConnectionState = CalDavConnectionState.NotConnected(),
     val showCalDavSignInSheet: Boolean = false,
+    /** The account the CalDAV sign-in sheet is signing in again, or null for a new account. */
+    val calDavSignInAgainAccountId: Long? = null,
     /** Number of connected CalDAV accounts. */
     val calDavAccountCount: Int = 0,
     /** Connected CalDAV accounts, for display. */

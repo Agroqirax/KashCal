@@ -40,6 +40,9 @@ class DeviceEventReader @Inject constructor(
     /** One provider event row, or null when it doesn't exist. */
     suspend fun getDeviceEvent(eventId: Long): DeviceEvent? = repository.getDeviceEvent(eventId)
 
+    /** Whether the row exists and isn't deleted; see [CalendarProviderRepository.isEventActive]. */
+    suspend fun isEventActive(eventId: Long): Boolean = repository.isEventActive(eventId)
+
     /** Every calendar the provider exposes. */
     suspend fun getDeviceCalendars(): List<DeviceCalendar> = repository.getDeviceCalendars()
 

@@ -124,6 +124,7 @@ class AccountSettingsDeviceObserverLifecycleTest {
         // reads is stubbed, so an unexpected read fails the test.
         val accountRepository = mockk<AccountRepository> {
             coEvery { getAccountsByProvider(AccountProvider.ICLOUD) } returns emptyList()
+            every { getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns flowOf(emptyList())
         }
         val eventCoordinator = mockk<EventCoordinator> {
             every { getAllCalendars() } returns MutableStateFlow(emptyList<Calendar>())

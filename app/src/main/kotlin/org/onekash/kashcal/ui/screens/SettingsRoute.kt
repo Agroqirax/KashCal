@@ -63,7 +63,7 @@ import org.onekash.kashcal.ui.screens.settings.AccountsScreen
 import org.onekash.kashcal.ui.screens.settings.BirthdaysAndAnniversariesScreen
 import org.onekash.kashcal.ui.screens.settings.CalDavConnectionState
 import org.onekash.kashcal.ui.screens.settings.DeviceCalendarsScreen
-import org.onekash.kashcal.ui.screens.settings.ICloudAccountUiModel
+import org.onekash.kashcal.ui.screens.settings.toAccountUiModel
 import org.onekash.kashcal.ui.screens.settings.ICloudConnectionState
 import org.onekash.kashcal.ui.screens.settings.RestoreConfirmationDialog
 import org.onekash.kashcal.ui.screens.settings.SettingsDestination
@@ -186,15 +186,7 @@ fun SettingsRoute(
 
         // iCloud account for AccountsScreen, derived from uiState (the single source of truth)
         val iCloudAccount = remember(uiState.iCloudState) {
-            (uiState.iCloudState as? ICloudConnectionState.Connected)?.let {
-                ICloudAccountUiModel(
-                    accountId = it.accountId,
-                    email = it.appleId,
-                    calendarCount = it.calendarCount,
-                    consecutiveSyncFailures = it.consecutiveSyncFailures,
-                    lastSuccessfulSyncAt = it.lastSyncTime
-                )
-            }
+            (uiState.iCloudState as? ICloudConnectionState.Connected)?.toAccountUiModel()
         }
 
         // Which toggle started the contacts permission request
@@ -587,7 +579,8 @@ fun SettingsRoute(
                             onGrantContactsPermission = onGrantContactsPermission,
                             onRenameAccount = viewModel::renameAccount,
                             onChangeAccountPassword = viewModel::changeAccountPassword,
-                            onDiscoverCalendars = viewModel::discoverNewCalendars
+                            onDiscoverCalendars = viewModel::discoverNewCalendars,
+                            onSignInAgain = viewModel::startCalDavSignInAgain
                         )
                     }
                     SettingsDestination.BirthdaysAnniversaries -> {
@@ -963,6 +956,10 @@ fun SettingsRoute(
                         localNetworkPermissionLauncher.launch(android.Manifest.permission.ACCESS_LOCAL_NETWORK)
                     },
                     onDismissLocalNetworkBanner = { localNetworkBannerDismissed = true },
+                    title = stringResource(
+                        if (uiState.calDavSignInAgainAccountId != null) R.string.signin_caldav_sign_in_again_title
+                        else R.string.signin_caldav_title
+                    ),
                 )
             }
 

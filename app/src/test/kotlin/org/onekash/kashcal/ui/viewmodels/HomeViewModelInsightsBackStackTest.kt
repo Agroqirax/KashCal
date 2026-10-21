@@ -115,6 +115,7 @@ class HomeViewModelInsightsBackStackTest {
         contactEmailReader = mockk(relaxed = true),
         context = mockk(relaxed = true),
         ioDispatcher = testDispatcher,
+        applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher),
         currentDayCodeProvider = { DayPagerUtils.msToDayCode(System.currentTimeMillis()) }
     )
 

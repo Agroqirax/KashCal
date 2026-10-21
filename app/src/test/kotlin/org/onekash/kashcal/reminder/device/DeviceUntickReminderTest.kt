@@ -155,6 +155,7 @@ class DeviceUntickReminderTest {
         // Data-bearing collaborators are strict: only what the ViewModel's init reads is stubbed.
         val accountRepository = mockk<AccountRepository> {
             coEvery { getAccountsByProvider(AccountProvider.ICLOUD) } returns emptyList()
+            every { getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns flowOf(emptyList())
         }
         val eventCoordinator = mockk<EventCoordinator> {
             every { getAllCalendars() } returns MutableStateFlow(emptyList<Calendar>())

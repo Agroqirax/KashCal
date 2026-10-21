@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud ସଂଯୋଗ କରନ୍ତୁ</string>
     <string name="signin_caldav_title">CalDAV ଆକାଉଣ୍ଟ ଯୋଡ଼ନ୍ତୁ</string>
+    <string name="signin_caldav_sign_in_again_title">ପୁଣି ସାଇନ ଇନ କରନ୍ତୁ</string>
     <string name="signin_connected_to">%1$s ସହ ସଂଯୋଗ ହୋଇଛି</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">ଅପ୍ରତ୍ୟାଶିତ ତ୍ରୁଟି। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nଏହା ଯଦି ଆପଣଙ୍କ ଲୋକାଲ ନେଟୱାର୍କରେ ଥିବା ଏକ ସର୍ଭର, ତେବେ ସଂଯୋଗ କରିବାକୁ ଲୋକାଲ ନେଟୱାର୍କ ଆକ୍ସେସ୍ ଅନୁମତି ଦିଅନ୍ତୁ।</string>
     <string name="caldav_error_connection_refused_insecure">ସର୍ଭର ସଂଯୋଗକୁ ଏପରି ସ୍ଥାନକୁ ପଠାଇଲା ଯେଉଁଠାକୁ KashCal ଯାଏ ନାହିଁ (ଏନକ୍ରିପ୍ଟ ହୋଇନଥିବା ଠିକଣା, କିମ୍ବା ରିଡାଇରେକ୍ଟ ଲୁପ୍), ତେଣୁ ଆପଣଙ୍କ ପାସୱାର୍ଡ ପଠାଇବା ପୂର୍ବରୁ KashCal ବନ୍ଦ ହୋଇଗଲା। ସର୍ଭର ଠିକଣା ଯାଞ୍ଚ କରନ୍ତୁ।</string>
+    <string name="caldav_error_sign_in_again_mismatch">ଏହା ଏକ ଭିନ୍ନ ଆକାଉଣ୍ଟ। ଏହି ଆକାଉଣ୍ଟ ବ୍ୟବହାର କରୁଥିବା ୟୁଜରନେମ୍ ଏବଂ ସର୍ଭର ସହ ସାଇନ ଇନ କରନ୍ତୁ।</string>
     <string name="local_network_banner_title">ଲୋକାଲ ନେଟୱାର୍କ ଆକ୍ସେସ୍ ଆବଶ୍ୟକ</string>
     <string name="local_network_banner_body">ଏହି ସର୍ଭର ଆପଣଙ୍କ ଲୋକାଲ ନେଟୱାର୍କରେ ଥିବା ପରି ଦେଖାଯାଉଛି। KashCal ଏହା ସହ ସଂଯୋଗ କରିପାରିବା ପାଇଁ ଲୋକାଲ ନେଟୱାର୍କ ଆକ୍ସେସ୍ ଅନୁମତି ଦିଅନ୍ତୁ।</string>
     <string name="local_network_banner_allow">ଆକ୍ସେସ୍ ଅନୁମତି ଦିଅନ୍ତୁ</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">ପଛକୁ ନେଭିଗେଟ</string>
     <string name="accounts_sync_issue">ସିଙ୍କ ସମସ୍ୟା</string>
     <string name="accounts_cd_sync_warning">ସିଙ୍କ ସତର୍କତା</string>
+    <string name="accounts_cd_sync_off">ସିଙ୍କ ବନ୍ଦ</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">କ୍ୟାଲେଣ୍ଡର ଫିଡ</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">ଖୋଜୁଛି…</string>
     <string name="account_detail_discover_calendars">ନୂଆ କ୍ୟାଲେଣ୍ଡର ଖୋଜନ୍ତୁ</string>
     <string name="account_detail_change_password">ପାସୱାର୍ଡ ବଦଳାନ୍ତୁ</string>
+    <string name="account_detail_sign_in_again">ପୁଣି ସାଇନ ଇନ କରନ୍ତୁ</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal ପାଖରେ ଆଉ ଏହି ଆକାଉଣ୍ଟର ପାସୱାର୍ଡ ନାହିଁ। ପୁଣି ସିଙ୍କ କରିବାକୁ ସାଇନ ଇନ କରନ୍ତୁ। ଆପଣଙ୍କ କ୍ୟାଲେଣ୍ଡର ଏବଂ ଇଭେଣ୍ଟ ସୁରକ୍ଷିତ ରହିବ।</string>
     <string name="account_detail_sign_out">ସାଇନ ଆଉଟ</string>
     <string name="account_detail_never_synced">କେବେ ସିଙ୍କ ହୋଇନାହିଁ</string>
     <string name="account_detail_last_success">ଶେଷ ସଫଳ: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">ସ୍ଥାନାନ୍ତର</string>
     <string name="snackbar_event_rescheduled">ଇଭେଣ୍ଟର ସମୟ ବଦଳାଗଲା</string>
     <string name="snackbar_reschedule_failed">ଇଭେଣ୍ଟର ସମୟ ବଦଳାଯାଇପାରିଲା ନାହିଁ</string>
+    <string name="snackbar_move_failed">\"%1$s\" ସ୍ଥାନାନ୍ତର କରାଯାଇପାରିଲା ନାହିଁ</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" ଅନ୍ୟତ୍ର ବଦଳାଯାଇଛି, ତେଣୁ ସ୍ଥାନାନ୍ତର କରାଯାଇନାହିଁ</string>
+    <string name="event_untitled">ଶୀର୍ଷକହୀନ ଇଭେଣ୍ଟ</string>
     <string name="recurring_this_event">ଏହି ଇଭେଣ୍ଟ</string>
     <string name="recurring_all_events">ସମସ୍ତ ଇଭେଣ୍ଟ</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">ଇଭେଣ୍ଟ ସେଭ କରନ୍ତୁ</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">ସିଙ୍କ ବନ୍ଦ</string>
     <string name="badge_new">ନୂଆ</string>
     <string name="color_red">ଲାଲ</string>
     <string name="color_orange">କମଳା</string>

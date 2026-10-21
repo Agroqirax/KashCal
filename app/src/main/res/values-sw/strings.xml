@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Unganisha iCloud</string>
     <string name="signin_caldav_title">Ongeza Akaunti ya CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Ingia Tena</string>
     <string name="signin_connected_to">Imeunganishwa na %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Hitilafu isiyotarajiwa. Jaribu tena.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nKama hii ni seva iliyo kwenye mtandao wako wa ndani, ruhusu ufikiaji wa mtandao wa ndani ili kuunganisha.</string>
     <string name="caldav_error_connection_refused_insecure">Seva ilielekeza muunganisho mahali ambapo KashCal haiendi (anwani isiyosimbwa, au mzunguko wa kuelekeza upya), kwa hivyo KashCal ilisimama kabla ya kutuma nenosiri lako. Kagua anwani ya seva.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Hii ni akaunti tofauti. Ingia kwa jina la mtumiaji na seva ambayo akaunti hii inatumia.</string>
     <string name="local_network_banner_title">Ufikiaji wa mtandao wa ndani unahitajika</string>
     <string name="local_network_banner_body">Seva hii inaonekana iko kwenye mtandao wako wa ndani. Ruhusu ufikiaji wa mtandao wa ndani ili KashCal iweze kuiunganisha.</string>
     <string name="local_network_banner_allow">Ruhusu ufikiaji</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Rudi nyuma</string>
     <string name="accounts_sync_issue">Tatizo la kusawazisha</string>
     <string name="accounts_cd_sync_warning">Onyo la kusawazisha</string>
+    <string name="accounts_cd_sync_off">usawazishaji umezimwa</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Milisho ya Kalenda</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Inagundua…</string>
     <string name="account_detail_discover_calendars">Gundua Kalenda Mpya</string>
     <string name="account_detail_change_password">Badilisha Nenosiri</string>
+    <string name="account_detail_sign_in_again">Ingia Tena</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal haina tena nenosiri la akaunti hii. Ingia ili kusawazisha tena. Kalenda na matukio yako yatabaki.</string>
     <string name="account_detail_sign_out">Ondoka</string>
     <string name="account_detail_never_synced">Haijawahi kusawazishwa</string>
     <string name="account_detail_last_success">Mafanikio ya mwisho: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Sogeza</string>
     <string name="snackbar_event_rescheduled">Tukio limepangwa upya</string>
     <string name="snackbar_reschedule_failed">Imeshindwa kupanga upya tukio</string>
+    <string name="snackbar_move_failed">Imeshindwa kusogeza \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" lilibadilishwa mahali pengine, kwa hivyo halikusogezwa</string>
+    <string name="event_untitled">Tukio lisilo na kichwa</string>
     <string name="recurring_this_event">Tukio hili</string>
     <string name="recurring_all_events">Matukio yote</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Hifadhi Tukio</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Usawaz. umezimwa</string>
     <string name="badge_new">Mpya</string>
     <string name="color_red">Nyekundu</string>
     <string name="color_orange">Machungwa</string>

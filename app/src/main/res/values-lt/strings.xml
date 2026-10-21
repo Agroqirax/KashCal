@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Prijungti iCloud</string>
     <string name="signin_caldav_title">Pridėti CalDAV paskyrą</string>
+    <string name="signin_caldav_sign_in_again_title">Prisijungti iš naujo</string>
     <string name="signin_connected_to">Prijungta prie %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Netikėta klaida. Bandykite dar kartą.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nJei tai serveris tavo vietiniame tinkle, leisk prieigą prie vietinio tinklo, kad galėtum prisijungti.</string>
     <string name="caldav_error_connection_refused_insecure">Serveris nukreipė ryšį ten, kur KashCal neseka (į nešifruotą adresą arba peradresavimų ciklą), todėl KashCal sustojo prieš išsiųsdama tavo slaptažodį. Patikrink serverio adresą.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Tai kita paskyra. Prisijunk naudotojo vardu ir serveriu, kuriuos naudoja ši paskyra.</string>
     <string name="local_network_banner_title">Reikia vietinio tinklo prieigos</string>
     <string name="local_network_banner_body">Panašu, kad šis serveris yra tavo vietiniame tinkle. Leisk prieigą prie vietinio tinklo, kad KashCal galėtų prie jo prisijungti.</string>
     <string name="local_network_banner_allow">Leisti prieigą</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Atgal</string>
     <string name="accounts_sync_issue">Sinchronizavimo problema</string>
     <string name="accounts_cd_sync_warning">Sinchronizavimo įspėjimas</string>
+    <string name="accounts_cd_sync_off">sinchronizavimas išjungtas</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Kalendoriaus srautai</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Ieškoma…</string>
     <string name="account_detail_discover_calendars">Rasti naujus kalendorius</string>
     <string name="account_detail_change_password">Keisti slaptažodį</string>
+    <string name="account_detail_sign_in_again">Prisijungti iš naujo</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal nebeturi šios paskyros slaptažodžio. Prisijunk, kad vėl sinchronizuotum. Tavo kalendoriai ir įvykiai išliks.</string>
     <string name="account_detail_sign_out">Atsijungti</string>
     <string name="account_detail_never_synced">Nesinchronizuota</string>
     <string name="account_detail_last_success">Paskutinis sinchronizavimas: %1$s</string>
@@ -996,6 +1001,9 @@
     <string name="dialog_move_recurring_title">Perkelti</string>
     <string name="snackbar_event_rescheduled">Įvykis perkeltas</string>
     <string name="snackbar_reschedule_failed">Nepavyko perkelti įvykio</string>
+    <string name="snackbar_move_failed">Nepavyko perkelti įvykio „%1$s“</string>
+    <string name="snackbar_move_changed_elsewhere">Įvykis „%1$s“ pakeistas kitur, todėl nebuvo perkeltas</string>
+    <string name="event_untitled">Įvykis be pavadinimo</string>
     <string name="recurring_this_event">Šis įvykis</string>
     <string name="recurring_all_events">Visi įvykiai</string>
 
@@ -1320,6 +1328,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Išsaugoti įvykį</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sinchr. išj.</string>
     <string name="badge_new">Nauja</string>
     <string name="color_red">Raudona</string>
     <string name="color_orange">Oranžinė</string>

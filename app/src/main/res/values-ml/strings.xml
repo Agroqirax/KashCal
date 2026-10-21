@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud കണക്ട് ചെയ്യുക</string>
     <string name="signin_caldav_title">CalDAV അക്കൗണ്ട് ചേർക്കുക</string>
+    <string name="signin_caldav_sign_in_again_title">വീണ്ടും സൈൻ ഇൻ ചെയ്യുക</string>
     <string name="signin_connected_to">%1$s ലേക്ക് കണക്ട് ചെയ്തു</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">അപ്രതീക്ഷിത പിശക്. വീണ്ടും ശ്രമിക്കുക.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nഇത് നിങ്ങളുടെ ലോക്കൽ നെറ്റ്‌വർക്കിലുള്ള ഒരു സെർവർ ആണെങ്കിൽ, കണക്റ്റ് ചെയ്യാൻ ലോക്കൽ നെറ്റ്‌വർക്ക് ആക്‌സസ് അനുവദിക്കുക.</string>
     <string name="caldav_error_connection_refused_insecure">KashCal പിന്തുടരാത്ത ഒരിടത്തേക്ക് (എൻക്രിപ്റ്റ് ചെയ്യാത്ത വിലാസം, അല്ലെങ്കിൽ റീഡയറക്ട് ലൂപ്പ്) സെർവർ കണക്ഷൻ തിരിച്ചുവിട്ടു, അതിനാൽ നിങ്ങളുടെ പാസ്‌വേഡ് അയയ്ക്കുന്നതിന് മുമ്പ് KashCal നിർത്തി. സെർവർ വിലാസം പരിശോധിക്കുക.</string>
+    <string name="caldav_error_sign_in_again_mismatch">ഇത് മറ്റൊരു അക്കൗണ്ടാണ്. ഈ അക്കൗണ്ട് ഉപയോഗിക്കുന്ന ഉപയോക്തൃനാമവും സെർവറും ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക.</string>
     <string name="local_network_banner_title">ലോക്കൽ നെറ്റ്‌വർക്ക് ആക്‌സസ് ആവശ്യമാണ്</string>
     <string name="local_network_banner_body">ഈ സെർവർ നിങ്ങളുടെ ലോക്കൽ നെറ്റ്‌വർക്കിൽ ഉള്ളതായി തോന്നുന്നു. KashCal-ന് ഇതിലേക്ക് കണക്റ്റ് ചെയ്യാൻ ലോക്കൽ നെറ്റ്‌വർക്ക് ആക്‌സസ് അനുവദിക്കുക.</string>
     <string name="local_network_banner_allow">ആക്‌സസ് അനുവദിക്കുക</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">പിന്നിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക</string>
     <string name="accounts_sync_issue">സിങ്ക് പ്രശ്നം</string>
     <string name="accounts_cd_sync_warning">സിങ്ക് മുന്നറിയിപ്പ്</string>
+    <string name="accounts_cd_sync_off">സിങ്ക് ഓഫ്</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">കലണ്ടർ ഫീഡുകൾ</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">കണ്ടെത്തുന്നു…</string>
     <string name="account_detail_discover_calendars">പുതിയ കലണ്ടറുകൾ കണ്ടെത്തുക</string>
     <string name="account_detail_change_password">പാസ്‌വേഡ് മാറ്റുക</string>
+    <string name="account_detail_sign_in_again">വീണ്ടും സൈൻ ഇൻ ചെയ്യുക</string>
+    <string name="account_detail_sign_in_again_subtitle">ഈ അക്കൗണ്ടിന്റെ പാസ്‌വേഡ് ഇനി KashCal-ൽ ഇല്ല. വീണ്ടും സിങ്ക് ചെയ്യാൻ സൈൻ ഇൻ ചെയ്യുക. നിങ്ങളുടെ കലണ്ടറുകളും ഇവന്റുകളും അതേപടി നിലനിൽക്കും.</string>
     <string name="account_detail_sign_out">സൈൻ ഔട്ട്</string>
     <string name="account_detail_never_synced">ഒരിക്കലും സിങ്ക് ചെയ്തിട്ടില്ല</string>
     <string name="account_detail_last_success">അവസാന വിജയം: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">മാറ്റുക</string>
     <string name="snackbar_event_rescheduled">ഇവന്റിന്റെ സമയം മാറ്റി</string>
     <string name="snackbar_reschedule_failed">ഇവന്റിന്റെ സമയം മാറ്റാനായില്ല</string>
+    <string name="snackbar_move_failed">\"%1$s\" മാറ്റാനായില്ല</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" മറ്റൊരിടത്ത് പരിഷ്കരിച്ചതിനാൽ മാറ്റിയില്ല</string>
+    <string name="event_untitled">ശീർഷകമില്ലാത്ത ഇവന്റ്</string>
     <string name="recurring_this_event">ഈ ഇവന്റ്</string>
     <string name="recurring_all_events">എല്ലാ ഇവന്റുകളും</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">ഇവന്റ് സേവ് ചെയ്യുക</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">സിങ്ക് ഓഫ്</string>
     <string name="badge_new">പുതിയത്</string>
     <string name="color_red">ചുവപ്പ്</string>
     <string name="color_orange">ഓറഞ്ച്</string>

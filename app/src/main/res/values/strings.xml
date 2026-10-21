@@ -423,6 +423,7 @@
     <!-- Keep "iCloud" and "CalDAV" untranslated -->
     <string name="signin_icloud_title">Connect iCloud</string>
     <string name="signin_caldav_title">Add CalDAV Account</string>
+    <string name="signin_caldav_sign_in_again_title">Sign In Again</string>
     <!-- %1$s = provider name (e.g., "iCloud", "Nextcloud") -->
     <string name="signin_connected_to">Connected to %1$s</string>
 
@@ -528,6 +529,7 @@
     <string name="caldav_error_with_lan_hint">%1$s\n\nIf this is a server on your local network, allow local network access to connect.</string>
     <!-- Shown inline in sign-in, Discover calendars and password change when KashCal refused a connection: the server redirected to plain http on another host, an https account was pointed at plain http, or the server kept redirecting. The password was not sent. -->
     <string name="caldav_error_connection_refused_insecure">The server redirected the connection somewhere KashCal won\'t follow (an unencrypted address, or a redirect loop), so KashCal stopped before sending your password. Check the server address.</string>
+    <string name="caldav_error_sign_in_again_mismatch">This is a different account. Sign in with the username and server this account uses.</string>
 
     <!-- Local-network permission banner in CalDAV sign-in (Android 17+) -->
     <string name="local_network_banner_title">Local network access needed</string>
@@ -763,6 +765,8 @@
     <string name="accounts_cd_back">Navigate back</string>
     <string name="accounts_sync_issue">Sync issue</string>
     <string name="accounts_cd_sync_warning">Sync warning</string>
+    <!-- Screen-reader suffix appended to an account row description when its sync is turned off -->
+    <string name="accounts_cd_sync_off">sync off</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <!-- "Calendar feeds" = read-only ICS calendar feeds (like holidays), NOT paid subscriptions -->
@@ -849,6 +853,8 @@
     <string name="account_detail_discovering">Discovering…</string>
     <string name="account_detail_discover_calendars">Discover New Calendars</string>
     <string name="account_detail_change_password">Change Password</string>
+    <string name="account_detail_sign_in_again">Sign In Again</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal no longer has this account\'s password. Sign in to sync again. Your calendars and events stay.</string>
     <string name="account_detail_sign_out">Sign Out</string>
     <string name="account_detail_never_synced">Never synced</string>
     <string name="account_detail_last_success">Last success: %1$s</string>
@@ -1299,10 +1305,16 @@
     <string name="dialog_delete_recurring_title">Delete</string>
     <!-- Title shown above the recurring-scope sheet's two cards (drag-reschedule flow). One verb. -->
     <string name="dialog_move_recurring_title">Move</string>
-    <!-- Snackbar after an event is dragged to a new time and the change is saved. -->
+    <!-- Snackbar after an event is dragged to a new time; it shows with an Undo button, and the move is saved when it goes away. -->
     <string name="snackbar_event_rescheduled">Event rescheduled</string>
-    <!-- Snackbar when dragging an event to a new time fails to save. -->
+    <!-- Snackbar when a drag to a new time can't be done, shown at the drop. -->
     <string name="snackbar_reschedule_failed">Couldn\'t reschedule event</string>
+    <!-- Snackbar when saving a dragged event failed after its Undo window; %1$s is the event title. Shown with a Retry button when trying again can help. -->
+    <string name="snackbar_move_failed">Couldn\'t move \"%1$s\"</string>
+    <!-- Snackbar when a dragged event was changed by a sync or another app before the move was saved, so the move was dropped; %1$s is the event title. -->
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" changed elsewhere, so it wasn\'t moved</string>
+    <!-- Stands in for the title of an event that has none, inside a message. -->
+    <string name="event_untitled">Untitled event</string>
     <string name="recurring_this_event">This event</string>
     <string name="recurring_all_events">All events</string>
 
@@ -1735,6 +1747,8 @@
     <string name="action_save_event">Save Event</string>
     <!-- Badges -->
     <string name="badge_beta">Beta</string>
+    <!-- Badge at the end of an account row in the accounts list when the account's sync is turned off -->
+    <string name="badge_sync_off">Sync off</string>
     <string name="badge_new">New</string>
     <!-- Color names for accessibility -->
     <string name="color_red">Red</string>

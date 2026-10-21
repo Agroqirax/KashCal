@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud\'a Bağlan</string>
     <string name="signin_caldav_title">CalDAV Hesabı Ekle</string>
+    <string name="signin_caldav_sign_in_again_title">Tekrar Giriş Yap</string>
     <string name="signin_connected_to">%1$s\'e bağlanıldı</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Beklenmeyen hata. Lütfen tekrar deneyin.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nBu, yerel ağındaki bir sunucuysa, bağlanmak için yerel ağ erişimine izin ver.</string>
     <string name="caldav_error_connection_refused_insecure">Sunucu bağlantıyı KashCal\'ın izlemediği bir yere yönlendirdi (şifrelenmemiş bir adres ya da yönlendirme döngüsü), bu yüzden KashCal şifreni göndermeden önce durdu. Sunucu adresini kontrol et.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Bu farklı bir hesap. Bu hesabın kullandığı kullanıcı adı ve sunucuyla giriş yap.</string>
     <string name="local_network_banner_title">Yerel ağ erişimi gerekli</string>
     <string name="local_network_banner_body">Bu sunucu, yerel ağında gibi görünüyor. KashCal\'ın ona bağlanabilmesi için yerel ağ erişimine izin ver.</string>
     <string name="local_network_banner_allow">Erişime izin ver</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Geri dön</string>
     <string name="accounts_sync_issue">Eşitleme sorunu</string>
     <string name="accounts_cd_sync_warning">Eşitleme uyarısı</string>
+    <string name="accounts_cd_sync_off">eşitleme kapalı</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Takvim Akışları</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Keşfediliyor…</string>
     <string name="account_detail_discover_calendars">Yeni Takvimleri Keşfet</string>
     <string name="account_detail_change_password">Parola Değiştir</string>
+    <string name="account_detail_sign_in_again">Tekrar Giriş Yap</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal\'da bu hesabın parolası artık yok. Tekrar eşitlemek için giriş yap. Takvimlerin ve etkinliklerin korunur.</string>
     <string name="account_detail_sign_out">Çıkış Yap</string>
     <string name="account_detail_never_synced">Hiç eşitlenmedi</string>
     <string name="account_detail_last_success">Son başarılı: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Taşı</string>
     <string name="snackbar_event_rescheduled">Etkinlik yeniden planlandı</string>
     <string name="snackbar_reschedule_failed">Etkinlik yeniden planlanamadı</string>
+    <string name="snackbar_move_failed">\"%1$s\" taşınamadı</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" başka bir yerde değiştirildi, bu yüzden taşınmadı</string>
+    <string name="event_untitled">Başlıksız etkinlik</string>
     <string name="recurring_this_event">Bu etkinlik</string>
     <string name="recurring_all_events">Tüm etkinlikler</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Etkinliği Kaydet</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Eşitleme kapalı</string>
     <string name="badge_new">Yeni</string>
     <string name="color_red">Kırmızı</string>
     <string name="color_orange">Turuncu</string>

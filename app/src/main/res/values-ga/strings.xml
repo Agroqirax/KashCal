@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ceangail iCloud</string>
     <string name="signin_caldav_title">Cuir Cuntas CalDAV Leis</string>
+    <string name="signin_caldav_sign_in_again_title">Sínigh Isteach Arís</string>
     <string name="signin_connected_to">Ceangailte le %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Earráid gan choinne. Bain triail eile as.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nMás freastalaí ar do líonra áitiúil é seo, ceadaigh rochtain ar an líonra áitiúil chun ceangal.</string>
     <string name="caldav_error_connection_refused_insecure">D\'atreoraigh an freastalaí an ceangal chuig áit nach leanann KashCal (seoladh neamhchriptithe, nó lúb atreoraithe), mar sin stop KashCal sular seoladh do phasfhocal. Seiceáil seoladh an fhreastalaí.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Is cuntas difriúil é seo. Sínigh isteach leis an ainm úsáideora agus leis an bhfreastalaí a úsáideann an cuntas seo.</string>
     <string name="local_network_banner_title">Rochtain ar an líonra áitiúil de dhíth</string>
     <string name="local_network_banner_body">Is cosúil go bhfuil an freastalaí seo ar do líonra áitiúil. Ceadaigh rochtain ar an líonra áitiúil ionas gur féidir le KashCal ceangal leis.</string>
     <string name="local_network_banner_allow">Ceadaigh rochtain</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Stiúir ar ais</string>
     <string name="accounts_sync_issue">Fadhb sioncronúithe</string>
     <string name="accounts_cd_sync_warning">Rabhadh sioncronúithe</string>
+    <string name="accounts_cd_sync_off">sioncronú as</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Fothaí Féilire</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Ag aimsiú…</string>
     <string name="account_detail_discover_calendars">Aimsigh Féilirí Nua</string>
     <string name="account_detail_change_password">Athraigh Focal Faire</string>
+    <string name="account_detail_sign_in_again">Sínigh Isteach Arís</string>
+    <string name="account_detail_sign_in_again_subtitle">Níl focal faire an chuntais seo ag KashCal a thuilleadh. Sínigh isteach chun sioncronú arís. Fanfaidh do chuid féilirí agus imeachtaí slán.</string>
     <string name="account_detail_sign_out">Sínigh Amach</string>
     <string name="account_detail_never_synced">Nár sioncronúíodh riamh</string>
     <string name="account_detail_last_success">Éiriú deireanach: %1$s</string>
@@ -1037,6 +1042,9 @@
     <string name="dialog_move_recurring_title">Bog</string>
     <string name="snackbar_event_rescheduled">Athsceidealaíodh an t-imeacht</string>
     <string name="snackbar_reschedule_failed">Níorbh fhéidir an t-imeacht a athsceidealú</string>
+    <string name="snackbar_move_failed">Níorbh fhéidir \"%1$s\" a bhogadh</string>
+    <string name="snackbar_move_changed_elsewhere">Athraíodh \"%1$s\" in áit eile, mar sin níor bogadh é</string>
+    <string name="event_untitled">Imeacht gan teideal</string>
     <string name="recurring_this_event">An t-imeacht seo</string>
     <string name="recurring_all_events">Gach imeacht</string>
 
@@ -1378,6 +1386,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Sábháil imeacht</string>
     <string name="badge_beta">Béata</string>
+    <string name="badge_sync_off">Sioncronú as</string>
     <string name="badge_new">Nua</string>
     <string name="color_red">Dearg</string>
     <string name="color_orange">Oráiste</string>

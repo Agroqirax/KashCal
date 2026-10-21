@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud verbinden</string>
     <string name="signin_caldav_title">CalDAV-account toevoegen</string>
+    <string name="signin_caldav_sign_in_again_title">Opnieuw inloggen</string>
     <string name="signin_connected_to">Verbonden met %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Onverwachte fout. Probeer het opnieuw.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nAls dit een server op je lokale netwerk is, sta dan toegang tot het lokale netwerk toe om verbinding te maken.</string>
     <string name="caldav_error_connection_refused_insecure">De server stuurde de verbinding door naar een plek waar KashCal niet naartoe gaat (een onversleuteld adres of een doorstuurlus), dus KashCal is gestopt voordat je wachtwoord werd verzonden. Controleer het serveradres.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Dit is een ander account. Log in met de gebruikersnaam en server die dit account gebruikt.</string>
     <string name="local_network_banner_title">Toegang tot lokaal netwerk nodig</string>
     <string name="local_network_banner_body">Deze server lijkt op je lokale netwerk te staan. Sta toegang tot het lokale netwerk toe zodat KashCal er verbinding mee kan maken.</string>
     <string name="local_network_banner_allow">Toegang toestaan</string>
@@ -503,6 +505,7 @@
     <string name="accounts_cd_back">Terug</string>
     <string name="accounts_sync_issue">Synchronisatieprobleem</string>
     <string name="accounts_cd_sync_warning">Synchronisatiewaarschuwing</string>
+    <string name="accounts_cd_sync_off">synchronisatie uit</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Agendafeeds</string>
@@ -563,6 +566,8 @@
     <string name="account_detail_discovering">Zoeken…</string>
     <string name="account_detail_discover_calendars">Nieuwe agenda\'s ontdekken</string>
     <string name="account_detail_change_password">Wachtwoord wijzigen</string>
+    <string name="account_detail_sign_in_again">Opnieuw inloggen</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal heeft het wachtwoord van dit account niet meer. Log in om weer te synchroniseren. Je agenda\'s en afspraken blijven bewaard.</string>
     <string name="account_detail_sign_out">Uitloggen</string>
     <string name="account_detail_never_synced">Nooit gesynchroniseerd</string>
     <string name="account_detail_last_success">Laatst geslaagd: %1$s</string>
@@ -913,6 +918,9 @@
     <string name="dialog_move_recurring_title">Verplaatsen</string>
     <string name="snackbar_event_rescheduled">Afspraak verplaatst</string>
     <string name="snackbar_reschedule_failed">Kan afspraak niet verplaatsen</string>
+    <string name="snackbar_move_failed">Kan \"%1$s\" niet verplaatsen</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" is elders gewijzigd en daarom niet verplaatst</string>
+    <string name="event_untitled">Afspraak zonder titel</string>
     <string name="recurring_this_event">Deze afspraak</string>
     <string name="recurring_all_events">Alle afspraken</string>
 
@@ -1203,6 +1211,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Afspraak opslaan</string>
     <string name="badge_beta">Bèta</string>
+    <string name="badge_sync_off">Synchr. uit</string>
     <string name="badge_new">Nieuw</string>
     <string name="color_red">Rood</string>
     <string name="color_orange">Oranje</string>

@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Connect iCloud</string>
     <string name="signin_caldav_title">Add CalDAV Account</string>
+    <string name="signin_caldav_sign_in_again_title">Sign In Again</string>
     <string name="signin_connected_to">Connected to %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Unexpected error. Please try again.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nIf this is a server on your local network, allow local network access to connect.</string>
     <string name="caldav_error_connection_refused_insecure">The server redirected the connection somewhere KashCal won\'t follow (an unencrypted address, or a redirect loop), so KashCal stopped before sending your password. Check the server address.</string>
+    <string name="caldav_error_sign_in_again_mismatch">This is a different account. Sign in with the username and server this account uses.</string>
     <string name="local_network_banner_title">Local network access needed</string>
     <string name="local_network_banner_body">This server looks like it\'s on your local network. Allow local network access so KashCal can connect to it.</string>
     <string name="local_network_banner_allow">Allow access</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Navigate back</string>
     <string name="accounts_sync_issue">Sync issue</string>
     <string name="accounts_cd_sync_warning">Sync warning</string>
+    <string name="accounts_cd_sync_off">sync off</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Calendar Feeds</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Discovering…</string>
     <string name="account_detail_discover_calendars">Discover New Calendars</string>
     <string name="account_detail_change_password">Change Password</string>
+    <string name="account_detail_sign_in_again">Sign In Again</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal no longer has this account\'s password. Sign in to sync again. Your calendars and events stay.</string>
     <string name="account_detail_sign_out">Sign Out</string>
     <string name="account_detail_never_synced">Never synced</string>
     <string name="account_detail_last_success">Last success: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Move</string>
     <string name="snackbar_event_rescheduled">Event rescheduled</string>
     <string name="snackbar_reschedule_failed">Couldn\'t reschedule event</string>
+    <string name="snackbar_move_failed">Couldn\'t move \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" changed elsewhere, so it wasn\'t moved</string>
+    <string name="event_untitled">Untitled event</string>
     <string name="recurring_this_event">This event</string>
     <string name="recurring_all_events">All events</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Save Event</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sync off</string>
     <string name="badge_new">New</string>
     <string name="color_red">Red</string>
     <string name="color_orange">Orange</string>

@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Connectar iCloud</string>
     <string name="signin_caldav_title">Afegir compte CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Tornar a iniciar sessió</string>
     <string name="signin_connected_to">Connectat a %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Error inesperat. Torneu-ho a provar.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nSi es tracta d\'un servidor de la vostra xarxa local, permeteu l\'accés a la xarxa local per connectar-vos-hi.</string>
     <string name="caldav_error_connection_refused_insecure">El servidor ha redirigit la connexió a un lloc on KashCal no va (una adreça sense xifrar o un bucle de redireccions), així que KashCal s\'ha aturat abans d\'enviar la teva contrasenya. Comprova l\'adreça del servidor.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Aquest és un compte diferent. Inicia sessió amb el nom d\'usuari i el servidor que fa servir aquest compte.</string>
     <string name="local_network_banner_title">Cal accés a la xarxa local</string>
     <string name="local_network_banner_body">Sembla que aquest servidor és a la vostra xarxa local. Permeteu l\'accés a la xarxa local perquè KashCal s\'hi pugui connectar.</string>
     <string name="local_network_banner_allow">Permet l\'accés</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Tornar enrere</string>
     <string name="accounts_sync_issue">Problema de sincronització</string>
     <string name="accounts_cd_sync_warning">Avís de sincronització</string>
+    <string name="accounts_cd_sync_off">sincronització desactivada</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Fluxos de calendari</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Descobrint…</string>
     <string name="account_detail_discover_calendars">Descobrir nous calendaris</string>
     <string name="account_detail_change_password">Canviar contrasenya</string>
+    <string name="account_detail_sign_in_again">Tornar a iniciar sessió</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal ja no té la contrasenya d\'aquest compte. Inicia sessió per tornar a sincronitzar. Els teus calendaris i esdeveniments es conserven.</string>
     <string name="account_detail_sign_out">Tancar sessió</string>
     <string name="account_detail_never_synced">Mai sincronitzat</string>
     <string name="account_detail_last_success">Última sincronització: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Mou</string>
     <string name="snackbar_event_rescheduled">Esdeveniment reprogramat</string>
     <string name="snackbar_reschedule_failed">No s\'ha pogut reprogramar l\'esdeveniment</string>
+    <string name="snackbar_move_failed">No s\'ha pogut moure \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" s\'ha modificat en un altre lloc i no s\'ha mogut</string>
+    <string name="event_untitled">Esdeveniment sense títol</string>
     <string name="recurring_this_event">Aquest esdeveniment</string>
     <string name="recurring_all_events">Tots els esdeveniments</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Desar esdeveniment</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sinc. inactiva</string>
     <string name="badge_new">Nou</string>
     <string name="color_red">Vermell</string>
     <string name="color_orange">Taronja</string>

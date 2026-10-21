@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Σύνδεση iCloud</string>
     <string name="signin_caldav_title">Προσθήκη λογαριασμού CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Σύνδεση ξανά</string>
     <string name="signin_connected_to">Συνδεδεμένο με %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Απρόσμενο σφάλμα. Δοκιμάστε ξανά.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nΑν πρόκειται για διακομιστή στο τοπικό σας δίκτυο, επιτρέψτε την πρόσβαση στο τοπικό δίκτυο για να συνδεθείτε.</string>
     <string name="caldav_error_connection_refused_insecure">Ο διακομιστής ανακατεύθυνε τη σύνδεση σε σημείο που το KashCal δεν ακολουθεί (μη κρυπτογραφημένη διεύθυνση ή βρόχο ανακατευθύνσεων), οπότε το KashCal σταμάτησε πριν στείλει τον κωδικό σας. Ελέγξτε τη διεύθυνση του διακομιστή.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Αυτός είναι διαφορετικός λογαριασμός. Συνδεθείτε με το όνομα χρήστη και τον διακομιστή που χρησιμοποιεί αυτός ο λογαριασμός.</string>
     <string name="local_network_banner_title">Απαιτείται πρόσβαση στο τοπικό δίκτυο</string>
     <string name="local_network_banner_body">Αυτός ο διακομιστής φαίνεται να βρίσκεται στο τοπικό σας δίκτυο. Επιτρέψτε την πρόσβαση στο τοπικό δίκτυο ώστε το KashCal να μπορεί να συνδεθεί σε αυτόν.</string>
     <string name="local_network_banner_allow">Να επιτραπεί η πρόσβαση</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Πίσω</string>
     <string name="accounts_sync_issue">Πρόβλημα συγχρονισμού</string>
     <string name="accounts_cd_sync_warning">Προειδοποίηση συγχρονισμού</string>
+    <string name="accounts_cd_sync_off">συγχρονισμός ανενεργός</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Ροές ημερολογίου</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Ανακάλυψη…</string>
     <string name="account_detail_discover_calendars">Ανακάλυψη νέων ημερολογίων</string>
     <string name="account_detail_change_password">Αλλαγή κωδικού</string>
+    <string name="account_detail_sign_in_again">Σύνδεση ξανά</string>
+    <string name="account_detail_sign_in_again_subtitle">Το KashCal δεν έχει πλέον τον κωδικό αυτού του λογαριασμού. Συνδεθείτε για να γίνει ξανά συγχρονισμός. Τα ημερολόγια και τα συμβάντα σας διατηρούνται.</string>
     <string name="account_detail_sign_out">Αποσύνδεση</string>
     <string name="account_detail_never_synced">Ποτέ δεν συγχρονίστηκε</string>
     <string name="account_detail_last_success">Τελευταία επιτυχία: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Μετακίνηση</string>
     <string name="snackbar_event_rescheduled">Το συμβάν μετακινήθηκε</string>
     <string name="snackbar_reschedule_failed">Δεν ήταν δυνατή η μετακίνηση του συμβάντος</string>
+    <string name="snackbar_move_failed">Δεν ήταν δυνατή η μετακίνηση του «%1$s»</string>
+    <string name="snackbar_move_changed_elsewhere">Το «%1$s» τροποποιήθηκε αλλού, οπότε δεν μετακινήθηκε</string>
+    <string name="event_untitled">Συμβάν χωρίς τίτλο</string>
     <string name="recurring_this_event">Αυτό το συμβάν</string>
     <string name="recurring_all_events">Όλα τα συμβάντα</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Αποθήκευση συμβάντος</string>
     <string name="badge_beta">Βήτα</string>
+    <string name="badge_sync_off">Συγχρ. ανενεργός</string>
     <string name="badge_new">Νέο</string>
     <string name="color_red">Κόκκινο</string>
     <string name="color_orange">Πορτοκαλί</string>

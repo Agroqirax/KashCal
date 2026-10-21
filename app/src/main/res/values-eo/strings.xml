@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Konekti iCloud</string>
     <string name="signin_caldav_title">Aldoni CalDAV-konton</string>
+    <string name="signin_caldav_sign_in_again_title">Ensaluti denove</string>
     <string name="signin_connected_to">Konektita al %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Neatendita eraro. Bonvolu reprovi.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nSe ĉi tio estas servilo en via loka reto, permesu aliron al la loka reto por konektiĝi.</string>
     <string name="caldav_error_connection_refused_insecure">La servilo alidirektis la konekton al loko, kien KashCal ne sekvas (neĉifrita adreso aŭ alidirekta buklo), do KashCal haltis antaŭ ol sendi vian pasvorton. Kontrolu la adreson de la servilo.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ĉi tio estas alia konto. Ensalutu per la uzantnomo kaj servilo, kiujn ĉi tiu konto uzas.</string>
     <string name="local_network_banner_title">Necesas aliro al la loka reto</string>
     <string name="local_network_banner_body">Ĉi tiu servilo ŝajnas esti en via loka reto. Permesu aliron al la loka reto por ke KashCal povu konektiĝi al ĝi.</string>
     <string name="local_network_banner_allow">Permesi aliron</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Navigu reen</string>
     <string name="accounts_sync_issue">Sinkroniga problemo</string>
     <string name="accounts_cd_sync_warning">Sinkroniga averto</string>
+    <string name="accounts_cd_sync_off">sinkronigo malŝaltita</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Kalendaraj fluoj</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Malkovrante…</string>
     <string name="account_detail_discover_calendars">Malkovri novajn kalendarojn</string>
     <string name="account_detail_change_password">Ŝanĝi pasvorton</string>
+    <string name="account_detail_sign_in_again">Ensaluti denove</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal ne plu havas la pasvorton de ĉi tiu konto. Ensalutu por denove sinkronigi. Viaj kalendaroj kaj eventoj restas.</string>
     <string name="account_detail_sign_out">Elsaluti</string>
     <string name="account_detail_never_synced">Neniam sinkronigita</string>
     <string name="account_detail_last_success">Lasta sukceso: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Movi</string>
     <string name="snackbar_event_rescheduled">Evento replanita</string>
     <string name="snackbar_reschedule_failed">Ne eblis replani la eventon</string>
+    <string name="snackbar_move_failed">Ne eblis movi \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" ŝanĝiĝis aliloke, do ĝi ne estis movita</string>
+    <string name="event_untitled">Sentitola evento</string>
     <string name="recurring_this_event">Ĉi tiu evento</string>
     <string name="recurring_all_events">Ĉiuj eventoj</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Konservi eventon</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sinkr. malŝaltita</string>
     <string name="badge_new">Nova</string>
     <string name="color_red">Ruĝa</string>
     <string name="color_orange">Oranĝa</string>

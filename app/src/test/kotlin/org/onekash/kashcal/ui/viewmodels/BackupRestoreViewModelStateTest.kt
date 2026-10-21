@@ -105,6 +105,7 @@ class BackupRestoreViewModelStateTest {
         every { eventCoordinator.getICloudCalendarCount() } returns MutableStateFlow(0)
         every { eventCoordinator.getCalDavAccountCount() } returns MutableStateFlow(0)
         every { eventCoordinator.getCalDavAccounts() } returns flowOf(emptyList())
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns flowOf(emptyList())
         every { eventCoordinator.getAllIcsSubscriptions() } returns flowOf(emptyList())
         every { userPreferences.defaultCalendarId } returns MutableStateFlow<Long?>(null)
         every { userPreferences.defaultCalendar } returns MutableStateFlow<DefaultCalendar?>(null)

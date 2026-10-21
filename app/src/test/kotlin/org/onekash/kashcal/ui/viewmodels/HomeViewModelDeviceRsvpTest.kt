@@ -125,6 +125,7 @@ class HomeViewModelDeviceRsvpTest {
         contactEmailReader = mockk(relaxed = true),
         context = mockk(relaxed = true),
         ioDispatcher = testDispatcher,
+        applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher),
     )
 
     private fun deviceCalendar(id: Long, owner: String) = DeviceCalendar(

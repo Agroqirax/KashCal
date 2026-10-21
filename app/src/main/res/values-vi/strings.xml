@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Kết nối iCloud</string>
     <string name="signin_caldav_title">Thêm tài khoản CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Đăng nhập lại</string>
     <string name="signin_connected_to">Đã kết nối với %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Lỗi không mong muốn. Vui lòng thử lại.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nNếu đây là máy chủ trên mạng nội bộ của bạn, hãy cho phép truy cập mạng nội bộ để kết nối.</string>
     <string name="caldav_error_connection_refused_insecure">Máy chủ đã chuyển hướng kết nối đến nơi KashCal không theo (một địa chỉ không mã hóa hoặc một vòng lặp chuyển hướng), nên KashCal đã dừng trước khi gửi mật khẩu của bạn. Hãy kiểm tra địa chỉ máy chủ.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Đây là tài khoản khác. Hãy đăng nhập bằng tên đăng nhập và máy chủ mà tài khoản này sử dụng.</string>
     <string name="local_network_banner_title">Cần quyền truy cập mạng nội bộ</string>
     <string name="local_network_banner_body">Máy chủ này có vẻ nằm trên mạng nội bộ của bạn. Hãy cho phép truy cập mạng nội bộ để KashCal có thể kết nối.</string>
     <string name="local_network_banner_allow">Cho phép truy cập</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Quay lại</string>
     <string name="accounts_sync_issue">Sự cố đồng bộ</string>
     <string name="accounts_cd_sync_warning">Cảnh báo đồng bộ</string>
+    <string name="accounts_cd_sync_off">đã tắt đồng bộ</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Nguồn cấp lịch</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Đang tìm kiếm…</string>
     <string name="account_detail_discover_calendars">Tìm lịch mới</string>
     <string name="account_detail_change_password">Đổi mật khẩu</string>
+    <string name="account_detail_sign_in_again">Đăng nhập lại</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal không còn mật khẩu của tài khoản này. Hãy đăng nhập để đồng bộ lại. Lịch và sự kiện của bạn vẫn được giữ nguyên.</string>
     <string name="account_detail_sign_out">Đăng xuất</string>
     <string name="account_detail_never_synced">Chưa đồng bộ lần nào</string>
     <string name="account_detail_last_success">Thành công lần cuối: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">Di chuyển</string>
     <string name="snackbar_event_rescheduled">Đã dời lịch sự kiện</string>
     <string name="snackbar_reschedule_failed">Không thể dời lịch sự kiện</string>
+    <string name="snackbar_move_failed">Không thể di chuyển \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" đã thay đổi ở nơi khác nên không được di chuyển</string>
+    <string name="event_untitled">Sự kiện không có tiêu đề</string>
     <string name="recurring_this_event">Chỉ sự kiện này</string>
     <string name="recurring_all_events">Tất cả sự kiện</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Lưu sự kiện</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Đã tắt đồng bộ</string>
     <string name="badge_new">Mới</string>
     <string name="color_red">Đỏ</string>
     <string name="color_orange">Cam</string>

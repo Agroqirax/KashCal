@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud ಸಂಪರ್ಕಿಸಿ</string>
     <string name="signin_caldav_title">CalDAV ಖಾತೆ ಸೇರಿಸಿ</string>
+    <string name="signin_caldav_sign_in_again_title">ಮತ್ತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ</string>
     <string name="signin_connected_to">%1$s ಗೆ ಸಂಪರ್ಕಗೊಂಡಿದೆ</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">ಅನಿರೀಕ್ಷಿತ ದೋಷ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nಇದು ನಿಮ್ಮ ಲೋಕಲ್ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿರುವ ಸರ್ವರ್ ಆಗಿದ್ದರೆ, ಸಂಪರ್ಕಿಸಲು ಲೋಕಲ್ ನೆಟ್‌ವರ್ಕ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.</string>
     <string name="caldav_error_connection_refused_insecure">ಸರ್ವರ್ ಸಂಪರ್ಕವನ್ನು KashCal ಅನುಸರಿಸದ ಸ್ಥಳಕ್ಕೆ ಮರುನಿರ್ದೇಶಿಸಿದೆ (ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡದ ವಿಳಾಸ, ಅಥವಾ ಮರುನಿರ್ದೇಶನ ಲೂಪ್), ಆದ್ದರಿಂದ ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಕಳುಹಿಸುವ ಮೊದಲೇ KashCal ನಿಲ್ಲಿಸಿತು. ಸರ್ವರ್ ವಿಳಾಸವನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
+    <string name="caldav_error_sign_in_again_mismatch">ಇದು ಬೇರೆ ಖಾತೆ. ಈ ಖಾತೆ ಬಳಸುವ ಬಳಕೆದಾರ ಹೆಸರು ಮತ್ತು ಸರ್ವರ್‌ನೊಂದಿಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ.</string>
     <string name="local_network_banner_title">ಲೋಕಲ್ ನೆಟ್‌ವರ್ಕ್ ಪ್ರವೇಶ ಅಗತ್ಯವಿದೆ</string>
     <string name="local_network_banner_body">ಈ ಸರ್ವರ್ ನಿಮ್ಮ ಲೋಕಲ್ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಇರುವಂತೆ ಕಾಣುತ್ತದೆ. KashCal ಇದಕ್ಕೆ ಸಂಪರ್ಕಿಸಲು ಲೋಕಲ್ ನೆಟ್‌ವರ್ಕ್ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ.</string>
     <string name="local_network_banner_allow">ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">ಹಿಂದೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
     <string name="accounts_sync_issue">ಸಿಂಕ್ ಸಮಸ್ಯೆ</string>
     <string name="accounts_cd_sync_warning">ಸಿಂಕ್ ಎಚ್ಚರಿಕೆ</string>
+    <string name="accounts_cd_sync_off">ಸಿಂಕ್ ಆಫ್</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">ಕ್ಯಾಲೆಂಡರ್ ಫೀಡ್‌ಗಳು</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">ಹುಡುಕುತ್ತಿದೆ…</string>
     <string name="account_detail_discover_calendars">ಹೊಸ ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಹುಡುಕಿ</string>
     <string name="account_detail_change_password">ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಯಿಸಿ</string>
+    <string name="account_detail_sign_in_again">ಮತ್ತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal ಬಳಿ ಈಗ ಈ ಖಾತೆಯ ಪಾಸ್‌ವರ್ಡ್ ಇಲ್ಲ. ಮತ್ತೆ ಸಿಂಕ್ ಮಾಡಲು ಸೈನ್ ಇನ್ ಮಾಡಿ. ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು ಮತ್ತು ಈವೆಂಟ್‌ಗಳು ಹಾಗೆಯೇ ಉಳಿಯುತ್ತವೆ.</string>
     <string name="account_detail_sign_out">ಸೈನ್ ಔಟ್</string>
     <string name="account_detail_never_synced">ಎಂದೂ ಸಿಂಕ್ ಆಗಿಲ್ಲ</string>
     <string name="account_detail_last_success">ಕೊನೆಯ ಯಶಸ್ಸು: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">ಸರಿಸಿ</string>
     <string name="snackbar_event_rescheduled">ಈವೆಂಟ್ ಸಮಯ ಬದಲಾಯಿಸಲಾಗಿದೆ</string>
     <string name="snackbar_reschedule_failed">ಈವೆಂಟ್ ಸಮಯ ಬದಲಾಯಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
+    <string name="snackbar_move_failed">\"%1$s\" ಸರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" ಬೇರೆಡೆ ಬದಲಾಗಿದೆ, ಆದ್ದರಿಂದ ಸರಿಸಲಾಗಿಲ್ಲ</string>
+    <string name="event_untitled">ಶೀರ್ಷಿಕೆ ಇಲ್ಲದ ಈವೆಂಟ್</string>
     <string name="recurring_this_event">ಈ ಈವೆಂಟ್</string>
     <string name="recurring_all_events">ಎಲ್ಲಾ ಈವೆಂಟ್‌ಗಳು</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">ಈವೆಂಟ್ ಉಳಿಸಿ</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">ಸಿಂಕ್ ಆಫ್</string>
     <string name="badge_new">ಹೊಸ</string>
     <string name="color_red">ಕೆಂಪು</string>
     <string name="color_orange">ಕಿತ್ತಳೆ</string>

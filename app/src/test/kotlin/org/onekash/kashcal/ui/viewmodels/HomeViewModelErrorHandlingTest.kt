@@ -140,7 +140,8 @@ class HomeViewModelErrorHandlingTest {
             attendeeBackfill = io.mockk.mockk(relaxed = true),
             contactEmailReader = io.mockk.mockk(relaxed = true),
             context = io.mockk.mockk(relaxed = true),
-            ioDispatcher = testDispatcher
+            ioDispatcher = testDispatcher,
+            applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher)
         )
     }
 

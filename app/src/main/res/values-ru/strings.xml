@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Подключить iCloud</string>
     <string name="signin_caldav_title">Добавить учётную запись CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Войти снова</string>
     <string name="signin_connected_to">Подключено к %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Непредвиденная ошибка. Повторите попытку.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nЕсли это сервер в локальной сети, разреши доступ к локальной сети для подключения.</string>
     <string name="caldav_error_connection_refused_insecure">Сервер перенаправил подключение туда, куда KashCal не переходит (на незашифрованный адрес или в цикл перенаправлений), поэтому KashCal остановился, не отправив твой пароль. Проверь адрес сервера.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Это другая учётная запись. Войди с именем пользователя и сервером, которые использует эта учётная запись.</string>
     <string name="local_network_banner_title">Нужен доступ к локальной сети</string>
     <string name="local_network_banner_body">Похоже, этот сервер находится в твоей локальной сети. Разреши доступ к локальной сети, чтобы KashCal мог к нему подключиться.</string>
     <string name="local_network_banner_allow">Разрешить доступ</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Назад</string>
     <string name="accounts_sync_issue">Проблема синхронизации</string>
     <string name="accounts_cd_sync_warning">Предупреждение синхронизации</string>
+    <string name="accounts_cd_sync_off">синхронизация отключена</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Календарные ленты</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Обнаружение…</string>
     <string name="account_detail_discover_calendars">Найти новые календари</string>
     <string name="account_detail_change_password">Изменить пароль</string>
+    <string name="account_detail_sign_in_again">Войти снова</string>
+    <string name="account_detail_sign_in_again_subtitle">У KashCal больше нет пароля от этой учётной записи. Войди, чтобы снова синхронизировать. Твои календари и события сохранятся.</string>
     <string name="account_detail_sign_out">Выйти</string>
     <string name="account_detail_never_synced">Не синхронизировано</string>
     <string name="account_detail_last_success">Последняя синхронизация: %1$s</string>
@@ -996,6 +1001,9 @@
     <string name="dialog_move_recurring_title">Переместить</string>
     <string name="snackbar_event_rescheduled">Событие перенесено</string>
     <string name="snackbar_reschedule_failed">Не удалось перенести событие</string>
+    <string name="snackbar_move_failed">Не удалось перенести событие «%1$s»</string>
+    <string name="snackbar_move_changed_elsewhere">Событие «%1$s» изменено в другом месте, поэтому не перенесено</string>
+    <string name="event_untitled">Событие без названия</string>
     <string name="recurring_this_event">Это событие</string>
     <string name="recurring_all_events">Все события</string>
 
@@ -1320,6 +1328,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Сохранить событие</string>
     <string name="badge_beta">Бета</string>
+    <string name="badge_sync_off">Синхр. выкл.</string>
     <string name="badge_new">Новое</string>
     <string name="color_red">Красный</string>
     <string name="color_orange">Оранжевый</string>

@@ -74,10 +74,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -143,7 +141,9 @@ import org.onekash.kashcal.domain.model.SearchResult
 import org.onekash.kashcal.ui.components.CalendarDrawer
 import org.onekash.kashcal.ui.components.DayEventsSheet
 import org.onekash.kashcal.ui.components.EventCard
+import org.onekash.kashcal.ui.components.HomeStopEffect
 import org.onekash.kashcal.ui.components.InvitationInboxSheet
+import org.onekash.kashcal.ui.components.PendingSnackbarEffect
 import org.onekash.kashcal.ui.components.hub.AccountAvatar
 import org.onekash.kashcal.ui.components.hub.AccountHubScreen
 import org.onekash.kashcal.ui.components.formatBadgeCount
@@ -304,8 +304,12 @@ fun HomeScreen(
     onResume: () -> Unit = {},
     // Agenda scroll callback
     onClearScrollAgendaToTop: () -> Unit = {},
-    // Snackbar callback
-    onClearSnackbar: () -> Unit = {},
+    // Called with a snackbar's id once it has been shown and dismissed
+    onClearSnackbar: (Long) -> Unit = {},
+    // Called on each ON_STOP of Home
+    onHomeStop: () -> Unit = {},
+    // Called first on a time-grid event tap; the tap opens the event only when it returns true
+    onTimeGridEventTap: (DisplayEvent) -> Boolean = { true },
     // URL callback (for error actions that open URLs)
     onClearPendingUrl: () -> Unit = {},
     // Day detail sheet callbacks (month view)
@@ -350,6 +354,8 @@ fun HomeScreen(
         onResume()
         onPauseOrDispose { }
     }
+
+    HomeStopEffect(onStop = onHomeStop)
 
     // Today's date, re-read on resume through refreshKey
     val todayCal = remember(refreshKey) { JavaCalendar.getInstance() }
@@ -441,23 +447,14 @@ fun HomeScreen(
     // Scaffold, so a snackbar on the Scaffold's host would render hidden behind it. While the
     // hub is up (the app-lock toggle confirming, for example) messages go to this host.
     val hubSnackbarHostState = remember { SnackbarHostState() }
-    val viewActionLabel = stringResource(R.string.action_view)
-
-    // Show pending snackbar messages
-    LaunchedEffect(uiState.pendingSnackbarMessage) {
-        uiState.pendingSnackbarMessage?.let { message ->
-            val host = if (showHub) hubSnackbarHostState else snackbarHostState
-            val result = host.showSnackbar(
-                message = message,
-                actionLabel = if (uiState.pendingSnackbarAction != null) viewActionLabel else null,
-                duration = SnackbarDuration.Short
-            )
-            if (result == SnackbarResult.ActionPerformed) {
-                uiState.pendingSnackbarAction?.invoke()
-            }
-            onClearSnackbar()
-        }
-    }
+    PendingSnackbarEffect(
+        hostState = if (showHub) hubSnackbarHostState else snackbarHostState,
+        message = uiState.pendingSnackbarMessage,
+        id = uiState.pendingSnackbarId,
+        actionLabel = uiState.pendingSnackbarActionLabel,
+        onAction = uiState.pendingSnackbarAction,
+        onDone = onClearSnackbar,
+    )
 
     // Open a pending URL from an error action
     LaunchedEffect(uiState.pendingUrlToOpen) {
@@ -825,9 +822,11 @@ fun HomeScreen(
                                             onAllDayRowsToggle = onAllDayRowsToggle,
                                             onDatePickerRequest = onWeekDatePickerRequest,
                                             onEventClick = { displayEvent ->
-                                                when (displayEvent) {
-                                                    is DisplayEvent.Room -> onEventClick(displayEvent.event, displayEvent.occurrence.startTs)
-                                                    is DisplayEvent.Device -> onDeviceEventClick(displayEvent)
+                                                if (onTimeGridEventTap(displayEvent)) {
+                                                    when (displayEvent) {
+                                                        is DisplayEvent.Room -> onEventClick(displayEvent.event, displayEvent.occurrence.startTs)
+                                                        is DisplayEvent.Device -> onDeviceEventClick(displayEvent)
+                                                    }
                                                 }
                                             },
                                             onEmptyTap = { date, hour, minute ->

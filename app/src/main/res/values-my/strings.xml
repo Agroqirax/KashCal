@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud ချိတ်ဆက်</string>
     <string name="signin_caldav_title">CalDAV အကောင့် ထည့်</string>
+    <string name="signin_caldav_sign_in_again_title">ပြန်လည် ဝင်ရောက်</string>
     <string name="signin_connected_to">%1$s သို့ ချိတ်ဆက်ပြီး</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">မမျှော်လင့်သော အမှားတစ်ခု။ ထပ်စမ်းကြည့်ပါ။</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nဤသည်မှာ သင့်ဒေသတွင်း ကွန်ရက်ရှိ ဆာဗာဖြစ်ပါက ချိတ်ဆက်ရန် ဒေသတွင်း ကွန်ရက်သုံးခွင့်ကို ခွင့်ပြုပါ။</string>
     <string name="caldav_error_connection_refused_insecure">ဆာဗာက ချိတ်ဆက်မှုကို KashCal မလိုက်သည့်နေရာ (ကုဒ်မပြောင်းထားသော လိပ်စာ သို့မဟုတ် လမ်းကြောင်းလွှဲ ပတ်လည်) သို့ လွှဲလိုက်သဖြင့် သင့်စကားဝှက်ကို မပို့မီ KashCal ရပ်လိုက်ပါသည်။ ဆာဗာလိပ်စာကို စစ်ဆေးပါ။</string>
+    <string name="caldav_error_sign_in_again_mismatch">ဤအကောင့်သည် မတူညီသော အကောင့်ဖြစ်သည်။ ဤအကောင့်အသုံးပြုသော အသုံးပြုသူအမည်နှင့် ဆာဗာဖြင့် ဝင်ရောက်ပါ။</string>
     <string name="local_network_banner_title">ဒေသတွင်း ကွန်ရက်သုံးခွင့် လိုအပ်သည်</string>
     <string name="local_network_banner_body">ဤဆာဗာသည် သင့်ဒေသတွင်း ကွန်ရက်ပေါ်တွင် ရှိပုံရသည်။ KashCal က ၎င်းသို့ ချိတ်ဆက်နိုင်ရန် ဒေသတွင်း ကွန်ရက်သုံးခွင့်ကို ခွင့်ပြုပါ။</string>
     <string name="local_network_banner_allow">သုံးခွင့်ပြု</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">နောက်သို့</string>
     <string name="accounts_sync_issue">ချိန်ကိုက် ပြဿနာ</string>
     <string name="accounts_cd_sync_warning">ချိန်ကိုက် သတိပေးချက်</string>
+    <string name="accounts_cd_sync_off">ချိန်ကိုက် ပိတ်ထား</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">ပြက္ခဒိန် ဖိဒ်များ</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">ရှာဖွေနေသည်…</string>
     <string name="account_detail_discover_calendars">ပြက္ခဒိန်အသစ်များ ရှာဖွေ</string>
     <string name="account_detail_change_password">စကားဝှက် ပြောင်း</string>
+    <string name="account_detail_sign_in_again">ပြန်လည် ဝင်ရောက်</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal တွင် ဤအကောင့်၏ စကားဝှက် မရှိတော့ပါ။ ပြန်လည် ချိန်ကိုက်ရန် ဝင်ရောက်ပါ။ သင့်ပြက္ခဒိန်များနှင့် ပွဲများ ဆက်ရှိနေပါမည်။</string>
     <string name="account_detail_sign_out">ထွက်</string>
     <string name="account_detail_never_synced">ချိန်ကိုက်ဖူးခြင်း မရှိ</string>
     <string name="account_detail_last_success">နောက်ဆုံး အောင်မြင်မှု: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">ရွှေ့ရန်</string>
     <string name="snackbar_event_rescheduled">ပွဲကို အချိန်ပြောင်းပြီးပါပြီ</string>
     <string name="snackbar_reschedule_failed">ပွဲကို အချိန်ပြောင်း၍ မရပါ</string>
+    <string name="snackbar_move_failed">\"%1$s\" ကို ရွှေ့၍ မရပါ</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" ကို အခြားနေရာတွင် ပြောင်းလဲထားသဖြင့် မရွှေ့ခဲ့ပါ</string>
+    <string name="event_untitled">ခေါင်းစဉ်မဲ့ ပွဲ</string>
     <string name="recurring_this_event">ဤပွဲ</string>
     <string name="recurring_all_events">ပွဲအားလုံး</string>
 
@@ -1147,6 +1155,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">ပွဲသိမ်းမည်</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">ချိန်ကိုက် ပိတ်ထား</string>
     <string name="badge_new">အသစ်</string>
     <string name="color_red">အနီ</string>
     <string name="color_orange">လိမ္မော်</string>

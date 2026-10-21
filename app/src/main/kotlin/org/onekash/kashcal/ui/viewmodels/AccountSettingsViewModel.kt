@@ -439,6 +439,7 @@ class AccountSettingsViewModel @Inject constructor(
         loadInitialState()
         observeCalendars()
         observeICloudCalendarCount()
+        observeICloudAccountEnabled()
         observeCalDavAccountCount()
         observeCalDavAccounts()
         observeIcsSubscriptions()
@@ -472,11 +473,15 @@ class AccountSettingsViewModel @Inject constructor(
                             appleId = account.email,
                             lastSyncTime = if (lastSync != null && lastSync > 0) lastSync else null,
                             calendarCount = calendarCount,
-                            consecutiveSyncFailures = account.consecutiveSyncFailures
+                            consecutiveSyncFailures = account.consecutiveSyncFailures,
+                            isEnabled = account.isEnabled
                         )
                     )
                 }
             } else {
+                // An account row without credentials signs in again with its Apple ID, which
+                // re-attaches it (same Apple ID) instead of adding a second account.
+                if (account != null && appleIdInput.isBlank()) appleIdInput = account.email
                 _uiState.update {
                     it.copy(
                         isLoading = false,
@@ -519,12 +524,32 @@ class AccountSettingsViewModel @Inject constructor(
     private fun observeICloudCalendarCount() {
         viewModelScope.launch {
             eventCoordinator.getICloudCalendarCount().collect { count ->
-                val currentState = _uiState.value
-                val iCloudState = currentState.iCloudState
-                if (iCloudState is ICloudConnectionState.Connected) {
-                    _uiState.update {
-                        it.copy(iCloudState = iCloudState.copy(calendarCount = count))
-                    }
+                // Decided on the state inside the update, so it can't write back an older
+                // Connected than [observeICloudAccountEnabled] just set.
+                _uiState.update { state ->
+                    val connected = state.iCloudState as? ICloudConnectionState.Connected
+                        ?: return@update state
+                    state.copy(iCloudState = connected.copy(calendarCount = count))
+                }
+            }
+        }
+    }
+
+    /**
+     * Keeps the Connected iCloud state's enabled flag in step with its account row, so the
+     * accounts list's Sync off badge follows the detail sheet's toggle. The decision is made on
+     * the state inside the update, with no upstream distinctUntilChanged: a row emitted while
+     * the state isn't Connected yet must not hide the same value from the Connected state later.
+     */
+    private fun observeICloudAccountEnabled() {
+        viewModelScope.launch {
+            accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD).collect { rows ->
+                _uiState.update { state ->
+                    val connected = state.iCloudState as? ICloudConnectionState.Connected
+                        ?: return@update state
+                    val row = rows.firstOrNull { it.id == connected.accountId } ?: return@update state
+                    if (row.isEnabled == connected.isEnabled) state
+                    else state.copy(iCloudState = connected.copy(isEnabled = row.isEnabled))
                 }
             }
         }
@@ -553,7 +578,8 @@ class AccountSettingsViewModel @Inject constructor(
                         displayName = account.displayName ?: "CalDAV",
                         calendarCount = calendarCount,
                         consecutiveSyncFailures = account.consecutiveSyncFailures,
-                        lastSuccessfulSyncAt = account.lastSuccessfulSyncAt
+                        lastSuccessfulSyncAt = account.lastSuccessfulSyncAt,
+                        isEnabled = account.isEnabled
                     )
                 }
                 _uiState.update { it.copy(calDavAccounts = uiModels) }
@@ -1137,7 +1163,8 @@ class AccountSettingsViewModel @Inject constructor(
                                 accountId = result.account.id,
                                 appleId = result.account.email,
                                 lastSyncTime = null,
-                                calendarCount = result.calendars.size
+                                calendarCount = result.calendars.size,
+                                isEnabled = result.account.isEnabled
                             ),
                             showICloudSignInSheet = false,
                             // Initial setup finishes back to HomeScreen; otherwise the success
@@ -1211,8 +1238,70 @@ class AccountSettingsViewModel @Inject constructor(
 
     // ==================== CalDAV Account Actions ====================
 
+    /** Shows the CalDAV sign-in sheet for a new account; any sign in again it was in ends. */
     fun showCalDavSignInSheet() {
-        _uiState.update { it.copy(showCalDavSignInSheet = true) }
+        _uiState.update { it.copy(showCalDavSignInSheet = true, calDavSignInAgainAccountId = null) }
+    }
+
+    /**
+     * Opens the CalDAV sign-in sheet to sign in again to the CalDAV account [accountId], prefilled
+     * from its row: the server is the origin of its home set (editable, empty when the home set
+     * is missing or doesn't parse), the username its email and the display name its name, or the
+     * generated default when it has none.
+     * "Trust insecure connection" starts off, because only the lost credentials held it. The
+     * sign-in re-attaches to this account only (see
+     * [CalDavAccountDiscoveryService.createAccountWithSelectedCalendars]) and keeps its stored
+     * name, so a display-name edit made here isn't applied. Other providers are ignored.
+     */
+    fun startCalDavSignInAgain(accountId: Long) {
+        viewModelScope.launch {
+            val account = accountRepository.getAccountById(accountId)
+            if (account == null || account.provider != AccountProvider.CALDAV) return@launch
+
+            validateDisplayNameJob?.cancel()
+            validateDisplayNameJob = null
+            _localNetworkHintActive.value = false
+
+            calDavServerUrl = originOf(account.homeSetUrl)
+            calDavUsername = account.email
+            calDavDisplayName = account.displayName?.takeIf { it.isNotBlank() }
+                ?: generateDefaultDisplayName(calDavServerUrl, calDavUsername)
+            // A blank prefill keeps the auto-fill, so typing the server fills the name in.
+            calDavDisplayNameManuallyEdited = calDavDisplayName.isNotBlank()
+            calDavPassword = ""
+            calDavTrustInsecure = false
+            calDavDiscoveredPrincipalUrl = null
+            calDavDiscoveredCalendarHomeUrl = null
+            calDavDiscoveredCalendars = emptyList()
+
+            // One update, not showCalDavSignInSheet(), which would end the sign in again.
+            _uiState.update {
+                it.copy(
+                    calDavState = CalDavConnectionState.NotConnected(
+                        serverUrl = calDavServerUrl,
+                        displayName = calDavDisplayName,
+                        username = calDavUsername,
+                        password = calDavPassword,
+                        trustInsecure = calDavTrustInsecure
+                    ),
+                    calDavSignInAgainAccountId = account.id,
+                    showCalDavSignInSheet = true
+                )
+            }
+        }
+    }
+
+    /** Returns `scheme://host[:port]` of [url], or "" when it is null or doesn't parse. */
+    private fun originOf(url: String?): String {
+        if (url.isNullOrBlank()) return ""
+        return try {
+            val uri = java.net.URI(url)
+            val scheme = uri.scheme ?: return ""
+            val host = uri.host ?: return ""
+            if (uri.port == -1) "$scheme://$host" else "$scheme://$host:${uri.port}"
+        } catch (e: java.net.URISyntaxException) {
+            ""
+        }
     }
 
     /** Hides the CalDAV sign-in sheet and resets its input, discovery and LAN-hint state. */
@@ -1234,7 +1323,8 @@ class AccountSettingsViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 showCalDavSignInSheet = false,
-                calDavState = CalDavConnectionState.NotConnected()
+                calDavState = CalDavConnectionState.NotConnected(),
+                calDavSignInAgainAccountId = null
             )
         }
     }
@@ -1264,7 +1354,8 @@ class AccountSettingsViewModel @Inject constructor(
         validateDisplayNameJob?.cancel()
         validateDisplayNameJob = viewModelScope.launch {
             delay(300)
-            if (displayName.isNotBlank() && !calDavDiscoveryService.isDisplayNameAvailable(displayName)) {
+            val excludeAccountId = _uiState.value.calDavSignInAgainAccountId
+            if (displayName.isNotBlank() && !calDavDiscoveryService.isDisplayNameAvailable(displayName, excludeAccountId)) {
                 _uiState.update {
                     val current = it.calDavState as? CalDavConnectionState.NotConnected ?: return@launch
                     it.copy(calDavState = current.copy(
@@ -1392,6 +1483,8 @@ class AccountSettingsViewModel @Inject constructor(
             val snappedUsername = calDavUsername
             val snappedPassword = calDavPassword
             val snappedTrustInsecure = calDavTrustInsecure
+            // Snapped too: dismissing the sheet mid-discovery must not make this a new sign-in.
+            val signInAgainAccountId = _uiState.value.calDavSignInAgainAccountId
 
             // Rebuilds the NotConnected state from the snapshot with the given error. Service
             // messages wrap as UiMessage.Literal and are English-only; DiscoveryResult should
@@ -1429,7 +1522,7 @@ class AccountSettingsViewModel @Inject constructor(
                 generateDefaultDisplayName(calDavServerUrl, calDavUsername)
             }
 
-            if (!calDavDiscoveryService.isDisplayNameAvailable(effectiveDisplayName)) {
+            if (!calDavDiscoveryService.isDisplayNameAvailable(effectiveDisplayName, signInAgainAccountId)) {
                 _uiState.update {
                     it.copy(
                         calDavState = calDavNotConnectedWith(
@@ -1454,11 +1547,12 @@ class AccountSettingsViewModel @Inject constructor(
             }
 
             val discoveryResult = withRetryOnTimeout {
+                // The snapshot, not the fields: reopening the sheet mid-discovery rewrites them.
                 calDavDiscoveryService.discoverCalendars(
-                    serverUrl = calDavServerUrl,
-                    username = calDavUsername,
-                    password = calDavPassword,
-                    trustInsecure = calDavTrustInsecure
+                    serverUrl = snappedServerUrl,
+                    username = snappedUsername,
+                    password = snappedPassword,
+                    trustInsecure = snappedTrustInsecure
                 )
             }
 
@@ -1497,13 +1591,14 @@ class AccountSettingsViewModel @Inject constructor(
 
                     val createResult = calDavDiscoveryService.createAccountWithSelectedCalendars(
                         serverUrl = discoveryResult.serverUrl,
-                        username = calDavUsername,
-                        password = calDavPassword,
-                        trustInsecure = calDavTrustInsecure,
+                        username = snappedUsername,
+                        password = snappedPassword,
+                        trustInsecure = snappedTrustInsecure,
                         principalUrl = discoveryResult.principalUrl,
                         calendarHomeUrl = discoveryResult.calendarHomeUrl,
                         selectedCalendars = discoveryResult.calendars,  // every calendar
-                        displayName = calDavDisplayName.takeIf { it.isNotBlank() }
+                        displayName = snappedDisplayName.takeIf { it.isNotBlank() },
+                        expectedAccountId = signInAgainAccountId
                     )
 
                     when (createResult) {
@@ -1521,6 +1616,7 @@ class AccountSettingsViewModel @Inject constructor(
                                 it.copy(
                                     calDavState = CalDavConnectionState.NotConnected(),
                                     showCalDavSignInSheet = false,
+                                    calDavSignInAgainAccountId = null,
                                     showAccountConnectedSheet = true,
                                     connectedProviderName = providerName,
                                     connectedEmail = calDavUsername,
@@ -2199,6 +2295,8 @@ class AccountSettingsViewModel @Inject constructor(
     private fun discoveryErrorMessage(error: DiscoveryResult.Error): UiMessage = when (error.reason) {
         DiscoveryErrorReason.INSECURE_CONNECTION_REFUSED ->
             UiMessage.ResId(R.string.caldav_error_connection_refused_insecure)
+        DiscoveryErrorReason.ACCOUNT_MISMATCH ->
+            UiMessage.ResId(R.string.caldav_error_sign_in_again_mismatch)
         null -> UiMessage.Literal(error.message)
     }
 
@@ -2417,7 +2515,16 @@ class AccountSettingsViewModel @Inject constructor(
                         return@collect
                     }
                     val calendarCount = eventCoordinator.getCalendarCountForAccount(accountId)
-                    _uiState.update { it.copy(accountDetail = account.toDetailUiModel(calendarCount)) }
+                    val needsSignIn = account.provider == AccountProvider.CALDAV && try {
+                        accountRepository.getCredentials(accountId) == null
+                    } catch (e: IllegalArgumentException) {
+                        // A stored value that isn't valid Base64 throws this; signing in
+                        // rewrites it.
+                        true
+                    }
+                    _uiState.update {
+                        it.copy(accountDetail = account.toDetailUiModel(calendarCount, needsSignIn = needsSignIn))
+                    }
                 }
         }
     }
@@ -2739,7 +2846,8 @@ class AccountSettingsViewModel @Inject constructor(
                 displayName = account.displayName ?: account.provider.displayName,
                 calendarCount = count,
                 consecutiveSyncFailures = account.consecutiveSyncFailures,
-                lastSuccessfulSyncAt = account.lastSuccessfulSyncAt
+                lastSuccessfulSyncAt = account.lastSuccessfulSyncAt,
+                isEnabled = account.isEnabled
             )
         }
         _uiState.update { it.copy(calDavAccounts = uiModels) }

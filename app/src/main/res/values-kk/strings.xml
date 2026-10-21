@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud қосу</string>
     <string name="signin_caldav_title">CalDAV есептік жазба қосу</string>
+    <string name="signin_caldav_sign_in_again_title">Қайта кіру</string>
     <string name="signin_connected_to">%1$s-ке қосылды</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Күтпеген қате. Қайталап көріңіз.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nЕгер бұл жергілікті желідегі сервер болса, қосылу үшін жергілікті желіге кіруге рұқсат етіңіз.</string>
     <string name="caldav_error_connection_refused_insecure">Сервер қосылымды KashCal бармайтын жерге бағыттады (шифрланбаған мекенжайға немесе қайта бағыттау циклына), сондықтан KashCal құпия сөзіңізді жібермей тұрып тоқтады. Сервер мекенжайын тексеріңіз.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Бұл басқа есептік жазба. Осы есептік жазба пайдаланатын пайдаланушы аты мен сервер арқылы кіріңіз.</string>
     <string name="local_network_banner_title">Жергілікті желіге кіру қажет</string>
     <string name="local_network_banner_body">Бұл сервер жергілікті желіде тұрған сияқты. KashCal оған қосыла алуы үшін жергілікті желіге кіруге рұқсат етіңіз.</string>
     <string name="local_network_banner_allow">Кіруге рұқсат ету</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Артқа</string>
     <string name="accounts_sync_issue">Синхрондау мәселесі</string>
     <string name="accounts_cd_sync_warning">Синхрондау ескертуі</string>
+    <string name="accounts_cd_sync_off">синхрондау өшірулі</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Күнтізбе арналары</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Табу…</string>
     <string name="account_detail_discover_calendars">Жаңа күнтізбелерді табу</string>
     <string name="account_detail_change_password">Құпия сөзді өзгерту</string>
+    <string name="account_detail_sign_in_again">Қайта кіру</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal-да бұл есептік жазбаның құпия сөзі енді жоқ. Қайта синхрондау үшін кіріңіз. Күнтізбелеріңіз бен оқиғаларыңыз сақталады.</string>
     <string name="account_detail_sign_out">Шығу</string>
     <string name="account_detail_never_synced">Ешқашан синхрондалмаған</string>
     <string name="account_detail_last_success">Соңғы сәтті: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Жылжыту</string>
     <string name="snackbar_event_rescheduled">Оқиға уақыты өзгертілді</string>
     <string name="snackbar_reschedule_failed">Оқиға уақытын өзгерту мүмкін болмады</string>
+    <string name="snackbar_move_failed">\"%1$s\" оқиғасын жылжыту мүмкін болмады</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" басқа жерде өзгертілгендіктен жылжытылмады</string>
+    <string name="event_untitled">Атаусыз оқиға</string>
     <string name="recurring_this_event">Бұл оқиға</string>
     <string name="recurring_all_events">Барлық оқиғалар</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Оқиғаны сақтау</string>
     <string name="badge_beta">Бета</string>
+    <string name="badge_sync_off">Синхр. өшірулі</string>
     <string name="badge_new">Жаңа</string>
     <string name="color_red">Қызыл</string>
     <string name="color_orange">Қызғылт сары</string>

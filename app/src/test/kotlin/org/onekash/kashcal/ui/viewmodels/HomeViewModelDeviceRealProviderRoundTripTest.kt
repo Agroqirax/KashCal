@@ -147,8 +147,18 @@ class HomeViewModelDeviceRealProviderRoundTripTest {
         }
     }
 
-    private suspend fun TestScope.awaitDragResult() =
-        awaitUntil("the drag's result") { vm.uiState.value.pendingSnackbarMessage != null || vm.uiState.value.currentError != null }
+    /**
+     * Ends the drag's Undo window, waits for its save, and returns the snackbar the drop
+     * showed: the success one, or a drop-time failure.
+     */
+    private suspend fun TestScope.awaitDragResult(): String? {
+        val shownAtDrop = vm.uiState.value.pendingSnackbarMessage
+        vm.endDragUndoWindow()
+        awaitUntil("the drag's save") {
+            vm.dragSaveSettled
+        }
+        return shownAtDrop
+    }
 
     // ---- open and save changes nothing ----
 
@@ -657,14 +667,28 @@ class HomeViewModelDeviceRealProviderRoundTripTest {
         ZonedDateTime.of(2024, 3, day, hour, 0, 0, 0, ZoneId.systemDefault()).toInstant().toEpochMilli()
 
     @Test
+    fun `dragging an event with no notes, location or colour of its own still saves`() = runTest {
+        // The provider stores these as null, while the instance read maps them to empty text
+        // and no colour; the save's check must see the two as the same event.
+        for ((n, colour) in listOf(null, 0).withIndex()) {
+            val id = create(f.draft(title = "Bare $n", description = null, location = null, eventColor = colour))
+            val shown = f.occurrences(DAY_CODE).single { it.eventId == id }
+
+            vm.rescheduleEvent(DisplayEvent.Device(shown), LocalDate.of(2024, 3, 7), (18 + n) * 60)
+            awaitDragResult()
+
+            assertEquals(berlin(7, 18 + n).toString(), f.eventRow(id)!![Events.DTSTART])
+        }
+    }
+
+    @Test
     fun `dragging a one-off event moves it and keeps every other field`() = runTest {
         val id = create(f.draft(attendees = listOf(ana), categories = listOf("Work")))
         val before = snapshot(id)
 
         vm.rescheduleEvent(DisplayEvent.Device(f.occurrences(DAY_CODE).single()), LocalDate.of(2024, 3, 7), 18 * 60)
-        awaitDragResult()
 
-        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, vm.uiState.value.pendingSnackbarMessage)
+        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, awaitDragResult())
         val after = snapshot(id)
         val row = after.getValue("event") as Map<*, *>
         assertEquals(berlin(7, 18).toString(), row[Events.DTSTART])

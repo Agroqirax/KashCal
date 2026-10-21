@@ -108,6 +108,7 @@ class HomeViewModelQuickViewEventTest {
         contactEmailReader = mockk(relaxed = true),
         context = mockk(relaxed = true),
         ioDispatcher = testDispatcher,
+        applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher),
     )
 
     private fun event(id: Long, title: String) = Event(

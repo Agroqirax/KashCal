@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud कनेक्ट करें</string>
     <string name="signin_caldav_title">CalDAV अकाउंट जोड़ें</string>
+    <string name="signin_caldav_sign_in_again_title">फिर से साइन इन करें</string>
     <string name="signin_connected_to">%1$s से कनेक्ट किया</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">अप्रत्याशित त्रुटि। कृपया पुनः प्रयास करें।</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nयदि यह आपके स्थानीय नेटवर्क पर कोई सर्वर है, तो कनेक्ट करने के लिए स्थानीय नेटवर्क एक्सेस की अनुमति दें।</string>
     <string name="caldav_error_connection_refused_insecure">सर्वर ने कनेक्शन को ऐसी जगह भेजा जहाँ KashCal नहीं जाता (बिना एन्क्रिप्शन वाला पता, या रीडायरेक्ट लूप), इसलिए आपका पासवर्ड भेजने से पहले KashCal रुक गया। सर्वर का पता जाँचें।</string>
+    <string name="caldav_error_sign_in_again_mismatch">यह एक अलग अकाउंट है। इस अकाउंट के उपयोगकर्ता नाम और सर्वर से साइन इन करें।</string>
     <string name="local_network_banner_title">स्थानीय नेटवर्क एक्सेस आवश्यक है</string>
     <string name="local_network_banner_body">यह सर्वर आपके स्थानीय नेटवर्क पर प्रतीत होता है। स्थानीय नेटवर्क एक्सेस की अनुमति दें ताकि KashCal इससे कनेक्ट हो सके।</string>
     <string name="local_network_banner_allow">एक्सेस की अनुमति दें</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">वापस जाएँ</string>
     <string name="accounts_sync_issue">सिंक समस्या</string>
     <string name="accounts_cd_sync_warning">सिंक चेतावनी</string>
+    <string name="accounts_cd_sync_off">सिंक बंद</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">कैलेंडर फ़ीड</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">खोज रहा है…</string>
     <string name="account_detail_discover_calendars">नए कैलेंडर खोजें</string>
     <string name="account_detail_change_password">पासवर्ड बदलें</string>
+    <string name="account_detail_sign_in_again">फिर से साइन इन करें</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal के पास अब इस अकाउंट का पासवर्ड नहीं है। फिर से सिंक करने के लिए साइन इन करें। आपके कैलेंडर और इवेंट सुरक्षित रहेंगे।</string>
     <string name="account_detail_sign_out">साइन आउट</string>
     <string name="account_detail_never_synced">कभी सिंक नहीं हुआ</string>
     <string name="account_detail_last_success">अंतिम सफल: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">स्थानांतरित करें</string>
     <string name="snackbar_event_rescheduled">इवेंट का समय बदल दिया गया</string>
     <string name="snackbar_reschedule_failed">इवेंट का समय नहीं बदला जा सका</string>
+    <string name="snackbar_move_failed">\"%1$s\" को स्थानांतरित नहीं किया जा सका</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" कहीं और बदला गया, इसलिए स्थानांतरित नहीं किया गया</string>
+    <string name="event_untitled">बिना शीर्षक वाला इवेंट</string>
     <string name="recurring_this_event">यह इवेंट</string>
     <string name="recurring_all_events">सभी इवेंट</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">इवेंट सहेजें</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">सिंक बंद</string>
     <string name="badge_new">नया</string>
     <string name="color_red">लाल</string>
     <string name="color_orange">नारंगी</string>

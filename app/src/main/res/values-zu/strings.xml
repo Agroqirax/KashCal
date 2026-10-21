@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Xhuma iCloud</string>
     <string name="signin_caldav_title">Engeza I-Akhawunti ye-CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Ngena Futhi</string>
     <string name="signin_connected_to">Ixhunywe ku-%1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Iphutha elingalindelekile. Sicela uzame futhi.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nUma le seva ikwinethiwekhi yakho yendawo, vumela ukufinyelela kwinethiwekhi yendawo ukuze uxhume.</string>
     <string name="caldav_error_connection_refused_insecure">Iseva iqondise kabusha uxhumano endaweni i-KashCal engayilandeli (ikheli elingabethelwe, noma uluphu lokuqondisa kabusha), ngakho i-KashCal imile ngaphambi kokuthumela iphasiwedi yakho. Hlola ikheli leseva.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Le akhawunti ehlukile. Ngena ngegama lomsebenzisi neseva esetshenziswa yile akhawunti.</string>
     <string name="local_network_banner_title">Kudingeka ukufinyelela kwinethiwekhi yendawo</string>
     <string name="local_network_banner_body">Le seva ibukeka ingathi ikwinethiwekhi yakho yendawo. Vumela ukufinyelela kwinethiwekhi yendawo ukuze i-KashCal ikwazi ukuxhuma kuyo.</string>
     <string name="local_network_banner_allow">Vumela ukufinyelela</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Buyela emuva</string>
     <string name="accounts_sync_issue">Inkinga yokuvumelanisa</string>
     <string name="accounts_cd_sync_warning">Isexwayiso sokuvumelanisa</string>
+    <string name="accounts_cd_sync_off">ukuvumelanisa kuvaliwe</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Amafidi Wekhalenda</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Iyathola…</string>
     <string name="account_detail_discover_calendars">Thola Amakhalenda Amasha</string>
     <string name="account_detail_change_password">Shintsha Iphasiwedi</string>
+    <string name="account_detail_sign_in_again">Ngena Futhi</string>
+    <string name="account_detail_sign_in_again_subtitle">I-KashCal ayisenayo iphasiwedi yale akhawunti. Ngena ukuze uvumelanise futhi. Amakhalenda akho nemicimbi yakho kuyagcinwa.</string>
     <string name="account_detail_sign_out">Phuma</string>
     <string name="account_detail_never_synced">Akukaze kuvumelaniselwe</string>
     <string name="account_detail_last_success">Ukuphumelela okokugcina: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Hambisa</string>
     <string name="snackbar_event_rescheduled">Umcimbi uhlelwe kabusha</string>
     <string name="snackbar_reschedule_failed">Ayikwazanga ukuhlela kabusha umcimbi</string>
+    <string name="snackbar_move_failed">Ayikwazanga ukuhambisa i-\"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">I-\"%1$s\" ishintshwe kwenye indawo, ngakho ayihanjiswanga</string>
+    <string name="event_untitled">Umcimbi ongenasihloko</string>
     <string name="recurring_this_event">Lo mcimbi</string>
     <string name="recurring_all_events">Yonke imicimbi</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Gcina Umcimbi</string>
     <string name="badge_beta">Ibhethha</string>
+    <string name="badge_sync_off">Ukuvumel. kuvaliwe</string>
     <string name="badge_new">Okusha</string>
     <string name="color_red">Okubomvu</string>
     <string name="color_orange">Okusawolintshi</string>

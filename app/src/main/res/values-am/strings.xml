@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud አገናኝ</string>
     <string name="signin_caldav_title">CalDAV መለያ አክል</string>
+    <string name="signin_caldav_sign_in_again_title">እንደገና ግባ</string>
     <string name="signin_connected_to">ከ%1$s ጋር ተገናኝቷል</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">ያልተጠበቀ ስህተት። እባክዎ እንደገና ይሞክሩ።</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nይህ በአካባቢዎ አውታረ መረብ ላይ ያለ አገልጋይ ከሆነ፣ ለመገናኘት የአካባቢ አውታረ መረብ መዳረሻን ይፍቀዱ።</string>
     <string name="caldav_error_connection_refused_insecure">አገልጋዩ ግንኙነቱን KashCal ወደማይከተለው ቦታ አዙሮታል (ያልተመሰጠረ አድራሻ ወይም የማዞሪያ ዑደት)፣ ስለዚህ KashCal የይለፍ ቃልዎን ከመላኩ በፊት ቆሟል። የአገልጋዩን አድራሻ ያረጋግጡ።</string>
+    <string name="caldav_error_sign_in_again_mismatch">ይህ የተለየ መለያ ነው። ይህ መለያ በሚጠቀመው የተጠቃሚ ስም እና አገልጋይ ይግቡ።</string>
     <string name="local_network_banner_title">የአካባቢ አውታረ መረብ መዳረሻ ያስፈልጋል</string>
     <string name="local_network_banner_body">ይህ አገልጋይ በአካባቢዎ አውታረ መረብ ላይ ያለ ይመስላል። KashCal ከእሱ ጋር መገናኘት እንዲችል የአካባቢ አውታረ መረብ መዳረሻን ይፍቀዱ።</string>
     <string name="local_network_banner_allow">መዳረሻ ፍቀድ</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">ተመለስ</string>
     <string name="accounts_sync_issue">የማመሳሰል ችግር</string>
     <string name="accounts_cd_sync_warning">የማመሳሰል ማስጠንቀቂያ</string>
+    <string name="accounts_cd_sync_off">ማመሳሰል ጠፍቷል</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">የቀን መቁጠሪያ ምግቦች</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">በማግኘት ላይ…</string>
     <string name="account_detail_discover_calendars">አዲስ ቀን መቁጠሪያዎችን ፈልግ</string>
     <string name="account_detail_change_password">የይለፍ ቃል ቀይር</string>
+    <string name="account_detail_sign_in_again">እንደገና ግባ</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal የዚህን መለያ የይለፍ ቃል ከአሁን በኋላ የለውም። እንደገና ለማመሳሰል ይግቡ። የቀን መቁጠሪያዎችዎ እና ክስተቶችዎ ይቆያሉ።</string>
     <string name="account_detail_sign_out">ውጣ</string>
     <string name="account_detail_never_synced">ፈጽሞ አልተመሳሰለም</string>
     <string name="account_detail_last_success">የመጨረሻ ስኬት: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">አንቀሳቅስ</string>
     <string name="snackbar_event_rescheduled">ክስተቱ እንደገና ታቅዷል</string>
     <string name="snackbar_reschedule_failed">ክስተቱን እንደገና ማቀድ አልተቻለም</string>
+    <string name="snackbar_move_failed">\"%1$s\"ን ማንቀሳቀስ አልተቻለም</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" በሌላ ቦታ ስለተቀየረ አልተንቀሳቀሰም</string>
+    <string name="event_untitled">ርዕስ የሌለው ክስተት</string>
     <string name="recurring_this_event">ይህ ክስተት</string>
     <string name="recurring_all_events">ሁሉም ክስተቶች</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">ክስተት አስቀምጥ</string>
     <string name="badge_beta">ቅድመ-ልቀት</string>
+    <string name="badge_sync_off">ማመሳሰል ጠፍቷል</string>
     <string name="badge_new">አዲስ</string>
     <string name="color_red">ቀይ</string>
     <string name="color_orange">ብርቱካናማ</string>

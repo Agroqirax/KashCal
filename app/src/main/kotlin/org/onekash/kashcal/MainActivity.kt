@@ -730,7 +730,9 @@ class MainActivity : FragmentActivity() {
                     onResume = { homeViewModel.onAppResume() },
                     onClearScrollAgendaToTop = { homeViewModel.clearScrollAgendaToTop() },
                     // Snackbar callback
-                    onClearSnackbar = { homeViewModel.clearSnackbar() },
+                    onClearSnackbar = { id -> homeViewModel.clearSnackbar(id) },
+                    onHomeStop = { homeViewModel.onHomeStopped() },
+                    onTimeGridEventTap = { displayEvent -> homeViewModel.onTimeGridEventTap(displayEvent) },
                     // URL callback (for error actions)
                     onClearPendingUrl = { homeViewModel.clearPendingUrl() },
                     // Day detail sheet callbacks

@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Sambung iCloud</string>
     <string name="signin_caldav_title">Tambah Akaun CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Log Masuk Semula</string>
     <string name="signin_connected_to">Disambungkan ke %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Ralat tidak dijangka. Sila cuba lagi.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nJika ini pelayan pada rangkaian setempat anda, benarkan akses rangkaian setempat untuk menyambung.</string>
     <string name="caldav_error_connection_refused_insecure">Pelayan mengubah hala sambungan ke tempat yang tidak diikuti KashCal (alamat tanpa penyulitan, atau gelung ubah hala), jadi KashCal berhenti sebelum menghantar kata laluan anda. Semak alamat pelayan.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ini akaun yang berbeza. Log masuk dengan nama pengguna dan pelayan yang digunakan oleh akaun ini.</string>
     <string name="local_network_banner_title">Akses rangkaian setempat diperlukan</string>
     <string name="local_network_banner_body">Pelayan ini nampaknya berada pada rangkaian setempat anda. Benarkan akses rangkaian setempat supaya KashCal boleh menyambung kepadanya.</string>
     <string name="local_network_banner_allow">Benarkan akses</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Kembali</string>
     <string name="accounts_sync_issue">Isu segerak</string>
     <string name="accounts_cd_sync_warning">Amaran segerak</string>
+    <string name="accounts_cd_sync_off">segerak dimatikan</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Suapan Kalendar</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Mencari…</string>
     <string name="account_detail_discover_calendars">Cari Kalendar Baharu</string>
     <string name="account_detail_change_password">Tukar Kata Laluan</string>
+    <string name="account_detail_sign_in_again">Log Masuk Semula</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal tidak lagi mempunyai kata laluan akaun ini. Log masuk untuk menyegerakkan semula. Kalendar dan acara anda kekal.</string>
     <string name="account_detail_sign_out">Log Keluar</string>
     <string name="account_detail_never_synced">Belum pernah disegerakkan</string>
     <string name="account_detail_last_success">Kejayaan terakhir: %1$s</string>
@@ -873,6 +878,9 @@
     <string name="dialog_move_recurring_title">Alih</string>
     <string name="snackbar_event_rescheduled">Acara dijadualkan semula</string>
     <string name="snackbar_reschedule_failed">Tidak dapat menjadualkan semula acara</string>
+    <string name="snackbar_move_failed">Tidak dapat mengalihkan \"%1$s\"</string>
+    <string name="snackbar_move_changed_elsewhere">\"%1$s\" telah diubah di tempat lain, jadi ia tidak dialihkan</string>
+    <string name="event_untitled">Acara tanpa tajuk</string>
     <string name="recurring_this_event">Acara ini sahaja</string>
     <string name="recurring_all_events">Semua acara</string>
 
@@ -1146,6 +1154,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Simpan Acara</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Segerak mati</string>
     <string name="badge_new">Baharu</string>
     <string name="color_red">Merah</string>
     <string name="color_orange">Jingga</string>

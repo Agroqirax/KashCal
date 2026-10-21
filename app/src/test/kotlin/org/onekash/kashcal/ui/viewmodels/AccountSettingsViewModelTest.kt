@@ -12,6 +12,7 @@ import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -246,6 +247,8 @@ class AccountSettingsViewModelTest {
         every { eventCoordinator.getAllCalendars() } returns calendarsFlow
         every { eventCoordinator.getAllAccounts() } returns flowOf(emptyList())
         every { eventCoordinator.getICloudCalendarCount() } returns iCloudCalendarCountFlow
+        // The iCloud row's enabled flag is observed from the accounts table.
+        every { accountRepository.getAccountsByProviderFlow(any()) } returns flowOf(emptyList())
         every { eventCoordinator.getCalDavAccountCount() } returns calDavAccountCountFlow
         every { userPreferences.defaultCalendarId } returns defaultCalendarIdFlow
         every { userPreferences.defaultCalendar } returns defaultCalendarFlow
@@ -4099,5 +4102,471 @@ class AccountSettingsViewModelTest {
         viewModel.refreshChangeNotifications()
         advanceUntilIdle()
         assertTrue(viewModel.changeNotificationsOn.value)
+    }
+
+    // ==================== Sign in again (#371) ====================
+
+    private val signInAgainAccount = Account(
+        id = 7L,
+        provider = AccountProvider.CALDAV,
+        email = "user",
+        displayName = "Home",
+        principalUrl = "http://192.168.1.5:8080/remote.php/dav/principals/users/user/",
+        homeSetUrl = "http://192.168.1.5:8080/remote.php/dav/calendars/user/",
+        isEnabled = true
+    )
+
+    private val signInAgainFound = DiscoveryResult.CalendarsFound(
+        serverUrl = "http://192.168.1.5:8080",
+        username = "user",
+        calendarHomeUrl = "http://192.168.1.5:8080/remote.php/dav/calendars/user/",
+        principalUrl = "http://192.168.1.5:8080/remote.php/dav/principals/users/user/",
+        calendars = listOf(
+            DiscoveredCalendar(href = "/remote.php/dav/calendars/user/personal/", displayName = "Personal", color = 0xFF2196F3.toInt())
+        )
+    )
+
+    private fun stubSignInAgainDiscovery(createResult: DiscoveryResult = DiscoveryResult.Success(signInAgainAccount, emptyList())) {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount
+        coEvery { calDavDiscoveryService.isDisplayNameAvailable(any(), any()) } returns true
+        coEvery { calDavDiscoveryService.discoverCalendars(any(), any(), any(), any()) } returns signInAgainFound
+        coEvery {
+            calDavDiscoveryService.createAccountWithSelectedCalendars(any(), any(), any(), any(), any(), any(), any(), any(), any())
+        } returns createResult
+    }
+
+    @Test
+    fun `startCalDavSignInAgain prefills the sheet from the account and records it`() = runTest {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+        assertTrue(state.showCalDavSignInSheet)
+        assertEquals(7L, state.calDavSignInAgainAccountId)
+        val form = state.calDavState as CalDavConnectionState.NotConnected
+        assertEquals("http://192.168.1.5:8080", form.serverUrl)
+        assertEquals("user", form.username)
+        assertEquals("Home", form.displayName)
+        assertEquals("", form.password)
+        assertFalse(form.trustInsecure)
+        assertNull(form.error)
+    }
+
+    @Test
+    fun `startCalDavSignInAgain with no home set or name regenerates the name as the server is typed`() = runTest {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount.copy(homeSetUrl = null, displayName = null)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        val prefilled = viewModel.uiState.value.calDavState as CalDavConnectionState.NotConnected
+        assertEquals("", prefilled.serverUrl)
+        assertEquals("", prefilled.displayName)
+
+        viewModel.onCalDavServerUrlChange("https://nextcloud.example.com")
+        val typed = viewModel.uiState.value.calDavState as CalDavConnectionState.NotConnected
+        assertTrue("name regenerated, got '${typed.displayName}'", typed.displayName.isNotBlank())
+    }
+
+    @Test
+    fun `startCalDavSignInAgain with a home set but no name prefills the generated name`() = runTest {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount.copy(displayName = null)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+
+        val form = viewModel.uiState.value.calDavState as CalDavConnectionState.NotConnected
+        assertTrue("generated name, got '${form.displayName}'", form.displayName.isNotBlank())
+        // Marked as typed, so changing the server afterwards keeps it.
+        viewModel.onCalDavServerUrlChange("https://nextcloud.example.com")
+        assertEquals(form.displayName, (viewModel.uiState.value.calDavState as CalDavConnectionState.NotConnected).displayName)
+    }
+
+    @Test
+    fun `startCalDavSignInAgain ignores accounts that are not CalDAV`() = runTest {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount.copy(provider = AccountProvider.ICLOUD)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+
+        assertFalse(viewModel.uiState.value.showCalDavSignInSheet)
+        assertNull(viewModel.uiState.value.calDavSignInAgainAccountId)
+    }
+
+    @Test
+    fun `sign in again excludes the account from the name checks and re-attaches it with a forced sync`() = runTest {
+        stubSignInAgainDiscovery()
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        viewModel.onCalDavDisplayNameChange("Home")
+        viewModel.onCalDavPasswordChange("new-pass")
+        advanceUntilIdle()
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        coVerify { calDavDiscoveryService.isDisplayNameAvailable("Home", 7L) }
+        coVerify(exactly = 0) { calDavDiscoveryService.isDisplayNameAvailable(any(), null) }
+        coVerify {
+            calDavDiscoveryService.createAccountWithSelectedCalendars(
+                "http://192.168.1.5:8080", "user", "new-pass", false, any(), any(), any(), "Home", 7L
+            )
+        }
+        verify { syncScheduler.syncAccount(7L, forceFullSync = true) }
+        assertNull(viewModel.uiState.value.calDavSignInAgainAccountId)
+    }
+
+    @Test
+    fun `after a successful sign in again the next Add CalDAV is a normal sign-in`() = runTest {
+        stubSignInAgainDiscovery()
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        viewModel.onCalDavPasswordChange("new-pass")
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        viewModel.showCalDavSignInSheet()
+        viewModel.onCalDavServerUrlChange("http://192.168.1.5:8080")
+        viewModel.onCalDavUsernameChange("other")
+        viewModel.onCalDavDisplayNameChange("Second")
+        viewModel.onCalDavPasswordChange("pw")
+        advanceUntilIdle()
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.calDavSignInAgainAccountId)
+        coVerify { calDavDiscoveryService.isDisplayNameAvailable("Second", null) }
+        coVerify {
+            calDavDiscoveryService.createAccountWithSelectedCalendars(any(), "other", "pw", any(), any(), any(), any(), any(), null)
+        }
+    }
+
+    @Test
+    fun `hiding the sheet ends sign in again`() = runTest {
+        coEvery { accountRepository.getAccountById(7L) } returns signInAgainAccount
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+
+        viewModel.hideCalDavSignInSheet()
+
+        assertNull(viewModel.uiState.value.calDavSignInAgainAccountId)
+        assertEquals(CalDavConnectionState.NotConnected(), viewModel.uiState.value.calDavState)
+    }
+
+    @Test
+    fun `dismissing the sheet during discovery still re-attaches the account it was opened from`() = runTest {
+        stubSignInAgainDiscovery()
+        val viewModel = createViewModel()
+        coEvery { calDavDiscoveryService.discoverCalendars(any(), any(), any(), any()) } coAnswers {
+            viewModel.hideCalDavSignInSheet()
+            signInAgainFound
+        }
+        advanceUntilIdle()
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        viewModel.onCalDavPasswordChange("new-pass")
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        coVerify {
+            calDavDiscoveryService.createAccountWithSelectedCalendars(any(), any(), any(), any(), any(), any(), any(), any(), 7L)
+        }
+    }
+
+    @Test
+    fun `fields changed during discovery do not replace what was submitted`() = runTest {
+        stubSignInAgainDiscovery()
+        val viewModel = createViewModel()
+        coEvery { calDavDiscoveryService.discoverCalendars(any(), any(), any(), any()) } coAnswers {
+            // Reopening the sheet mid-discovery rewrites the form, as startCalDavSignInAgain does.
+            viewModel.onCalDavPasswordChange("")
+            viewModel.onCalDavUsernameChange("someone-else")
+            signInAgainFound
+        }
+        advanceUntilIdle()
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        viewModel.onCalDavPasswordChange("new-pass")
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        coVerify {
+            calDavDiscoveryService.createAccountWithSelectedCalendars(
+                any(), "user", "new-pass", false, any(), any(), any(), "Home", 7L
+            )
+        }
+    }
+
+    @Test
+    fun `a different account during sign in again shows the mismatch message`() = runTest {
+        stubSignInAgainDiscovery(
+            createResult = DiscoveryResult.Error("different", reason = DiscoveryErrorReason.ACCOUNT_MISMATCH)
+        )
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.startCalDavSignInAgain(7L)
+        advanceUntilIdle()
+        viewModel.onCalDavPasswordChange("new-pass")
+        viewModel.onCalDavDiscover()
+        advanceUntilIdle()
+
+        val form = viewModel.uiState.value.calDavState as CalDavConnectionState.NotConnected
+        assertEquals(UiMessage.ResId(R.string.caldav_error_sign_in_again_mismatch), form.error)
+        verify(exactly = 0) { syncScheduler.syncAccount(any(), any()) }
+    }
+
+    @Test
+    fun `account detail needs sign in only for a CalDAV account without readable credentials`() = runTest {
+        val icloud = testDetailAccount.copy(id = 11L, provider = AccountProvider.ICLOUD)
+        every { accountRepository.getAccountByIdFlow(10L) } returns flowOf(testDetailAccount)
+        every { accountRepository.getAccountByIdFlow(11L) } returns flowOf(icloud)
+        coEvery { accountRepository.getCredentials(any()) } returns null
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.observeAccountDetail(10L)
+        advanceUntilIdle()
+        assertTrue(viewModel.uiState.value.accountDetail!!.needsSignIn)
+
+        viewModel.observeAccountDetail(11L)
+        advanceUntilIdle()
+        assertFalse(viewModel.uiState.value.accountDetail!!.needsSignIn)
+
+        coEvery { accountRepository.getCredentials(10L) } returns
+            AccountCredentials(username = "user", password = "pw", serverUrl = "https://dav.example.com")
+        viewModel.observeAccountDetail(10L)
+        advanceUntilIdle()
+        assertFalse(viewModel.uiState.value.accountDetail!!.needsSignIn)
+    }
+
+    @Test
+    fun `account detail treats an unreadable stored value as needing sign in instead of crashing`() = runTest {
+        every { accountRepository.getAccountByIdFlow(10L) } returns flowOf(testDetailAccount)
+        // EncryptedSharedPreferences throws this for a stored value that isn't valid Base64.
+        coEvery { accountRepository.getCredentials(10L) } throws IllegalArgumentException("bad base-64")
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.observeAccountDetail(10L)
+        advanceUntilIdle()
+
+        assertTrue(viewModel.uiState.value.accountDetail!!.needsSignIn)
+    }
+
+    @Test
+    fun `account detail never needs sign in for a local account`() = runTest {
+        every { accountRepository.getAccountByIdFlow(12L) } returns
+            flowOf(testDetailAccount.copy(id = 12L, provider = AccountProvider.LOCAL))
+        coEvery { accountRepository.getCredentials(any()) } returns null
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.observeAccountDetail(12L)
+        advanceUntilIdle()
+
+        assertFalse(viewModel.uiState.value.accountDetail!!.needsSignIn)
+    }
+
+    @Test
+    fun `changeAccountPassword without stored credentials fails with No existing credentials`() = runTest {
+        coEvery { accountRepository.getAccountById(10L) } returns testDetailAccount
+        coEvery { accountRepository.getCredentials(10L) } returns null
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        var callbackResult: Result<Unit>? = null
+        viewModel.changeAccountPassword(10L, "new-pass") { callbackResult = it }
+        advanceUntilIdle()
+
+        assertEquals("No existing credentials", callbackResult!!.exceptionOrNull()?.message)
+        coVerify(exactly = 0) { accountRepository.saveCredentials(any(), any()) }
+    }
+
+    // ==================== iCloud sign in again (#371) ====================
+
+    @Test
+    fun `an iCloud account without credentials prefills its Apple ID`() = runTest {
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(testDbAccount)
+        coEvery { accountRepository.hasCredentials(testDbAccount.id) } returns false
+
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value.iCloudState as ICloudConnectionState.NotConnected
+        assertEquals("test@icloud.com", state.appleId)
+        assertEquals("", state.password)
+        assertNull(state.error)
+    }
+
+    @Test
+    fun `the prefilled Apple ID stays editable`() = runTest {
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(testDbAccount)
+        coEvery { accountRepository.hasCredentials(testDbAccount.id) } returns false
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onAppleIdChange("other@icloud.com")
+
+        assertEquals("other@icloud.com", (viewModel.uiState.value.iCloudState as ICloudConnectionState.NotConnected).appleId)
+    }
+
+    @Test
+    fun `signing in again to the existing iCloud account runs the forced sync`() = runTest {
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(testDbAccount)
+        coEvery { accountRepository.hasCredentials(testDbAccount.id) } returns false
+        coEvery { discoveryService.discoverAndCreateAccount(any(), any()) } returns
+            DiscoveryResult.Success(account = testDbAccount, calendars = testCalendars)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onPasswordChange("xxxx-xxxx-xxxx-xxxx")
+        viewModel.onSignIn()
+        advanceUntilIdle()
+
+        coVerify { discoveryService.discoverAndCreateAccount("test@icloud.com", "xxxx-xxxx-xxxx-xxxx") }
+        verify { syncScheduler.syncAccount(testDbAccount.id, forceFullSync = true) }
+    }
+
+    // ==================== Account rows: sync on or off ====================
+
+    @Test
+    fun `CalDAV rows carry each account's enabled state`() = runTest {
+        every { eventCoordinator.getCalDavAccounts() } returns flowOf(
+            listOf(
+                testDetailAccount.copy(id = 20L, isEnabled = false),
+                testDetailAccount.copy(id = 21L, isEnabled = true),
+            )
+        )
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        val rows = viewModel.uiState.value.calDavAccounts.associateBy { it.id }
+        assertFalse(rows.getValue(20L).isEnabled)
+        assertTrue(rows.getValue(21L).isEnabled)
+    }
+
+    @Test
+    fun `iCloud Connected starts with the account's enabled state and follows the toggle`() = runTest {
+        val disabled = testDbAccount.copy(isEnabled = false)
+        val rows = MutableStateFlow(listOf(disabled))
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(disabled)
+        coEvery { accountRepository.hasCredentials(disabled.id) } returns true
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns rows
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+
+        rows.value = listOf(disabled.copy(isEnabled = true))
+        advanceUntilIdle()
+        assertTrue((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+
+        rows.value = listOf(disabled.copy(isEnabled = false))
+        advanceUntilIdle()
+        assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+    }
+
+    @Test
+    fun `iCloud account rows leave a state that isn't Connected untouched`() = runTest {
+        val rows = MutableStateFlow(listOf(testDbAccount.copy(isEnabled = false)))
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns emptyList()
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns rows
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        val notConnected = viewModel.uiState.value.iCloudState
+        assertTrue(notConnected is ICloudConnectionState.NotConnected)
+
+        rows.value = listOf(testDbAccount.copy(isEnabled = false, displayName = "changed"))
+        advanceUntilIdle()
+        assertEquals(notConnected, viewModel.uiState.value.iCloudState)
+    }
+
+    @Test
+    fun `a row emitted while signing in still applies after sign-in when emitted again`() = runTest {
+        // Replays and re-emits equal values, as a Room flow does after each write to the table.
+        val rows = MutableSharedFlow<List<Account>>(replay = 1)
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns emptyList()
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns rows
+        val viewModel = createViewModel()
+        var stateDuringSignIn: ICloudConnectionState? = null
+        coEvery { discoveryService.discoverAndCreateAccount(any(), any()) } coAnswers {
+            rows.emit(listOf(testDbAccount.copy(isEnabled = false)))
+            // Lets the observer take the row while sign-in is still in progress.
+            kotlinx.coroutines.yield()
+            stateDuringSignIn = viewModel.uiState.value.iCloudState
+            DiscoveryResult.Success(account = testDbAccount.copy(isEnabled = true), calendars = testCalendars)
+        }
+        advanceUntilIdle()
+
+        viewModel.onAppleIdChange("test@icloud.com")
+        viewModel.onPasswordChange("xxxx-xxxx-xxxx-xxxx")
+        viewModel.onSignIn()
+        advanceUntilIdle()
+        assertTrue("taken while signing in: $stateDuringSignIn", stateDuringSignIn is ICloudConnectionState.Connecting)
+        assertTrue((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+
+        // The stored row says off; the equal re-emission must still reach the Connected state.
+        rows.emit(listOf(testDbAccount.copy(isEnabled = false)))
+        advanceUntilIdle()
+        assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+    }
+
+    @Test
+    fun `signing out leaves NotConnected when the rows empty`() = runTest {
+        val rows = MutableStateFlow(listOf(testDbAccount.copy(isEnabled = true)))
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(testDbAccount)
+        coEvery { accountRepository.hasCredentials(testDbAccount.id) } returns true
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns rows
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onSignOut()
+        rows.value = emptyList()
+        advanceUntilIdle()
+
+        assertEquals(ICloudConnectionState.NotConnected(), viewModel.uiState.value.iCloudState)
+    }
+
+    @Test
+    fun `loading builds Connected with the row's enabled state on its own`() = runTest {
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns listOf(testDbAccount.copy(isEnabled = false))
+        coEvery { accountRepository.hasCredentials(testDbAccount.id) } returns true
+        // No row emissions, so only loadInitialState can set the flag.
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns flowOf(emptyList())
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+    }
+
+    @Test
+    fun `sign-in builds Connected with the returned account's enabled state on its own`() = runTest {
+        coEvery { accountRepository.getAccountsByProvider(AccountProvider.ICLOUD) } returns emptyList()
+        every { accountRepository.getAccountsByProviderFlow(AccountProvider.ICLOUD) } returns flowOf(emptyList())
+        coEvery { discoveryService.discoverAndCreateAccount(any(), any()) } returns
+            DiscoveryResult.Success(account = testDbAccount.copy(isEnabled = false), calendars = testCalendars)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onAppleIdChange("test@icloud.com")
+        viewModel.onPasswordChange("xxxx-xxxx-xxxx-xxxx")
+        viewModel.onSignIn()
+        advanceUntilIdle()
+
+        assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
     }
 }

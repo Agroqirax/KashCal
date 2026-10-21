@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Conectare iCloud</string>
     <string name="signin_caldav_title">Adaugă cont CalDAV</string>
+    <string name="signin_caldav_sign_in_again_title">Conectează-te din nou</string>
     <string name="signin_connected_to">Conectat la %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Eroare neașteptată. Încercați din nou.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nDacă acesta este un server din rețeaua ta locală, permite accesul la rețeaua locală pentru a te conecta.</string>
     <string name="caldav_error_connection_refused_insecure">Serverul a redirecționat conexiunea către un loc unde KashCal nu merge (o adresă necriptată sau o buclă de redirecționări), așa că KashCal s-a oprit înainte să îți trimită parola. Verifică adresa serverului.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Acesta este alt cont. Conectează-te cu numele de utilizator și serverul pe care le folosește acest cont.</string>
     <string name="local_network_banner_title">Este necesar accesul la rețeaua locală</string>
     <string name="local_network_banner_body">Se pare că acest server este în rețeaua ta locală. Permite accesul la rețeaua locală pentru ca KashCal să se poată conecta la el.</string>
     <string name="local_network_banner_allow">Permite accesul</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Înapoi</string>
     <string name="accounts_sync_issue">Problemă de sincronizare</string>
     <string name="accounts_cd_sync_warning">Avertisment sincronizare</string>
+    <string name="accounts_cd_sync_off">sincronizare oprită</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Fluxuri de calendar</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Se descoperă…</string>
     <string name="account_detail_discover_calendars">Descoperă calendare noi</string>
     <string name="account_detail_change_password">Schimbă parola</string>
+    <string name="account_detail_sign_in_again">Conectează-te din nou</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCal nu mai are parola acestui cont. Conectează-te pentru a sincroniza din nou. Calendarele și evenimentele tale se păstrează.</string>
     <string name="account_detail_sign_out">Deconectare</string>
     <string name="account_detail_never_synced">Niciodată sincronizat</string>
     <string name="account_detail_last_success">Ultima reușită: %1$s</string>
@@ -955,6 +960,9 @@
     <string name="dialog_move_recurring_title">Mută</string>
     <string name="snackbar_event_rescheduled">Eveniment reprogramat</string>
     <string name="snackbar_reschedule_failed">Nu s-a putut reprograma evenimentul</string>
+    <string name="snackbar_move_failed">Nu s-a putut muta „%1$s”</string>
+    <string name="snackbar_move_changed_elsewhere">„%1$s” a fost modificat în altă parte, așa că nu a fost mutat</string>
+    <string name="event_untitled">Eveniment fără titlu</string>
     <string name="recurring_this_event">Acest eveniment</string>
     <string name="recurring_all_events">Toate evenimentele</string>
 
@@ -1262,6 +1270,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Salvare eveniment</string>
     <string name="badge_beta">Beta</string>
+    <string name="badge_sync_off">Sincr. oprită</string>
     <string name="badge_new">Nou</string>
     <string name="color_red">Roșu</string>
     <string name="color_orange">Portocaliu</string>

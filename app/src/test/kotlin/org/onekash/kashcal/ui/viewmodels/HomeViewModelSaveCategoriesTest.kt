@@ -103,6 +103,7 @@ class HomeViewModelSaveCategoriesTest {
         contactEmailReader = mockk(relaxed = true),
         context = mockk(relaxed = true),
         ioDispatcher = testDispatcher,
+        applicationScope = kotlinx.coroutines.CoroutineScope(testDispatcher),
     )
 
     @Test

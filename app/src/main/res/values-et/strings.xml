@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">Ühenda iCloud</string>
     <string name="signin_caldav_title">Lisa CalDAV konto</string>
+    <string name="signin_caldav_sign_in_again_title">Logi uuesti sisse</string>
     <string name="signin_connected_to">Ühendatud teenusega %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Ootamatu viga. Proovige uuesti.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nKui see on server sinu kohtvõrgus, luba juurdepääs kohtvõrgule, et ühendus luua.</string>
     <string name="caldav_error_connection_refused_insecure">Server suunas ühenduse kohta, kuhu KashCal ei järgne (krüptimata aadressile või ümbersuunamiste tsüklisse), seega peatus KashCal enne sinu parooli saatmist. Kontrolli serveri aadressi.</string>
+    <string name="caldav_error_sign_in_again_mismatch">See on teine konto. Logi sisse kasutajanime ja serveriga, mida see konto kasutab.</string>
     <string name="local_network_banner_title">Vajalik on juurdepääs kohtvõrgule</string>
     <string name="local_network_banner_body">Tundub, et see server on sinu kohtvõrgus. Luba juurdepääs kohtvõrgule, et KashCal saaks sellega ühenduse luua.</string>
     <string name="local_network_banner_allow">Luba juurdepääs</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Mine tagasi</string>
     <string name="accounts_sync_issue">Sünkroonimise probleem</string>
     <string name="accounts_cd_sync_warning">Sünkroonimise hoiatus</string>
+    <string name="accounts_cd_sync_off">sünkroonimine väljas</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Kalendrivood</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Avastab…</string>
     <string name="account_detail_discover_calendars">Avasta uued kalendrid</string>
     <string name="account_detail_change_password">Muuda parooli</string>
+    <string name="account_detail_sign_in_again">Logi uuesti sisse</string>
+    <string name="account_detail_sign_in_again_subtitle">KashCalil pole enam selle konto parooli. Logi sisse, et uuesti sünkroonida. Sinu kalendrid ja sündmused jäävad alles.</string>
     <string name="account_detail_sign_out">Logi välja</string>
     <string name="account_detail_never_synced">Pole kunagi sünkroonitud</string>
     <string name="account_detail_last_success">Viimane õnnestumine: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Liiguta</string>
     <string name="snackbar_event_rescheduled">Sündmus ajastati ümber</string>
     <string name="snackbar_reschedule_failed">Sündmust ei õnnestunud ümber ajastada</string>
+    <string name="snackbar_move_failed">Sündmust „%1$s“ ei õnnestunud ümber ajastada</string>
+    <string name="snackbar_move_changed_elsewhere">Sündmust „%1$s“ muudeti mujal, seega seda ei ajastatud ümber</string>
+    <string name="event_untitled">Nimetu sündmus</string>
     <string name="recurring_this_event">See sündmus</string>
     <string name="recurring_all_events">Kõik sündmused</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Salvesta sündmus</string>
     <string name="badge_beta">Beeta</string>
+    <string name="badge_sync_off">Sünk. väljas</string>
     <string name="badge_new">Uus</string>
     <string name="color_red">Punane</string>
     <string name="color_orange">Oranž</string>

@@ -130,7 +130,7 @@ class HomeViewModelRoomDragRescheduleTest {
     fun `a this event drag to another day moves only that occurrence`() = runTest(dispatcher) {
         val id = seedWeeklySeries()
 
-        drag(id, occurrence(2), LocalDate.of(2024, 3, 12), 10, 0, EditScope.THIS_EVENT)
+        val shownAtDrop = drag(id, occurrence(2), LocalDate.of(2024, 3, 12), 10, 0, EditScope.THIS_EVENT)
 
         val master = event(id)
         assertEquals("the series keeps its rule", RULE, master.rrule)
@@ -138,7 +138,8 @@ class HomeViewModelRoomDragRescheduleTest {
         val exception = db.eventsDao().getExceptionsForMaster(id).single()
         assertEquals("the moved occurrence", newYork(LocalDate.of(2024, 3, 12), 10, 0), exception.startTs)
         assertEquals("it replaces the 11 Mar occurrence", occurrence(2), exception.originalInstanceTime)
-        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, viewModel.uiState.value.pendingSnackbarMessage)
+        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, shownAtDrop)
+        assertNull("no failure after the save", viewModel.uiState.value.pendingSnackbarMessage)
     }
 
     @Test
@@ -182,7 +183,7 @@ class HomeViewModelRoomDragRescheduleTest {
         val id = seedWeeklySeries()
         val sequenceBefore = event(id).sequence
 
-        drag(id, occurrence(2), LocalDate.of(2024, 3, 12), 10, 0, EditScope.ALL_EVENTS)
+        val shownAtDrop = drag(id, occurrence(2), LocalDate.of(2024, 3, 12), 10, 0, EditScope.ALL_EVENTS)
 
         val master = event(id)
         assertEquals("FREQ=WEEKLY;BYDAY=TU;COUNT=4", master.rrule)
@@ -190,7 +191,8 @@ class HomeViewModelRoomDragRescheduleTest {
         assertEquals((1..4).map { tuesday(it) }, occurrenceStarts(id))
         assertEquals(listOf("UPDATE"), operations(id))
         assertTrue("SEQUENCE is raised", master.sequence > sequenceBefore)
-        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, viewModel.uiState.value.pendingSnackbarMessage)
+        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULED_MESSAGE, shownAtDrop)
+        assertNull("no failure after the save", viewModel.uiState.value.pendingSnackbarMessage)
     }
 
     @Test
@@ -336,7 +338,7 @@ class HomeViewModelRoomDragRescheduleTest {
         confirm(EditScope.ALL_EVENTS)
 
         assertEquals("nothing written", RULE, event(id).rrule)
-        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULE_FAILED_MESSAGE, viewModel.uiState.value.pendingSnackbarMessage)
+        assertEquals("${DeviceHomeViewModelTestFactory.CHANGED_ELSEWHERE_MESSAGE}:Standup", viewModel.uiState.value.pendingSnackbarMessage)
     }
 
     @Test
@@ -352,7 +354,7 @@ class HomeViewModelRoomDragRescheduleTest {
 
         assertEquals("nothing written", "FREQ=WEEKLY;BYDAY=TU;COUNT=6", event(id).rrule)
         assertEquals(tuesday(1), event(id).startTs)
-        assertEquals(DeviceHomeViewModelTestFactory.RESCHEDULE_FAILED_MESSAGE, viewModel.uiState.value.pendingSnackbarMessage)
+        assertEquals("${DeviceHomeViewModelTestFactory.CHANGED_ELSEWHERE_MESSAGE}:Standup", viewModel.uiState.value.pendingSnackbarMessage)
     }
 
     // ---- when the scope sheet knows ----
@@ -480,7 +482,15 @@ class HomeViewModelRoomDragRescheduleTest {
 
     private suspend fun TestScope.confirm(scope: EditScope) {
         viewModel.confirmReschedule(scope)
-        awaitUntil("the reschedule to finish") { viewModel.uiState.value.pendingSnackbarMessage != null }
+        settle()
+    }
+
+    /** Ends the drag's Undo window and waits for its save, which writes on Room's own executor. */
+    private suspend fun TestScope.settle() {
+        viewModel.endDragUndoWindow()
+        awaitUntil("the reschedule to finish") {
+            viewModel.dragSaveSettled
+        }
     }
 
     private fun newYork(date: LocalDate, hour: Int, minute: Int): Long =
@@ -516,19 +526,27 @@ class HomeViewModelRoomDragRescheduleTest {
 
     /**
      * Drops the occurrence of [id] starting at [occurrenceTs] on [date] at [hour]:[minute] in the
-     * phone's zone and picks [scope].
+     * phone's zone, picks [scope], lets the Undo window end and waits for the save. Returns the
+     * snackbar the drop showed.
      */
-    private suspend fun TestScope.drag(id: Long, occurrenceTs: Long, date: LocalDate, hour: Int, minute: Int, scope: EditScope) {
+    private suspend fun TestScope.drag(
+        id: Long, occurrenceTs: Long, date: LocalDate, hour: Int, minute: Int, scope: EditScope,
+    ): String? {
         val e = event(id)
         val occurrence = db.occurrencesDao().getForEvent(id).single { it.startTs == occurrenceTs }
         val shown = DisplayEvent.Room(event = e, occurrence = occurrence, calendar = null)
         viewModel.rescheduleEvent(shown, date, hour * 60 + minute)
         advanceUntilIdle()
         if (e.rrule != null) {
+            // The sheet greys the series scopes until the drop's check lands, so a user can
+            // only pick one after it.
+            awaitUntil("the check") { viewModel.uiState.value.pendingDragReschedule?.blockedScopes != null }
             viewModel.confirmReschedule(scope)
         }
-        awaitUntil("the reschedule to finish") { viewModel.uiState.value.pendingSnackbarMessage != null }
+        val shownAtDrop = viewModel.uiState.value.pendingSnackbarMessage
+        settle()
         assertNull("the scope sheet is closed", viewModel.uiState.value.pendingDragReschedule)
+        return shownAtDrop
     }
 
     /**

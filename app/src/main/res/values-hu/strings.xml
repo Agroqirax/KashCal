@@ -266,6 +266,7 @@
     <!-- ==================== Sign-In Sheets ==================== -->
     <string name="signin_icloud_title">iCloud csatlakoztatása</string>
     <string name="signin_caldav_title">CalDAV fiók hozzáadása</string>
+    <string name="signin_caldav_sign_in_again_title">Ismételt bejelentkezés</string>
     <string name="signin_connected_to">Csatlakozva: %1$s</string>
 
     <!-- ==================== Dialogs ==================== -->
@@ -333,6 +334,7 @@
     <string name="caldav_error_unexpected">Váratlan hiba. Próbáld újra.</string>
     <string name="caldav_error_with_lan_hint">%1$s\n\nHa ez egy szerver a helyi hálózatodon, engedélyezd a helyi hálózati hozzáférést a csatlakozáshoz.</string>
     <string name="caldav_error_connection_refused_insecure">A szerver olyan helyre irányította át a kapcsolatot, ahová a KashCal nem követi (titkosítatlan címre vagy átirányítási hurokba), ezért a KashCal leállt, mielőtt elküldte volna a jelszavadat. Ellenőrizd a szerver címét.</string>
+    <string name="caldav_error_sign_in_again_mismatch">Ez egy másik fiók. Jelentkezz be azzal a felhasználónévvel és szerverrel, amelyet ez a fiók használ.</string>
     <string name="local_network_banner_title">Helyi hálózati hozzáférés szükséges</string>
     <string name="local_network_banner_body">Úgy tűnik, ez a szerver a helyi hálózatodon van. Engedélyezd a helyi hálózati hozzáférést, hogy a KashCal csatlakozhasson hozzá.</string>
     <string name="local_network_banner_allow">Hozzáférés engedélyezése</string>
@@ -504,6 +506,7 @@
     <string name="accounts_cd_back">Vissza</string>
     <string name="accounts_sync_issue">Szinkronizálási probléma</string>
     <string name="accounts_cd_sync_warning">Szinkronizálási figyelmeztetés</string>
+    <string name="accounts_cd_sync_off">szinkronizálás kikapcsolva</string>
 
     <!-- ==================== Subscriptions Screen ==================== -->
     <string name="subscriptions_title">Naptárhírcsatornák</string>
@@ -564,6 +567,8 @@
     <string name="account_detail_discovering">Felderítés…</string>
     <string name="account_detail_discover_calendars">Új naptárak felderítése</string>
     <string name="account_detail_change_password">Jelszó módosítása</string>
+    <string name="account_detail_sign_in_again">Ismételt bejelentkezés</string>
+    <string name="account_detail_sign_in_again_subtitle">A KashCal már nem tárolja ennek a fióknak a jelszavát. Jelentkezz be az újbóli szinkronizáláshoz. A naptáraid és eseményeid megmaradnak.</string>
     <string name="account_detail_sign_out">Kijelentkezés</string>
     <string name="account_detail_never_synced">Még nem szinkronizálva</string>
     <string name="account_detail_last_success">Utolsó sikeres: %1$s</string>
@@ -914,6 +919,9 @@
     <string name="dialog_move_recurring_title">Áthelyezés</string>
     <string name="snackbar_event_rescheduled">Esemény átütemezve</string>
     <string name="snackbar_reschedule_failed">Nem sikerült átütemezni az eseményt</string>
+    <string name="snackbar_move_failed">Nem sikerült áthelyezni: „%1$s”</string>
+    <string name="snackbar_move_changed_elsewhere">„%1$s” máshol módosult, ezért az áthelyezés elmaradt</string>
+    <string name="event_untitled">Névtelen esemény</string>
     <string name="recurring_this_event">Ez az esemény</string>
     <string name="recurring_all_events">Összes esemény</string>
 
@@ -1204,6 +1212,7 @@
     <!-- ==================== i18n: Round 2 audit gaps ==================== -->
     <string name="action_save_event">Esemény mentése</string>
     <string name="badge_beta">Béta</string>
+    <string name="badge_sync_off">Szinkron ki</string>
     <string name="badge_new">Új</string>
     <string name="color_red">Piros</string>
     <string name="color_orange">Narancssárga</string>
