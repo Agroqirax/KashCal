@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.serialization.json.Json
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.entity.Category
 
 private const val TAG = "Migrations"
@@ -1484,6 +1485,132 @@ object Migrations {
         }
     }
 
+    // An operation the push can run without its event row: a DELETE carrying the server URL and
+    // the calendar it is scoped to (PushStrategy.pushForCalendar). PendingOperationTriggers keeps
+    // the same ones.
+    private const val SELF_CONTAINED_DELETE =
+        "operation = 'DELETE' AND target_url IS NOT NULL AND source_calendar_id IS NOT NULL"
+
+    private const val EVENT_MISSING =
+        "NOT EXISTS (SELECT 1 FROM events e WHERE e.id = pending_operations.event_id)"
+
+    // A cross-account DELETE whose CREATE lost its row. Without the CREATE the push would treat
+    // it as ready and delete the original, so it goes with the CREATE.
+    private const val LINKED_TO_ORPHANED_CREATE = """
+        operation = 'DELETE' AND linked_move_id IS NOT NULL AND $EVENT_MISSING
+        AND linked_move_id IN (
+            SELECT c.linked_move_id FROM pending_operations c
+            WHERE c.operation = 'CREATE' AND c.linked_move_id IS NOT NULL
+              AND NOT EXISTS (SELECT 1 FROM events e WHERE e.id = c.event_id)
+        )
+    """
+
+    // The v27 trigger as this migration installs it. A later change to
+    // PendingOperationTriggers must not change what a v26 upgrade runs, so this copy stays fixed.
+    private const val EVENT_DELETE_TRIGGER_V27 = "trigger_pending_operations_follow_event_delete"
+    private val EVENT_DELETE_TRIGGER_V27_SQL = """
+        CREATE TRIGGER $EVENT_DELETE_TRIGGER_V27
+        AFTER DELETE ON events
+        BEGIN
+            DELETE FROM pending_operations
+            WHERE event_id = OLD.id
+              AND operation = 'DELETE'
+              AND linked_move_id IS NOT NULL
+              AND linked_move_id IN (
+                  SELECT linked_move_id FROM pending_operations
+                  WHERE event_id = OLD.id AND operation = 'CREATE' AND linked_move_id IS NOT NULL
+              );
+            DELETE FROM pending_operations
+            WHERE event_id = OLD.id
+              AND NOT (operation = 'DELETE' AND target_url IS NOT NULL AND source_calendar_id IS NOT NULL);
+        END
+    """.trimIndent()
+    private val EVENT_DELETE_TRIGGER_V27_COLUMNS =
+        listOf("event_id", "operation", "target_url", "source_calendar_id", "linked_move_id")
+
+    /**
+     * v26 to v27: creates the [PendingOperationTriggers] trigger and
+     * removes the queued operations it would have removed: those whose event row is gone and
+     * that the push can't run without it, plus the DELETE linked to such a CREATE.
+     *
+     * It touches nothing else. Operations whose event exists are copied to a temp table first and
+     * compared with EXCEPT afterwards; no step reads a whole-table value, which Android's cursor
+     * window (2 MB) could refuse. It throws on a missing table or column, or when the result fails
+     * that comparison (the app has no destructive fallback, so a throw keeps the database from
+     * opening; the transaction leaves it as it was). A re-run removes nothing more.
+     */
+    val MIGRATION_26_27 = object : Migration(26, 27) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.beginTransaction()
+            try {
+                // 1. Pre-migration shape check
+                val missingTables = listOf("events", "pending_operations").filterNot { tableExists(db, it) }
+                val missingColumns = EVENT_DELETE_TRIGGER_V27_COLUMNS
+                    .filterNot { columnExists(db, "pending_operations", it) }
+                if (missingTables.isNotEmpty() || missingColumns.isNotEmpty()) {
+                    throw IllegalStateException(
+                        "MIGRATION_26_27 pre-migration shape check failed: missing tables $missingTables, " +
+                            "pending_operations columns $missingColumns. Reinstall the app to clear the local DB."
+                    )
+                }
+
+                // 2. What must not change, and what must remain without a row
+                db.execSQL("DROP TABLE IF EXISTS temp.po_keep")
+                db.execSQL(
+                    "CREATE TEMP TABLE po_keep AS SELECT * FROM pending_operations " +
+                        "WHERE event_id IN (SELECT id FROM events)"
+                )
+                val eventsBefore = count(db, "SELECT COUNT(*) FROM events")
+                val orphansKept = count(
+                    db,
+                    "SELECT COUNT(*) FROM pending_operations WHERE $EVENT_MISSING AND $SELF_CONTAINED_DELETE " +
+                        "AND NOT ($LINKED_TO_ORPHANED_CREATE)"
+                )
+                val removedByType = mutableMapOf<String, Long>()
+                db.query(
+                    "SELECT operation, COUNT(*) FROM pending_operations WHERE ($LINKED_TO_ORPHANED_CREATE) " +
+                        "OR ($EVENT_MISSING AND NOT ($SELF_CONTAINED_DELETE)) GROUP BY operation"
+                ).use { c -> while (c.moveToNext()) removedByType[c.getString(0)] = c.getLong(1) }
+
+                // 3. Cleanup: the linked DELETEs first, while their CREATEs still identify them
+                db.execSQL("DELETE FROM pending_operations WHERE $LINKED_TO_ORPHANED_CREATE")
+                db.execSQL("DELETE FROM pending_operations WHERE $EVENT_MISSING AND NOT ($SELF_CONTAINED_DELETE)")
+
+                // 4. The trigger, so later deletes keep the queue clean
+                db.execSQL("DROP TRIGGER IF EXISTS $EVENT_DELETE_TRIGGER_V27")
+                db.execSQL(EVENT_DELETE_TRIGGER_V27_SQL)
+
+                // 5. Validation, before setTransactionSuccessful() so a throw rolls back
+                val keptNow = count(db, "SELECT COUNT(*) FROM pending_operations WHERE event_id IN (SELECT id FROM events)")
+                val keptBefore = count(db, "SELECT COUNT(*) FROM temp.po_keep")
+                val changed = count(
+                    db,
+                    "SELECT COUNT(*) FROM (SELECT * FROM temp.po_keep EXCEPT SELECT * FROM pending_operations)"
+                )
+                val orphansNow = count(db, "SELECT COUNT(*) FROM pending_operations WHERE $EVENT_MISSING")
+                val eventsNow = count(db, "SELECT COUNT(*) FROM events")
+                if (keptNow != keptBefore || changed != 0L || orphansNow != orphansKept || eventsNow != eventsBefore ||
+                    count(db, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'trigger' AND name = '$EVENT_DELETE_TRIGGER_V27'") != 1L
+                ) {
+                    throw IllegalStateException(
+                        "MIGRATION_26_27 post-migration validation failed: kept $keptNow of $keptBefore, " +
+                            "changed $changed, orphans $orphansNow (expected $orphansKept), " +
+                            "events $eventsNow of $eventsBefore"
+                    )
+                }
+                db.execSQL("DROP TABLE temp.po_keep")
+
+                Log.i(TAG, "MIGRATION_26_27 removed queued operations whose event is gone: $removedByType")
+                db.setTransactionSuccessful()
+            } finally {
+                db.endTransaction()
+            }
+        }
+    }
+
+    private fun count(db: SupportSQLiteDatabase, sql: String): Long =
+        db.query(sql).use { if (it.moveToFirst()) it.getLong(0) else 0L }
+
     /** Lists every manual migration in order; add each new one here. */
     val ALL_MIGRATIONS = arrayOf(
         MIGRATION_1_2,
@@ -1509,6 +1636,7 @@ object Migrations {
         MIGRATION_22_23,
         MIGRATION_23_24,
         MIGRATION_24_25,
-        MIGRATION_25_26
+        MIGRATION_25_26,
+        MIGRATION_26_27
     )
 }

@@ -1302,7 +1302,7 @@ class ICalParser(
 
     /**
      * The mailbox shape [extractCalAddressEmail] requires of the value and of the `EMAIL=`
-     * fallback. It rejects principal hrefs (`/646691839/principal/`), HTTP and HTTPS
+     * fallback. It rejects principal hrefs (`/123456789/principal/`), HTTP and HTTPS
      * principal URIs (`https://caldav.example.com/principals/users/foo/`), `urn:uuid:`
      * forms, and shapes like `@example.com` or `foo@`.
      */

@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">ଇଭେଣ୍ଟ ପସନ୍ଦ</string>
     <string name="settings_section_sync">ସିଙ୍କ</string>
     <string name="settings_section_data">ବ୍ୟାକଅପ ଏବଂ ପୁନରୁଦ୍ଧାର</string>
+    <string name="settings_section_troubleshooting">ସମସ୍ୟା ସମାଧାନ</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">ଡିବଗ ରିପୋର୍ଟ ରପ୍ତାନୀ କରନ୍ତୁ</string>
+    <string name="debug_report_row_subtitle">ବଗ ରିପୋର୍ଟ ସହ ପଠାଇବା ପାଇଁ କ୍ରାସ, ସିଙ୍କ ଏବଂ ସେଟଅପ ବିବରଣୀ</string>
+    <string name="debug_report_sheet_title">ଡିବଗ ରିପୋର୍ଟ</string>
+    <string name="debug_report_sheet_body">ବଗ ରିପୋର୍ଟ ସହ ପଠାଇବା ପାଇଁ ଏକ ଟେକ୍ସଟ ଫାଇଲ। ସମସ୍ୟା ପରେ ଶୀଘ୍ର ପଠାନ୍ତୁ: ଆପ ଲଗରେ କେବଳ ସାମ୍ପ୍ରତିକ କାର୍ଯ୍ୟକଳାପ ରହେ।</string>
+    <string name="debug_report_item_exits">ଆପ ନିକଟରେ କାହିଁକି ବନ୍ଦ ହେଲା</string>
+    <string name="debug_report_item_exits_detail">କ୍ରାସ, ଆପ ସାଡ଼ା ନ ଦେବା, କମ ମେମୋରୀ</string>
+    <string name="debug_report_item_log">ଆପ ଲଗ</string>
+    <string name="debug_report_item_log_detail">KashCal ର ନିଜସ୍ୱ ସନ୍ଦେଶ, କ୍ରାସ ବିବରଣୀ ସହିତ</string>
+    <string name="debug_report_item_sync_detail">ସାମ୍ପ୍ରତିକ ସିଙ୍କ, 48 ଘଣ୍ଟା ପୂର୍ବ ପର୍ଯ୍ୟନ୍ତ</string>
+    <string name="debug_report_item_pending">ପଠାଇବା ବାକି ପରିବର୍ତ୍ତନ</string>
+    <string name="debug_report_item_pending_detail">ଆପଣଙ୍କ ସର୍ଭରକୁ ଏପର୍ଯ୍ୟନ୍ତ ପଠାଯାଇନଥିବା ସମ୍ପାଦନା</string>
+    <string name="debug_report_item_setup">ସେଟଅପ</string>
+    <string name="debug_report_item_setup_detail">ଆପ ଏବଂ Android ସଂସ୍କରଣ, ଅନୁମତି, ବ୍ୟାଟେରୀ ସେଟିଂସ, ଆକାଉଣ୍ଟ ପ୍ରକାର</string>
+    <string name="debug_report_privacy_note">ଇମେଲ ଠିକଣା, ୱେବ ଠିକଣା ଏବଂ ଟୋକେନ ଲୁଚାଯାଏ। ଇଭେଣ୍ଟ ଶୀର୍ଷକ, କ୍ୟାଲେଣ୍ଡର ନାମ ଏବଂ ସମ୍ପର୍କ ନାମ ଲୁଚାଯାଏ ନାହିଁ। ଏହାକୁ ଇମେଲରେ ପଠାନ୍ତୁ, କୌଣସି ସାର୍ବଜନୀନ ପୋଷ୍ଟରେ ନୁହେଁ।</string>
+    <string name="debug_report_share">ରିପୋର୍ଟ ଶେୟାର</string>
+    <string name="debug_report_chooser_title">ଡିବଗ ରିପୋର୍ଟ ଶେୟାର କରନ୍ତୁ</string>
+    <string name="debug_report_failed">ଡିବଗ ରିପୋର୍ଟ ତିଆରି କରାଯାଇପାରିଲା ନାହିଁ</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">ଆପ ଲକ</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ସଠିକ୍ ସମୟ ପ୍ରବେଶ କରନ୍ତୁ</string>
     <string name="time_entry_dialog_title">ସମୟ ପ୍ରବେଶ କରନ୍ତୁ</string>
     <string name="time_entry_tap_to_edit">ସମ୍ପାଦନା କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ</string>
-    <string name="cd_version_info">KashCal ସଂସ୍କରଣ %1$s। ଡିବଗ ବିକଳ୍ପ ପାଇଁ ଅଧିକ ସମୟ ଧରି ଦବାନ୍ତୁ।</string>
+    <string name="cd_version_info">KashCal ସଂସ୍କରଣ %1$s</string>
     <string name="cd_about_setting">%1$s ବିଷୟରେ</string>
     <string name="cd_color_slider">ରଙ୍ଗ ସ୍ଲାଇଡର, ବର୍ତ୍ତମାନ %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d ଡିଗ୍ରୀ</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d ଦୃଶ୍ୟମାନ</string>
     <string name="label_reminders_truncated">%1$d ଦେଖାଯାଉନାହିଁ (%2$d ମୋଟ, ସର୍ବାଧିକ %3$d ସମ୍ପାଦନାଯୋଗ୍ୟ)</string>
     <string name="label_found_events">ମିଳିଲା: %1$d ଇଭେଣ୍ଟ</string>
-    <string name="label_open_debug_menu">ଡିବଗ ମେନୁ ଖୋଲନ୍ତୁ</string>
     <string name="placeholder_search">ଖୋଜନ୍ତୁ…</string>
     <string name="settings_search_placeholder">ସେଟିଂସ ଖୋଜନ୍ତୁ…</string>
     <string name="settings_search_no_results">\"%1$s\" ପାଇଁ କୌଣସି ସେଟିଂ ମିଳିଲା ନାହିଁ</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">ସ୍ଥାନୀୟ</string>
     <string name="device_calendars_read_only_no_write">କେବଳ ପଢ଼ିବା (ଲେଖିବା ଅନୁମତି ନାହିଁ)</string>
     <string name="device_calendars_read_only_calendar">କେବଳ ପଢ଼ିବା (କ୍ୟାଲେଣ୍ଡର କେବଳ ପଢ଼ିବା)</string>
-    <string name="settings_developer_options">ଡେଭଲପର ବିକଳ୍ପ</string>
     <string name="settings_sync_frequency">ସିଙ୍କ ଫ୍ରିକ୍ୱେନ୍ସି</string>
     <string name="settings_sync_frequency_hint">ପୃଷ୍ଠଭୂମିରେ କେତେ ଥର ସିଙ୍କ କରିବେ</string>
 

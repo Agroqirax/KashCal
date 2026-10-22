@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Backup
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.DateRange
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.material.icons.filled.Widgets
@@ -62,6 +64,8 @@ import org.onekash.kashcal.ui.model.localizedDisplayName
 import org.onekash.kashcal.ui.screens.settings.AccountDetailDiscoverStatus
 import org.onekash.kashcal.ui.screens.settings.CalendarNotificationSource
 import org.onekash.kashcal.ui.screens.settings.CalendarNotificationsSheet
+import org.onekash.kashcal.ui.screens.settings.DebugReportSheet
+import org.onekash.kashcal.ui.screens.settings.ForceFullSyncDialog
 import org.onekash.kashcal.ui.screens.settings.buildCalendarNotificationSections
 import org.onekash.kashcal.ui.screens.settings.mutedCalendarCount
 import org.onekash.kashcal.ui.screens.settings.ContactSyncConfirmation
@@ -73,7 +77,6 @@ import org.onekash.kashcal.ui.screens.settings.AddSubscriptionDialog
 import org.onekash.kashcal.ui.screens.settings.AlertPickerSheet
 import org.onekash.kashcal.ui.screens.settings.CalDavAccountUiModel
 import org.onekash.kashcal.ui.screens.settings.CalDavConnectionState
-import org.onekash.kashcal.ui.screens.settings.DebugMenuSheet
 import org.onekash.kashcal.ui.screens.settings.DefaultCalendarSheet
 import org.onekash.kashcal.ui.screens.settings.EventDurationSheet
 import org.onekash.kashcal.ui.screens.settings.FirstDayOfWeekSheet
@@ -217,8 +220,9 @@ fun AccountSettingsScreen(
         LocalNetworkPermissionState.NotRequired,
     onRequestLocalNetwork: () -> Unit = {},
     onSubscriptionDialogOpened: () -> Unit = {},
-    // Sync Logs
+    // Troubleshooting
     onShowSyncLogs: () -> Unit = {},
+    onExportDebugReport: () -> Unit = {},
     // Default reminder preferences
     defaultReminderTimed: Int = 15,
     defaultReminderAllDay: Int = 900, // 9 AM the day before (-PT15H)
@@ -343,7 +347,8 @@ fun AccountSettingsScreen(
                 var showFirstDayOfWeekSheet by remember { mutableStateOf(false) }
                 var showEventDurationSheet by remember { mutableStateOf(false) }
                 var showWidgetEventLimitSheet by remember { mutableStateOf(false) }
-                var showDebugMenu by remember { mutableStateOf(false) }
+                var showForceFullSyncDialog by remember { mutableStateOf(false) }
+                var showDebugReportSheet by remember { mutableStateOf(false) }
                 var showAppInfoSheet by remember { mutableStateOf(false) }
                 var showAddSubscriptionDialog by remember { mutableStateOf(false) }
                 var showSyncLookbackSheet by remember { mutableStateOf(false) }
@@ -361,7 +366,7 @@ fun AccountSettingsScreen(
                 val widgetEventLimitSheetState = rememberModalBottomSheetState()
                 val syncLookbackSheetState = rememberModalBottomSheetState()
                 val syncFrequencySheetState = rememberModalBottomSheetState()
-                val debugSheetState = rememberModalBottomSheetState()
+                val debugReportSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
                 // Derived values
                 val isConnected = uiState.iCloudState is ICloudConnectionState.Connected
@@ -840,6 +845,45 @@ fun AccountSettingsScreen(
                         }
                     }
 
+                    // ==================== Troubleshooting Section ====================
+                    SearchableSection(
+                        query = searchQuery,
+                        header = stringResource(R.string.settings_section_troubleshooting),
+                        tracker = emittedTracker,
+                    ) {
+                        row(label = stringResource(R.string.settings_sync_history), subtitle = stringResource(R.string.settings_sync_history_subtitle), id = "sync-history") {
+                            SettingsRow(
+                                icon = Icons.Default.History,
+                                label = stringResource(R.string.settings_sync_history),
+                                subtitle = stringResource(R.string.settings_sync_history_subtitle),
+                                onClick = onShowSyncLogs,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+                        row(label = stringResource(R.string.settings_force_sync), subtitle = stringResource(R.string.settings_force_sync_subtitle), id = "force-full-sync") {
+                            SettingsRow(
+                                icon = Icons.Default.Sync,
+                                label = stringResource(R.string.settings_force_sync),
+                                subtitle = stringResource(R.string.settings_force_sync_subtitle),
+                                onClick = { showForceFullSyncDialog = true },
+                                showChevron = false,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+                        row(label = stringResource(R.string.debug_report_row_label), subtitle = stringResource(R.string.debug_report_row_subtitle), id = "debug-report") {
+                            SettingsRow(
+                                icon = Icons.Default.BugReport,
+                                label = stringResource(R.string.debug_report_row_label),
+                                subtitle = stringResource(R.string.debug_report_row_subtitle),
+                                onClick = { showDebugReportSheet = true },
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+                    }
+
                     // Empty-state when search is active and no section matched.
                     if (searchQuery.isNotBlank() && !emittedTracker.anyEmitted) {
                         SearchEmptyState(query = searchQuery)
@@ -850,8 +894,7 @@ fun AccountSettingsScreen(
                     if (versionName.isNotEmpty() && searchQuery.isBlank()) {
                         VersionFooter(
                             versionName = versionName,
-                            onClick = { showAppInfoSheet = true },
-                            onLongPress = { showDebugMenu = true }
+                            onClick = { showAppInfoSheet = true }
                         )
                     }
                 }
@@ -989,13 +1032,21 @@ fun AccountSettingsScreen(
                     AppInfoSheet(onDismiss = { showAppInfoSheet = false })
                 }
 
-                // Debug Menu Sheet
-                if (showDebugMenu) {
-                    DebugMenuSheet(
-                        sheetState = debugSheetState,
-                        onForceFullSync = onForceFullSync,
-                        onShowSyncLogs = onShowSyncLogs,
-                        onDismiss = { showDebugMenu = false }
+                if (showForceFullSyncDialog) {
+                    ForceFullSyncDialog(
+                        onConfirm = onForceFullSync,
+                        onDismiss = { showForceFullSyncDialog = false }
+                    )
+                }
+
+                if (showDebugReportSheet) {
+                    DebugReportSheet(
+                        sheetState = debugReportSheetState,
+                        onShare = {
+                            showDebugReportSheet = false
+                            onExportDebugReport()
+                        },
+                        onDismiss = { showDebugReportSheet = false }
                     )
                 }
             }

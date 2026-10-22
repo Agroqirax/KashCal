@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Anza Wiki Siku ya</string>
     <string name="settings_event_emojis">Emoji za Matukio</string>
     <string name="settings_event_emojis_info">Huongeza emoji kwenye matukio kulingana na kichwa, kama 🎂 kwa \"Siku ya kuzaliwa\".</string>
-    <string name="settings_force_sync">Sawazisha Kamili kwa Nguvu</string>
+    <string name="settings_force_sync">Sawazisha kamili kwa nguvu</string>
     <string name="settings_force_sync_subtitle">Pakua upya data yote ya kalenda</string>
-    <string name="settings_sync_history">Historia ya Kusawazisha</string>
+    <string name="settings_sync_history">Historia ya kusawazisha</string>
     <string name="settings_sync_history_subtitle">Tazama vipindi vya kusawazisha (saa 48 zilizopita)</string>
     <string name="settings_import_subtitle">Ongeza matukio kutoka faili ya ICS kwenye kalenda yoyote</string>
     <string name="settings_export_subtitle">Hifadhi matukio kwenye faili ya ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Mapendeleo ya tukio</string>
     <string name="settings_section_sync">Kusawazisha</string>
     <string name="settings_section_data">Nakala Rudufu &amp; Rejesha</string>
+    <string name="settings_section_troubleshooting">Utatuzi wa matatizo</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Hamisha ripoti ya utatuzi</string>
+    <string name="debug_report_row_subtitle">Maelezo ya kuacha kufanya kazi, usawazishaji na usanidi ya kutuma pamoja na ripoti ya hitilafu</string>
+    <string name="debug_report_sheet_title">Ripoti ya utatuzi</string>
+    <string name="debug_report_sheet_body">Faili ya maandishi ya kutuma pamoja na ripoti ya hitilafu. Itume mapema baada ya tatizo: kumbukumbu za programu huhifadhi shughuli za hivi karibuni pekee.</string>
+    <string name="debug_report_item_exits">Kwa nini programu ilifungwa hivi karibuni</string>
+    <string name="debug_report_item_exits_detail">Kuacha kufanya kazi, kukwama, upungufu wa RAM</string>
+    <string name="debug_report_item_log">Kumbukumbu za programu</string>
+    <string name="debug_report_item_log_detail">Ujumbe wa KashCal wenyewe, ikijumuisha maelezo ya kuacha kufanya kazi</string>
+    <string name="debug_report_item_sync_detail">Usawazishaji wa hivi karibuni, hadi saa 48 zilizopita</string>
+    <string name="debug_report_item_pending">Mabadiliko yanayosubiri</string>
+    <string name="debug_report_item_pending_detail">Marekebisho ambayo bado hayajatumwa kwenye seva yako</string>
+    <string name="debug_report_item_setup">Usanidi</string>
+    <string name="debug_report_item_setup_detail">Toleo la programu na Android, ruhusa, mipangilio ya betri, aina za akaunti</string>
+    <string name="debug_report_privacy_note">Anwani za barua pepe, anwani za wavuti na tokeni zimefichwa. Vichwa vya matukio, majina ya kalenda na majina ya anwani hayajafichwa. Itume kwa barua pepe, si kwenye chapisho la umma.</string>
+    <string name="debug_report_share">Shiriki ripoti</string>
+    <string name="debug_report_chooser_title">Shiriki ripoti ya utatuzi</string>
+    <string name="debug_report_failed">Imeshindwa kuunda ripoti ya utatuzi</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Kufuli ya programu</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Weka saa kamili</string>
     <string name="time_entry_dialog_title">Weka saa</string>
     <string name="time_entry_tap_to_edit">Gusa ili kuhariri</string>
-    <string name="cd_version_info">KashCal toleo %1$s. Bonyeza kwa muda mrefu kwa chaguo za utatuzi.</string>
+    <string name="cd_version_info">KashCal toleo %1$s</string>
     <string name="cd_about_setting">Kuhusu %1$s</string>
     <string name="cd_color_slider">Kitelezi cha rangi, sasa hivi %1$s</string>
     <string name="cd_color_slider_state">%1$s, digrii %2$d</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d zinaonekana</string>
     <string name="label_reminders_truncated">%1$d hazikuonyeshwa (jumla %2$d, upeo %3$d zinazoweza kuhaririwa)</string>
     <string name="label_found_events">Zimepatikana: matukio %1$d</string>
-    <string name="label_open_debug_menu">Fungua menyu ya utatuzi</string>
     <string name="placeholder_search">Tafuta…</string>
     <string name="settings_search_placeholder">Tafuta mipangilio…</string>
     <string name="settings_search_no_results">Hakuna mipangilio iliyopatikana kwa \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Ndani</string>
     <string name="device_calendars_read_only_no_write">Kusoma tu (hakuna ruhusa ya kuandika)</string>
     <string name="device_calendars_read_only_calendar">Kusoma tu (kalenda ya kusoma tu)</string>
-    <string name="settings_developer_options">Chaguo za Msanidi</string>
     <string name="settings_sync_frequency">Mzunguko wa Kusawazisha</string>
     <string name="settings_sync_frequency_hint">Mara ngapi kusawazisha chinichini</string>
 

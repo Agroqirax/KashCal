@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">የክስተት ምርጫዎች</string>
     <string name="settings_section_sync">ማመሳሰል</string>
     <string name="settings_section_data">ምትኬ እና መልሶ ማስቀመጥ</string>
+    <string name="settings_section_troubleshooting">መላ መፈለግ</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">የማረሚያ ሪፖርት ላክ</string>
+    <string name="debug_report_row_subtitle">ከስህተት ሪፖርት ጋር የሚላኩ የብልሽት፣ የማመሳሰል እና የማዋቀር ዝርዝሮች</string>
+    <string name="debug_report_sheet_title">የማረሚያ ሪፖርት</string>
+    <string name="debug_report_sheet_body">ከስህተት ሪፖርት ጋር የሚላክ የጽሑፍ ፋይል። ችግሩ ከተከሰተ በኋላ ቶሎ ይላኩት፦ የመተግበሪያው ምዝግብ ማስታወሻ የቅርብ ጊዜ እንቅስቃሴን ብቻ ይይዛል።</string>
+    <string name="debug_report_item_exits">መተግበሪያው በቅርቡ ለምን እንደተዘጋ</string>
+    <string name="debug_report_item_exits_detail">ብልሽቶች፣ ምላሽ አለመስጠት፣ ዝቅተኛ ማህደረ ትውስታ</string>
+    <string name="debug_report_item_log">የመተግበሪያ ምዝግብ ማስታወሻ</string>
+    <string name="debug_report_item_log_detail">የKashCal የራሱ መልዕክቶች፣ የብልሽት ዝርዝሮችን ጨምሮ</string>
+    <string name="debug_report_item_sync_detail">የቅርብ ጊዜ ማመሳሰሎች፣ እስከ 48 ሰዓታት ወደኋላ</string>
+    <string name="debug_report_item_pending">በመጠባበቅ ላይ ያሉ ለውጦች</string>
+    <string name="debug_report_item_pending_detail">ገና ወደ አገልጋይዎ ያልተላኩ አርትዖቶች</string>
+    <string name="debug_report_item_setup">ማዋቀር</string>
+    <string name="debug_report_item_setup_detail">የመተግበሪያ እና የAndroid ስሪት፣ ፈቃዶች፣ የባትሪ ቅንብሮች፣ የመለያ አይነቶች</string>
+    <string name="debug_report_privacy_note">የኢሜይል አድራሻዎች፣ የድር አድራሻዎች እና ቶከኖች ተደብቀዋል። የክስተት ርዕሶች፣ የቀን መቁጠሪያ ስሞች እና የእውቂያ ስሞች አልተደበቁም። በይፋዊ ልጥፍ ሳይሆን በኢሜይል ይላኩት።</string>
+    <string name="debug_report_share">ሪፖርት አጋራ</string>
+    <string name="debug_report_chooser_title">የማረሚያ ሪፖርት አጋራ</string>
+    <string name="debug_report_failed">የማረሚያ ሪፖርቱን መፍጠር አልተቻለም</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">የመተግበሪያ መቆለፊያ</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ትክክለኛውን ሰዓት ያስገቡ</string>
     <string name="time_entry_dialog_title">ሰዓት ያስገቡ</string>
     <string name="time_entry_tap_to_edit">ለማስተካከል ይንኩ</string>
-    <string name="cd_version_info">KashCal ስሪት %1$s። ለማረም አማራጮች ረዘም አድርገው ይጫኑ።</string>
+    <string name="cd_version_info">KashCal ስሪት %1$s</string>
     <string name="cd_about_setting">ስለ %1$s</string>
     <string name="cd_color_slider">የቀለም ተንሸራታች፣ አሁን %1$s</string>
     <string name="cd_color_slider_state">%1$s፣ %2$d ዲግሪ</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d የሚታይ</string>
     <string name="label_reminders_truncated">%1$d አልታየም (%2$d ጠቅላላ፣ ከፍተኛ %3$d ሊስተካከል የሚችል)</string>
     <string name="label_found_events">ተገኝቷል: %1$d ክስተቶች</string>
-    <string name="label_open_debug_menu">የማረም ምናሌ ክፈት</string>
     <string name="placeholder_search">ፈልግ…</string>
     <string name="settings_search_placeholder">ቅንብሮችን ይፈልጉ…</string>
     <string name="settings_search_no_results">ለ\"%1$s\" ምንም ቅንብር አልተገኘም</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">አካባቢያዊ</string>
     <string name="device_calendars_read_only_no_write">የንባብ ብቻ (የፅሁፍ ፈቃድ የለም)</string>
     <string name="device_calendars_read_only_calendar">የንባብ ብቻ (ቀን መቁጠሪያ የንባብ ብቻ ነው)</string>
-    <string name="settings_developer_options">የገንቢ አማራጮች</string>
     <string name="settings_sync_frequency">የማመሳሰል ድግግሞሽ</string>
     <string name="settings_sync_frequency_hint">ከበስተጀርባ ምን ያህል ጊዜ እንደሚያመሳስል</string>
 

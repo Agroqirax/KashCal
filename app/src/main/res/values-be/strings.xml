@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Налады падзей</string>
     <string name="settings_section_sync">Сінхранізацыя</string>
     <string name="settings_section_data">Рэзервовае капіяванне і аднаўленне</string>
+    <string name="settings_section_troubleshooting">Выпраўленне непаладак</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Экспарт справаздачы адладкі</string>
+    <string name="debug_report_row_subtitle">Звесткі пра збоі, сінхранізацыю і наладу для справаздачы пра памылку</string>
+    <string name="debug_report_sheet_title">Справаздача адладкі</string>
+    <string name="debug_report_sheet_body">Тэкставы файл, які можна далучыць да справаздачы пра памылку. Адпраў яго хутка пасля праблемы: журнал праграмы захоўвае толькі нядаўнія дзеянні.</string>
+    <string name="debug_report_item_exits">Чаму праграма нядаўна закрывалася</string>
+    <string name="debug_report_item_exits_detail">Збоі, завісанні, недахоп памяці</string>
+    <string name="debug_report_item_log">Журнал праграмы</string>
+    <string name="debug_report_item_log_detail">Уласныя паведамленні KashCal, у тым ліку звесткі пра збоі</string>
+    <string name="debug_report_item_sync_detail">Нядаўнія сінхранізацыі, да 48 гадзін таму</string>
+    <string name="debug_report_item_pending">Неадпраўленыя змены</string>
+    <string name="debug_report_item_pending_detail">Змены, яшчэ не адпраўленыя на твой сервер</string>
+    <string name="debug_report_item_setup">Канфігурацыя</string>
+    <string name="debug_report_item_setup_detail">Версіі праграмы і Android, дазволы, налады батарэі, тыпы акаўнтаў</string>
+    <string name="debug_report_privacy_note">Адрасы e-mail, вэб-адрасы і токены схаваны. Назвы падзей, календароў і імёны кантактаў не схаваны. Адпраўляй справаздачу па e-mail, а не ў публічным допісе.</string>
+    <string name="debug_report_share">Падзяліцца справаздачай</string>
+    <string name="debug_report_chooser_title">Падзяліцца справаздачай адладкі</string>
+    <string name="debug_report_failed">Не ўдалося стварыць справаздачу адладкі</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Блакіроўка праграмы</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Увесці дакладны час</string>
     <string name="time_entry_dialog_title">Увод часу</string>
     <string name="time_entry_tap_to_edit">Націсніце, каб змяніць</string>
-    <string name="cd_version_info">KashCal версія %1$s. Доўгае націсканне для адладкі.</string>
+    <string name="cd_version_info">KashCal версія %1$s</string>
     <string name="cd_about_setting">Пра %1$s</string>
     <string name="cd_color_slider">Паўзунок колеру, зараз %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d градусаў</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d бачных</string>
     <string name="label_reminders_truncated">%1$d не паказана (%2$d усяго, макс. %3$d для рэдагавання)</string>
     <string name="label_found_events">Знойдзена: %1$d падзей</string>
-    <string name="label_open_debug_menu">Адкрыць меню адладкі</string>
     <string name="placeholder_search">Пошук…</string>
     <string name="settings_search_placeholder">Пошук у наладах…</string>
     <string name="settings_search_no_results">Нічога не знойдзена па запыце \"%1$s\"</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Лакальны</string>
     <string name="device_calendars_read_only_no_write">Толькі чытанне (няма дазволу на запіс)</string>
     <string name="device_calendars_read_only_calendar">Толькі чытанне (каляндар толькі для чытання)</string>
-    <string name="settings_developer_options">Для распрацоўнікаў</string>
     <string name="settings_sync_frequency">Частата сінхранізацыі</string>
     <string name="settings_sync_frequency_hint">Як часта сінхранізаваць у фоне</string>
 

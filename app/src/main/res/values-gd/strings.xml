@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Tòisich an t-Seachdain Air</string>
     <string name="settings_event_emojis">Emojis Thachartasan</string>
     <string name="settings_event_emojis_info">Cuiridh e emoji ri tachartasan a rèir an tiotail, mar 🎂 airson \"Co-là-breith\".</string>
-    <string name="settings_force_sync">Sioncronaich Slàn le Èiginn</string>
+    <string name="settings_force_sync">Sioncronaich slàn le èiginn</string>
     <string name="settings_force_sync_subtitle">Ath-luchdaich an dàta mìosachain uile</string>
-    <string name="settings_sync_history">Eachdraidh Sioncronachaidh</string>
+    <string name="settings_sync_history">Eachdraidh sioncronachaidh</string>
     <string name="settings_sync_history_subtitle">Seall seiseanan sioncronachaidh (48 uairean mu dheireadh)</string>
     <string name="settings_import_subtitle">Cuir tachartasan bho fhaidhle ICS ri mìosachan sam bith</string>
     <string name="settings_export_subtitle">Sàbhail tachartasan gu faidhle ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Roghainnean thachartasan</string>
     <string name="settings_section_sync">Sioncronachadh</string>
     <string name="settings_section_data">Lethbhreac-glèidhidh is aiseag</string>
+    <string name="settings_section_troubleshooting">Fuasgladh dhuilgheadasan</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Às-phortaich aithisg dì-bhugachaidh</string>
+    <string name="debug_report_row_subtitle">Fiosrachadh mu thuislidhean, sioncronachadh is suidheachadh ri chur le aithris air buga</string>
+    <string name="debug_report_sheet_title">Aithisg dì-bhugachaidh</string>
+    <string name="debug_report_sheet_body">Faidhle teacsa ri chur le aithris air buga. Cuir e goirid às dèidh na duilgheadais: cha chùm loga na h-aplacaid ach gnìomhachd o chionn goirid.</string>
+    <string name="debug_report_item_exits">Carson a dhùin an aplacaid o chionn goirid</string>
+    <string name="debug_report_item_exits_detail">Tuislidhean, reothadh, cuimhne ìosal</string>
+    <string name="debug_report_item_log">Loga na h-aplacaid</string>
+    <string name="debug_report_item_log_detail">Teachdaireachdan KashCal fhèin, a\' gabhail a-steach fiosrachadh mu thuislidhean</string>
+    <string name="debug_report_item_sync_detail">Sioncronachaidhean o chionn goirid, suas ri 48 uair a thìde air ais</string>
+    <string name="debug_report_item_pending">Atharrachaidhean a\' feitheamh</string>
+    <string name="debug_report_item_pending_detail">Deasachaidhean nach deach a chur chun an fhrithealaiche agad fhathast</string>
+    <string name="debug_report_item_setup">Suidheachadh</string>
+    <string name="debug_report_item_setup_detail">Tionndadh na h-aplacaid is Android, ceadan, roghainnean a\' bhataraidh, seòrsachan chunntas</string>
+    <string name="debug_report_privacy_note">Tha seòlaidhean puist-d, seòlaidhean-lìn is tòcain falaichte. Chan eil tiotalan thachartasan, ainmean mhìosachan is ainmean luchd-aithne falaichte. Cuir e air post-d, chan ann ann am post poblach.</string>
+    <string name="debug_report_share">Co-roinn aithisg</string>
+    <string name="debug_report_chooser_title">Co-roinn aithisg dì-bhugachaidh</string>
+    <string name="debug_report_failed">Cha b\' urrainn dhuinn an aithisg dì-bhugachaidh a chruthachadh</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Glas na h-aplacaid</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Cuir a-steach an t-àm mionaideach</string>
     <string name="time_entry_dialog_title">Cuir a-steach an t-àm</string>
     <string name="time_entry_tap_to_edit">Thoir gnogag gus deasachadh</string>
-    <string name="cd_version_info">KashCal tionndadh %1$s. Brùth fada airson roghainnean dì-bhugachaidh.</string>
+    <string name="cd_version_info">KashCal tionndadh %1$s</string>
     <string name="cd_about_setting">Mu dhèidhinn %1$s</string>
     <string name="cd_color_slider">Sleamhnaiche dath, %1$s an-dràsta</string>
     <string name="cd_color_slider_state">%1$s, %2$d ceum</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d faicsinneach</string>
     <string name="label_reminders_truncated">%1$d gun sealltainn (%2$d san iomlan, as motha %3$d ri dheasachadh)</string>
     <string name="label_found_events">Air lorg: %1$d tachartas</string>
-    <string name="label_open_debug_menu">Fosgail clàr-taice dì-bhugachaidh</string>
     <string name="placeholder_search">Lorg…</string>
     <string name="settings_search_placeholder">Lorg sna roghainnean…</string>
     <string name="settings_search_no_results">Cha deach roghainn a lorg airson \"%1$s\"</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Ionadail</string>
     <string name="device_calendars_read_only_no_write">Leughadh a-mhàin (gun chead sgrìobhaidh)</string>
     <string name="device_calendars_read_only_calendar">Leughadh a-mhàin (mìosachan leughaidh a-mhàin)</string>
-    <string name="settings_developer_options">Roghainnean Luchd-leasachaidh</string>
     <string name="settings_sync_frequency">Tricead Sioncronachaidh</string>
     <string name="settings_sync_frequency_hint">Dè cho tric \'s a shioncronaichear air a\' chùlaibh</string>
 

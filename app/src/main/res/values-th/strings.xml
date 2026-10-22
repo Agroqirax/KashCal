@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">การตั้งค่ากิจกรรม</string>
     <string name="settings_section_sync">การซิงค์</string>
     <string name="settings_section_data">สำรองและกู้คืน</string>
+    <string name="settings_section_troubleshooting">การแก้ปัญหา</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">ส่งออกรายงานดีบัก</string>
+    <string name="debug_report_row_subtitle">รายละเอียดการขัดข้อง การซิงค์ และการกำหนดค่า สำหรับส่งพร้อมรายงานข้อบกพร่อง</string>
+    <string name="debug_report_sheet_title">รายงานดีบัก</string>
+    <string name="debug_report_sheet_body">ไฟล์ข้อความสำหรับส่งพร้อมรายงานข้อบกพร่อง โปรดส่งโดยเร็วหลังเกิดปัญหา เพราะบันทึกของแอปเก็บไว้เฉพาะการทำงานล่าสุด</string>
+    <string name="debug_report_item_exits">สาเหตุที่แอปปิดเมื่อเร็วๆ นี้</string>
+    <string name="debug_report_item_exits_detail">การขัดข้อง การค้าง หน่วยความจำเหลือน้อย</string>
+    <string name="debug_report_item_log">บันทึกของแอป</string>
+    <string name="debug_report_item_log_detail">ข้อความของ KashCal เอง รวมถึงรายละเอียดการขัดข้อง</string>
+    <string name="debug_report_item_sync_detail">การซิงค์ล่าสุด ย้อนหลังสูงสุด 48 ชั่วโมง</string>
+    <string name="debug_report_item_pending">การเปลี่ยนแปลงที่รอส่ง</string>
+    <string name="debug_report_item_pending_detail">การแก้ไขที่ยังไม่ได้ส่งไปยังเซิร์ฟเวอร์ของคุณ</string>
+    <string name="debug_report_item_setup">การกำหนดค่า</string>
+    <string name="debug_report_item_setup_detail">เวอร์ชันแอปและ Android สิทธิ์ การตั้งค่าแบตเตอรี่ ประเภทบัญชี</string>
+    <string name="debug_report_privacy_note">ที่อยู่อีเมล ที่อยู่เว็บ และโทเค็นจะถูกซ่อน แต่ชื่อกิจกรรม ชื่อปฏิทิน และชื่อผู้ติดต่อจะไม่ถูกซ่อน โปรดส่งทางอีเมล อย่าโพสต์แบบสาธารณะ</string>
+    <string name="debug_report_share">แชร์รายงาน</string>
+    <string name="debug_report_chooser_title">แชร์รายงานดีบัก</string>
+    <string name="debug_report_failed">ไม่สามารถสร้างรายงานดีบักได้</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">ล็อกแอป</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ป้อนเวลาที่แน่นอน</string>
     <string name="time_entry_dialog_title">ป้อนเวลา</string>
     <string name="time_entry_tap_to_edit">แตะเพื่อแก้ไข</string>
-    <string name="cd_version_info">KashCal เวอร์ชัน %1$s กดค้างเพื่อดูตัวเลือกดีบัก</string>
+    <string name="cd_version_info">KashCal เวอร์ชัน %1$s</string>
     <string name="cd_about_setting">เกี่ยวกับ %1$s</string>
     <string name="cd_color_slider">แถบเลื่อนสี ปัจจุบัน %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d องศา</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d แสดง</string>
     <string name="label_reminders_truncated">%1$d ไม่แสดง (ทั้งหมด %2$d, แก้ไขได้สูงสุด %3$d)</string>
     <string name="label_found_events">พบ: %1$d กิจกรรม</string>
-    <string name="label_open_debug_menu">เปิดเมนูดีบัก</string>
     <string name="placeholder_search">ค้นหา…</string>
     <string name="settings_search_placeholder">ค้นหาการตั้งค่า…</string>
     <string name="settings_search_no_results">ไม่พบการตั้งค่าสำหรับ \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">ในเครื่อง</string>
     <string name="device_calendars_read_only_no_write">อ่านอย่างเดียว (ไม่มีสิทธิ์เขียน)</string>
     <string name="device_calendars_read_only_calendar">อ่านอย่างเดียว (ปฏิทินอ่านอย่างเดียว)</string>
-    <string name="settings_developer_options">ตัวเลือกนักพัฒนา</string>
     <string name="settings_sync_frequency">ความถี่การซิงค์</string>
     <string name="settings_sync_frequency_hint">ความถี่ในการซิงค์เบื้องหลัง</string>
 

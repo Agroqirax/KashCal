@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Настройки событий</string>
     <string name="settings_section_sync">Синхронизация</string>
     <string name="settings_section_data">Резервное копирование и восстановление</string>
+    <string name="settings_section_troubleshooting">Устранение неполадок</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Экспорт отладочного отчёта</string>
+    <string name="debug_report_row_subtitle">Сведения о сбоях, синхронизации и настройке для отчёта об ошибке</string>
+    <string name="debug_report_sheet_title">Отладочный отчёт</string>
+    <string name="debug_report_sheet_body">Текстовый файл, который можно приложить к отчёту об ошибке. Отправь его вскоре после проблемы: журнал приложения хранит только недавние действия.</string>
+    <string name="debug_report_item_exits">Почему приложение недавно закрывалось</string>
+    <string name="debug_report_item_exits_detail">Сбои, зависания, нехватка памяти</string>
+    <string name="debug_report_item_log">Журнал приложения</string>
+    <string name="debug_report_item_log_detail">Собственные сообщения KashCal, включая сведения о сбоях</string>
+    <string name="debug_report_item_sync_detail">Последние синхронизации, до 48 часов назад</string>
+    <string name="debug_report_item_pending">Неотправленные изменения</string>
+    <string name="debug_report_item_pending_detail">Правки, ещё не отправленные на твой сервер</string>
+    <string name="debug_report_item_setup">Конфигурация</string>
+    <string name="debug_report_item_setup_detail">Версии приложения и Android, разрешения, настройки батареи, типы аккаунтов</string>
+    <string name="debug_report_privacy_note">Адреса e-mail, веб-адреса и токены скрыты. Названия событий, календарей и имена контактов не скрыты. Отправляй отчёт по e-mail, а не в публичном посте.</string>
+    <string name="debug_report_share">Поделиться отчётом</string>
+    <string name="debug_report_chooser_title">Поделиться отладочным отчётом</string>
+    <string name="debug_report_failed">Не удалось создать отладочный отчёт</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Блокировка приложения</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Ввести точное время</string>
     <string name="time_entry_dialog_title">Ввод времени</string>
     <string name="time_entry_tap_to_edit">Нажми, чтобы изменить</string>
-    <string name="cd_version_info">KashCal версия %1$s. Долгое нажатие для отладки.</string>
+    <string name="cd_version_info">KashCal версия %1$s</string>
     <string name="cd_about_setting">О настройке %1$s</string>
     <string name="cd_color_slider">Ползунок цвета, сейчас %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d градусов</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d видимых</string>
     <string name="label_reminders_truncated">%1$d не показано (%2$d всего, макс. %3$d редактируемых)</string>
     <string name="label_found_events">Найдено: %1$d событий</string>
-    <string name="label_open_debug_menu">Открыть меню отладки</string>
     <string name="placeholder_search">Поиск…</string>
     <string name="settings_search_placeholder">Поиск в настройках…</string>
     <string name="settings_search_no_results">Ничего не найдено по запросу \"%1$s\"</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Локальный</string>
     <string name="device_calendars_read_only_no_write">Только чтение (нет разрешения на запись)</string>
     <string name="device_calendars_read_only_calendar">Только чтение (календарь доступен только для чтения)</string>
-    <string name="settings_developer_options">Для разработчиков</string>
     <string name="settings_sync_frequency">Частота синхронизации</string>
     <string name="settings_sync_frequency_hint">Как часто синхронизировать в фоне</string>
 

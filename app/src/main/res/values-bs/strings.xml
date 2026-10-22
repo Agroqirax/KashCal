@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Postavke događaja</string>
     <string name="settings_section_sync">Sinhronizacija</string>
     <string name="settings_section_data">Rezervna kopija i vraćanje</string>
+    <string name="settings_section_troubleshooting">Rješavanje problema</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Izvezi dijagnostički izvještaj</string>
+    <string name="debug_report_row_subtitle">Detalji o rušenjima, sinhronizaciji i konfiguraciji za prijavu greške</string>
+    <string name="debug_report_sheet_title">Dijagnostički izvještaj</string>
+    <string name="debug_report_sheet_body">Tekstualna datoteka koju šalješ uz prijavu greške. Pošalji je ubrzo nakon problema: zapisnik aplikacije čuva samo nedavnu aktivnost.</string>
+    <string name="debug_report_item_exits">Zašto se aplikacija nedavno zatvarala</string>
+    <string name="debug_report_item_exits_detail">Rušenja, zamrzavanja, nedostatak memorije</string>
+    <string name="debug_report_item_log">Zapisnik aplikacije</string>
+    <string name="debug_report_item_log_detail">Vlastite poruke aplikacije KashCal, uključujući detalje o rušenjima</string>
+    <string name="debug_report_item_sync_detail">Nedavne sinhronizacije, do 48 sati unazad</string>
+    <string name="debug_report_item_pending">Promjene na čekanju</string>
+    <string name="debug_report_item_pending_detail">Izmjene koje još nisu poslane na tvoj server</string>
+    <string name="debug_report_item_setup">Konfiguracija</string>
+    <string name="debug_report_item_setup_detail">Verzija aplikacije i Androida, dozvole, postavke baterije, vrste računa</string>
+    <string name="debug_report_privacy_note">E-mail adrese, web adrese i tokeni su sakriveni. Naslovi događaja, nazivi kalendara i imena kontakata nisu. Pošalji izvještaj e-mailom, ne u javnoj objavi.</string>
+    <string name="debug_report_share">Podijeli izvještaj</string>
+    <string name="debug_report_chooser_title">Podijeli dijagnostički izvještaj</string>
+    <string name="debug_report_failed">Nije moguće kreirati dijagnostički izvještaj</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Zaključavanje aplikacije</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Unesite tačno vrijeme</string>
     <string name="time_entry_dialog_title">Unesite vrijeme</string>
     <string name="time_entry_tap_to_edit">Dodirnite za uređivanje</string>
-    <string name="cd_version_info">KashCal verzija %1$s. Dugi pritisak za opcije otklanjanja grešaka.</string>
+    <string name="cd_version_info">KashCal verzija %1$s</string>
     <string name="cd_about_setting">O: %1$s</string>
     <string name="cd_color_slider">Klizač boja, trenutno %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d stepeni</string>
@@ -672,7 +692,6 @@
     <string name="label_visible_count">%1$d / %2$d vidljivih</string>
     <string name="label_reminders_truncated">%1$d neprikazanih (%2$d ukupno, maks %3$d za uređivanje)</string>
     <string name="label_found_events">Pronađeno: %1$d događaja</string>
-    <string name="label_open_debug_menu">Otvori meni za otklanjanje grešaka</string>
     <string name="placeholder_search">Traži…</string>
     <string name="settings_search_placeholder">Pretraži postavke…</string>
     <string name="settings_search_no_results">Nema postavki za \"%1$s\"</string>
@@ -693,7 +712,6 @@
     <string name="device_calendars_local">Lokalni</string>
     <string name="device_calendars_read_only_no_write">Samo za čitanje (nema dozvole za pisanje)</string>
     <string name="device_calendars_read_only_calendar">Samo za čitanje (kalendar je samo za čitanje)</string>
-    <string name="settings_developer_options">Razvojne opcije</string>
     <string name="settings_sync_frequency">Učestalost sinhronizacije</string>
     <string name="settings_sync_frequency_hint">Koliko često sinhronizirati u pozadini</string>
 

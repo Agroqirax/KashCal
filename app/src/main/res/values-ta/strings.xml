@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">நிகழ்வு விருப்பங்கள்</string>
     <string name="settings_section_sync">ஒத்திசைவு</string>
     <string name="settings_section_data">காப்புப்பிரதி மற்றும் மீட்டெடுப்பு</string>
+    <string name="settings_section_troubleshooting">சிக்கல் சரிசெய்தல்</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">பிழைத்திருத்த அறிக்கையை ஏற்றுமதி செய்</string>
+    <string name="debug_report_row_subtitle">பிழை அறிக்கையுடன் அனுப்ப செயலிழப்பு, ஒத்திசைவு மற்றும் அமைவு விவரங்கள்</string>
+    <string name="debug_report_sheet_title">பிழைத்திருத்த அறிக்கை</string>
+    <string name="debug_report_sheet_body">பிழை அறிக்கையுடன் அனுப்ப ஒரு உரைக் கோப்பு. சிக்கல் ஏற்பட்டவுடன் விரைவில் அனுப்பவும்: ஆப் பதிவு சமீபத்திய செயல்பாட்டை மட்டுமே வைத்திருக்கும்.</string>
+    <string name="debug_report_item_exits">ஆப் சமீபத்தில் ஏன் மூடப்பட்டது</string>
+    <string name="debug_report_item_exits_detail">செயலிழப்புகள், ஆப் உறைதல், குறைந்த நினைவகம்</string>
+    <string name="debug_report_item_log">ஆப் பதிவு</string>
+    <string name="debug_report_item_log_detail">KashCal-இன் சொந்தச் செய்திகள், செயலிழப்பு விவரங்கள் உட்பட</string>
+    <string name="debug_report_item_sync_detail">சமீபத்திய ஒத்திசைவுகள், 48 மணிநேரம் வரை</string>
+    <string name="debug_report_item_pending">அனுப்பக் காத்திருக்கும் மாற்றங்கள்</string>
+    <string name="debug_report_item_pending_detail">உங்கள் சேவையகத்துக்கு இன்னும் அனுப்பப்படாத திருத்தங்கள்</string>
+    <string name="debug_report_item_setup">அமைவு</string>
+    <string name="debug_report_item_setup_detail">ஆப் மற்றும் Android பதிப்பு, அனுமதிகள், பேட்டரி அமைப்புகள், கணக்கு வகைகள்</string>
+    <string name="debug_report_privacy_note">மின்னஞ்சல் முகவரிகள், இணைய முகவரிகள் மற்றும் டோக்கன்கள் மறைக்கப்படும். நிகழ்வுத் தலைப்புகள், நாட்காட்டிப் பெயர்கள் மற்றும் தொடர்புப் பெயர்கள் மறைக்கப்படாது. இதை மின்னஞ்சலில் அனுப்பவும், பொது இடுகையில் அல்ல.</string>
+    <string name="debug_report_share">அறிக்கையைப் பகிர்</string>
+    <string name="debug_report_chooser_title">பிழைத்திருத்த அறிக்கையைப் பகிர்</string>
+    <string name="debug_report_failed">பிழைத்திருத்த அறிக்கையை உருவாக்க முடியவில்லை</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">ஆப் பூட்டு</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">சரியான நேரத்தை உள்ளிடவும்</string>
     <string name="time_entry_dialog_title">நேரத்தை உள்ளிடவும்</string>
     <string name="time_entry_tap_to_edit">திருத்த தட்டவும்</string>
-    <string name="cd_version_info">KashCal பதிப்பு %1$s. பிழைத்திருத்த விருப்பங்களுக்கு நீண்ட நேரம் அழுத்தவும்.</string>
+    <string name="cd_version_info">KashCal பதிப்பு %1$s</string>
     <string name="cd_about_setting">%1$s பற்றி</string>
     <string name="cd_color_slider">நிற நழுவி, தற்போது %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d பாகை</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d காணக்கூடியவை</string>
     <string name="label_reminders_truncated">%1$d காட்டப்படவில்லை (%2$d மொத்தம், அதிகபட்சம் %3$d திருத்தக்கூடியவை)</string>
     <string name="label_found_events">கண்டறியப்பட்டவை: %1$d நிகழ்வுகள்</string>
-    <string name="label_open_debug_menu">பிழைத்திருத்த மெனு திற</string>
     <string name="placeholder_search">தேடு…</string>
     <string name="settings_search_placeholder">அமைப்புகளைத் தேடு…</string>
     <string name="settings_search_no_results">\"%1$s\" க்கான அமைப்புகள் எதுவும் இல்லை</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">உள்ளூர்</string>
     <string name="device_calendars_read_only_no_write">படிக்க மட்டும் (எழுத அனுமதி இல்லை)</string>
     <string name="device_calendars_read_only_calendar">படிக்க மட்டும் (நாட்காட்டி படிக்க மட்டும்)</string>
-    <string name="settings_developer_options">டெவலப்பர் விருப்பங்கள்</string>
     <string name="settings_sync_frequency">ஒத்திசைவு இடைவெளி</string>
     <string name="settings_sync_frequency_hint">பின்னணியில் எவ்வளவு அடிக்கடி ஒத்திசைக்க வேண்டும்</string>
 

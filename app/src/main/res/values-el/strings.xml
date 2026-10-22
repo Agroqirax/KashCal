@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Προτιμήσεις συμβάντων</string>
     <string name="settings_section_sync">Συγχρονισμός</string>
     <string name="settings_section_data">Αντίγραφο ασφαλείας &amp; επαναφορά</string>
+    <string name="settings_section_troubleshooting">Αντιμετώπιση προβλημάτων</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Εξαγωγή αναφοράς διαγνωστικών</string>
+    <string name="debug_report_row_subtitle">Λεπτομέρειες καταρρεύσεων, συγχρονισμού και διαμόρφωσης για αποστολή μαζί με αναφορά σφάλματος</string>
+    <string name="debug_report_sheet_title">Αναφορά διαγνωστικών</string>
+    <string name="debug_report_sheet_body">Ένα αρχείο κειμένου για αποστολή μαζί με αναφορά σφάλματος. Στείλτε το σύντομα μετά το πρόβλημα: το αρχείο καταγραφής της εφαρμογής διατηρεί μόνο την πρόσφατη δραστηριότητα.</string>
+    <string name="debug_report_item_exits">Γιατί έκλεισε πρόσφατα η εφαρμογή</string>
+    <string name="debug_report_item_exits_detail">Καταρρεύσεις, παγώματα, χαμηλή μνήμη</string>
+    <string name="debug_report_item_log">Αρχείο καταγραφής εφαρμογής</string>
+    <string name="debug_report_item_log_detail">Τα μηνύματα του ίδιου του KashCal, μαζί με λεπτομέρειες καταρρεύσεων</string>
+    <string name="debug_report_item_sync_detail">Πρόσφατοι συγχρονισμοί, έως και 48 ώρες πίσω</string>
+    <string name="debug_report_item_pending">Αλλαγές σε αναμονή</string>
+    <string name="debug_report_item_pending_detail">Επεξεργασίες που δεν έχουν σταλεί ακόμα στον διακομιστή σας</string>
+    <string name="debug_report_item_setup">Διαμόρφωση</string>
+    <string name="debug_report_item_setup_detail">Έκδοση εφαρμογής και Android, άδειες, ρυθμίσεις μπαταρίας, τύποι λογαριασμών</string>
+    <string name="debug_report_privacy_note">Οι διευθύνσεις email, οι διευθύνσεις ιστού και τα διακριτικά πρόσβασης αποκρύπτονται. Οι τίτλοι συμβάντων, τα ονόματα ημερολογίων και τα ονόματα επαφών όχι. Στείλτε τη μέσω email, όχι σε δημόσια ανάρτηση.</string>
+    <string name="debug_report_share">Κοινοποίηση αναφοράς</string>
+    <string name="debug_report_chooser_title">Κοινοποίηση αναφοράς διαγνωστικών</string>
+    <string name="debug_report_failed">Δεν ήταν δυνατή η δημιουργία της αναφοράς διαγνωστικών</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Κλείδωμα εφαρμογής</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Εισαγωγή ακριβούς ώρας</string>
     <string name="time_entry_dialog_title">Εισαγωγή ώρας</string>
     <string name="time_entry_tap_to_edit">Πατήστε για επεξεργασία</string>
-    <string name="cd_version_info">KashCal έκδοση %1$s. Πατήστε παρατεταμένα για επιλογές εντοπισμού σφαλμάτων.</string>
+    <string name="cd_version_info">KashCal έκδοση %1$s</string>
     <string name="cd_about_setting">Σχετικά με %1$s</string>
     <string name="cd_color_slider">Ρυθμιστικό χρώματος, τρέχον %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d μοίρες</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d ορατά</string>
     <string name="label_reminders_truncated">%1$d δεν εμφανίζονται (%2$d σύνολο, μέγ. %3$d επεξεργάσιμα)</string>
     <string name="label_found_events">Βρέθηκαν: %1$d συμβάντα</string>
-    <string name="label_open_debug_menu">Άνοιγμα μενού εντοπισμού σφαλμάτων</string>
     <string name="placeholder_search">Αναζήτηση…</string>
     <string name="settings_search_placeholder">Αναζήτηση ρυθμίσεων…</string>
     <string name="settings_search_no_results">Δεν βρέθηκαν ρυθμίσεις για \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Τοπικό</string>
     <string name="device_calendars_read_only_no_write">Μόνο ανάγνωση (χωρίς άδεια εγγραφής)</string>
     <string name="device_calendars_read_only_calendar">Μόνο ανάγνωση (ημερολόγιο μόνο για ανάγνωση)</string>
-    <string name="settings_developer_options">Επιλογές προγραμματιστή</string>
     <string name="settings_sync_frequency">Συχνότητα συγχρονισμού</string>
     <string name="settings_sync_frequency_hint">Πόσο συχνά να γίνεται συγχρονισμός στο παρασκήνιο</string>
 

@@ -405,23 +405,22 @@ class MainActivity : FragmentActivity() {
                                     }
                                 }
                                 is PendingAction.CreateEvent -> {
-                                    if (quickAddEnabled && action.startTs == null) {
-                                        showQuickAddDialog = true
-                                    } else {
-                                        val startTs = action.startTs ?: run {
-                                            val now = java.util.Calendar.getInstance()
-                                            val nextHour = (now.get(java.util.Calendar.HOUR_OF_DAY) + 1) % 24
-                                            java.util.Calendar.getInstance().apply {
-                                                set(java.util.Calendar.HOUR_OF_DAY, nextHour)
-                                                set(java.util.Calendar.MINUTE, 0)
-                                                set(java.util.Calendar.SECOND, 0)
-                                            }.timeInMillis
-                                        }
-                                        editingEventId = null
-                                        newEventStartTs = startTs
-                                        eventOccurrenceTs = null
-                                        showEventFormSheet = true
+                                    val startTs = action.startTs ?: run {
+                                        val now = java.util.Calendar.getInstance()
+                                        val nextHour = (now.get(java.util.Calendar.HOUR_OF_DAY) + 1) % 24
+                                        java.util.Calendar.getInstance().apply {
+                                            set(java.util.Calendar.HOUR_OF_DAY, nextHour)
+                                            set(java.util.Calendar.MINUTE, 0)
+                                            set(java.util.Calendar.SECOND, 0)
+                                        }.timeInMillis
                                     }
+                                    editingEventId = null
+                                    newEventStartTs = startTs
+                                    eventOccurrenceTs = null
+                                    showEventFormSheet = true
+                                }
+                                is PendingAction.OpenQuickAdd -> {
+                                    showQuickAddDialog = true
                                 }
                                 is PendingAction.OpenSearch -> {
                                     homeViewModel.activateSearch()
@@ -1978,7 +1977,8 @@ class MainActivity : FragmentActivity() {
      * shares, calendar insert and edit intents, CalendarContract URIs, and ICS files opened by URI.
      * The first branch that matches returns, even when it sets no action (a reminder tap missing
      * its extras, a CalendarContract URI that only opens the app). A webcal:// link opens Settings
-     * instead.
+     * instead. A create-event action goes through [HomeViewModel.requestCreateEvent], which may
+     * set its action only after reading the Quick Add setting.
      *
      * The action is state in the ViewModel, as Android recommends for UI events: the UI clears
      * it after consuming it, and it survives configuration changes.
@@ -2057,11 +2057,7 @@ class MainActivity : FragmentActivity() {
                     // The week widget may pass a start time.
                     val startTs = intent.getLongExtra(org.onekash.kashcal.widget.EXTRA_CREATE_EVENT_START_TS, 0L)
                     Log.d(TAG, "Widget: creating new event (startTs=$startTs)")
-                    if (startTs > 0) {
-                        homeViewModel.setPendingAction(PendingAction.CreateEvent(startTs = startTs))
-                    } else {
-                        homeViewModel.setPendingAction(PendingAction.CreateEvent())
-                    }
+                    homeViewModel.requestCreateEvent(startTs.takeIf { it > 0 })
                     return
                 }
                 org.onekash.kashcal.widget.ACTION_GO_TO_DATE -> {

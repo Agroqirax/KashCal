@@ -1040,7 +1040,7 @@
         </service>
 
         <!--
-            FileProvider for secure file sharing (ICS exports).
+            FileProvider for sharing ICS exports and debug reports.
             Required for sharing files via Intent on Android 7.0+.
             Uses content:// URIs instead of file:// URIs.
         -->

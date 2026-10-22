@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Dechrau\'r Wythnos Ar</string>
     <string name="settings_event_emojis">Emojis Digwyddiadau</string>
     <string name="settings_event_emojis_info">Yn ychwanegu emoji at ddigwyddiadau yn ôl y teitl, fel 🎂 ar gyfer \"Pen-blwydd\".</string>
-    <string name="settings_force_sync">Gorfodi Cysoni Llawn</string>
+    <string name="settings_force_sync">Gorfodi cysoni llawn</string>
     <string name="settings_force_sync_subtitle">Ail-lwytho\'r holl ddata calendr</string>
-    <string name="settings_sync_history">Hanes Cysoni</string>
+    <string name="settings_sync_history">Hanes cysoni</string>
     <string name="settings_sync_history_subtitle">Gweld sesiynau cysoni (48 awr diwethaf)</string>
     <string name="settings_import_subtitle">Ychwanegu digwyddiadau o ffeil ICS at unrhyw galendr</string>
     <string name="settings_export_subtitle">Cadw digwyddiadau i ffeil ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Dewisiadau digwyddiadau</string>
     <string name="settings_section_sync">Cysoni</string>
     <string name="settings_section_data">Copi wrth gefn ac adfer</string>
+    <string name="settings_section_troubleshooting">Datrys problemau</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Allforio adroddiad dadfygio</string>
+    <string name="debug_report_row_subtitle">Manylion chwalu, cysoni a gosod i\'w hanfon gydag adroddiad nam</string>
+    <string name="debug_report_sheet_title">Adroddiad dadfygio</string>
+    <string name="debug_report_sheet_body">Ffeil destun i\'w hanfon gydag adroddiad nam. Anfona hi\'n fuan ar ôl y broblem: dim ond gweithgarwch diweddar mae log yr ap yn ei gadw.</string>
+    <string name="debug_report_item_exits">Pam y caeodd yr ap yn ddiweddar</string>
+    <string name="debug_report_item_exits_detail">Chwalu, rhewi, cof isel</string>
+    <string name="debug_report_item_log">Log yr ap</string>
+    <string name="debug_report_item_log_detail">Negeseuon KashCal ei hun, gan gynnwys manylion chwalu</string>
+    <string name="debug_report_item_sync_detail">Cysoniadau diweddar, hyd at 48 awr yn ôl</string>
+    <string name="debug_report_item_pending">Newidiadau\'n aros</string>
+    <string name="debug_report_item_pending_detail">Golygiadau heb eu hanfon i dy weinydd eto</string>
+    <string name="debug_report_item_setup">Gosodiad</string>
+    <string name="debug_report_item_setup_detail">Fersiwn yr ap ac Android, caniatadau, gosodiadau batri, mathau o gyfrif</string>
+    <string name="debug_report_privacy_note">Mae cyfeiriadau e-bost, cyfeiriadau gwe a thocynnau wedi\'u cuddio. Dydy teitlau digwyddiadau, enwau calendrau ac enwau cysylltiadau ddim wedi\'u cuddio. Anfona hi drwy e-bost, nid mewn neges gyhoeddus.</string>
+    <string name="debug_report_share">Rhannu\'r adroddiad</string>
+    <string name="debug_report_chooser_title">Rhannu adroddiad dadfygio</string>
+    <string name="debug_report_failed">Methu creu\'r adroddiad dadfygio</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Clo\'r ap</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Nodi\'r union amser</string>
     <string name="time_entry_dialog_title">Nodi amser</string>
     <string name="time_entry_tap_to_edit">Tapiwch i olygu</string>
-    <string name="cd_version_info">KashCal fersiwn %1$s. Pwyswch yn hir am opsiynau dadfygio.</string>
+    <string name="cd_version_info">KashCal fersiwn %1$s</string>
     <string name="cd_about_setting">Ynghylch %1$s</string>
     <string name="cd_color_slider">Llithrydd lliw, %1$s ar hyn o bryd</string>
     <string name="cd_color_slider_state">%1$s, %2$d gradd</string>
@@ -675,7 +695,6 @@
     <string name="label_visible_count">%1$d / %2$d gweladwy</string>
     <string name="label_reminders_truncated">%1$d heb eu dangos (%2$d cyfanswm, uchafswm %3$d y gellir eu golygu)</string>
     <string name="label_found_events">Wedi canfod: %1$d digwyddiad</string>
-    <string name="label_open_debug_menu">Agor dewislen dadfygio</string>
     <string name="placeholder_search">Chwilio…</string>
     <string name="settings_search_placeholder">Chwilio gosodiadau…</string>
     <string name="settings_search_no_results">Heb ganfod gosodiadau ar gyfer \"%1$s\"</string>
@@ -696,7 +715,6 @@
     <string name="device_calendars_local">Lleol</string>
     <string name="device_calendars_read_only_no_write">Darllen yn unig (dim caniatâd ysgrifennu)</string>
     <string name="device_calendars_read_only_calendar">Darllen yn unig (calendr darllen-yn-unig)</string>
-    <string name="settings_developer_options">Opsiynau Datblygwr</string>
     <string name="settings_sync_frequency">Amlder Cysoni</string>
     <string name="settings_sync_frequency_hint">Pa mor aml i gysoni yn y cefndir</string>
 

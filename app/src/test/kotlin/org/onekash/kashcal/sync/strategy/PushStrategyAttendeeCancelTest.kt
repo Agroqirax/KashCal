@@ -19,6 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.icaldav.parser.ICalParser
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
@@ -120,7 +121,8 @@ class PushStrategyAttendeeCancelTest {
         val base = server.url("/").toString()
         client = OkHttpCalDavClientFactory().createClient(Credentials(username = "u", password = "p", serverUrl = base), DefaultQuirks(base))
         val context: Context = ApplicationProvider.getApplicationContext()
-        database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java).allowMainThreadQueries().build()
+        database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
+            .addCallback(PendingOperationTriggers.callback()).allowMainThreadQueries().build()
         occurrenceGenerator = OccurrenceGenerator(database, database.occurrencesDao(), database.eventsDao(), TestDataStoreFactory.createDefault())
         eventWriter = EventWriter(database, occurrenceGenerator)
         val accountId = database.accountsDao().insert(

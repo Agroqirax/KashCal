@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
  * Storage policy:
  * - Addresses are not canonicalized on store; identity matching canonicalizes only at lookup
  *   time. CalDAV servers return mixed forms (`mailto:`, `urn:uuid:`, principal-relative paths
- *   like `/646691839/principal/`, full HTTP principal URIs). The pull parser strips `mailto:`;
+ *   like `/123456789/principal/`, full HTTP principal URIs). The pull parser strips `mailto:`;
  *   [org.onekash.kashcal.sync.parser.icaldav.ICalEventMapper] adds it back to an
  *   email-shaped [address] and keeps other forms as parsed, while `delegated_from`,
  *   `delegated_to`, `member` and `sent_by` stay bare.

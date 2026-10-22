@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferencje wydarzeń</string>
     <string name="settings_section_sync">Synchronizacja</string>
     <string name="settings_section_data">Kopia zapasowa i przywracanie</string>
+    <string name="settings_section_troubleshooting">Rozwiązywanie problemów</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Eksportuj raport diagnostyczny</string>
+    <string name="debug_report_row_subtitle">Szczegóły awarii, synchronizacji i konfiguracji do zgłoszenia błędu</string>
+    <string name="debug_report_sheet_title">Raport diagnostyczny</string>
+    <string name="debug_report_sheet_body">Plik tekstowy do dołączenia do zgłoszenia błędu. Wyślij go wkrótce po wystąpieniu problemu: dziennik aplikacji przechowuje tylko ostatnią aktywność.</string>
+    <string name="debug_report_item_exits">Dlaczego aplikacja niedawno się zamknęła</string>
+    <string name="debug_report_item_exits_detail">Awarie, zawieszenia, brak pamięci</string>
+    <string name="debug_report_item_log">Dziennik aplikacji</string>
+    <string name="debug_report_item_log_detail">Własne komunikaty KashCal, w tym szczegóły awarii</string>
+    <string name="debug_report_item_sync_detail">Ostatnie synchronizacje, do 48 godzin wstecz</string>
+    <string name="debug_report_item_pending">Oczekujące zmiany</string>
+    <string name="debug_report_item_pending_detail">Zmiany jeszcze niewysłane na serwer</string>
+    <string name="debug_report_item_setup">Konfiguracja</string>
+    <string name="debug_report_item_setup_detail">Wersja aplikacji i Androida, uprawnienia, ustawienia baterii, typy kont</string>
+    <string name="debug_report_privacy_note">Adresy e-mail, adresy internetowe i tokeny są maskowane. Tytuły wydarzeń, nazwy kalendarzy i nazwy kontaktów nie są. Wyślij raport e-mailem, nie w publicznym poście.</string>
+    <string name="debug_report_share">Udostępnij raport</string>
+    <string name="debug_report_chooser_title">Udostępnij raport diagnostyczny</string>
+    <string name="debug_report_failed">Nie udało się utworzyć raportu diagnostycznego</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Blokada aplikacji</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Wprowadź dokładny czas</string>
     <string name="time_entry_dialog_title">Wprowadź czas</string>
     <string name="time_entry_tap_to_edit">Dotknij, aby edytować</string>
-    <string name="cd_version_info">KashCal wersja %1$s. Przytrzymaj, aby otworzyć opcje debugowania.</string>
+    <string name="cd_version_info">KashCal wersja %1$s</string>
     <string name="cd_about_setting">Informacje o: %1$s</string>
     <string name="cd_color_slider">Suwak koloru, aktualnie %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d stopni</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d widocznych</string>
     <string name="label_reminders_truncated">%1$d niepokazanych (%2$d łącznie, maks. %3$d edytowalnych)</string>
     <string name="label_found_events">Znaleziono: %1$d wydarzeń</string>
-    <string name="label_open_debug_menu">Otwórz menu debugowania</string>
     <string name="placeholder_search">Szukaj…</string>
     <string name="settings_search_placeholder">Szukaj w ustawieniach…</string>
     <string name="settings_search_no_results">Nie znaleziono ustawień dla \"%1$s\"</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Lokalne</string>
     <string name="device_calendars_read_only_no_write">Tylko do odczytu (brak uprawnień do zapisu)</string>
     <string name="device_calendars_read_only_calendar">Tylko do odczytu (kalendarz tylko do odczytu)</string>
-    <string name="settings_developer_options">Opcje programisty</string>
     <string name="settings_sync_frequency">Częstotliwość synchronizacji</string>
     <string name="settings_sync_frequency_hint">Jak często synchronizować w tle</string>
 

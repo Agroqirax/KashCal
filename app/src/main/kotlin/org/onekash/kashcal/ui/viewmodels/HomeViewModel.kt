@@ -3028,9 +3028,13 @@ class HomeViewModel(
 
     // ==================== Pending Actions (from intents) ====================
 
+    /** The [requestCreateEvent] still reading the Quick Add setting, if any. */
+    private var createEventRequestJob: Job? = null
+
     /**
      * Sets an action for the UI to run; MainActivity.handleIncomingIntent calls it for a
-     * notification, widget or shortcut tap.
+     * notification, widget or shortcut tap. It replaces a [requestCreateEvent] that is still
+     * reading the setting, so that request can't overwrite it later.
      *
      * The event is held as state, not a Channel: the UI observes it in a LaunchedEffect and
      * clears it with [clearPendingAction] once handled.
@@ -3038,7 +3042,35 @@ class HomeViewModel(
      * @see <a href="https://developer.android.com/topic/architecture/ui-layer/events">UI events</a>
      */
     fun setPendingAction(action: PendingAction) {
-        Log.d(TAG, "setPendingAction: $action")
+        createEventRequestJob?.cancel()
+        publishPendingAction(action)
+    }
+
+    /**
+     * Sets [PendingAction.OpenQuickAdd] when there is no [startTs] and the stored Quick Add
+     * setting is on, else [PendingAction.CreateEvent]. With no [startTs] it reads the stored
+     * value, not [quickAddEnabled]: on a cold start that still holds its `false` placeholder
+     * when the request arrives (#403). A later request or [setPendingAction] replaces
+     * one still reading.
+     *
+     * @param startTs start in epoch millis, set by the week widget; null for the next hour.
+     */
+    fun requestCreateEvent(startTs: Long?) {
+        createEventRequestJob?.cancel()
+        if (startTs != null) {
+            publishPendingAction(PendingAction.CreateEvent(startTs))
+            return
+        }
+        createEventRequestJob = viewModelScope.launch {
+            val quickAdd = dataStore.quickAddEnabled.first()
+            publishPendingAction(
+                if (quickAdd) PendingAction.OpenQuickAdd else PendingAction.CreateEvent()
+            )
+        }
+    }
+
+    private fun publishPendingAction(action: PendingAction) {
+        Log.d(TAG, "pendingAction: $action")
         _uiState.update { it.copy(pendingAction = action) }
     }
 

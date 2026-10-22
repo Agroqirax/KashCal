@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferencias dos eventos</string>
     <string name="settings_section_sync">Sincronización</string>
     <string name="settings_section_data">Copia de seguridade e restauración</string>
+    <string name="settings_section_troubleshooting">Resolución de problemas</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Exportar informe de depuración</string>
+    <string name="debug_report_row_subtitle">Detalles de fallos, sincronización e configuración para enviar cun informe de erro</string>
+    <string name="debug_report_sheet_title">Informe de depuración</string>
+    <string name="debug_report_sheet_body">Un ficheiro de texto para enviar cun informe de erro. Envíao pouco despois do problema: o rexistro da aplicación só garda a actividade recente.</string>
+    <string name="debug_report_item_exits">Por que se pechou a aplicación recentemente</string>
+    <string name="debug_report_item_exits_detail">Fallos, bloqueos, pouca memoria</string>
+    <string name="debug_report_item_log">Rexistro da aplicación</string>
+    <string name="debug_report_item_log_detail">Mensaxes propias de KashCal, incluídos os detalles dos fallos</string>
+    <string name="debug_report_item_sync_detail">Sincronizacións recentes, ata 48 horas atrás</string>
+    <string name="debug_report_item_pending">Cambios pendentes</string>
+    <string name="debug_report_item_pending_detail">Edicións aínda non enviadas ao teu servidor</string>
+    <string name="debug_report_item_setup">Configuración</string>
+    <string name="debug_report_item_setup_detail">Versión da aplicación e de Android, permisos, axustes da batería, tipos de conta</string>
+    <string name="debug_report_privacy_note">Os enderezos de correo electrónico, os enderezos web e os tokens ocúltanse. Os títulos dos eventos, os nomes dos calendarios e os nomes dos contactos, non. Envíao por correo electrónico, non o publiques en internet.</string>
+    <string name="debug_report_share">Compartir informe</string>
+    <string name="debug_report_chooser_title">Compartir informe de depuración</string>
+    <string name="debug_report_failed">Non se puido crear o informe de depuración</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Bloqueo da aplicación</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Introducir a hora exacta</string>
     <string name="time_entry_dialog_title">Introducir a hora</string>
     <string name="time_entry_tap_to_edit">Toca para editar</string>
-    <string name="cd_version_info">KashCal versión %1$s. Manter premido para opcións de depuración.</string>
+    <string name="cd_version_info">KashCal versión %1$s</string>
     <string name="cd_about_setting">Sobre %1$s</string>
     <string name="cd_color_slider">Control deslizante de cor, actualmente %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d graos</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d visibles</string>
     <string name="label_reminders_truncated">%1$d non mostrados (%2$d en total, máximo %3$d editables)</string>
     <string name="label_found_events">Atopados: %1$d eventos</string>
-    <string name="label_open_debug_menu">Abrir menú de depuración</string>
     <string name="placeholder_search">Buscar…</string>
     <string name="settings_search_placeholder">Buscar nos axustes…</string>
     <string name="settings_search_no_results">Non se atopou nada nos axustes para \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Local</string>
     <string name="device_calendars_read_only_no_write">Só lectura (sen permiso de escritura)</string>
     <string name="device_calendars_read_only_calendar">Só lectura (o calendario é de só lectura)</string>
-    <string name="settings_developer_options">Opcións de desenvolvemento</string>
     <string name="settings_sync_frequency">Frecuencia de sincronización</string>
     <string name="settings_sync_frequency_hint">Con que frecuencia sincronizar en segundo plano</string>
 

@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Eventaj preferoj</string>
     <string name="settings_section_sync">Sinkronigo</string>
     <string name="settings_section_data">Sekurkopio kaj restarigo</string>
+    <string name="settings_section_troubleshooting">Problemsolvado</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Eksporti sencimigan raporton</string>
+    <string name="debug_report_row_subtitle">Detaloj pri kraŝoj, sinkronigo kaj agordoj por sendi kun cimraporto</string>
+    <string name="debug_report_sheet_title">Sencimiga raporto</string>
+    <string name="debug_report_sheet_body">Tekstdosiero por sendi kun cimraporto. Sendu ĝin baldaŭ post la problemo: la aplikaĵa protokolo konservas nur lastatempan agadon.</string>
+    <string name="debug_report_item_exits">Kial la aplikaĵo lastatempe fermiĝis</string>
+    <string name="debug_report_item_exits_detail">Kraŝoj, frostiĝoj, malmulte da memoro</string>
+    <string name="debug_report_item_log">Aplikaĵa protokolo</string>
+    <string name="debug_report_item_log_detail">La propraj mesaĝoj de KashCal, inkluzive de detaloj pri kraŝoj</string>
+    <string name="debug_report_item_sync_detail">Lastatempaj sinkronigoj, ĝis 48 horoj antaŭe</string>
+    <string name="debug_report_item_pending">Atendantaj ŝanĝoj</string>
+    <string name="debug_report_item_pending_detail">Redaktoj ankoraŭ ne senditaj al via servilo</string>
+    <string name="debug_report_item_setup">Agordo</string>
+    <string name="debug_report_item_setup_detail">Versioj de la aplikaĵo kaj de Android, permesoj, baterio-agordoj, kontospecoj</string>
+    <string name="debug_report_privacy_note">Retpoŝtadresoj, retadresoj kaj ĵetonoj estas maskitaj. Titoloj de eventoj, nomoj de kalendaroj kaj nomoj de kontaktoj ne estas. Sendu ĝin retpoŝte, ne en publika afiŝo.</string>
+    <string name="debug_report_share">Kunhavigi raporton</string>
+    <string name="debug_report_chooser_title">Kunhavigi sencimigan raporton</string>
+    <string name="debug_report_failed">Ne eblis krei la sencimigan raporton</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Aplikaĵa ŝloso</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Entajpu precizan horon</string>
     <string name="time_entry_dialog_title">Entajpu horon</string>
     <string name="time_entry_tap_to_edit">Tuŝetu por redakti</string>
-    <string name="cd_version_info">KashCal versio %1$s. Longe premu por sencimigaj elektoj.</string>
+    <string name="cd_version_info">KashCal versio %1$s</string>
     <string name="cd_about_setting">Pri %1$s</string>
     <string name="cd_color_slider">Kolora glitilo, nune %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d gradoj</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d videblaj</string>
     <string name="label_reminders_truncated">%1$d ne montritaj (%2$d totale, maks. %3$d redakteblaj)</string>
     <string name="label_found_events">Trovitaj: %1$d eventoj</string>
-    <string name="label_open_debug_menu">Malfermi sencimigan menuon</string>
     <string name="placeholder_search">Serĉi…</string>
     <string name="settings_search_placeholder">Serĉi en agordoj…</string>
     <string name="settings_search_no_results">Neniu agordo trovita por \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Loka</string>
     <string name="device_calendars_read_only_no_write">Nurlega (sen skribpermeso)</string>
     <string name="device_calendars_read_only_calendar">Nurlega (kalendaro estas nurlega)</string>
-    <string name="settings_developer_options">Programistaj elektoj</string>
     <string name="settings_sync_frequency">Sinkroniga ofteco</string>
     <string name="settings_sync_frequency_hint">Kiom ofte sinkronigi en la fono</string>
 

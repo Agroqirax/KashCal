@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Předvolby událostí</string>
     <string name="settings_section_sync">Synchronizace</string>
     <string name="settings_section_data">Záloha a obnova</string>
+    <string name="settings_section_troubleshooting">Řešení problémů</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Exportovat diagnostickou zprávu</string>
+    <string name="debug_report_row_subtitle">Podrobnosti o pádech, synchronizaci a konfiguraci k hlášení chyby</string>
+    <string name="debug_report_sheet_title">Diagnostická zpráva</string>
+    <string name="debug_report_sheet_body">Textový soubor, který přiložíte k hlášení chyby. Odešlete ho brzy po vzniku problému: protokol aplikace uchovává jen nedávnou aktivitu.</string>
+    <string name="debug_report_item_exits">Proč se aplikace nedávno zavřela</string>
+    <string name="debug_report_item_exits_detail">Pády, zamrznutí, nedostatek paměti</string>
+    <string name="debug_report_item_log">Protokol aplikace</string>
+    <string name="debug_report_item_log_detail">Vlastní zprávy aplikace KashCal včetně podrobností o pádech</string>
+    <string name="debug_report_item_sync_detail">Nedávné synchronizace, až 48 hodin zpět</string>
+    <string name="debug_report_item_pending">Čekající změny</string>
+    <string name="debug_report_item_pending_detail">Úpravy dosud neodeslané na váš server</string>
+    <string name="debug_report_item_setup">Konfigurace</string>
+    <string name="debug_report_item_setup_detail">Verze aplikace a Androidu, oprávnění, nastavení baterie, typy účtů</string>
+    <string name="debug_report_privacy_note">E-mailové adresy, webové adresy a tokeny jsou skryté. Názvy událostí, názvy kalendářů a jména kontaktů skryté nejsou. Pošlete zprávu e-mailem, ne ve veřejném příspěvku.</string>
+    <string name="debug_report_share">Sdílet zprávu</string>
+    <string name="debug_report_chooser_title">Sdílet diagnostickou zprávu</string>
+    <string name="debug_report_failed">Diagnostickou zprávu se nepodařilo vytvořit</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Zámek aplikace</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Zadat přesný čas</string>
     <string name="time_entry_dialog_title">Zadat čas</string>
     <string name="time_entry_tap_to_edit">Klepnutím upravíte</string>
-    <string name="cd_version_info">KashCal verze %1$s. Dlouhým stisknutím otevřete ladící možnosti.</string>
+    <string name="cd_version_info">KashCal verze %1$s</string>
     <string name="cd_about_setting">O položce %1$s</string>
     <string name="cd_color_slider">Posuvník barvy, aktuálně %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d stupňů</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d viditelných</string>
     <string name="label_reminders_truncated">%1$d nezobrazeno (%2$d celkem, max %3$d editovatelných)</string>
     <string name="label_found_events">Nalezeno: %1$d událostí</string>
-    <string name="label_open_debug_menu">Otevřít ladící nabídku</string>
     <string name="placeholder_search">Hledat…</string>
     <string name="settings_search_placeholder">Hledat v nastavení…</string>
     <string name="settings_search_no_results">Pro \"%1$s\" nebylo nalezeno žádné nastavení</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Místní</string>
     <string name="device_calendars_read_only_no_write">Pouze pro čtení (bez oprávnění k zápisu)</string>
     <string name="device_calendars_read_only_calendar">Pouze pro čtení (kalendář je pouze pro čtení)</string>
-    <string name="settings_developer_options">Vývojářské možnosti</string>
     <string name="settings_sync_frequency">Četnost synchronizace</string>
     <string name="settings_sync_frequency_hint">Jak často synchronizovat na pozadí</string>
 

@@ -16,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
@@ -53,6 +54,7 @@ class ConcurrencyRaceConditionTest {
     fun setup() = runTest {
         val context: Context = ApplicationProvider.getApplicationContext()
         database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
+            .addCallback(PendingOperationTriggers.callback())
             .allowMainThreadQueries()
             .build()
 
@@ -190,9 +192,9 @@ class ConcurrencyRaceConditionTest {
         // Delete the event (a user action during sync)
         database.eventsDao().deleteById(eventId)
 
-        // No foreign key ties the op to the event, so it stays queued; the push then fails it
-        // with "Event not found for MOVE"
+        // A MOVE needs its row, so the delete trigger on events drops it with the row.
         val pendingOps = database.pendingOperationsDao().getForEvent(eventId)
+        assertTrue(pendingOps.isEmpty())
 
         // Verify event is deleted
         val deletedEvent = database.eventsDao().getById(eventId)

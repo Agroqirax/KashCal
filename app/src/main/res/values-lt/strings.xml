@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Įvykių nustatymai</string>
     <string name="settings_section_sync">Sinchronizavimas</string>
     <string name="settings_section_data">Atsarginė kopija ir atkūrimas</string>
+    <string name="settings_section_troubleshooting">Trikčių šalinimas</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Eksportuoti derinimo ataskaitą</string>
+    <string name="debug_report_row_subtitle">Strigčių, sinchronizavimo ir sąrankos informacija pranešimui apie klaidą</string>
+    <string name="debug_report_sheet_title">Derinimo ataskaita</string>
+    <string name="debug_report_sheet_body">Tekstinis failas, kurį gali išsiųsti su pranešimu apie klaidą. Išsiųsk jį netrukus po problemos: programos žurnale saugoma tik naujausia veikla.</string>
+    <string name="debug_report_item_exits">Kodėl programa neseniai užsidarė</string>
+    <string name="debug_report_item_exits_detail">Strigtys, užstrigimai, atminties trūkumas</string>
+    <string name="debug_report_item_log">Programos žurnalas</string>
+    <string name="debug_report_item_log_detail">Paties KashCal pranešimai, įskaitant strigčių informaciją</string>
+    <string name="debug_report_item_sync_detail">Naujausi sinchronizavimai, iki 48 valandų atgal</string>
+    <string name="debug_report_item_pending">Laukiantys pakeitimai</string>
+    <string name="debug_report_item_pending_detail">Pakeitimai, dar neišsiųsti į tavo serverį</string>
+    <string name="debug_report_item_setup">Konfigūracija</string>
+    <string name="debug_report_item_setup_detail">Programos ir Android versija, leidimai, akumuliatoriaus nustatymai, paskyrų tipai</string>
+    <string name="debug_report_privacy_note">El. pašto adresai, žiniatinklio adresai ir prieigos raktai paslėpti. Įvykių pavadinimai, kalendorių pavadinimai ir kontaktų vardai nepaslėpti. Siųsk ataskaitą el. paštu, o ne viešame įraše.</string>
+    <string name="debug_report_share">Bendrinti ataskaitą</string>
+    <string name="debug_report_chooser_title">Bendrinti derinimo ataskaitą</string>
+    <string name="debug_report_failed">Nepavyko sukurti derinimo ataskaitos</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Programos užraktas</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Įvesti tikslų laiką</string>
     <string name="time_entry_dialog_title">Įvesti laiką</string>
     <string name="time_entry_tap_to_edit">Bakstelėkite, kad redaguotumėte</string>
-    <string name="cd_version_info">KashCal versija %1$s. Ilgas paspaudimas derinimo parinkčių.</string>
+    <string name="cd_version_info">KashCal versija %1$s</string>
     <string name="cd_about_setting">Apie %1$s</string>
     <string name="cd_color_slider">Spalvos slankiklis, dabartinė %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d laipsniai</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d matomi</string>
     <string name="label_reminders_truncated">%1$d nerodomi (%2$d iš viso, maks. %3$d redaguojamų)</string>
     <string name="label_found_events">Rasta: %1$d įvykių</string>
-    <string name="label_open_debug_menu">Atidaryti derinimo meniu</string>
     <string name="placeholder_search">Paieška…</string>
     <string name="settings_search_placeholder">Ieškoti nustatymuose…</string>
     <string name="settings_search_no_results">Pagal užklausą \"%1$s\" nustatymų nerasta</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Vietinis</string>
     <string name="device_calendars_read_only_no_write">Tik skaitymas (nėra rašymo leidimo)</string>
     <string name="device_calendars_read_only_calendar">Tik skaitymas (kalendorius tik skaitomas)</string>
-    <string name="settings_developer_options">Kūrėjo parinktys</string>
     <string name="settings_sync_frequency">Sinchronizavimo dažnumas</string>
     <string name="settings_sync_frequency_hint">Kaip dažnai sinchronizuoti fone</string>
 

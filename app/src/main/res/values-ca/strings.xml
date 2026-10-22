@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferències dels esdeveniments</string>
     <string name="settings_section_sync">Sincronització</string>
     <string name="settings_section_data">Còpia de seguretat i restauració</string>
+    <string name="settings_section_troubleshooting">Resolució de problemes</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Exportar informe de depuració</string>
+    <string name="debug_report_row_subtitle">Detalls de fallades, sincronització i configuració per enviar amb un informe d\'error</string>
+    <string name="debug_report_sheet_title">Informe de depuració</string>
+    <string name="debug_report_sheet_body">Un fitxer de text per enviar amb un informe d\'error. Envia\'l poc després del problema: el registre de l\'aplicació només conserva l\'activitat recent.</string>
+    <string name="debug_report_item_exits">Per què s\'ha tancat l\'aplicació recentment</string>
+    <string name="debug_report_item_exits_detail">Fallades, bloquejos, poca memòria</string>
+    <string name="debug_report_item_log">Registre de l\'aplicació</string>
+    <string name="debug_report_item_log_detail">Missatges propis de KashCal, inclosos els detalls de fallades</string>
+    <string name="debug_report_item_sync_detail">Sincronitzacions recents, fins a 48 hores enrere</string>
+    <string name="debug_report_item_pending">Canvis pendents</string>
+    <string name="debug_report_item_pending_detail">Edicions encara no enviades al teu servidor</string>
+    <string name="debug_report_item_setup">Configuració</string>
+    <string name="debug_report_item_setup_detail">Versió de l\'aplicació i d\'Android, permisos, configuració de la bateria, tipus de compte</string>
+    <string name="debug_report_privacy_note">Les adreces electròniques, les adreces web i els tokens queden emmascarats. Els títols dels esdeveniments, els noms dels calendaris i els noms dels contactes, no. Envia\'l per correu electrònic, no el publiquis en línia.</string>
+    <string name="debug_report_share">Compartir informe</string>
+    <string name="debug_report_chooser_title">Compartir informe de depuració</string>
+    <string name="debug_report_failed">No s\'ha pogut crear l\'informe de depuració</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Bloqueig de l\'aplicació</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Introdueix l\'hora exacta</string>
     <string name="time_entry_dialog_title">Introdueix l\'hora</string>
     <string name="time_entry_tap_to_edit">Toca per editar</string>
-    <string name="cd_version_info">KashCal versió %1$s. Premeu llargament per a opcions de depuració.</string>
+    <string name="cd_version_info">KashCal versió %1$s</string>
     <string name="cd_about_setting">Quant a %1$s</string>
     <string name="cd_color_slider">Control lliscant de color, actualment %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d graus</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d visibles</string>
     <string name="label_reminders_truncated">%1$d no mostrats (%2$d en total, màxim %3$d editables)</string>
     <string name="label_found_events">Trobats: %1$d esdeveniments</string>
-    <string name="label_open_debug_menu">Obrir menú de depuració</string>
     <string name="placeholder_search">Cercar…</string>
     <string name="settings_search_placeholder">Cerca a la configuració…</string>
     <string name="settings_search_no_results">No s\'ha trobat res a la configuració per a \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Local</string>
     <string name="device_calendars_read_only_no_write">Només lectura (sense permís d\'escriptura)</string>
     <string name="device_calendars_read_only_calendar">Només lectura (el calendari és de només lectura)</string>
-    <string name="settings_developer_options">Opcions de desenvolupador</string>
     <string name="settings_sync_frequency">Freqüència de sincronització</string>
     <string name="settings_sync_frequency_hint">Cada quan sincronitzar en segon pla</string>
 

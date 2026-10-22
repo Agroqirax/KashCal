@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Оқиға параметрлері</string>
     <string name="settings_section_sync">Синхрондау</string>
     <string name="settings_section_data">Сақтық көшірме &amp; қалпына келтіру</string>
+    <string name="settings_section_troubleshooting">Ақауларды жою</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Жөндеу есебін экспорттау</string>
+    <string name="debug_report_row_subtitle">Қате туралы есеппен бірге жіберілетін құлау, синхрондау және баптау мәліметтері</string>
+    <string name="debug_report_sheet_title">Жөндеу есебі</string>
+    <string name="debug_report_sheet_body">Қате туралы есеппен бірге жіберілетін мәтіндік файл. Оны мәселеден кейін көп ұзамай жіберіңіз: қолданба журналы тек соңғы әрекеттерді сақтайды.</string>
+    <string name="debug_report_item_exits">Қолданба жақында неге жабылды</string>
+    <string name="debug_report_item_exits_detail">Құлаулар, қатып қалу, жадтың аздығы</string>
+    <string name="debug_report_item_log">Қолданба журналы</string>
+    <string name="debug_report_item_log_detail">KashCal-дың өз хабарлары, соның ішінде құлау мәліметтері</string>
+    <string name="debug_report_item_sync_detail">Соңғы синхрондаулар, 48 сағатқа дейін</string>
+    <string name="debug_report_item_pending">Күтудегі өзгерістер</string>
+    <string name="debug_report_item_pending_detail">Серверіңізге әлі жіберілмеген өзгертулер</string>
+    <string name="debug_report_item_setup">Баптау</string>
+    <string name="debug_report_item_setup_detail">Қолданба және Android нұсқасы, рұқсаттар, батарея параметрлері, есептік жазба түрлері</string>
+    <string name="debug_report_privacy_note">Электрондық пошта мекенжайлары, веб-мекенжайлар және токендер жасырылады. Оқиға атаулары, күнтізбе атаулары және контакт аттары жасырылмайды. Оны ашық жазбада емес, электрондық пошта арқылы жіберіңіз.</string>
+    <string name="debug_report_share">Есепті бөлісу</string>
+    <string name="debug_report_chooser_title">Жөндеу есебін бөлісу</string>
+    <string name="debug_report_failed">Жөндеу есебін жасау мүмкін болмады</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Қолданба құлпы</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Нақты уақытты енгізу</string>
     <string name="time_entry_dialog_title">Уақытты енгізу</string>
     <string name="time_entry_tap_to_edit">Өзгерту үшін түртіңіз</string>
-    <string name="cd_version_info">KashCal нұсқасы %1$s. Жөндеу параметрлері үшін ұзақ басыңыз.</string>
+    <string name="cd_version_info">KashCal нұсқасы %1$s</string>
     <string name="cd_about_setting">%1$s туралы</string>
     <string name="cd_color_slider">Түс жүгірткісі, қазіргі %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d градус</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d көрінеді</string>
     <string name="label_reminders_truncated">%1$d көрсетілмейді (барлығы %2$d, макс. %3$d өңделетін)</string>
     <string name="label_found_events">Табылды: %1$d оқиға</string>
-    <string name="label_open_debug_menu">Жөндеу мәзірін ашу</string>
     <string name="placeholder_search">Іздеу…</string>
     <string name="settings_search_placeholder">Параметрлерді іздеу…</string>
     <string name="settings_search_no_results">\"%1$s\" үшін параметрлер табылмады</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Жергілікті</string>
     <string name="device_calendars_read_only_no_write">Тек оқу (жазу рұқсаты жоқ)</string>
     <string name="device_calendars_read_only_calendar">Тек оқу (күнтізбе тек оқуға арналған)</string>
-    <string name="settings_developer_options">Әзірлеуші параметрлері</string>
     <string name="settings_sync_frequency">Синхрондау жиілігі</string>
     <string name="settings_sync_frequency_hint">Фондық режимде қаншалықты жиі синхрондау керектігі</string>
 

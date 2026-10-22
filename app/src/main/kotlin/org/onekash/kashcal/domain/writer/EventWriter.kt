@@ -616,9 +616,10 @@ class EventWriter @Inject constructor(
     /**
      * Deletes an event.
      *
-     * A local or never-synced (PENDING_CREATE) event is removed at once. Any other is marked
-     * PENDING_DELETE, loses its occurrences and queues a DELETE; the row stays until the push
-     * deletes it on the server.
+     * A local or never-synced (PENDING_CREATE) event is removed at once; if it was just moved,
+     * a DELETE of the copy it was moved from stays queued. Any other is marked PENDING_DELETE,
+     * loses its occurrences and queues a DELETE; the row stays until the push deletes it on the
+     * server.
      */
     suspend fun deleteEvent(eventId: Long, isLocal: Boolean = false) {
         database.withTransaction {
@@ -627,8 +628,14 @@ class EventWriter @Inject constructor(
             }
 
             if (isLocal || event.syncStatus == SyncStatus.PENDING_CREATE) {
-                // The FK cascade removes its occurrences, exceptions, attendees, scheduled
-                // reminders and queued CANCELs.
+                // A moved row is PENDING_CREATE but its original is still on the server. Its
+                // MOVE becomes a DELETE of the original, and a cross-account move's DELETE is
+                // unlinked from its CREATE, so both survive the row. Then the FK cascade removes
+                // its occurrences, exceptions, attendees, scheduled reminders and queued CANCELs,
+                // and PendingOperationTriggers removes its other queued operations.
+                val now = System.currentTimeMillis()
+                pendingOpsDao.convertPendingMoveToDelete(eventId, now)
+                pendingOpsDao.unlinkPendingMoveDelete(eventId, now)
                 eventsDao.deleteById(eventId)
             } else {
                 val now = System.currentTimeMillis()

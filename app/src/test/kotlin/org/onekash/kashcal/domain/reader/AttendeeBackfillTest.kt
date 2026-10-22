@@ -94,7 +94,7 @@ class AttendeeBackfillTest {
         coEvery { eventsDao.getById(1L) } returns event(rawIcal = ICS_WITH_ATTENDEES)
         coEvery { attendeesDao.getForEvent(1L) } returns kotlinx.coroutines.flow.flowOf(
             listOf(
-                Attendee(eventId = 1L, address = "/646691839/principal/", sortOrder = 0),
+                Attendee(eventId = 1L, address = "/123456789/principal/", sortOrder = 0),
                 Attendee(eventId = 1L, address = "mailto:alice@example.test", sortOrder = 1)
             )
         )
@@ -238,7 +238,7 @@ class AttendeeBackfillTest {
 
     @Test
     fun `does not write when re-parse yields same address-set as existing rows (F4 idempotent skip)`() = runTest {
-        // The stored `mailto:/646691839/principal/` row is unusable, so the backfill re-parses.
+        // The stored `mailto:/123456789/principal/` row is unusable, so the backfill re-parses.
         // The re-parse yields only the bare principal href, which the usable-address filter
         // drops, so the call returns 0 on the empty result, before the same-set comparison,
         // and never writes. Without that, every sheet open would rewrite the set.
@@ -247,7 +247,7 @@ class AttendeeBackfillTest {
             listOf(
                 Attendee(
                     eventId = 1L,
-                    address = "mailto:/646691839/principal/",
+                    address = "mailto:/123456789/principal/",
                     partstat = "NEEDS-ACTION",
                     sortOrder = 0
                 )
@@ -304,7 +304,7 @@ class AttendeeBackfillTest {
             DTEND:20260315T110000Z
             SUMMARY:Backfill test (degenerate)
             ORGANIZER;CN=Test Organizer:mailto:organizer.synthetic@example.test
-            ATTENDEE;CN=Test User;PARTSTAT=NEEDS-ACTION:/646691839/principal/
+            ATTENDEE;CN=Test User;PARTSTAT=NEEDS-ACTION:/123456789/principal/
             END:VEVENT
             END:VCALENDAR
         """.trimIndent()

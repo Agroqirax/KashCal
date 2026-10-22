@@ -9,10 +9,13 @@ import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
 import org.junit.After
 import org.junit.Before
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -215,16 +218,70 @@ class MigrationHashValidationTest {
     }
 
     /**
-     * Runs the whole chain from a v1 database and validates the result against `26.json`. This
+     * Checks `MIGRATION_26_27` on a fresh v26 database against `27.json`: the schema is unchanged
+     * (the migration adds a trigger, which Room's validation ignores) and the identity hash
+     * matches.
+     */
+    @Test
+    fun `MIGRATION_26_27 produces a schema whose identityHash matches Room's v27 export`() {
+        helper.createDatabase(TEST_DB, 26).close()
+
+        helper.runMigrationsAndValidate(TEST_DB, 27, true, Migrations.MIGRATION_26_27).close()
+    }
+
+    /**
+     * Upgrades a seeded v26 file the way the app does: Room opens it with every migration. The
+     * orphans go, the live operations and the self-contained DELETE stay, and the trigger works.
+     */
+    @Test
+    fun `opening a seeded v26 database with Room upgrades it and keeps live operations`() {
+        helper.createDatabase(TEST_DB, 26).apply {
+            execSQL("INSERT INTO accounts (id, provider, email, created_at) VALUES (1, 'ICLOUD', 'a@example.test', 0)")
+            execSQL("INSERT INTO calendars (id, account_id, caldav_url, display_name, color) VALUES (1, 1, 'https://x/', 'C', 0)")
+            execSQL(
+                "INSERT INTO events (id, uid, calendar_id, title, start_ts, end_ts, timezone, dtstamp, created_at, updated_at) " +
+                    "VALUES (1, 'live', 1, 'Live', 100, 200, 'UTC', 0, 0, 0)"
+            )
+            execSQL("INSERT INTO pending_operations (id, event_id, operation, created_at, updated_at) VALUES (10, 1, 'UPDATE', 0, 0)")
+            execSQL(
+                "INSERT INTO pending_operations (id, event_id, operation, status, created_at, updated_at) " +
+                    "VALUES (11, 99, 'UPDATE', 'ABANDONED', 0, 0)"
+            )
+            execSQL(
+                "INSERT INTO pending_operations (id, event_id, operation, target_url, source_calendar_id, created_at, updated_at) " +
+                    "VALUES (12, 98, 'DELETE', 'https://x/old.ics', 1, 0, 0)"
+            )
+            close()
+        }
+
+        val room = androidx.room.Room.databaseBuilder(
+            androidx.test.core.app.ApplicationProvider.getApplicationContext(),
+            KashCalDatabase::class.java,
+            TEST_DB
+        ).addMigrations(*Migrations.ALL_MIGRATIONS).allowMainThreadQueries().build()
+        try {
+            kotlinx.coroutines.runBlocking {
+                assertEquals(listOf(10L, 12L), room.pendingOperationsDao().getAll().map { it.id }.sorted())
+                room.eventsDao().deleteById(1)
+                assertEquals(listOf(12L), room.pendingOperationsDao().getAll().map { it.id })
+            }
+            assertTrue(PendingOperationTriggers.exists(room.openHelper.readableDatabase))
+        } finally {
+            room.close()
+        }
+    }
+
+    /**
+     * Runs the whole chain from a v1 database and validates the result against `27.json`. This
      * catches drift in an early migration that only shows once later versions build on it.
      */
     @Test
-    fun `full migration chain v1 to v26 produces schema whose identityHash matches Room's export`() {
+    fun `full migration chain v1 to v27 produces schema whose identityHash matches Room's export`() {
         helper.createDatabase(TEST_DB, 1).close()
 
         helper.runMigrationsAndValidate(
             TEST_DB,
-            26,
+            27,
             true,
             Migrations.MIGRATION_1_2,
             Migrations.MIGRATION_2_3,
@@ -251,7 +308,8 @@ class MigrationHashValidationTest {
             Migrations.MIGRATION_22_23,
             Migrations.MIGRATION_23_24,
             Migrations.MIGRATION_24_25,
-            Migrations.MIGRATION_25_26
+            Migrations.MIGRATION_25_26,
+            Migrations.MIGRATION_26_27
         ).close()
     }
 

@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Tosaigh an tSeachtain Ar</string>
     <string name="settings_event_emojis">Emojis Imeachtaí</string>
     <string name="settings_event_emojis_info">Cuireann sé emoji le himeachtaí de réir an teidil, cosúil le 🎂 do \"Breithlá\".</string>
-    <string name="settings_force_sync">Sioncronú Iomláin Éigeantach</string>
+    <string name="settings_force_sync">Sioncronú iomláin éigeantach</string>
     <string name="settings_force_sync_subtitle">Ath-íoslódáil gach sonraí féilire</string>
-    <string name="settings_sync_history">Stair Sioncronúithe</string>
+    <string name="settings_sync_history">Stair sioncronúithe</string>
     <string name="settings_sync_history_subtitle">Féach ar sheisiúin sioncronúithe (48 uair an chloig siar)</string>
     <string name="settings_import_subtitle">Cuir imeachtaí ó chomhad ICS le haon fhéilire</string>
     <string name="settings_export_subtitle">Sábháil imeachtaí chuig comhad ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Roghanna imeachtaí</string>
     <string name="settings_section_sync">Sioncronú</string>
     <string name="settings_section_data">Cúltaca agus athchóiriú</string>
+    <string name="settings_section_troubleshooting">Fabhtcheartú</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Eas-phortáil tuairisc dífhabhtaithe</string>
+    <string name="debug_report_row_subtitle">Sonraí tuairteála, sioncronaithe agus socraithe le seoladh le tuairisc ar fhabht</string>
+    <string name="debug_report_sheet_title">Tuairisc dífhabhtaithe</string>
+    <string name="debug_report_sheet_body">Comhad téacs le seoladh le tuairisc ar fhabht. Seol go luath é tar éis na faidhbe: ní choinníonn loga na haipe ach gníomhaíocht le déanaí.</string>
+    <string name="debug_report_item_exits">Cén fáth ar dhún an aip le déanaí</string>
+    <string name="debug_report_item_exits_detail">Tuairteanna, stopadh freagartha, cuimhne íseal</string>
+    <string name="debug_report_item_log">Loga na haipe</string>
+    <string name="debug_report_item_log_detail">Teachtaireachtaí KashCal féin, sonraí tuairteála san áireamh</string>
+    <string name="debug_report_item_sync_detail">Sioncronúithe le déanaí, suas le 48 uair an chloig siar</string>
+    <string name="debug_report_item_pending">Athruithe ar feitheamh</string>
+    <string name="debug_report_item_pending_detail">Eagarthóireachtaí nach bhfuil seolta chuig d\'fhreastalaí fós</string>
+    <string name="debug_report_item_setup">Socrú</string>
+    <string name="debug_report_item_setup_detail">Leagan na haipe agus Android, ceadanna, socruithe ceallraí, cineálacha cuntais</string>
+    <string name="debug_report_privacy_note">Tá seoltaí ríomhphoist, seoltaí gréasáin agus comharthaí ceilte. Níl teidil imeachtaí, ainmneacha féilirí ná ainmneacha teagmhálaithe ceilte. Seol é trí ríomhphost, ní i bpostáil phoiblí.</string>
+    <string name="debug_report_share">Comhroinn tuairisc</string>
+    <string name="debug_report_chooser_title">Comhroinn tuairisc dífhabhtaithe</string>
+    <string name="debug_report_failed">Níorbh fhéidir an tuairisc dífhabhtaithe a chruthú</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Glas aip</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Cuir isteach an t-am beacht</string>
     <string name="time_entry_dialog_title">Cuir isteach an t-am</string>
     <string name="time_entry_tap_to_edit">Tapáil le heagrú</string>
-    <string name="cd_version_info">KashCal leagan %1$s. Brúigh go fada le haghaidh roghanna dífhabhtaithe.</string>
+    <string name="cd_version_info">KashCal leagan %1$s</string>
     <string name="cd_about_setting">Maidir le %1$s</string>
     <string name="cd_color_slider">Sleamhnán datha, %1$s faoi láthair</string>
     <string name="cd_color_slider_state">%1$s, %2$d céim</string>
@@ -674,7 +694,6 @@
     <string name="label_visible_count">%1$d / %2$d infheicthe</string>
     <string name="label_reminders_truncated">%1$d gan taispeáint (%2$d san iomlán, uasmhéid %3$d ineagarthóireachta)</string>
     <string name="label_found_events">Aimsíodh: %1$d imeacht</string>
-    <string name="label_open_debug_menu">Oscail roghchlár dífhabhtaithe</string>
     <string name="placeholder_search">Cuardaigh…</string>
     <string name="settings_search_placeholder">Cuardaigh socruithe…</string>
     <string name="settings_search_no_results">Níor aimsíodh socruithe le haghaidh \"%1$s\"</string>
@@ -695,7 +714,6 @@
     <string name="device_calendars_local">Áitiúil</string>
     <string name="device_calendars_read_only_no_write">Léitheoireacht amháin (gan cead scríofa)</string>
     <string name="device_calendars_read_only_calendar">Léitheoireacht amháin (féilire léitheoireachta amháin)</string>
-    <string name="settings_developer_options">Roghanna Forbróra</string>
     <string name="settings_sync_frequency">Minicíocht Sioncronúithe</string>
     <string name="settings_sync_frequency_hint">Cé chomh minic is a shioncronaítear sa chúlra</string>
 

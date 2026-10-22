@@ -1,3 +1,11 @@
+## [2026.10.22]
+
+- Added a `Troubleshooting` section to Settings with `Export debug report`, a text file of recent crashes, syncs, waiting changes, setup and the app's own log to send with a bug report; email addresses, web addresses and tokens are masked, #183
+- Moved `Sync history` and `Force full sync` into `Troubleshooting`, replacing the hidden menu behind a long press on the version number
+- Fixed Quick Add not opening from a widget `+`, the `New Event` shortcut or the Quick Settings tile when the app wasn't running; the full event form opened instead, #403
+- Fixed changes to deleted events staying queued for sync and ending in a "couldn't be synced after 30 days" notice; updating clears any already stuck on the phone
+- Fixed deleting an event right after moving it to another calendar, before it synced, leaving the original on the server
+
 ## [2026.10.21]
 
 - Added `Sign In Again` for a CalDAV account whose saved password KashCal can no longer read, prefilled with its server, username and name, keeping its calendars and events, #371

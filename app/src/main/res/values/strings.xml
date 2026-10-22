@@ -291,10 +291,10 @@
     <string name="settings_event_emojis">Event emojis</string>
     <!-- Tooltip explaining the Event emojis toggle -->
     <string name="settings_event_emojis_info">Adds an emoji to events based on the title, like 🎂 for \"Birthday\".</string>
-    <!-- "Force Full Sync" = re-download everything from server -->
-    <string name="settings_force_sync">Force Full Sync</string>
+    <!-- "Force full sync" = re-download everything from server -->
+    <string name="settings_force_sync">Force full sync</string>
     <string name="settings_force_sync_subtitle">Re-download all calendar data</string>
-    <string name="settings_sync_history">Sync History</string>
+    <string name="settings_sync_history">Sync history</string>
     <string name="settings_sync_history_subtitle">View sync sessions (last 48 hours)</string>
     <!-- Keep ".ics" untranslated (file extension) -->
     <string name="settings_import_subtitle">Add events from an ICS file to any calendar</string>
@@ -309,6 +309,29 @@
     <!-- "sync" = synchronize calendar data. Use your platform's standard sync term. -->
     <string name="settings_section_sync">Sync</string>
     <string name="settings_section_data">Backup &amp; restore</string>
+    <string name="settings_section_troubleshooting">Troubleshooting</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Export debug report</string>
+    <string name="debug_report_row_subtitle">Crash, sync and setup details to send with a bug report</string>
+    <string name="debug_report_sheet_title">Debug report</string>
+    <string name="debug_report_sheet_body">A text file to send with a bug report. Send it soon after the problem: the app log keeps only recent activity.</string>
+    <!-- Items listing what the report file contains -->
+    <string name="debug_report_item_exits">Why the app closed recently</string>
+    <string name="debug_report_item_exits_detail">Crashes, freezes, low memory</string>
+    <string name="debug_report_item_log">App log</string>
+    <!-- Keep "KashCal" untranslated -->
+    <string name="debug_report_item_log_detail">KashCal\'s own messages, including crash details</string>
+    <string name="debug_report_item_sync_detail">Recent syncs, up to 48 hours back</string>
+    <string name="debug_report_item_pending">Waiting changes</string>
+    <string name="debug_report_item_pending_detail">Edits not yet sent to your server</string>
+    <string name="debug_report_item_setup">Setup</string>
+    <string name="debug_report_item_setup_detail">App and Android version, permissions, battery settings, account types</string>
+    <string name="debug_report_privacy_note">Email addresses, web addresses and tokens are masked. Event titles, calendar names and contact names are not. Send it by email, not in a public post.</string>
+    <string name="debug_report_share">Share report</string>
+    <!-- Title of the Android share menu for the report file -->
+    <string name="debug_report_chooser_title">Share debug report</string>
+    <string name="debug_report_failed">Couldn\'t create the debug report</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <!-- Settings toggle. Keep "KashCal" untranslated. -->
@@ -633,7 +656,7 @@
     <string name="time_entry_dialog_title">Enter time</string>
     <string name="time_entry_tap_to_edit">Tap to edit</string>
     <!-- %1$s = version name -->
-    <string name="cd_version_info">KashCal version %1$s. Long press for debug options.</string>
+    <string name="cd_version_info">KashCal version %1$s</string>
     <!-- Accessibility label for the info (ⓘ) button next to a setting. %1$s = setting name -->
     <string name="cd_about_setting">About %1$s</string>
     <!-- %1$s = color name (e.g., "Red", "Blue") -->
@@ -1019,7 +1042,6 @@
     <string name="label_reminders_truncated">%1$d not shown (%2$d total, max %3$d editable)</string>
     <!-- %1$d = event count found from ICS fetch -->
     <string name="label_found_events">Found: %1$d events</string>
-    <string name="label_open_debug_menu">Open debug menu</string>
     <string name="placeholder_search">Search…</string>
     <string name="settings_search_placeholder">Search settings…</string>
     <string name="settings_search_no_results">No settings found for \"%1$s\"</string>
@@ -1044,7 +1066,6 @@
     <string name="device_calendars_read_only_no_write">Read only (no write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (calendar is read-only)</string>
 
-    <string name="settings_developer_options">Developer Options</string>
     <string name="settings_sync_frequency">Sync frequency</string>
     <string name="settings_sync_frequency_hint">How often to sync in the background</string>
     <!-- Section header: feature is in preview/beta (uppercase label) -->

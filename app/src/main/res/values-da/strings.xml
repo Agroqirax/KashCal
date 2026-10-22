@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Begivenhedsindstillinger</string>
     <string name="settings_section_sync">Synkronisering</string>
     <string name="settings_section_data">Sikkerhedskopi &amp; gendannelse</string>
+    <string name="settings_section_troubleshooting">Fejlfinding</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Eksporter fejlfindingsrapport</string>
+    <string name="debug_report_row_subtitle">Nedbruds-, synkroniserings- og opsætningsdetaljer til en fejlrapport</string>
+    <string name="debug_report_sheet_title">Fejlfindingsrapport</string>
+    <string name="debug_report_sheet_body">En tekstfil, du kan sende med en fejlrapport. Send den kort efter problemet: appens log gemmer kun den seneste aktivitet.</string>
+    <string name="debug_report_item_exits">Hvorfor appen lukkede for nylig</string>
+    <string name="debug_report_item_exits_detail">Nedbrud, frysninger, lav hukommelse</string>
+    <string name="debug_report_item_log">Applog</string>
+    <string name="debug_report_item_log_detail">KashCals egne beskeder, inklusive nedbrudsdetaljer</string>
+    <string name="debug_report_item_sync_detail">Seneste synkroniseringer, op til 48 timer tilbage</string>
+    <string name="debug_report_item_pending">Ventende ændringer</string>
+    <string name="debug_report_item_pending_detail">Ændringer, der endnu ikke er sendt til din server</string>
+    <string name="debug_report_item_setup">Opsætning</string>
+    <string name="debug_report_item_setup_detail">App- og Android-version, tilladelser, batteriindstillinger, kontotyper</string>
+    <string name="debug_report_privacy_note">E-mailadresser, webadresser og tokens skjules. Begivenhedstitler, kalendernavne og kontaktnavne skjules ikke. Send den via e-mail, ikke i et offentligt opslag.</string>
+    <string name="debug_report_share">Del rapport</string>
+    <string name="debug_report_chooser_title">Del fejlfindingsrapport</string>
+    <string name="debug_report_failed">Kunne ikke oprette fejlfindingsrapporten</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">App-lås</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Indtast præcist klokkeslæt</string>
     <string name="time_entry_dialog_title">Indtast klokkeslæt</string>
     <string name="time_entry_tap_to_edit">Tryk for at redigere</string>
-    <string name="cd_version_info">KashCal version %1$s. Tryk længe for debug-muligheder.</string>
+    <string name="cd_version_info">KashCal version %1$s</string>
     <string name="cd_about_setting">Om %1$s</string>
     <string name="cd_color_slider">Farveskyder, aktuelt %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d grader</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d synlige</string>
     <string name="label_reminders_truncated">%1$d ikke vist (%2$d i alt, maks %3$d redigerbare)</string>
     <string name="label_found_events">Fundet: %1$d begivenheder</string>
-    <string name="label_open_debug_menu">Åbn debug-menu</string>
     <string name="placeholder_search">Søg…</string>
     <string name="settings_search_placeholder">Søg i indstillinger…</string>
     <string name="settings_search_no_results">Ingen indstillinger fundet for \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Lokal</string>
     <string name="device_calendars_read_only_no_write">Skrivebeskyttet (ingen skrivetilladelse)</string>
     <string name="device_calendars_read_only_calendar">Skrivebeskyttet (kalenderen er skrivebeskyttet)</string>
-    <string name="settings_developer_options">Udviklermuligheder</string>
     <string name="settings_sync_frequency">Synkroniseringsfrekvens</string>
     <string name="settings_sync_frequency_hint">Hvor ofte der synkroniseres i baggrunden</string>
 

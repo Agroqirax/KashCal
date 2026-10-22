@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Integrity tests for the pending_operations queue:
- * - Ops outlive a hard-deleted or missing event (no foreign key ties them to it)
+ * - A hard delete of an event drops its ops except a self-contained DELETE
  * - Delete paths for never-synced and SYNCED events
  * - Retry exhaustion at, above and below maxRetries
  * - Ops stuck IN_PROGRESS and their recovery
@@ -50,6 +51,7 @@ class PendingOperationIntegrityTest {
     fun setup() = runTest {
         val context: Context = ApplicationProvider.getApplicationContext()
         database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
+            .addCallback(PendingOperationTriggers.callback())
             .allowMainThreadQueries()
             .build()
 
@@ -77,29 +79,38 @@ class PendingOperationIntegrityTest {
     // ==================== Orphaned Operation Tests ====================
 
     @Test
-    fun `hard delete event with pending operations should leave operations for retry`() = runTest {
+    fun `hard delete of an event drops its row-dependent operations`() = runTest {
         val event = createAndInsertEvent("Event with Pending Op")
-        val eventId = event.id
-
-        // Create pending operation
         val opId = database.pendingOperationsDao().insert(
             PendingOperation(
-                eventId = eventId,
+                eventId = event.id,
                 operation = PendingOperation.OPERATION_UPDATE,
                 status = PendingOperation.STATUS_PENDING
             )
         )
 
-        // Hard delete event (bypassing EventWriter)
-        database.eventsDao().deleteById(eventId)
+        // Bypasses EventWriter: the trigger on events covers every delete route.
+        database.eventsDao().deleteById(event.id)
 
-        // Pending operation should still exist
-        val orphanedOp = database.pendingOperationsDao().getById(opId)
-        assertNotNull("Operation should survive event deletion", orphanedOp)
+        assertNull(database.pendingOperationsDao().getById(opId))
+        assertNull(database.eventsDao().getById(event.id))
+    }
 
-        // Event should be gone
-        val deletedEvent = database.eventsDao().getById(eventId)
-        assertNull(deletedEvent)
+    @Test
+    fun `hard delete of an event keeps a self-contained DELETE`() = runTest {
+        val event = createAndInsertEvent("Moved away, then deleted")
+        val opId = database.pendingOperationsDao().insert(
+            PendingOperation(
+                eventId = event.id,
+                operation = PendingOperation.OPERATION_DELETE,
+                targetUrl = "https://caldav.example.test/old/event.ics",
+                sourceCalendarId = event.calendarId,
+            )
+        )
+
+        database.eventsDao().deleteById(event.id)
+
+        assertNotNull(database.pendingOperationsDao().getById(opId))
     }
 
     @Test

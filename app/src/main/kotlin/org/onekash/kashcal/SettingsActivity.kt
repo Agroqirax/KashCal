@@ -9,7 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -25,6 +27,8 @@ import org.onekash.kashcal.ui.screens.SettingsRoute
 import org.onekash.kashcal.ui.theme.ColorSource
 import org.onekash.kashcal.ui.theme.ThemeMode
 import org.onekash.kashcal.ui.viewmodels.AccountSettingsViewModel
+import org.onekash.kashcal.ui.viewmodels.DebugReportEvent
+import org.onekash.kashcal.ui.viewmodels.DebugReportViewModel
 import org.onekash.kashcal.util.IcsExporter
 import org.onekash.kashcal.util.IcsFileReader
 import org.onekash.kashcal.util.ShareChooser
@@ -52,6 +56,7 @@ class SettingsActivity : FragmentActivity() {
     }
 
     private val viewModel: AccountSettingsViewModel by viewModels()
+    private val debugReportViewModel: DebugReportViewModel by viewModels()
 
     private val localNetworkPermissionManager by lazy {
         LocalNetworkPermissionManager(applicationContext)
@@ -122,7 +127,16 @@ class SettingsActivity : FragmentActivity() {
                         NotificationPermissionManager.PermissionState.PermanentlyDenied
                 },
                 openNotificationSettings = ::openNotificationSettings,
+                onExportDebugReport = debugReportViewModel::export,
             )
+        }
+
+        // The export outlives a rotation in its view model; its result shows only while the
+        // screen is started, so the share menu never opens from the background.
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                debugReportViewModel.events.collect(::showDebugReportEvent)
+            }
         }
 
         // Auto-open iCloud sign-in sheet if launched from onboarding
@@ -149,6 +163,17 @@ class SettingsActivity : FragmentActivity() {
             localNetworkPermissionManager.resolveState(this)
         )
         viewModel.refreshChangeNotifications()
+    }
+
+    private fun showDebugReportEvent(event: DebugReportEvent) {
+        when (event) {
+            is DebugReportEvent.Ready -> startActivity(
+                ShareChooser.createFileChooser(
+                    this, event.uri, "text/plain", getString(R.string.debug_report_chooser_title)
+                )
+            )
+            DebugReportEvent.Failed -> viewModel.showSnackbar(getString(R.string.debug_report_failed))
+        }
     }
 
     /** Opens the system notification settings for [channelId]'s channel, or the app's when null. */

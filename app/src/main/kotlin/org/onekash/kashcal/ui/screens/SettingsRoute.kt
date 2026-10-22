@@ -128,6 +128,7 @@ fun SettingsRoute(
     // a channel id, the app's for null).
     isNotificationPermissionPermanentlyDenied: suspend () -> Boolean = { false },
     openNotificationSettings: (channelId: String?) -> Unit = {},
+    onExportDebugReport: () -> Unit = {},
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(initialValue = initialThemeMode)
     val colorSource by viewModel.colorSource.collectAsStateWithLifecycle(initialValue = initialColorSource)
@@ -739,8 +740,9 @@ fun SettingsRoute(
                             localNetworkPermissionState = localNetworkPermissionState,
                             onRequestLocalNetwork = onRequestLocalNetwork,
                             onSubscriptionDialogOpened = onSubscriptionDialogOpened,
-                            // System
+                            // Troubleshooting
                             onShowSyncLogs = { showDebugLogSheet = true },
+                            onExportDebugReport = onExportDebugReport,
                             // Default reminders and event duration
                             defaultReminderTimed = defaultReminderTimed,
                             defaultReminderAllDay = defaultReminderAllDay,

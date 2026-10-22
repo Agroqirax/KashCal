@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Tapahtuma-asetukset</string>
     <string name="settings_section_sync">Synkronointi</string>
     <string name="settings_section_data">Varmuuskopiointi ja palautus</string>
+    <string name="settings_section_troubleshooting">Vianmääritys</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Vie vianetsintäraportti</string>
+    <string name="debug_report_row_subtitle">Kaatumis-, synkronointi- ja asetustiedot vikailmoituksen liitteeksi</string>
+    <string name="debug_report_sheet_title">Vianetsintäraportti</string>
+    <string name="debug_report_sheet_body">Tekstitiedosto, jonka voit lähettää vikailmoituksen mukana. Lähetä se pian ongelman jälkeen: sovelluksen loki säilyttää vain viimeaikaiset toiminnot.</string>
+    <string name="debug_report_item_exits">Miksi sovellus sulkeutui äskettäin</string>
+    <string name="debug_report_item_exits_detail">Kaatumiset, jumiutumiset, vähäinen muisti</string>
+    <string name="debug_report_item_log">Sovelluksen loki</string>
+    <string name="debug_report_item_log_detail">KashCalin omat viestit, kaatumistiedot mukaan lukien</string>
+    <string name="debug_report_item_sync_detail">Viimeaikaiset synkronoinnit enintään 48 tunnin ajalta</string>
+    <string name="debug_report_item_pending">Odottavat muutokset</string>
+    <string name="debug_report_item_pending_detail">Muokkaukset, joita ei ole vielä lähetetty palvelimellesi</string>
+    <string name="debug_report_item_setup">Kokoonpano</string>
+    <string name="debug_report_item_setup_detail">Sovelluksen ja Androidin versio, käyttöoikeudet, akkuasetukset, tilityypit</string>
+    <string name="debug_report_privacy_note">Sähköpostiosoitteet, verkko-osoitteet ja käyttötunnisteet on piilotettu. Tapahtumien nimiä, kalentereiden nimiä ja yhteystietojen nimiä ei ole piilotettu. Lähetä se sähköpostilla, älä julkisessa viestissä.</string>
+    <string name="debug_report_share">Jaa raportti</string>
+    <string name="debug_report_chooser_title">Jaa vianetsintäraportti</string>
+    <string name="debug_report_failed">Vianetsintäraportin luonti epäonnistui</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Sovelluslukko</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Syötä tarkka aika</string>
     <string name="time_entry_dialog_title">Syötä aika</string>
     <string name="time_entry_tap_to_edit">Muokkaa napauttamalla</string>
-    <string name="cd_version_info">KashCal versio %1$s. Paina pitkään virheenkorjausvaihtoehtoja varten.</string>
+    <string name="cd_version_info">KashCal versio %1$s</string>
     <string name="cd_about_setting">Tietoja: %1$s</string>
     <string name="cd_color_slider">Väriliukusäädin, tällä hetkellä %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d astetta</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d näkyvissä</string>
     <string name="label_reminders_truncated">%1$d ei näytetty (%2$d yhteensä, enintään %3$d muokattavissa)</string>
     <string name="label_found_events">Löydetty: %1$d tapahtumaa</string>
-    <string name="label_open_debug_menu">Avaa virheenkorjausvalikko</string>
     <string name="placeholder_search">Hae…</string>
     <string name="settings_search_placeholder">Hae asetuksista…</string>
     <string name="settings_search_no_results">Haulla \"%1$s\" ei löytynyt asetuksia</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Paikallinen</string>
     <string name="device_calendars_read_only_no_write">Vain luku (ei kirjoitusoikeutta)</string>
     <string name="device_calendars_read_only_calendar">Vain luku (kalenteri on vain luku -tilassa)</string>
-    <string name="settings_developer_options">Kehittäjäasetukset</string>
     <string name="settings_sync_frequency">Synkronointitiheys</string>
     <string name="settings_sync_frequency_hint">Kuinka usein taustalla synkronoidaan</string>
 

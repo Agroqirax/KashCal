@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">සිදුවීම් අභිප්‍රේත</string>
     <string name="settings_section_sync">සමමුහුර්තය</string>
     <string name="settings_section_data">උපස්ථ &amp; ප්‍රතිසාධන</string>
+    <string name="settings_section_troubleshooting">දෝෂ නිරාකරණය</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">නිදොස්කරණ වාර්තාව නිර්යාත කරන්න</string>
+    <string name="debug_report_row_subtitle">දෝෂ වාර්තාවක් සමඟ යැවීමට බිඳවැටීම්, සමමුහුර්ත සහ වින්‍යාස විස්තර</string>
+    <string name="debug_report_sheet_title">නිදොස්කරණ වාර්තාව</string>
+    <string name="debug_report_sheet_body">දෝෂ වාර්තාවක් සමඟ යැවීමට පෙළ ගොනුවක්. ගැටලුවෙන් පසු ඉක්මනින් එය යවන්න: යෙදුම් ලොගය මෑත ක්‍රියාකාරකම් පමණක් තබා ගනී.</string>
+    <string name="debug_report_item_exits">යෙදුම මෑතකදී වැසුණේ ඇයි</string>
+    <string name="debug_report_item_exits_detail">බිඳවැටීම්, ප්‍රතිචාර නොදැක්වීම්, අඩු මතකය</string>
+    <string name="debug_report_item_log">යෙදුම් ලොගය</string>
+    <string name="debug_report_item_log_detail">බිඳවැටීම් විස්තර ඇතුළුව KashCal හි ම පණිවිඩ</string>
+    <string name="debug_report_item_sync_detail">මෑත සමමුහුර්ත, පැය 48ක් දක්වා පෙර</string>
+    <string name="debug_report_item_pending">පොරොත්තු වෙනස්කම්</string>
+    <string name="debug_report_item_pending_detail">ඔබේ සේවාදායකයට තවම නොයැවූ සංස්කරණ</string>
+    <string name="debug_report_item_setup">වින්‍යාසය</string>
+    <string name="debug_report_item_setup_detail">යෙදුම සහ Android අනුවාදය, අවසර, බැටරි සැකසීම්, ගිණුම් වර්ග</string>
+    <string name="debug_report_privacy_note">ඊමේල් ලිපින, වෙබ් ලිපින සහ ටෝකන සඟවා ඇත. සිදුවීම් මාතෘකා, දින දර්ශන නම් සහ සම්බන්ධතා නම් සඟවා නැත. එය ඊමේල් මගින් යවන්න, පොදු පළකිරීමක නොවේ.</string>
+    <string name="debug_report_share">වාර්තාව බෙදාගන්න</string>
+    <string name="debug_report_chooser_title">නිදොස්කරණ වාර්තාව බෙදාගන්න</string>
+    <string name="debug_report_failed">නිදොස්කරණ වාර්තාව සෑදිය නොහැකි විය</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">යෙදුම් අගුල</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">නිශ්චිත වේලාව ඇතුළු කරන්න</string>
     <string name="time_entry_dialog_title">වේලාව ඇතුළු කරන්න</string>
     <string name="time_entry_tap_to_edit">සංස්කරණය කිරීමට තට්ටු කරන්න</string>
-    <string name="cd_version_info">KashCal අනුවාදය %1$s. නිදොස්කරණ විකල්ප සඳහා දිගු ඔබන්න.</string>
+    <string name="cd_version_info">KashCal අනුවාදය %1$s</string>
     <string name="cd_about_setting">%1$s පිළිබඳ</string>
     <string name="cd_color_slider">වර්ණ ස්ලයිඩරය, දැනට %1$s</string>
     <string name="cd_color_slider_state">%1$s, අංශක %2$d</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d දෘශ්‍ය</string>
     <string name="label_reminders_truncated">%1$d නොපෙන්වයි (%2$d මුළු, උපරිම %3$d සංස්කරණය කළ හැකි)</string>
     <string name="label_found_events">හමු විය: සිදුවීම් %1$d</string>
-    <string name="label_open_debug_menu">නිදොස්කරණ මෙනුව විවෘත කරන්න</string>
     <string name="placeholder_search">සොයන්න…</string>
     <string name="settings_search_placeholder">සැකසීම් සොයන්න…</string>
     <string name="settings_search_no_results">\"%1$s\" සඳහා සැකසීම් හමු නොවීය</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">දේශීය</string>
     <string name="device_calendars_read_only_no_write">කියවීමට පමණයි (ලිවීමේ අවසරය නැත)</string>
     <string name="device_calendars_read_only_calendar">කියවීමට පමණයි (කියවීමට පමණක් දින දර්ශනය)</string>
-    <string name="settings_developer_options">සංවර්ධක විකල්ප</string>
     <string name="settings_sync_frequency">සමමුහුර්ත වාරිකතාව</string>
     <string name="settings_sync_frequency_hint">පසුබිමින් කොපමණ වාර ගණනක් සමමුහුර්ත කරනවාද</string>
 

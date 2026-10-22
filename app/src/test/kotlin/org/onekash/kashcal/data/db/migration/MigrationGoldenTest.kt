@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
@@ -325,11 +326,31 @@ class MigrationGoldenTest {
                 assertTrue("Should have at least one event", events.isNotEmpty())
                 assertEquals("room-compat-test", events.first().uid)
             }
+            // A trigger lives outside Room's schema check, so a table rebuild could drop it
+            // silently, and a migration's copy of its SQL could fall behind; the chain must end
+            // with the trigger a fresh install gets.
+            val fresh = Room.inMemoryDatabaseBuilder(RuntimeEnvironment.getApplication(), KashCalDatabase::class.java)
+                .addCallback(PendingOperationTriggers.callback())
+                .build()
+            try {
+                assertEquals(
+                    triggerSql(fresh.openHelper.readableDatabase),
+                    triggerSql(roomDb.openHelper.readableDatabase),
+                )
+            } finally {
+                fresh.close()
+            }
         } finally {
             roomDb.close()
             RuntimeEnvironment.getApplication().deleteDatabase("migration-compat-test")
         }
     }
+
+    private fun triggerSql(db: SupportSQLiteDatabase): String? =
+        db.query(
+            "SELECT sql FROM sqlite_master WHERE type = 'trigger' AND name = ?",
+            arrayOf(PendingOperationTriggers.EVENT_DELETE_TRIGGER),
+        ).use { if (it.moveToFirst()) it.getString(0) else null }
 
     /**
      * Creates the exported v6 schema's tables, indexes and FTS triggers, plus room_master_table.

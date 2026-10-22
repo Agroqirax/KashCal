@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">ပွဲ ဦးစားပေးများ</string>
     <string name="settings_section_sync">ချိန်ကိုက်ခြင်း</string>
     <string name="settings_section_data">အရန်ကူး &amp; ပြန်ယူ</string>
+    <string name="settings_section_troubleshooting">ပြဿနာဖြေရှင်းခြင်း</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">ဒီဘတ် အစီရင်ခံစာ ထုတ်ယူ</string>
+    <string name="debug_report_row_subtitle">ချို့ယွင်းချက် အစီရင်ခံစာနှင့်အတူ ပို့ရန် ပျက်ကျမှု၊ ချိန်ကိုက်မှုနှင့် စနစ်ပြင်ဆင်မှု အသေးစိတ်</string>
+    <string name="debug_report_sheet_title">ဒီဘတ် အစီရင်ခံစာ</string>
+    <string name="debug_report_sheet_body">ချို့ယွင်းချက် အစီရင်ခံစာနှင့်အတူ ပို့ရန် စာသားဖိုင်။ ပြဿနာဖြစ်ပြီးနောက် မကြာမီ ပို့ပါ- အက်ပ်မှတ်တမ်းသည် မကြာသေးမီက လုပ်ဆောင်ချက်များကိုသာ သိမ်းထားသည်။</string>
+    <string name="debug_report_item_exits">အက်ပ် မကြာသေးမီက ပိတ်သွားရသည့် အကြောင်းရင်း</string>
+    <string name="debug_report_item_exits_detail">ပျက်ကျမှု၊ တုံ့ပြန်မှုရပ်ခြင်း၊ မမ်မိုရီနည်းခြင်း</string>
+    <string name="debug_report_item_log">အက်ပ်မှတ်တမ်း</string>
+    <string name="debug_report_item_log_detail">ပျက်ကျမှု အသေးစိတ်များ အပါအဝင် KashCal ၏ ကိုယ်ပိုင် မက်ဆေ့ချ်များ</string>
+    <string name="debug_report_item_sync_detail">မကြာသေးမီက ချိန်ကိုက်မှုများ၊ ၄၈ နာရီ အထိ</string>
+    <string name="debug_report_item_pending">စောင့်ဆိုင်းနေသော ပြောင်းလဲမှုများ</string>
+    <string name="debug_report_item_pending_detail">သင့်ဆာဗာသို့ မပို့ရသေးသော ပြင်ဆင်မှုများ</string>
+    <string name="debug_report_item_setup">စနစ်ပြင်ဆင်မှု</string>
+    <string name="debug_report_item_setup_detail">အက်ပ်နှင့် Android ဗားရှင်း၊ ခွင့်ပြုချက်များ၊ ဘက်ထရီ ဆက်တင်များ၊ အကောင့် အမျိုးအစားများ</string>
+    <string name="debug_report_privacy_note">အီးမေးလ်လိပ်စာများ၊ ဝဘ်လိပ်စာများနှင့် တိုကင်များကို ဖုံးကွယ်ထားသည်။ ပွဲခေါင်းစဉ်များ၊ ပြက္ခဒိန်အမည်များနှင့် အဆက်အသွယ်အမည်များကို မဖုံးကွယ်ပါ။ အီးမေးလ်ဖြင့် ပို့ပါ၊ အများမြင်နိုင်သော ပို့စ်တွင် မတင်ပါနှင့်။</string>
+    <string name="debug_report_share">အစီရင်ခံစာ မျှဝေ</string>
+    <string name="debug_report_chooser_title">ဒီဘတ် အစီရင်ခံစာ မျှဝေ</string>
+    <string name="debug_report_failed">ဒီဘတ် အစီရင်ခံစာကို ဖန်တီး၍ မရပါ</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">အက်ပ်လော့ခ်</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">အချိန်အတိအကျ ထည့်ပါ</string>
     <string name="time_entry_dialog_title">အချိန် ထည့်ပါ</string>
     <string name="time_entry_tap_to_edit">ပြင်ရန် တို့ပါ</string>
-    <string name="cd_version_info">KashCal ဗားရှင်း %1$s။ ဒီဘတ်ရွေးစရာများအတွက် ကြာကြာ နှိပ်ပါ။</string>
+    <string name="cd_version_info">KashCal ဗားရှင်း %1$s</string>
     <string name="cd_about_setting">%1$s အကြောင်း</string>
     <string name="cd_color_slider">အရောင်ဆလိုက်ဒါ၊ လက်ရှိ %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d ဒီဂရီ</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d မြင်နိုင်</string>
     <string name="label_reminders_truncated">%1$d ခု မပြထား (%2$d ခု စုစုပေါင်း, အများဆုံး %3$d ခု ပြင်ဆင်နိုင်)</string>
     <string name="label_found_events">တွေ့ရှိ: ပွဲ %1$d ခု</string>
-    <string name="label_open_debug_menu">ဒီဘတ်မီနူး ဖွင့်</string>
     <string name="placeholder_search">ရှာဖွေ…</string>
     <string name="settings_search_placeholder">ဆက်တင်များ ရှာရန်…</string>
     <string name="settings_search_no_results">\"%1$s\" အတွက် ဆက်တင် မတွေ့ပါ</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">ဒေသဆိုင်ရာ</string>
     <string name="device_calendars_read_only_no_write">ဖတ်ရုံ (ရေးသားခွင့် မရှိ)</string>
     <string name="device_calendars_read_only_calendar">ဖတ်ရုံ (ပြက္ခဒိန်သည် ဖတ်ရုံသာ)</string>
-    <string name="settings_developer_options">ဆော့ဖ်ဝဲရေးသားသူ ရွေးစရာများ</string>
     <string name="settings_sync_frequency">ချိန်ကိုက် အကြိမ်နှုန်း</string>
     <string name="settings_sync_frequency_hint">နောက်ခံတွင် မည်မျှ မကြာခဏ ချိန်ကိုက်မည်</string>
 

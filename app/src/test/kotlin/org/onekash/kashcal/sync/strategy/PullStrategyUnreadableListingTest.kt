@@ -16,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
@@ -69,6 +70,7 @@ class PullStrategyUnreadableListingTest {
         )
         val context: Context = ApplicationProvider.getApplicationContext()
         database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
+            .addCallback(PendingOperationTriggers.callback())
             .allowMainThreadQueries().build()
         database.accountsDao().insert(account)
         pullStrategy = PullStrategy(

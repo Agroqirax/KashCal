@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Sündmuste seaded</string>
     <string name="settings_section_sync">Sünkroonimine</string>
     <string name="settings_section_data">Varundus ja taastamine</string>
+    <string name="settings_section_troubleshooting">Tõrkeotsing</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Ekspordi silumisaruanne</string>
+    <string name="debug_report_row_subtitle">Krahhide, sünkroonimise ja seadistuse andmed veaaruande jaoks</string>
+    <string name="debug_report_sheet_title">Silumisaruanne</string>
+    <string name="debug_report_sheet_body">Tekstifail, mille saad veaaruandega kaasa saata. Saada see varsti pärast probleemi: rakenduse logi säilitab ainult hiljutise tegevuse.</string>
+    <string name="debug_report_item_exits">Miks rakendus hiljuti sulgus</string>
+    <string name="debug_report_item_exits_detail">Krahhid, hangumised, vähene mälu</string>
+    <string name="debug_report_item_log">Rakenduse logi</string>
+    <string name="debug_report_item_log_detail">KashCali enda teated, sealhulgas krahhide üksikasjad</string>
+    <string name="debug_report_item_sync_detail">Hiljutised sünkroonimised, kuni 48 tundi tagasi</string>
+    <string name="debug_report_item_pending">Ootel muudatused</string>
+    <string name="debug_report_item_pending_detail">Muudatused, mida pole veel su serverisse saadetud</string>
+    <string name="debug_report_item_setup">Seadistus</string>
+    <string name="debug_report_item_setup_detail">Rakenduse ja Androidi versioon, load, aku seaded, kontotüübid</string>
+    <string name="debug_report_privacy_note">E-posti aadressid, veebiaadressid ja juurdepääsulubade tõendid on peidetud. Sündmuste pealkirjad, kalendrite nimed ja kontaktide nimed ei ole peidetud. Saada see e-postiga, mitte avalikus postituses.</string>
+    <string name="debug_report_share">Jaga aruannet</string>
+    <string name="debug_report_chooser_title">Jaga silumisaruannet</string>
+    <string name="debug_report_failed">Silumisaruannet ei õnnestunud luua</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Rakenduse lukk</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Sisesta täpne aeg</string>
     <string name="time_entry_dialog_title">Sisesta aeg</string>
     <string name="time_entry_tap_to_edit">Puuduta muutmiseks</string>
-    <string name="cd_version_info">KashCal versioon %1$s. Pikk vajutus silumisvalikute jaoks.</string>
+    <string name="cd_version_info">KashCal versioon %1$s</string>
     <string name="cd_about_setting">Teave: %1$s</string>
     <string name="cd_color_slider">Värvi liugur, praegu %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d kraadi</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d nähtav</string>
     <string name="label_reminders_truncated">%1$d pole kuvatud (%2$d kokku, maks %3$d muudetav)</string>
     <string name="label_found_events">Leitud: %1$d sündmust</string>
-    <string name="label_open_debug_menu">Ava silumismenüü</string>
     <string name="placeholder_search">Otsi…</string>
     <string name="settings_search_placeholder">Otsi seadetest…</string>
     <string name="settings_search_no_results">Päringule \"%1$s\" seadeid ei leitud</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Kohalik</string>
     <string name="device_calendars_read_only_no_write">Ainult lugemine (kirjutamisõigus puudub)</string>
     <string name="device_calendars_read_only_calendar">Ainult lugemine (kalender on kirjutuskaitstud)</string>
-    <string name="settings_developer_options">Arendaja valikud</string>
     <string name="settings_sync_frequency">Sünkroonimise sagedus</string>
     <string name="settings_sync_frequency_hint">Kui sageli taustal sünkroonida</string>
 

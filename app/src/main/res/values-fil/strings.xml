@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Simula ng Linggo</string>
     <string name="settings_event_emojis">Mga Emoji ng Event</string>
     <string name="settings_event_emojis_info">Nagdaragdag ng emoji sa mga kaganapan batay sa pamagat, tulad ng 🎂 para sa \"Kaarawan\".</string>
-    <string name="settings_force_sync">Force Full Sync</string>
+    <string name="settings_force_sync">Force full sync</string>
     <string name="settings_force_sync_subtitle">I-download muli ang lahat ng data ng kalendaryo</string>
-    <string name="settings_sync_history">Kasaysayan ng Sync</string>
+    <string name="settings_sync_history">Kasaysayan ng sync</string>
     <string name="settings_sync_history_subtitle">Tingnan ang mga sync session (huling 48 oras)</string>
     <string name="settings_import_subtitle">Magdagdag ng mga event mula sa ICS file sa anumang kalendaryo</string>
     <string name="settings_export_subtitle">I-save ang mga event sa ICS file</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Mga kagustuhan sa kaganapan</string>
     <string name="settings_section_sync">Sync</string>
     <string name="settings_section_data">Backup &amp; Restore</string>
+    <string name="settings_section_troubleshooting">Pag-troubleshoot</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">I-export ang debug report</string>
+    <string name="debug_report_row_subtitle">Mga detalye ng crash, sync at setup na ipapadala kasama ng bug report</string>
+    <string name="debug_report_sheet_title">Debug report</string>
+    <string name="debug_report_sheet_body">Isang text file na ipapadala kasama ng bug report. Ipadala ito agad pagkatapos ng problema: mga kamakailang aktibidad lang ang itinatago ng app log.</string>
+    <string name="debug_report_item_exits">Bakit nagsara ang app kamakailan</string>
+    <string name="debug_report_item_exits_detail">Mga crash, pag-freeze, kulang na memory</string>
+    <string name="debug_report_item_log">App log</string>
+    <string name="debug_report_item_log_detail">Mga sariling mensahe ng KashCal, kasama ang mga detalye ng crash</string>
+    <string name="debug_report_item_sync_detail">Mga kamakailang sync, hanggang 48 oras ang nakalipas</string>
+    <string name="debug_report_item_pending">Mga nakabinbing pagbabago</string>
+    <string name="debug_report_item_pending_detail">Mga edit na hindi pa naipapadala sa iyong server</string>
+    <string name="debug_report_item_setup">Setup</string>
+    <string name="debug_report_item_setup_detail">Bersyon ng app at Android, mga pahintulot, mga setting ng baterya, mga uri ng account</string>
+    <string name="debug_report_privacy_note">Nakatago ang mga email address, web address at token. Hindi nakatago ang mga pamagat ng event, pangalan ng kalendaryo at pangalan ng contact. Ipadala ito sa email, huwag i-post sa publiko.</string>
+    <string name="debug_report_share">Ibahagi ang ulat</string>
+    <string name="debug_report_chooser_title">Ibahagi ang debug report</string>
+    <string name="debug_report_failed">Hindi magawa ang debug report</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Lock ng app</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Ilagay ang eksaktong oras</string>
     <string name="time_entry_dialog_title">Ilagay ang oras</string>
     <string name="time_entry_tap_to_edit">I-tap para i-edit</string>
-    <string name="cd_version_info">KashCal bersyon %1$s. Pindutin nang matagal para sa mga debug option.</string>
+    <string name="cd_version_info">KashCal bersyon %1$s</string>
     <string name="cd_about_setting">Tungkol sa %1$s</string>
     <string name="cd_color_slider">Color slider, kasalukuyang %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d degrees</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d nakikita</string>
     <string name="label_reminders_truncated">%1$d hindi ipinakita (%2$d kabuuan, max %3$d na mae-edit)</string>
     <string name="label_found_events">Natagpuan: %1$d event</string>
-    <string name="label_open_debug_menu">Buksan ang debug menu</string>
     <string name="placeholder_search">Maghanap…</string>
     <string name="settings_search_placeholder">Maghanap ng mga setting…</string>
     <string name="settings_search_no_results">Walang nahanap na setting para sa \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Lokal</string>
     <string name="device_calendars_read_only_no_write">Read only (walang write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (read-only ang kalendaryo)</string>
-    <string name="settings_developer_options">Mga Developer Option</string>
     <string name="settings_sync_frequency">Dalas ng Sync</string>
     <string name="settings_sync_frequency_hint">Gaano kadalas mag-sync sa background</string>
 

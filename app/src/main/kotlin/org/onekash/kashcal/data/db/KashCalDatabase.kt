@@ -76,7 +76,7 @@ import org.onekash.kashcal.data.db.entity.SyncLog
         ScheduledReminder::class,
         SyncLog::class
     ],
-    version = 26,
+    version = 27,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(from = 3, to = 4)
@@ -126,7 +126,8 @@ abstract class KashCalDatabase : RoomDatabase() {
 
         /**
          * Returns a create callback for test databases: it installs the triggers that keep a
-         * master's uid unique per calendar and seeds the default tags. Production uses its own
+         * master's uid unique per calendar and the [PendingOperationTriggers] trigger, and seeds
+         * the default tags. Production uses its own
          * copy in [org.onekash.kashcal.di.DatabaseModule]; keep the two in step.
          *
          * Triggers stand in for a partial unique index because Room doesn't validate triggers.
@@ -136,8 +137,9 @@ abstract class KashCalDatabase : RoomDatabase() {
         private val databaseCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                Log.d(TAG, "Creating triggers for master event deduplication")
+                Log.d(TAG, "Creating triggers and starter tags")
                 createMasterEventUniqueTriggers(db)
+                PendingOperationTriggers.create(db)
                 seedDefaultCategories(db)
             }
         }

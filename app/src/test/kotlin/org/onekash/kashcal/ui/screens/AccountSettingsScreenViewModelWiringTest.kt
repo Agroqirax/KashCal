@@ -9,6 +9,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -146,7 +147,7 @@ class AccountSettingsScreenViewModelWiringTest {
         return vm
     }
 
-    private fun setRoute(vm: AccountSettingsViewModel) {
+    private fun setRoute(vm: AccountSettingsViewModel, onExportDebugReport: () -> Unit = {}) {
         composeTestRule.setContent {
             SettingsRoute(
                 viewModel = vm,
@@ -161,8 +162,37 @@ class AccountSettingsScreenViewModelWiringTest {
                 previewIcsInRoom = { _, _ -> error("not used") },
                 writeBackup = { _, _ -> },
                 readBackup = { error("not used") },
+                onExportDebugReport = onExportDebugReport,
             )
         }
+    }
+
+    @Test
+    fun `share report reaches the route's export lambda once`() {
+        val vm = mockVm(widget = 8, weekNumbers = false)
+        var exports = 0
+        setRoute(vm, onExportDebugReport = { exports++ })
+
+        composeTestRule.onNodeWithText("Export debug report").performClick()
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Share report").performClick()
+        composeTestRule.waitForIdle()
+
+        assertEquals(1, exports)
+        verify(exactly = 0) { vm.forceFullSync() }
+    }
+
+    @Test
+    fun `force full sync confirm drives the VM once`() {
+        val vm = mockVm(widget = 8, weekNumbers = false)
+        setRoute(vm)
+
+        composeTestRule.onNodeWithText("Force full sync").performClick()
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Sync Now").performClick()
+        composeTestRule.waitForIdle()
+
+        verify(exactly = 1) { vm.forceFullSync() }
     }
 
     @Test

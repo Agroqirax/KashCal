@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Mulai Minggu Pada</string>
     <string name="settings_event_emojis">Emoji Acara</string>
     <string name="settings_event_emojis_info">Menambahkan emoji ke acara berdasarkan judulnya, seperti 🎂 untuk \"Ulang tahun\".</string>
-    <string name="settings_force_sync">Sinkronisasi Paksa Penuh</string>
+    <string name="settings_force_sync">Sinkronisasi paksa penuh</string>
     <string name="settings_force_sync_subtitle">Unduh ulang semua data kalender</string>
-    <string name="settings_sync_history">Riwayat Sinkronisasi</string>
+    <string name="settings_sync_history">Riwayat sinkronisasi</string>
     <string name="settings_sync_history_subtitle">Lihat sesi sinkronisasi (48 jam terakhir)</string>
     <string name="settings_import_subtitle">Tambahkan acara dari file ICS ke kalender mana pun</string>
     <string name="settings_export_subtitle">Simpan acara ke file ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferensi acara</string>
     <string name="settings_section_sync">Sinkronisasi</string>
     <string name="settings_section_data">Cadangkan &amp; Pulihkan</string>
+    <string name="settings_section_troubleshooting">Pemecahan masalah</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Ekspor laporan debug</string>
+    <string name="debug_report_row_subtitle">Detail crash, sinkronisasi, dan konfigurasi untuk dikirim bersama laporan bug</string>
+    <string name="debug_report_sheet_title">Laporan debug</string>
+    <string name="debug_report_sheet_body">File teks untuk dikirim bersama laporan bug. Kirim segera setelah masalah terjadi: log aplikasi hanya menyimpan aktivitas terbaru.</string>
+    <string name="debug_report_item_exits">Alasan aplikasi ditutup baru-baru ini</string>
+    <string name="debug_report_item_exits_detail">Crash, macet, memori rendah</string>
+    <string name="debug_report_item_log">Log aplikasi</string>
+    <string name="debug_report_item_log_detail">Pesan KashCal sendiri, termasuk detail crash</string>
+    <string name="debug_report_item_sync_detail">Sinkronisasi terbaru, hingga 48 jam terakhir</string>
+    <string name="debug_report_item_pending">Perubahan tertunda</string>
+    <string name="debug_report_item_pending_detail">Hasil edit yang belum dikirim ke server Anda</string>
+    <string name="debug_report_item_setup">Konfigurasi</string>
+    <string name="debug_report_item_setup_detail">Versi aplikasi dan Android, izin, pengaturan baterai, jenis akun</string>
+    <string name="debug_report_privacy_note">Alamat email, alamat web, dan token disamarkan. Judul acara, nama kalender, dan nama kontak tidak disamarkan. Kirim melalui email, jangan diposting di tempat umum.</string>
+    <string name="debug_report_share">Bagikan laporan</string>
+    <string name="debug_report_chooser_title">Bagikan laporan debug</string>
+    <string name="debug_report_failed">Tidak dapat membuat laporan debug</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Kunci aplikasi</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Masukkan waktu persis</string>
     <string name="time_entry_dialog_title">Masukkan waktu</string>
     <string name="time_entry_tap_to_edit">Ketuk untuk mengedit</string>
-    <string name="cd_version_info">KashCal versi %1$s. Tekan lama untuk opsi debug.</string>
+    <string name="cd_version_info">KashCal versi %1$s</string>
     <string name="cd_about_setting">Tentang %1$s</string>
     <string name="cd_color_slider">Penggeser warna, saat ini %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d derajat</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d terlihat</string>
     <string name="label_reminders_truncated">%1$d tidak ditampilkan (%2$d total, maks %3$d dapat diedit)</string>
     <string name="label_found_events">Ditemukan: %1$d acara</string>
-    <string name="label_open_debug_menu">Buka menu debug</string>
     <string name="placeholder_search">Cari…</string>
     <string name="settings_search_placeholder">Cari pengaturan…</string>
     <string name="settings_search_no_results">Tidak ada pengaturan ditemukan untuk \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Lokal</string>
     <string name="device_calendars_read_only_no_write">Hanya-baca (tidak ada izin tulis)</string>
     <string name="device_calendars_read_only_calendar">Hanya-baca (kalender hanya-baca)</string>
-    <string name="settings_developer_options">Opsi Pengembang</string>
     <string name="settings_sync_frequency">Frekuensi Sinkronisasi</string>
     <string name="settings_sync_frequency_hint">Seberapa sering menyinkronkan di latar belakang</string>
 

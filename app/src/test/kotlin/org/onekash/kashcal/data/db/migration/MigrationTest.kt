@@ -17,6 +17,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
@@ -2233,11 +2234,187 @@ class MigrationTest {
         assertTrue(columnExists("events", "import_source"))
     }
 
+    // ==================== Migration 26 -> 27 ====================
+
+    private fun migrateUpToV26() {
+        migrateUpToV25()
+        Migrations.MIGRATION_25_26.migrate(db)
+    }
+
+    private fun insertEvent(id: Long, calendarId: Long = 1) {
+        db.execSQL(
+            "INSERT INTO events (id, uid, calendar_id, title, start_ts, end_ts, timezone, dtstamp, created_at, updated_at) " +
+                "VALUES ($id, 'uid-$id', $calendarId, 'Title $id', 100, 200, 'UTC', 55, 0, 0)"
+        )
+    }
+
+    private fun insertOp(
+        id: Long,
+        eventId: Long,
+        operation: String,
+        status: String = "PENDING",
+        targetUrl: String? = null,
+        sourceCalendarId: Long? = null,
+        linkedMoveId: String? = null,
+        partstatOnly: Boolean = false,
+        lastError: String? = null,
+    ) {
+        db.execSQL(
+            "INSERT INTO pending_operations (id, event_id, operation, status, target_url, source_calendar_id, " +
+                "linked_move_id, partstat_only, last_error, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            arrayOf<Any?>(id, eventId, operation, status, targetUrl, sourceCalendarId, linkedMoveId, if (partstatOnly) 1 else 0, lastError, id, id)
+        )
+    }
+
+    private fun opIds(): Set<Long> =
+        db.query("SELECT id FROM pending_operations").use { c -> buildSet { while (c.moveToNext()) add(c.getLong(0)) } }
+
+    /** Every column of every row of [table], as text, for an exact before/after comparison. */
+    private fun rows(table: String): List<List<String?>> =
+        db.query("SELECT * FROM $table ORDER BY rowid").use { c ->
+            buildList { while (c.moveToNext()) add((0 until c.columnCount).map { c.getString(it) }) }
+        }
+
+    /** Seeds orphans of every shape, and one operation of each type and status on live events. */
+    private fun seedV26Queue(): Pair<Set<Long>, Set<Long>> {
+        seedV24Calendars()
+        insertEvent(1); insertEvent(2); insertEvent(3)
+        val live = mutableSetOf<Long>()
+        var id = 100L
+        for (op in listOf("CREATE", "UPDATE", "DELETE", "MOVE", "ATTENDEE_CANCEL")) {
+            for (status in listOf("PENDING", "IN_PROGRESS", "FAILED", "ABANDONED")) {
+                insertOp(id, eventId = 1, operation = op, status = status, targetUrl = "https://x/1.ics", sourceCalendarId = 1)
+                live += id++
+            }
+        }
+        insertOp(id, eventId = 2, operation = "UPDATE", partstatOnly = true, targetUrl = "https://x/2.ics"); live += id++
+        insertOp(id, eventId = 3, operation = "CREATE", linkedMoveId = "live-pair"); live += id++
+        insertOp(id, eventId = 3, operation = "DELETE", targetUrl = "https://x/3.ics", sourceCalendarId = 1, linkedMoveId = "live-pair"); live += id++
+
+        val removed = mutableSetOf<Long>()
+        // Orphans that need their row, in every status.
+        for ((i, op) in listOf("CREATE", "UPDATE", "MOVE", "ATTENDEE_CANCEL").withIndex()) {
+            for (status in listOf("PENDING", "IN_PROGRESS", "FAILED", "ABANDONED")) {
+                insertOp(id, eventId = 900L + i, operation = op, status = status, targetUrl = "https://x/9$i.ics", sourceCalendarId = 1)
+                removed += id++
+            }
+        }
+        insertOp(id, eventId = 910, operation = "UPDATE", partstatOnly = true, targetUrl = "https://x/910.ics"); removed += id++
+        insertOp(id, eventId = 911, operation = "DELETE"); removed += id++
+        // A DELETE folded into an RSVP: a URL but no source calendar, so the push can't run it.
+        insertOp(id, eventId = 912, operation = "DELETE", targetUrl = "https://x/912.ics"); removed += id++
+        // A cross-account pair whose new row is gone: both halves go.
+        insertOp(id, eventId = 913, operation = "CREATE", linkedMoveId = "orphan-pair"); removed += id++
+        insertOp(id, eventId = 913, operation = "DELETE", targetUrl = "https://x/913.ics", sourceCalendarId = 1, linkedMoveId = "orphan-pair"); removed += id++
+        // A self-contained move DELETE whose row is gone on purpose: it stays.
+        insertOp(id, eventId = 914, operation = "DELETE", status = "ABANDONED", targetUrl = "https://x/914.ics", sourceCalendarId = 1)
+        live += id++
+        return live to removed
+    }
+
+    @Test
+    fun `migration 26 to 27 removes orphans that need their row and keeps everything else`() {
+        migrateUpToV26()
+        val (kept, removed) = seedV26Queue()
+        val keptRowsBefore = rows("pending_operations").filter { it[0]!!.toLong() in kept }
+
+        Migrations.MIGRATION_26_27.migrate(db)
+
+        assertEquals(kept, opIds())
+        assertEquals(keptRowsBefore, rows("pending_operations"))
+        assertTrue(removed.none { it in opIds() })
+    }
+
+    @Test
+    fun `migration 26 to 27 leaves events, calendars and accounts unchanged`() {
+        migrateUpToV26()
+        seedV26Queue()
+        val before = listOf("events", "calendars", "accounts", "attendees", "occurrences").map { rows(it) }
+
+        Migrations.MIGRATION_26_27.migrate(db)
+
+        assertEquals(before, listOf("events", "calendars", "accounts", "attendees", "occurrences").map { rows(it) })
+    }
+
+    @Test
+    fun `migration 26 to 27 installs the trigger and later deletes drop their operations`() {
+        migrateUpToV26()
+        seedV26Queue()
+
+        Migrations.MIGRATION_26_27.migrate(db)
+        assertTrue(triggerExists(PendingOperationTriggers.EVENT_DELETE_TRIGGER))
+        db.execSQL("DELETE FROM events WHERE id = 2")
+
+        assertTrue(db.query("SELECT 1 FROM pending_operations WHERE event_id = 2").use { !it.moveToFirst() })
+    }
+
+    @Test
+    fun `migration 26 to 27 is idempotent`() {
+        migrateUpToV26()
+        val (kept, _) = seedV26Queue()
+
+        Migrations.MIGRATION_26_27.migrate(db)
+        val afterFirst = rows("pending_operations")
+        Migrations.MIGRATION_26_27.migrate(db)
+
+        assertEquals(afterFirst, rows("pending_operations"))
+        assertEquals(kept, opIds())
+        assertTrue(triggerExists(PendingOperationTriggers.EVENT_DELETE_TRIGGER))
+    }
+
+    @Test
+    fun `migration 26 to 27 handles a large queue with long errors`() {
+        migrateUpToV26()
+        seedV24Calendars()
+        insertEvent(1)
+        val longError = "x".repeat(4_096)
+        for (i in 1L..5_000L) {
+            insertOp(i, eventId = if (i % 2 == 0L) 1 else 10_000 + i, operation = "UPDATE", status = "ABANDONED", lastError = longError)
+        }
+
+        Migrations.MIGRATION_26_27.migrate(db)
+
+        assertEquals(2_500L, db.query("SELECT COUNT(*) FROM pending_operations").use { it.moveToFirst(); it.getLong(0) })
+    }
+
+    @Test
+    fun `migration 26 to 27 refuses a queue missing a column the trigger reads and changes nothing`() {
+        migrateUpToV26()
+        seedV24Calendars()
+        insertEvent(1)
+        db.execSQL("DROP TABLE pending_operations")
+        db.execSQL(
+            "CREATE TABLE pending_operations (id INTEGER PRIMARY KEY NOT NULL, event_id INTEGER NOT NULL, " +
+                "operation TEXT NOT NULL, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)"
+        )
+        db.execSQL("INSERT INTO pending_operations VALUES (1, 99, 'UPDATE', 0, 0)")
+
+        var threw = false
+        try {
+            Migrations.MIGRATION_26_27.migrate(db)
+        } catch (e: IllegalStateException) {
+            threw = true
+        }
+
+        assertTrue(threw)
+        assertEquals(setOf(1L), opIds())
+        assertFalse(triggerExists(PendingOperationTriggers.EVENT_DELETE_TRIGGER))
+    }
+
+    @Test
+    fun `full migration chain 1 to 27 executes without error`() {
+        migrateUpToV26()
+
+        Migrations.MIGRATION_26_27.migrate(db)
+
+        assertTrue(triggerExists(PendingOperationTriggers.EVENT_DELETE_TRIGGER))
+    }
+
     // ==================== Migration Chain/Registry Tests ====================
 
     @Test
     fun `all migrations array contains expected migrations`() {
-        assertEquals(24, Migrations.ALL_MIGRATIONS.size)
+        assertEquals(25, Migrations.ALL_MIGRATIONS.size)
     }
 
     @Test
@@ -2292,12 +2469,14 @@ class MigrationTest {
         assertEquals(25, migrations[22].endVersion)
         assertEquals(25, migrations[23].startVersion)
         assertEquals(26, migrations[23].endVersion)
+        assertEquals(26, migrations[24].startVersion)
+        assertEquals(27, migrations[24].endVersion)
     }
 
     @Test
     fun `migration versions form valid chain with gaps`() {
         val migrations = Migrations.ALL_MIGRATIONS.toList()
-        // Manual: 1→2, 2→3, then 4→5 through 25→26 (3→4 is the AutoMigration)
+        // Manual: 1→2, 2→3, then 4→5 through 26→27 (3→4 is the AutoMigration)
         assertTrue(migrations[0].endVersion == migrations[1].startVersion) // 2
         assertTrue(migrations[2].startVersion == 4) // gap at 3→4
         for (i in 2 until migrations.size - 1) {

@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">일정 환경설정</string>
     <string name="settings_section_sync">동기화</string>
     <string name="settings_section_data">백업 &amp; 복원</string>
+    <string name="settings_section_troubleshooting">문제 해결</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">디버그 보고서 내보내기</string>
+    <string name="debug_report_row_subtitle">버그 신고와 함께 보낼 충돌, 동기화, 환경 정보</string>
+    <string name="debug_report_sheet_title">디버그 보고서</string>
+    <string name="debug_report_sheet_body">버그 신고와 함께 보낼 텍스트 파일이에요. 문제가 생긴 직후에 보내 주세요. 앱 로그에는 최근 활동만 남아요.</string>
+    <string name="debug_report_item_exits">최근 앱이 종료된 이유</string>
+    <string name="debug_report_item_exits_detail">충돌, 멈춤, 메모리 부족</string>
+    <string name="debug_report_item_log">앱 로그</string>
+    <string name="debug_report_item_log_detail">KashCal 자체 메시지(충돌 정보 포함)</string>
+    <string name="debug_report_item_sync_detail">최근 동기화(최대 48시간 전까지)</string>
+    <string name="debug_report_item_pending">전송 대기 중인 변경 사항</string>
+    <string name="debug_report_item_pending_detail">아직 서버로 보내지 않은 편집 내용</string>
+    <string name="debug_report_item_setup">환경 정보</string>
+    <string name="debug_report_item_setup_detail">앱 및 Android 버전, 권한, 배터리 설정, 계정 유형</string>
+    <string name="debug_report_privacy_note">이메일 주소, 웹 주소, 토큰은 가려져요. 일정 제목, 캘린더 이름, 연락처 이름은 가려지지 않아요. 공개 게시물로 올리지 말고 이메일로 보내 주세요.</string>
+    <string name="debug_report_share">보고서 공유</string>
+    <string name="debug_report_chooser_title">디버그 보고서 공유</string>
+    <string name="debug_report_failed">디버그 보고서를 만들 수 없어요</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">앱 잠금</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">정확한 시간 입력하기</string>
     <string name="time_entry_dialog_title">시간 입력</string>
     <string name="time_entry_tap_to_edit">탭하여 편집하기</string>
-    <string name="cd_version_info">KashCal 버전 %1$s. 길게 눌러 디버그 옵션 표시.</string>
+    <string name="cd_version_info">KashCal 버전 %1$s</string>
     <string name="cd_about_setting">%1$s 정보</string>
     <string name="cd_color_slider">색상 슬라이더, 현재 %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d도</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d 표시</string>
     <string name="label_reminders_truncated">%1$d개 미표시 (전체 %2$d개, 최대 %3$d개 편집 가능)</string>
     <string name="label_found_events">발견: 일정 %1$d개</string>
-    <string name="label_open_debug_menu">디버그 메뉴 열기</string>
     <string name="placeholder_search">검색…</string>
     <string name="settings_search_placeholder">설정 검색…</string>
     <string name="settings_search_no_results">\"%1$s\"에 대한 설정이 없어요</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">로컬</string>
     <string name="device_calendars_read_only_no_write">읽기 전용 (쓰기 권한 없음)</string>
     <string name="device_calendars_read_only_calendar">읽기 전용 (읽기 전용 캘린더)</string>
-    <string name="settings_developer_options">개발자 옵션</string>
     <string name="settings_sync_frequency">동기화 주기</string>
     <string name="settings_sync_frequency_hint">백그라운드에서 동기화하는 주기</string>
 

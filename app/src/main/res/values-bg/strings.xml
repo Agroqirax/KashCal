@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Предпочитания за събития</string>
     <string name="settings_section_sync">Синхронизиране</string>
     <string name="settings_section_data">Архивиране и възстановяване</string>
+    <string name="settings_section_troubleshooting">Отстраняване на проблеми</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Експортиране на диагностичен отчет</string>
+    <string name="debug_report_row_subtitle">Подробности за сривове, синхронизиране и конфигурация, които да изпратите с доклад за грешка</string>
+    <string name="debug_report_sheet_title">Диагностичен отчет</string>
+    <string name="debug_report_sheet_body">Текстов файл, който да изпратите с доклад за грешка. Изпратете го скоро след проблема: дневникът на приложението пази само скорошната активност.</string>
+    <string name="debug_report_item_exits">Защо приложението се е затваряло наскоро</string>
+    <string name="debug_report_item_exits_detail">Сривове, блокирания, недостиг на памет</string>
+    <string name="debug_report_item_log">Дневник на приложението</string>
+    <string name="debug_report_item_log_detail">Собствените съобщения на KashCal, включително подробности за сривове</string>
+    <string name="debug_report_item_sync_detail">Скорошни синхронизации, до 48 часа назад</string>
+    <string name="debug_report_item_pending">Чакащи промени</string>
+    <string name="debug_report_item_pending_detail">Редакции, които още не са изпратени към вашия сървър</string>
+    <string name="debug_report_item_setup">Конфигурация</string>
+    <string name="debug_report_item_setup_detail">Версия на приложението и Android, разрешения, настройки на батерията, типове профили</string>
+    <string name="debug_report_privacy_note">Имейл адресите, уеб адресите и токените за достъп са скрити. Заглавията на събития, имената на календари и имената на контакти не са. Изпратете го по имейл, а не в публична публикация.</string>
+    <string name="debug_report_share">Споделяне на отчета</string>
+    <string name="debug_report_chooser_title">Споделяне на диагностичния отчет</string>
+    <string name="debug_report_failed">Диагностичният отчет не можа да бъде създаден</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Заключване на приложението</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Въведете точен час</string>
     <string name="time_entry_dialog_title">Въведете час</string>
     <string name="time_entry_tap_to_edit">Докоснете за редактиране</string>
-    <string name="cd_version_info">KashCal версия %1$s. Дълго натискане за опции за отстраняване на грешки.</string>
+    <string name="cd_version_info">KashCal версия %1$s</string>
     <string name="cd_about_setting">Относно %1$s</string>
     <string name="cd_color_slider">Плъзгач за цвят, текущо %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d градуса</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d видими</string>
     <string name="label_reminders_truncated">%1$d не са показани (%2$d общо, макс. %3$d редактируеми)</string>
     <string name="label_found_events">Намерени: %1$d събития</string>
-    <string name="label_open_debug_menu">Отвори менюто за отстраняване на грешки</string>
     <string name="placeholder_search">Търсене…</string>
     <string name="settings_search_placeholder">Търсене в настройките…</string>
     <string name="settings_search_no_results">Няма намерени настройки за \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Локален</string>
     <string name="device_calendars_read_only_no_write">Само за четене (няма разрешение за запис)</string>
     <string name="device_calendars_read_only_calendar">Само за четене (календарът е само за четене)</string>
-    <string name="settings_developer_options">Опции за разработчици</string>
     <string name="settings_sync_frequency">Честота на синхронизиране</string>
     <string name="settings_sync_frequency_hint">Колко често да се синхронизира на заден план</string>
 

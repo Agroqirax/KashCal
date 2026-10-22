@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferenze eventi</string>
     <string name="settings_section_sync">Sincronizzazione</string>
     <string name="settings_section_data">Backup e ripristino</string>
+    <string name="settings_section_troubleshooting">Risoluzione dei problemi</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Esporta report di debug</string>
+    <string name="debug_report_row_subtitle">Dettagli su arresti anomali, sincronizzazione e configurazione da inviare con una segnalazione di bug</string>
+    <string name="debug_report_sheet_title">Report di debug</string>
+    <string name="debug_report_sheet_body">Un file di testo da inviare con una segnalazione di bug. Invialo subito dopo il problema: il log dell\'app conserva solo l\'attività recente.</string>
+    <string name="debug_report_item_exits">Perché l\'app si è chiusa di recente</string>
+    <string name="debug_report_item_exits_detail">Arresti anomali, blocchi, memoria insufficiente</string>
+    <string name="debug_report_item_log">Log dell\'app</string>
+    <string name="debug_report_item_log_detail">Messaggi di KashCal, inclusi i dettagli degli arresti anomali</string>
+    <string name="debug_report_item_sync_detail">Sincronizzazioni recenti, fino a 48 ore fa</string>
+    <string name="debug_report_item_pending">Modifiche in attesa</string>
+    <string name="debug_report_item_pending_detail">Modifiche non ancora inviate al tuo server</string>
+    <string name="debug_report_item_setup">Configurazione</string>
+    <string name="debug_report_item_setup_detail">Versione dell\'app e di Android, autorizzazioni, impostazioni della batteria, tipi di account</string>
+    <string name="debug_report_privacy_note">Indirizzi e-mail, indirizzi web e token sono mascherati. Titoli degli eventi, nomi dei calendari e nomi dei contatti no. Invialo via e-mail, non in un post pubblico.</string>
+    <string name="debug_report_share">Condividi report</string>
+    <string name="debug_report_chooser_title">Condividi report di debug</string>
+    <string name="debug_report_failed">Impossibile creare il report di debug</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Blocco dell\'app</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Inserisci l\'ora esatta</string>
     <string name="time_entry_dialog_title">Inserisci l\'ora</string>
     <string name="time_entry_tap_to_edit">Tocca per modificare</string>
-    <string name="cd_version_info">KashCal versione %1$s. Tieni premuto per le opzioni di debug.</string>
+    <string name="cd_version_info">KashCal versione %1$s</string>
     <string name="cd_about_setting">Informazioni su %1$s</string>
     <string name="cd_color_slider">Cursore colore, attualmente %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d gradi</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d visibili</string>
     <string name="label_reminders_truncated">%1$d non mostrati (%2$d totali, max %3$d modificabili)</string>
     <string name="label_found_events">Trovati: %1$d eventi</string>
-    <string name="label_open_debug_menu">Apri menu debug</string>
     <string name="placeholder_search">Cerca…</string>
     <string name="settings_search_placeholder">Cerca impostazioni…</string>
     <string name="settings_search_no_results">Nessuna impostazione trovata per \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Locale</string>
     <string name="device_calendars_read_only_no_write">Sola lettura (nessun permesso di scrittura)</string>
     <string name="device_calendars_read_only_calendar">Sola lettura (calendario in sola lettura)</string>
-    <string name="settings_developer_options">Opzioni sviluppatore</string>
     <string name="settings_sync_frequency">Frequenza di sincronizzazione</string>
     <string name="settings_sync_frequency_hint">Ogni quanto sincronizzare in secondo piano</string>
 

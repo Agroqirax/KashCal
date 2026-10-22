@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Eseménybeállítások</string>
     <string name="settings_section_sync">Szinkronizálás</string>
     <string name="settings_section_data">Mentés és visszaállítás</string>
+    <string name="settings_section_troubleshooting">Hibaelhárítás</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Hibakeresési jelentés exportálása</string>
+    <string name="debug_report_row_subtitle">Összeomlási, szinkronizálási és konfigurációs adatok hibabejelentéshez</string>
+    <string name="debug_report_sheet_title">Hibakeresési jelentés</string>
+    <string name="debug_report_sheet_body">Egy szövegfájl, amelyet hibabejelentéshez csatolhatsz. Küldd el nem sokkal a probléma után: az alkalmazásnapló csak a legutóbbi tevékenységet őrzi meg.</string>
+    <string name="debug_report_item_exits">Miért záródott be nemrég az alkalmazás</string>
+    <string name="debug_report_item_exits_detail">Összeomlások, lefagyások, kevés memória</string>
+    <string name="debug_report_item_log">Alkalmazásnapló</string>
+    <string name="debug_report_item_log_detail">A KashCal saját üzenetei, az összeomlások részleteivel együtt</string>
+    <string name="debug_report_item_sync_detail">Legutóbbi szinkronizálások, legfeljebb 48 órára visszamenőleg</string>
+    <string name="debug_report_item_pending">Várakozó módosítások</string>
+    <string name="debug_report_item_pending_detail">A szerverre még el nem küldött módosítások</string>
+    <string name="debug_report_item_setup">Konfiguráció</string>
+    <string name="debug_report_item_setup_detail">Az alkalmazás és az Android verziója, engedélyek, akkumulátor-beállítások, fióktípusok</string>
+    <string name="debug_report_privacy_note">Az e-mail-címek, a webcímek és a tokenek maszkolva vannak. Az eseménycímek, a naptárnevek és a névjegyek nevei nem. E-mailben küldd el, ne nyilvános bejegyzésben.</string>
+    <string name="debug_report_share">Jelentés megosztása</string>
+    <string name="debug_report_chooser_title">Hibakeresési jelentés megosztása</string>
+    <string name="debug_report_failed">Nem sikerült létrehozni a hibakeresési jelentést</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Alkalmazászár</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Pontos idő megadása</string>
     <string name="time_entry_dialog_title">Idő megadása</string>
     <string name="time_entry_tap_to_edit">Koppints a szerkesztéshez</string>
-    <string name="cd_version_info">KashCal verzió %1$s. Hosszú nyomás a hibakeresési lehetőségekért.</string>
+    <string name="cd_version_info">KashCal verzió %1$s</string>
     <string name="cd_about_setting">%1$s névjegye</string>
     <string name="cd_color_slider">Színcsúszka, jelenleg %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d fok</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d látható</string>
     <string name="label_reminders_truncated">%1$d nem látható (%2$d összesen, max. %3$d szerkeszthető)</string>
     <string name="label_found_events">Találat: %1$d esemény</string>
-    <string name="label_open_debug_menu">Hibakeresési menü megnyitása</string>
     <string name="placeholder_search">Keresés…</string>
     <string name="settings_search_placeholder">Beállítások keresése…</string>
     <string name="settings_search_no_results">Nincs találat erre: \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Helyi</string>
     <string name="device_calendars_read_only_no_write">Csak olvasható (nincs írási engedély)</string>
     <string name="device_calendars_read_only_calendar">Csak olvasható (a naptár csak olvasható)</string>
-    <string name="settings_developer_options">Fejlesztői beállítások</string>
     <string name="settings_sync_frequency">Szinkronizálási gyakoriság</string>
     <string name="settings_sync_frequency_hint">Milyen gyakran szinkronizáljon a háttérben</string>
 

@@ -15,6 +15,8 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.longClick
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -39,11 +41,12 @@ import java.util.Locale
  *
  * - Structure: the sentence-case section headers, the sync rows, the relabelled rows with no
  *   beta badge, and the split timed and all-day alert rows.
- * - Callback wiring: [render] records sixteen callbacks in [Rec] (six `(Int)`, the `(Long)` sync
- *   frequency, five `(Boolean)` toggles and four navigation rows). Each test drives the row the
- *   user touches, asserts its callback fired with a distinct sentinel value, and asserts its
- *   siblings stayed silent. The sibling check is what catches a swap: callbacks of one type
- *   swapped with each other still compile and pass a test that only checks the target fired.
+ * - Callback wiring: [render] records nineteen callbacks in [Rec] (six `(Int)`, the `(Long)` sync
+ *   frequency, five `(Boolean)` toggles, four navigation rows and three troubleshooting actions).
+ *   Each test drives the row the user touches, asserts its callback fired with a distinct
+ *   sentinel value, and asserts its siblings stayed silent. The sibling check is what catches a
+ *   swap: callbacks of one type swapped with each other still compile and pass a test that only
+ *   checks the target fired.
  * - Info tooltips: tapping a toggle's info icon shows its explanation without firing the toggle.
  *
  * Runs under Robolectric; run the class in isolation because of the repo's multi-class
@@ -107,6 +110,11 @@ class AccountSettingsScreenComposeTest {
         var navSubscriptions = 0
         var navBirthdays = 0
         var navDeviceCalendars = 0
+
+        // () -> Unit troubleshooting cluster (counts)
+        var syncHistory = 0
+        var forceFullSync = 0
+        var exportDebugReport = 0
     }
 
     /**
@@ -114,7 +122,7 @@ class AccountSettingsScreenComposeTest {
      * defaults. Seed values are chosen so each row's picker offers a sentinel option distinct from
      * the seed (see the per-row tests).
      */
-    private fun render(rec: Rec = Rec()) {
+    private fun render(rec: Rec = Rec(), searchQuery: String = "") {
         composeTestRule.setContent {
             KashCalTheme {
                 AccountSettingsScreen(
@@ -155,6 +163,12 @@ class AccountSettingsScreenComposeTest {
                     onNavigateToSubscriptions = { rec.navSubscriptions++ },
                     onNavigateToBirthdaysAnniversaries = { rec.navBirthdays++ },
                     onNavigateToDeviceCalendars = { rec.navDeviceCalendars++ },
+                    // Troubleshooting cluster
+                    onShowSyncLogs = { rec.syncHistory++ },
+                    onForceFullSync = { rec.forceFullSync++ },
+                    onExportDebugReport = { rec.exportDebugReport++ },
+                    isSearchActive = searchQuery.isNotEmpty(),
+                    searchQuery = searchQuery,
                     versionName = "1.0.0",
                 )
             }
@@ -238,6 +252,22 @@ class AccountSettingsScreenComposeTest {
         }
     }
 
+    /** Asserts the named troubleshooting callback fired [expected] times and its siblings none. */
+    private fun assertOnlyTroubleshooting(rec: Rec, fired: String, expected: Int = 1) {
+        val all = linkedMapOf(
+            "syncHistory" to rec.syncHistory,
+            "forceFullSync" to rec.forceFullSync,
+            "exportDebugReport" to rec.exportDebugReport,
+        )
+        assertEquals("$fired should fire $expected time(s)", expected, all[fired])
+        all.filterKeys { it != fired }.forEach { (name, count) ->
+            assertEquals("sibling '$name' must stay silent when '$fired' is used", 0, count)
+        }
+        listOf(rec.navAccounts, rec.navSubscriptions, rec.navBirthdays, rec.navDeviceCalendars).forEach {
+            assertEquals("navigation rows must stay silent when '$fired' is used", 0, it)
+        }
+    }
+
     // ==================== Structural guards ====================
 
     @Test
@@ -249,6 +279,7 @@ class AccountSettingsScreenComposeTest {
             "Event preferences",
             "Sync",
             "Backup & restore",
+            "Troubleshooting",
         ).forEach { header ->
             composeTestRule.onNodeWithText(header).assertExists()
         }
@@ -470,6 +501,125 @@ class AccountSettingsScreenComposeTest {
         render(rec)
         composeTestRule.onNodeWithText("Device calendars").performClick()
         assertOnlyNav(rec, fired = "deviceCalendars")
+    }
+
+    // ==================== Troubleshooting ====================
+
+    private fun top(text: String): Float =
+        composeTestRule.onNodeWithText(text).fetchSemanticsNode().boundsInRoot.top
+
+    @Test
+    fun `troubleshooting section follows backup and restore and holds three rows in order`() {
+        render()
+        val tops = listOf(
+            "Backup & restore", "Troubleshooting", "Sync history", "Force full sync", "Export debug report", "KashCal v1.0.0",
+        ).map { top(it) }
+        assertEquals(tops.sorted(), tops)
+        composeTestRule.onNodeWithText("Crash, sync and setup details to send with a bug report").assertExists()
+    }
+
+    @Test
+    fun `sync history row fires only its callback`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Sync history").performClick()
+        assertOnlyTroubleshooting(rec, fired = "syncHistory")
+    }
+
+    @Test
+    fun `force full sync asks first and fires once on Sync Now`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Force full sync").performClick()
+        composeTestRule.onNodeWithText("Force Full Sync?").assertExists()
+        assertEquals(0, rec.forceFullSync)
+
+        composeTestRule.onNodeWithText("Sync Now").performClick()
+
+        assertOnlyTroubleshooting(rec, fired = "forceFullSync")
+        composeTestRule.onNodeWithText("Force Full Sync?").assertDoesNotExist()
+    }
+
+    @Test
+    fun `force full sync cancel fires nothing`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Force full sync").performClick()
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        assertOnlyTroubleshooting(rec, fired = "forceFullSync", expected = 0)
+        composeTestRule.onNodeWithText("Force Full Sync?").assertDoesNotExist()
+    }
+
+    @Test
+    fun `export debug report opens the sheet and Share report fires once`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Export debug report").performClick()
+        // Texts that appear only in the sheet, not on the settings screen behind it.
+        listOf(
+            "Debug report",
+            "Why the app closed recently",
+            "Crashes, freezes, low memory",
+            "KashCal's own messages, including crash details",
+            "Recent syncs, up to 48 hours back",
+            "Edits not yet sent to your server",
+            "App and Android version, permissions, battery settings, account types",
+            "Email addresses, web addresses and tokens are masked. Event titles, calendar names and contact names are not. Send it by email, not in a public post.",
+        ).forEach { text -> composeTestRule.onNodeWithText(text).assertExists() }
+        assertEquals(0, rec.exportDebugReport)
+
+        composeTestRule.onNodeWithText("Share report").performClick()
+        composeTestRule.waitForIdle()
+
+        assertOnlyTroubleshooting(rec, fired = "exportDebugReport")
+        composeTestRule.onNodeWithText("Share report").assertDoesNotExist()
+    }
+
+    @Test
+    fun `report sheet cancel closes without exporting`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Export debug report").performClick()
+        composeTestRule.onNodeWithText("Cancel").performClick()
+        composeTestRule.waitForIdle()
+
+        assertOnlyTroubleshooting(rec, fired = "exportDebugReport", expected = 0)
+        composeTestRule.onNodeWithText("Share report").assertDoesNotExist()
+    }
+
+    @Test
+    fun `settings search finds the sync history row`() {
+        render(searchQuery = "sync history")
+        composeTestRule.onNodeWithText("Sync history", substring = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun `settings search finds the force full sync row`() {
+        render(searchQuery = "force full")
+        composeTestRule.onNodeWithText("Force full sync", substring = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun `settings search finds the export debug report row`() {
+        render(searchQuery = "debug report")
+        composeTestRule.onNodeWithText("Export debug report", substring = true).assertIsDisplayed()
+    }
+
+    // With no long-press handler, a long press on the footer acts as a tap.
+    @Test
+    fun `long press on the version footer acts as a tap`() {
+        render()
+        composeTestRule.onNodeWithText("KashCal v1.0.0").performTouchInput { longClick() }
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Built with Love").assertExists()
+    }
+
+    @Test
+    fun `tap on the version footer opens app info`() {
+        render()
+        composeTestRule.onNodeWithText("KashCal v1.0.0").performClick()
+        composeTestRule.onNodeWithText("Built with Love").assertExists()
     }
 
     // ==================== Calendar notifications ====================

@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">ఈవెంట్ ప్రాధాన్యతలు</string>
     <string name="settings_section_sync">సింక్</string>
     <string name="settings_section_data">బ్యాకప్ &amp; రీస్టోర్</string>
+    <string name="settings_section_troubleshooting">సమస్యల పరిష్కారం</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">డీబగ్ రిపోర్ట్ ఎగుమతి చేయి</string>
+    <string name="debug_report_row_subtitle">బగ్ రిపోర్ట్‌తో పంపడానికి క్రాష్, సింక్ మరియు సెటప్ వివరాలు</string>
+    <string name="debug_report_sheet_title">డీబగ్ రిపోర్ట్</string>
+    <string name="debug_report_sheet_body">బగ్ రిపోర్ట్‌తో పంపడానికి ఒక టెక్స్ట్ ఫైల్. సమస్య వచ్చిన వెంటనే పంపండి: యాప్ లాగ్ ఇటీవలి కార్యకలాపాన్ని మాత్రమే ఉంచుతుంది.</string>
+    <string name="debug_report_item_exits">యాప్ ఇటీవల ఎందుకు మూసుకుపోయింది</string>
+    <string name="debug_report_item_exits_detail">క్రాష్‌లు, యాప్ స్పందించకపోవడం, తక్కువ మెమరీ</string>
+    <string name="debug_report_item_log">యాప్ లాగ్</string>
+    <string name="debug_report_item_log_detail">KashCal స్వంత సందేశాలు, క్రాష్ వివరాలతో సహా</string>
+    <string name="debug_report_item_sync_detail">ఇటీవలి సింక్‌లు, 48 గంటల వరకు</string>
+    <string name="debug_report_item_pending">పంపాల్సిన మార్పులు</string>
+    <string name="debug_report_item_pending_detail">ఇంకా మీ సర్వర్‌కు పంపని సవరణలు</string>
+    <string name="debug_report_item_setup">సెటప్</string>
+    <string name="debug_report_item_setup_detail">యాప్ మరియు Android సంస్కరణ, అనుమతులు, బ్యాటరీ సెట్టింగ్‌లు, ఖాతా రకాలు</string>
+    <string name="debug_report_privacy_note">ఇమెయిల్ చిరునామాలు, వెబ్ చిరునామాలు మరియు టోకెన్‌లు దాచబడతాయి. ఈవెంట్ శీర్షికలు, క్యాలెండర్ పేర్లు మరియు కాంటాక్ట్ పేర్లు దాచబడవు. దీన్ని ఇమెయిల్ ద్వారా పంపండి, పబ్లిక్ పోస్ట్‌లో కాదు.</string>
+    <string name="debug_report_share">రిపోర్ట్ షేర్ చేయి</string>
+    <string name="debug_report_chooser_title">డీబగ్ రిపోర్ట్ షేర్ చేయి</string>
+    <string name="debug_report_failed">డీబగ్ రిపోర్ట్‌ను సృష్టించలేకపోయింది</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">యాప్ లాక్</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ఖచ్చితమైన సమయాన్ని నమోదు చేయండి</string>
     <string name="time_entry_dialog_title">సమయాన్ని నమోదు చేయండి</string>
     <string name="time_entry_tap_to_edit">సవరించడానికి నొక్కండి</string>
-    <string name="cd_version_info">KashCal సంస్కరణ %1$s. డీబగ్ ఎంపికల కోసం ఎక్కువసేపు నొక్కండి.</string>
+    <string name="cd_version_info">KashCal సంస్కరణ %1$s</string>
     <string name="cd_about_setting">%1$s గురించి</string>
     <string name="cd_color_slider">రంగు స్లైడర్, ప్రస్తుతం %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d డిగ్రీలు</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d కనిపిస్తున్నాయి</string>
     <string name="label_reminders_truncated">%1$d చూపబడలేదు (%2$d మొత్తం, గరిష్టం %3$d మార్చగలవి)</string>
     <string name="label_found_events">కనుగొన్నవి: %1$d ఈవెంట్‌లు</string>
-    <string name="label_open_debug_menu">డీబగ్ మెనూ తెరువు</string>
     <string name="placeholder_search">శోధించు…</string>
     <string name="settings_search_placeholder">సెట్టింగ్‌లను శోధించు…</string>
     <string name="settings_search_no_results">\"%1$s\" కోసం సెట్టింగ్‌లు ఏవీ కనుగొనబడలేదు</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">స్థానికం</string>
     <string name="device_calendars_read_only_no_write">చదవడం మాత్రమే (వ్రాత అనుమతి లేదు)</string>
     <string name="device_calendars_read_only_calendar">చదవడం మాత్రమే (క్యాలెండర్ చదవడం-మాత్రమే)</string>
-    <string name="settings_developer_options">డెవలపర్ ఎంపికలు</string>
     <string name="settings_sync_frequency">సింక్ ఫ్రీక్వెన్సీ</string>
     <string name="settings_sync_frequency_hint">బ్యాక్‌గ్రౌండ్‌లో ఎంత తరచుగా సింక్ చేయాలి</string>
 

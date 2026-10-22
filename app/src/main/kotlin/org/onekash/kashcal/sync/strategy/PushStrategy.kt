@@ -164,6 +164,9 @@ class PushStrategy @Inject constructor(
                     deleted++
                     Log.d(TAG, "MOVE operation ${operation.id} advanced to CREATE phase")
                 }
+                is SinglePushResult.Requeued -> {
+                    Log.d(TAG, "Operation ${operation.id} changed while it ran; left as it now is")
+                }
                 is SinglePushResult.Conflict -> {
                     // The recorded "Conflict" error hands the op to ConflictResolver.
                     scheduleRetry(operation, "Conflict: server has newer version")
@@ -311,6 +314,9 @@ class PushStrategy @Inject constructor(
                 }
                 is SinglePushResult.PhaseAdvanced -> {
                     deleted++
+                }
+                is SinglePushResult.Requeued -> {
+                    Log.d(TAG, "Operation ${operation.id} changed while it ran; left as it now is")
                 }
                 is SinglePushResult.Conflict -> {
                     scheduleRetry(operation, "Conflict: server has newer version")
@@ -1118,6 +1124,13 @@ class PushStrategy @Inject constructor(
                         ?: return SinglePushResult.Error(-1, "Null result from MOVE", false)
 
                     val now = System.currentTimeMillis()
+                    // A targeted write, not the in-memory row: the user may have deleted the
+                    // moved event since this push read it, turning the MOVE into a DELETE of the
+                    // URL this MOVE just vacated.
+                    if (pendingOperationsDao.completeMoveAsUpdate(operation.id, now) == 0) {
+                        pendingOperationsDao.retargetConvertedDelete(operation.id, newUrl, targetCalendarId, now)
+                        return SinglePushResult.Requeued
+                    }
                     eventsDao.updateCaldavUrl(event.id, newUrl)
                     eventsDao.updateEtag(event.id, movedEtag)
                     eventsDao.updateSyncStatus(event.id, SyncStatus.PENDING_UPDATE, now)
@@ -1127,7 +1140,6 @@ class PushStrategy @Inject constructor(
                         targetUrl = null,
                         targetCalendarId = null
                     )
-                    pendingOperationsDao.update(updateOp)
 
                     Log.d(TAG, "MOVE succeeded: relocated to $newUrl; pushing current body via UPDATE path")
                     // A fresh cache, so processUpdate sees the row just written (new URL,
@@ -1189,6 +1201,7 @@ class PushStrategy @Inject constructor(
                 // next normal pull picks up any receipt the target server stamps.
 
                 var moveOrphanWarning: String? = null
+                var sourceLeft = false
                 val sourceUrl = operation.targetUrl
                 if (sourceUrl != null) {
                     Log.d(TAG, "MOVE Phase 1: Deleting from source: $sourceUrl")
@@ -1216,10 +1229,30 @@ class PushStrategy @Inject constructor(
                             Log.w(TAG, "MOVE: DELETE from source failed (${delError?.code}): ${delError?.message}")
                             Log.w(TAG, "Event exists in target but may remain in source as orphan")
                             moveOrphanWarning = "MOVE: event may be duplicated — DELETE from source failed (${delError?.code})"
+                            sourceLeft = true
                         }
                     }
                 }
 
+                // As in phase 0: a DELETE converted from this MOVE now points at the copy. If the
+                // original is still on the server it keeps that DELETE, and the copy gets its own.
+                val now = System.currentTimeMillis()
+                if (sourceLeft && sourceUrl != null) {
+                    val sourceCalendarId = operation.sourceCalendarId ?: targetCalendarId
+                    if (pendingOperationsDao.retargetConvertedDelete(operation.id, sourceUrl, sourceCalendarId, now) > 0) {
+                        pendingOperationsDao.insert(
+                            PendingOperation(
+                                eventId = operation.eventId,
+                                operation = PendingOperation.OPERATION_DELETE,
+                                targetUrl = url,
+                                sourceCalendarId = targetCalendarId,
+                            )
+                        )
+                        return SinglePushResult.Requeued
+                    }
+                } else if (pendingOperationsDao.retargetConvertedDelete(operation.id, url, targetCalendarId, now) > 0) {
+                    return SinglePushResult.Requeued
+                }
                 SinglePushResult.Success(newEtag = etag, newUrl = url, warning = moveOrphanWarning)
             }
             createResult.isConflict() -> {

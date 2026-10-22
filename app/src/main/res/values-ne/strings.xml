@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">कार्यक्रम प्राथमिकताहरू</string>
     <string name="settings_section_sync">सिंक</string>
     <string name="settings_section_data">ब्याकअप &amp; रिस्टोर</string>
+    <string name="settings_section_troubleshooting">समस्या समाधान</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">डिबग रिपोर्ट निर्यात गर्नुहोस्</string>
+    <string name="debug_report_row_subtitle">बग रिपोर्टसँग पठाउन क्र्यास, सिंक र सेटअप विवरणहरू</string>
+    <string name="debug_report_sheet_title">डिबग रिपोर्ट</string>
+    <string name="debug_report_sheet_body">बग रिपोर्टसँग पठाउने टेक्स्ट फाइल। समस्या भएको लगत्तै पठाउनुहोस्: एप लगले हालको गतिविधि मात्र राख्छ।</string>
+    <string name="debug_report_item_exits">एप हालै किन बन्द भयो</string>
+    <string name="debug_report_item_exits_detail">क्र्यास, एप अड्किनु, कम मेमोरी</string>
+    <string name="debug_report_item_log">एप लग</string>
+    <string name="debug_report_item_log_detail">KashCal का आफ्नै सन्देशहरू, क्र्यास विवरणसहित</string>
+    <string name="debug_report_item_sync_detail">हालका सिंकहरू, ४८ घण्टा अघिसम्मका</string>
+    <string name="debug_report_item_pending">पठाउन बाँकी परिवर्तनहरू</string>
+    <string name="debug_report_item_pending_detail">तपाईंको सर्भरमा अझै नपठाइएका सम्पादनहरू</string>
+    <string name="debug_report_item_setup">सेटअप</string>
+    <string name="debug_report_item_setup_detail">एप र Android संस्करण, अनुमतिहरू, ब्याट्री सेटिङ, खाताका प्रकारहरू</string>
+    <string name="debug_report_privacy_note">इमेल ठेगाना, वेब ठेगाना र टोकनहरू लुकाइएका छन्। कार्यक्रमका शीर्षक, पात्राका नाम र सम्पर्कका नाम लुकाइएका छैनन्। यसलाई इमेलबाट पठाउनुहोस्, सार्वजनिक पोस्टमा होइन।</string>
+    <string name="debug_report_share">रिपोर्ट साझा गर्नुहोस्</string>
+    <string name="debug_report_chooser_title">डिबग रिपोर्ट साझा गर्नुहोस्</string>
+    <string name="debug_report_failed">डिबग रिपोर्ट बनाउन सकिएन</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">एप लक</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ठ्याक्कै समय प्रविष्ट गर्नुहोस्</string>
     <string name="time_entry_dialog_title">समय प्रविष्ट गर्नुहोस्</string>
     <string name="time_entry_tap_to_edit">सम्पादन गर्न ट्याप गर्नुहोस्</string>
-    <string name="cd_version_info">KashCal संस्करण %1$s। डिबग विकल्पका लागि लामो समय थिच्नुहोस्।</string>
+    <string name="cd_version_info">KashCal संस्करण %1$s</string>
     <string name="cd_about_setting">%1$s का बारेमा</string>
     <string name="cd_color_slider">रंग स्लाइडर, हाल %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d डिग्री</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d दृश्य</string>
     <string name="label_reminders_truncated">%1$d देखाइएको छैन (%2$d जम्मा, अधिकतम %3$d सम्पादनयोग्य)</string>
     <string name="label_found_events">भेटियो: %1$d कार्यक्रम</string>
-    <string name="label_open_debug_menu">डिबग मेनु खोल्नुहोस्</string>
     <string name="placeholder_search">खोज्नुहोस्…</string>
     <string name="settings_search_placeholder">सेटिङ खोज्नुहोस्…</string>
     <string name="settings_search_no_results">\"%1$s\" का लागि कुनै सेटिङ भेटिएन</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">स्थानीय</string>
     <string name="device_calendars_read_only_no_write">पढ्ने मात्र (लेख्ने अनुमति छैन)</string>
     <string name="device_calendars_read_only_calendar">पढ्ने मात्र (पढ्ने-मात्र क्यालेन्डर)</string>
-    <string name="settings_developer_options">विकासकर्ता विकल्पहरू</string>
     <string name="settings_sync_frequency">सिंक आवृत्ति</string>
     <string name="settings_sync_frequency_hint">पृष्ठभूमिमा कति पटक सिंक गर्ने</string>
 

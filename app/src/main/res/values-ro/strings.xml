@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Preferințe eveniment</string>
     <string name="settings_section_sync">Sincronizare</string>
     <string name="settings_section_data">Copie de rezervă &amp; restaurare</string>
+    <string name="settings_section_troubleshooting">Depanare</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Exportă raportul de depanare</string>
+    <string name="debug_report_row_subtitle">Detalii despre blocări, sincronizare și configurare de trimis cu un raport de eroare</string>
+    <string name="debug_report_sheet_title">Raport de depanare</string>
+    <string name="debug_report_sheet_body">Un fișier text de trimis cu un raport de eroare. Trimite-l la scurt timp după problemă: jurnalul aplicației păstrează doar activitatea recentă.</string>
+    <string name="debug_report_item_exits">De ce s-a închis recent aplicația</string>
+    <string name="debug_report_item_exits_detail">Blocări, înghețări, memorie insuficientă</string>
+    <string name="debug_report_item_log">Jurnalul aplicației</string>
+    <string name="debug_report_item_log_detail">Mesajele proprii ale KashCal, inclusiv detaliile blocărilor</string>
+    <string name="debug_report_item_sync_detail">Sincronizări recente, până la 48 de ore în urmă</string>
+    <string name="debug_report_item_pending">Modificări în așteptare</string>
+    <string name="debug_report_item_pending_detail">Modificări care nu au fost încă trimise la serverul tău</string>
+    <string name="debug_report_item_setup">Configurare</string>
+    <string name="debug_report_item_setup_detail">Versiunea aplicației și Android, permisiuni, setări pentru baterie, tipuri de conturi</string>
+    <string name="debug_report_privacy_note">Adresele de e-mail, adresele web și tokenurile de acces sunt mascate. Titlurile evenimentelor, numele calendarelor și numele contactelor nu sunt. Trimite-l prin e-mail, nu într-o postare publică.</string>
+    <string name="debug_report_share">Partajează raportul</string>
+    <string name="debug_report_chooser_title">Partajează raportul de depanare</string>
+    <string name="debug_report_failed">Raportul de depanare nu a putut fi creat</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Blocare aplicație</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Introdu ora exactă</string>
     <string name="time_entry_dialog_title">Introdu ora</string>
     <string name="time_entry_tap_to_edit">Atinge pentru editare</string>
-    <string name="cd_version_info">KashCal versiunea %1$s. Apasă lung pentru opțiuni de depanare.</string>
+    <string name="cd_version_info">KashCal versiunea %1$s</string>
     <string name="cd_about_setting">Despre %1$s</string>
     <string name="cd_color_slider">Cursor culoare, acum %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d grade</string>
@@ -672,7 +692,6 @@
     <string name="label_visible_count">%1$d / %2$d vizibile</string>
     <string name="label_reminders_truncated">%1$d neafișate (%2$d total, max %3$d editabile)</string>
     <string name="label_found_events">Găsite: %1$d evenimente</string>
-    <string name="label_open_debug_menu">Deschide meniul de depanare</string>
     <string name="placeholder_search">Caută…</string>
     <string name="settings_search_placeholder">Caută în setări…</string>
     <string name="settings_search_no_results">Nu s-au găsit setări pentru \"%1$s\"</string>
@@ -693,7 +712,6 @@
     <string name="device_calendars_local">Local</string>
     <string name="device_calendars_read_only_no_write">Doar citire (fără permisiune de scriere)</string>
     <string name="device_calendars_read_only_calendar">Doar citire (calendar doar pentru citire)</string>
-    <string name="settings_developer_options">Opțiuni dezvoltator</string>
     <string name="settings_sync_frequency">Frecvență sincronizare</string>
     <string name="settings_sync_frequency_hint">Cât de des să se sincronizeze în fundal</string>
 

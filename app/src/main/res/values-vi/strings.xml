@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Tùy chọn sự kiện</string>
     <string name="settings_section_sync">Đồng bộ</string>
     <string name="settings_section_data">Sao lưu &amp; khôi phục</string>
+    <string name="settings_section_troubleshooting">Khắc phục sự cố</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Xuất báo cáo gỡ lỗi</string>
+    <string name="debug_report_row_subtitle">Chi tiết sự cố, đồng bộ và cấu hình để gửi kèm báo cáo lỗi</string>
+    <string name="debug_report_sheet_title">Báo cáo gỡ lỗi</string>
+    <string name="debug_report_sheet_body">Một tệp văn bản để gửi kèm báo cáo lỗi. Hãy gửi ngay sau khi gặp sự cố: nhật ký ứng dụng chỉ lưu hoạt động gần đây.</string>
+    <string name="debug_report_item_exits">Lý do ứng dụng đóng gần đây</string>
+    <string name="debug_report_item_exits_detail">Dừng đột ngột, không phản hồi, thiếu bộ nhớ</string>
+    <string name="debug_report_item_log">Nhật ký ứng dụng</string>
+    <string name="debug_report_item_log_detail">Thông báo của chính KashCal, bao gồm chi tiết sự cố</string>
+    <string name="debug_report_item_sync_detail">Các lần đồng bộ gần đây, tối đa 48 giờ trước</string>
+    <string name="debug_report_item_pending">Thay đổi đang chờ</string>
+    <string name="debug_report_item_pending_detail">Các chỉnh sửa chưa được gửi lên máy chủ của bạn</string>
+    <string name="debug_report_item_setup">Cấu hình</string>
+    <string name="debug_report_item_setup_detail">Phiên bản ứng dụng và Android, quyền, cài đặt pin, loại tài khoản</string>
+    <string name="debug_report_privacy_note">Địa chỉ email, địa chỉ web và token được ẩn. Tiêu đề sự kiện, tên lịch và tên liên hệ thì không. Hãy gửi qua email, đừng đăng công khai.</string>
+    <string name="debug_report_share">Chia sẻ báo cáo</string>
+    <string name="debug_report_chooser_title">Chia sẻ báo cáo gỡ lỗi</string>
+    <string name="debug_report_failed">Không thể tạo báo cáo gỡ lỗi</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Khóa ứng dụng</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Nhập thời gian chính xác</string>
     <string name="time_entry_dialog_title">Nhập thời gian</string>
     <string name="time_entry_tap_to_edit">Nhấn để chỉnh sửa</string>
-    <string name="cd_version_info">KashCal phiên bản %1$s. Nhấn giữ để mở tùy chọn gỡ lỗi.</string>
+    <string name="cd_version_info">KashCal phiên bản %1$s</string>
     <string name="cd_about_setting">Giới thiệu về %1$s</string>
     <string name="cd_color_slider">Thanh trượt màu, hiện tại %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d độ</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d hiển thị</string>
     <string name="label_reminders_truncated">%1$d bị ẩn (tổng %2$d, tối đa chỉnh sửa %3$d)</string>
     <string name="label_found_events">Tìm thấy: %1$d sự kiện</string>
-    <string name="label_open_debug_menu">Mở menu gỡ lỗi</string>
     <string name="placeholder_search">Tìm kiếm…</string>
     <string name="settings_search_placeholder">Tìm kiếm cài đặt…</string>
     <string name="settings_search_no_results">Không tìm thấy cài đặt nào cho \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Nội bộ</string>
     <string name="device_calendars_read_only_no_write">Chỉ đọc (không có quyền ghi)</string>
     <string name="device_calendars_read_only_calendar">Chỉ đọc (lịch chỉ đọc)</string>
-    <string name="settings_developer_options">Tùy chọn nhà phát triển</string>
     <string name="settings_sync_frequency">Tần suất đồng bộ</string>
     <string name="settings_sync_frequency_hint">Tần suất đồng bộ chạy nền</string>
 

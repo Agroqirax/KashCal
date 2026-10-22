@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Nastavitve dogodkov</string>
     <string name="settings_section_sync">Sinhronizacija</string>
     <string name="settings_section_data">Varnostna kopija in obnovitev</string>
+    <string name="settings_section_troubleshooting">Odpravljanje težav</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Izvozi diagnostično poročilo</string>
+    <string name="debug_report_row_subtitle">Podrobnosti o zrušitvah, sinhronizaciji in konfiguraciji za prijavo napake</string>
+    <string name="debug_report_sheet_title">Diagnostično poročilo</string>
+    <string name="debug_report_sheet_body">Besedilna datoteka, ki jo priložite prijavi napake. Pošljite jo kmalu po težavi: dnevnik aplikacije hrani le nedavno dejavnost.</string>
+    <string name="debug_report_item_exits">Zakaj se je aplikacija nedavno zaprla</string>
+    <string name="debug_report_item_exits_detail">Zrušitve, zamrznitve, premalo pomnilnika</string>
+    <string name="debug_report_item_log">Dnevnik aplikacije</string>
+    <string name="debug_report_item_log_detail">Lastna sporočila aplikacije KashCal, vključno s podrobnostmi o zrušitvah</string>
+    <string name="debug_report_item_sync_detail">Nedavne sinhronizacije, do 48 ur nazaj</string>
+    <string name="debug_report_item_pending">Čakajoče spremembe</string>
+    <string name="debug_report_item_pending_detail">Spremembe, ki še niso poslane na vaš strežnik</string>
+    <string name="debug_report_item_setup">Konfiguracija</string>
+    <string name="debug_report_item_setup_detail">Različica aplikacije in Androida, dovoljenja, nastavitve baterije, vrste računov</string>
+    <string name="debug_report_privacy_note">E-poštni naslovi, spletni naslovi in žetoni so skriti. Naslovi dogodkov, imena koledarjev in imena stikov niso. Poročilo pošljite po e-pošti, ne v javni objavi.</string>
+    <string name="debug_report_share">Deli poročilo</string>
+    <string name="debug_report_chooser_title">Deli diagnostično poročilo</string>
+    <string name="debug_report_failed">Diagnostičnega poročila ni bilo mogoče ustvariti</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Zaklep aplikacije</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Vnesite točen čas</string>
     <string name="time_entry_dialog_title">Vnesite čas</string>
     <string name="time_entry_tap_to_edit">Tapnite za urejanje</string>
-    <string name="cd_version_info">KashCal različica %1$s. Dolg pritisk za možnosti odpravljanja napak.</string>
+    <string name="cd_version_info">KashCal različica %1$s</string>
     <string name="cd_about_setting">O %1$s</string>
     <string name="cd_color_slider">Drsnik barv, trenutno %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d stopinj</string>
@@ -673,7 +693,6 @@
     <string name="label_visible_count">%1$d / %2$d vidnih</string>
     <string name="label_reminders_truncated">%1$d neprikazanih (%2$d skupno, največ %3$d za urejanje)</string>
     <string name="label_found_events">Najdeno: %1$d dogodkov</string>
-    <string name="label_open_debug_menu">Odpri meni za odpravljanje napak</string>
     <string name="placeholder_search">Iskanje…</string>
     <string name="settings_search_placeholder">Iskanje po nastavitvah…</string>
     <string name="settings_search_no_results">Za \"%1$s\" ni najdenih nastavitev</string>
@@ -694,7 +713,6 @@
     <string name="device_calendars_local">Lokalni</string>
     <string name="device_calendars_read_only_no_write">Samo za branje (ni dovoljenja za pisanje)</string>
     <string name="device_calendars_read_only_calendar">Samo za branje (koledar je samo za branje)</string>
-    <string name="settings_developer_options">Razvojne možnosti</string>
     <string name="settings_sync_frequency">Pogostost sinhronizacije</string>
     <string name="settings_sync_frequency_hint">Kako pogosto sinhronizirati v ozadju</string>
 

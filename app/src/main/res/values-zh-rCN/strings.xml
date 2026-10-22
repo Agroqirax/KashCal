@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">事件偏好设置</string>
     <string name="settings_section_sync">同步</string>
     <string name="settings_section_data">备份与恢复</string>
+    <string name="settings_section_troubleshooting">故障排除</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">导出调试报告</string>
+    <string name="debug_report_row_subtitle">随错误报告发送的崩溃、同步和配置详情</string>
+    <string name="debug_report_sheet_title">调试报告</string>
+    <string name="debug_report_sheet_body">随错误报告发送的文本文件。请在问题出现后尽快发送：应用日志只保留最近的活动。</string>
+    <string name="debug_report_item_exits">应用最近关闭的原因</string>
+    <string name="debug_report_item_exits_detail">崩溃、无响应、内存不足</string>
+    <string name="debug_report_item_log">应用日志</string>
+    <string name="debug_report_item_log_detail">KashCal 自身的消息，包括崩溃详情</string>
+    <string name="debug_report_item_sync_detail">最近的同步，最多回溯 48 小时</string>
+    <string name="debug_report_item_pending">待发送的更改</string>
+    <string name="debug_report_item_pending_detail">尚未发送到服务器的编辑</string>
+    <string name="debug_report_item_setup">配置信息</string>
+    <string name="debug_report_item_setup_detail">应用和 Android 版本、权限、电池设置、账户类型</string>
+    <string name="debug_report_privacy_note">电子邮件地址、网址和令牌会被隐藏。事件标题、日历名称和联系人姓名不会被隐藏。请通过电子邮件发送，不要公开发布。</string>
+    <string name="debug_report_share">分享报告</string>
+    <string name="debug_report_chooser_title">分享调试报告</string>
+    <string name="debug_report_failed">无法创建调试报告</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">应用锁</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">输入精确时间</string>
     <string name="time_entry_dialog_title">输入时间</string>
     <string name="time_entry_tap_to_edit">点按以编辑</string>
-    <string name="cd_version_info">KashCal 版本 %1$s。长按打开调试选项。</string>
+    <string name="cd_version_info">KashCal 版本 %1$s</string>
     <string name="cd_about_setting">关于%1$s</string>
     <string name="cd_color_slider">颜色滑块，当前为 %1$s</string>
     <string name="cd_color_slider_state">%1$s，%2$d 度</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d 可见</string>
     <string name="label_reminders_truncated">%1$d 个未显示（共 %2$d 个，最多可编辑 %3$d 个）</string>
     <string name="label_found_events">发现：%1$d 个事件</string>
-    <string name="label_open_debug_menu">打开调试菜单</string>
     <string name="placeholder_search">搜索…</string>
     <string name="settings_search_placeholder">搜索设置…</string>
     <string name="settings_search_no_results">未找到与 \"%1$s\" 匹配的设置</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">本地</string>
     <string name="device_calendars_read_only_no_write">只读（无写入权限）</string>
     <string name="device_calendars_read_only_calendar">只读（日历为只读）</string>
-    <string name="settings_developer_options">开发者选项</string>
     <string name="settings_sync_frequency">同步频率</string>
     <string name="settings_sync_frequency_hint">后台同步的频率</string>
 

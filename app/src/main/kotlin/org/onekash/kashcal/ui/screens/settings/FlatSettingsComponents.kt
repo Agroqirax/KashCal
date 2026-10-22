@@ -35,8 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -363,35 +361,22 @@ internal fun SettingsInfoButton(info: SettingsRowInfo, compact: Boolean = true) 
 }
 
 /**
- * Shows the app version at the bottom of the settings screen. A tap calls [onClick]; a long
- * press gives haptic feedback and calls [onLongPress], which the settings screen uses to open
- * the debug menu.
+ * Shows the app version at the bottom of the settings screen; a tap calls [onClick].
  *
  * @param versionName app version, for example "2026.09.25-1"
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VersionFooter(
     versionName: String,
     onClick: () -> Unit,
-    onLongPress: () -> Unit
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
     val cdVersionInfo = stringResource(R.string.cd_version_info, versionName)
-    val longClickLabel = stringResource(R.string.label_open_debug_menu)
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 24.dp)
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onLongPress()
-                },
-                onLongClickLabel = longClickLabel
-            )
+            .clickable(onClick = onClick)
             .semantics {
                 contentDescription = cdVersionInfo
             },

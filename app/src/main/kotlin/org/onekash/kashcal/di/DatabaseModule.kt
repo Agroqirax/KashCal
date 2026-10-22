@@ -13,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.onekash.kashcal.data.db.KashCalDatabase
+import org.onekash.kashcal.data.db.PendingOperationTriggers
 import org.onekash.kashcal.data.db.dao.AccountsDao
 import org.onekash.kashcal.data.db.dao.AddressBookDao
 import org.onekash.kashcal.data.db.dao.AttendeesDao
@@ -41,8 +42,8 @@ object DatabaseModule {
     private const val TAG = "DatabaseModule"
 
     /**
-     * Creates the master-uniqueness triggers and seeds the starter tags on a fresh install.
-     * Upgrades get both from [Migrations.ALL_MIGRATIONS] instead.
+     * Creates the master-uniqueness triggers, the [PendingOperationTriggers] trigger and the
+     * starter tags on a fresh install. Upgrades get them from [Migrations.ALL_MIGRATIONS] instead.
      *
      * Triggers stand in for a partial unique index: Room can't declare one in `@Index`, so its
      * schema validation fails on it. They enforce one master per UID in a calendar (RFC 4791
@@ -53,8 +54,9 @@ object DatabaseModule {
     private val databaseCallback = object : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            Log.d(TAG, "Creating triggers for master event deduplication")
+            Log.d(TAG, "Creating triggers and starter tags")
             createMasterEventUniqueTriggers(db)
+            PendingOperationTriggers.create(db)
             seedDefaultCategories(db)
         }
     }

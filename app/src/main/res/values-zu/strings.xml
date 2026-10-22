@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Qala Isonto Ngo</string>
     <string name="settings_event_emojis">Ama-Emoji Omcimbi</string>
     <string name="settings_event_emojis_info">Yengeza i-emoji emicimbini ngokusekelwe kusihloko, njenge 🎂 ku-\"Usuku lokuzalwa\".</string>
-    <string name="settings_force_sync">Phoqelela Ukuvumelanisa Okugcwele</string>
+    <string name="settings_force_sync">Phoqelela ukuvumelanisa okugcwele</string>
     <string name="settings_force_sync_subtitle">Landa kabusha yonke idatha yekhalenda</string>
-    <string name="settings_sync_history">Umlando Wokuvumelanisa</string>
+    <string name="settings_sync_history">Umlando wokuvumelanisa</string>
     <string name="settings_sync_history_subtitle">Buka izinhlelo zokuvumelanisa (amahora angama-48 edlule)</string>
     <string name="settings_import_subtitle">Engeza imicimbi esuka efayeleni le-ICS kunoma yiliphi ikhalenda</string>
     <string name="settings_export_subtitle">Gcina imicimbi efayeleni le-ICS</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Okuncamelayo komcimbi</string>
     <string name="settings_section_sync">Ukuvumelanisa</string>
     <string name="settings_section_data">Isipele &amp; Ukubuyisela</string>
+    <string name="settings_section_troubleshooting">Ukuxazulula izinkinga</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Thumela umbiko wokulungisa amaphutha</string>
+    <string name="debug_report_row_subtitle">Imininingwane yokuphahlazeka, yokuvumelanisa neyokusetha ongayithumela nombiko wephutha</string>
+    <string name="debug_report_sheet_title">Umbiko wokulungisa amaphutha</string>
+    <string name="debug_report_sheet_body">Ifayela lombhalo ongalithumela nombiko wephutha. Lithumele ngokushesha ngemuva kwenkinga: ilogu yohlelo lokusebenza igcina umsebenzi wakamuva kuphela.</string>
+    <string name="debug_report_item_exits">Ukuthi kungani uhlelo lokusebenza luvaleke muva nje</string>
+    <string name="debug_report_item_exits_detail">Ukuphahlazeka, ukungasabeli, inkumbulo ephansi</string>
+    <string name="debug_report_item_log">Ilogu yohlelo lokusebenza</string>
+    <string name="debug_report_item_log_detail">Imilayezo ye-KashCal uqobo, kuhlanganise nemininingwane yokuphahlazeka</string>
+    <string name="debug_report_item_sync_detail">Ukuvumelanisa kwakamuva, kuze kube amahora angu-48 emuva</string>
+    <string name="debug_report_item_pending">Izinguquko ezilindile</string>
+    <string name="debug_report_item_pending_detail">Izinguquko ezingakathunyelwa kuseva yakho</string>
+    <string name="debug_report_item_setup">Ukusetha</string>
+    <string name="debug_report_item_setup_detail">Inguqulo yohlelo lokusebenza ne-Android, izimvume, izilungiselelo zebhethri, izinhlobo zama-akhawunti</string>
+    <string name="debug_report_privacy_note">Amakheli e-imeyili, amakheli ewebhu namathokheni ayafihlwa. Izihloko zemicimbi, amagama amakhalenda namagama abantu oxhumana nabo awafihlwa. Lithumele nge-imeyili, hhayi ngokuthumela esidlangalaleni.</string>
+    <string name="debug_report_share">Yabelana ngombiko</string>
+    <string name="debug_report_chooser_title">Yabelana ngombiko wokulungisa amaphutha</string>
+    <string name="debug_report_failed">Ayikwazanga ukudala umbiko wokulungisa amaphutha</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Ukukhiya uhlelo lokusebenza</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Faka isikhathi esiqondile</string>
     <string name="time_entry_dialog_title">Faka isikhathi</string>
     <string name="time_entry_tap_to_edit">Thepha ukuze uhlele</string>
-    <string name="cd_version_info">KashCal inguqulo %1$s. Cindezela isikhathi eside ukuze uthole izinketho zokulungisa.</string>
+    <string name="cd_version_info">KashCal inguqulo %1$s</string>
     <string name="cd_about_setting">Mayelana no-%1$s</string>
     <string name="cd_color_slider">Isishelelisi sombala, okwamanje %1$s</string>
     <string name="cd_color_slider_state">%1$s, amadigri angu-%2$d</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d ebonayo</string>
     <string name="label_reminders_truncated">%1$d akuboniswanga (%2$d esiphelele, okuningi %3$d okuhlelekayo)</string>
     <string name="label_found_events">Kutholwe: imicimbi engu-%1$d</string>
-    <string name="label_open_debug_menu">Vula imenyu yokulungisa</string>
     <string name="placeholder_search">Sesha…</string>
     <string name="settings_search_placeholder">Sesha izilungiselelo…</string>
     <string name="settings_search_no_results">Azikho izilungiselelo ezitholakele ze-\"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Okwangakini</string>
     <string name="device_calendars_read_only_no_write">Ukufunda kuphela (ayikho imvume yokubhala)</string>
     <string name="device_calendars_read_only_calendar">Ukufunda kuphela (ikhalenda ifundeka kuphela)</string>
-    <string name="settings_developer_options">Izinketho Zomthuthukisi</string>
     <string name="settings_sync_frequency">Ukuvamisa Kokuvumelanisa</string>
     <string name="settings_sync_frequency_hint">Ukuthi kuvumelaniswa kangaki ngasemuva</string>
 

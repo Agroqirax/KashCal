@@ -111,7 +111,7 @@ class AttendeeBackfill @Inject constructor(
         val withoutMailto = address.removePrefix("mailto:")
         if (withoutMailto.isBlank()) return false
         if (withoutMailto.startsWith("net.fortunal.ical4j.invalid:")) return false
-        // A principal href ("/646691839/principal/") is what builds without the EMAIL=
+        // A principal href ("/123456789/principal/") is what builds without the EMAIL=
         // fallback stored. A real CAL-ADDRESS is a mailto: or a URI not starting with `/`
         // (e.g. urn:uuid:).
         if (withoutMailto.startsWith("/")) return false

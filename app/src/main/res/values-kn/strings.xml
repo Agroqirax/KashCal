@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">ಈವೆಂಟ್ ಆದ್ಯತೆಗಳು</string>
     <string name="settings_section_sync">ಸಿಂಕ್</string>
     <string name="settings_section_data">ಬ್ಯಾಕಪ್ ಮತ್ತು ಮರುಸ್ಥಾಪನೆ</string>
+    <string name="settings_section_troubleshooting">ಸಮಸ್ಯೆ ನಿವಾರಣೆ</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">ಡೀಬಗ್ ವರದಿ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="debug_report_row_subtitle">ಬಗ್ ವರದಿಯೊಂದಿಗೆ ಕಳುಹಿಸಲು ಕ್ರ್ಯಾಶ್, ಸಿಂಕ್ ಮತ್ತು ಸೆಟಪ್ ವಿವರಗಳು</string>
+    <string name="debug_report_sheet_title">ಡೀಬಗ್ ವರದಿ</string>
+    <string name="debug_report_sheet_body">ಬಗ್ ವರದಿಯೊಂದಿಗೆ ಕಳುಹಿಸಲು ಒಂದು ಪಠ್ಯ ಫೈಲ್. ಸಮಸ್ಯೆಯಾದ ತಕ್ಷಣ ಕಳುಹಿಸಿ: ಆ್ಯಪ್ ಲಾಗ್ ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಯನ್ನು ಮಾತ್ರ ಇರಿಸುತ್ತದೆ.</string>
+    <string name="debug_report_item_exits">ಆ್ಯಪ್ ಇತ್ತೀಚೆಗೆ ಏಕೆ ಮುಚ್ಚಿತು</string>
+    <string name="debug_report_item_exits_detail">ಕ್ರ್ಯಾಶ್‌ಗಳು, ಆ್ಯಪ್ ಸ್ಪಂದಿಸದಿರುವುದು, ಕಡಿಮೆ ಮೆಮೊರಿ</string>
+    <string name="debug_report_item_log">ಆ್ಯಪ್ ಲಾಗ್</string>
+    <string name="debug_report_item_log_detail">KashCal ನ ಸ್ವಂತ ಸಂದೇಶಗಳು, ಕ್ರ್ಯಾಶ್ ವಿವರಗಳು ಸೇರಿದಂತೆ</string>
+    <string name="debug_report_item_sync_detail">ಇತ್ತೀಚಿನ ಸಿಂಕ್‌ಗಳು, 48 ಗಂಟೆಗಳವರೆಗೆ ಹಿಂದಿನವು</string>
+    <string name="debug_report_item_pending">ಕಳುಹಿಸಲು ಬಾಕಿ ಇರುವ ಬದಲಾವಣೆಗಳು</string>
+    <string name="debug_report_item_pending_detail">ಇನ್ನೂ ನಿಮ್ಮ ಸರ್ವರ್‌ಗೆ ಕಳುಹಿಸದ ಸಂಪಾದನೆಗಳು</string>
+    <string name="debug_report_item_setup">ಸೆಟಪ್</string>
+    <string name="debug_report_item_setup_detail">ಆ್ಯಪ್ ಮತ್ತು Android ಆವೃತ್ತಿ, ಅನುಮತಿಗಳು, ಬ್ಯಾಟರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು, ಖಾತೆ ಪ್ರಕಾರಗಳು</string>
+    <string name="debug_report_privacy_note">ಇಮೇಲ್ ವಿಳಾಸಗಳು, ವೆಬ್ ವಿಳಾಸಗಳು ಮತ್ತು ಟೋಕನ್‌ಗಳನ್ನು ಮರೆಮಾಡಲಾಗುತ್ತದೆ. ಈವೆಂಟ್ ಶೀರ್ಷಿಕೆಗಳು, ಕ್ಯಾಲೆಂಡರ್ ಹೆಸರುಗಳು ಮತ್ತು ಸಂಪರ್ಕ ಹೆಸರುಗಳನ್ನು ಮರೆಮಾಡುವುದಿಲ್ಲ. ಇದನ್ನು ಇಮೇಲ್ ಮೂಲಕ ಕಳುಹಿಸಿ, ಸಾರ್ವಜನಿಕ ಪೋಸ್ಟ್‌ನಲ್ಲಿ ಅಲ್ಲ.</string>
+    <string name="debug_report_share">ವರದಿ ಹಂಚಿ</string>
+    <string name="debug_report_chooser_title">ಡೀಬಗ್ ವರದಿ ಹಂಚಿ</string>
+    <string name="debug_report_failed">ಡೀಬಗ್ ವರದಿ ರಚಿಸಲಾಗಲಿಲ್ಲ</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">ಆ್ಯಪ್ ಲಾಕ್</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">ನಿಖರವಾದ ಸಮಯವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="time_entry_dialog_title">ಸಮಯವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="time_entry_tap_to_edit">ಸಂಪಾದಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ</string>
-    <string name="cd_version_info">KashCal ಆವೃತ್ತಿ %1$s. ಡೀಬಗ್ ಆಯ್ಕೆಗಳಿಗಾಗಿ ಹೆಚ್ಚು ಹೊತ್ತು ಒತ್ತಿ.</string>
+    <string name="cd_version_info">KashCal ಆವೃತ್ತಿ %1$s</string>
     <string name="cd_about_setting">%1$s ಕುರಿತು</string>
     <string name="cd_color_slider">ಬಣ್ಣ ಸ್ಲೈಡರ್, ಪ್ರಸ್ತುತ %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d ಡಿಗ್ರಿಗಳು</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d ಕಾಣಿಸುತ್ತಿದೆ</string>
     <string name="label_reminders_truncated">%1$d ತೋರಿಸಿಲ್ಲ (%2$d ಒಟ್ಟು, ಗರಿಷ್ಠ %3$d ಬದಲಾಯಿಸಬಹುದು)</string>
     <string name="label_found_events">ಕಂಡುಬಂದವು: %1$d ಈವೆಂಟ್‌ಗಳು</string>
-    <string name="label_open_debug_menu">ಡೀಬಗ್ ಮೆನು ತೆರೆಯಿರಿ</string>
     <string name="placeholder_search">ಹುಡುಕಿ…</string>
     <string name="settings_search_placeholder">ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಹುಡುಕಿ…</string>
     <string name="settings_search_no_results">\"%1$s\" ಗಾಗಿ ಯಾವುದೇ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಸಿಗಲಿಲ್ಲ</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">ಸ್ಥಳೀಯ</string>
     <string name="device_calendars_read_only_no_write">ಓದಲು ಮಾತ್ರ (ಬರೆಯುವ ಅನುಮತಿ ಇಲ್ಲ)</string>
     <string name="device_calendars_read_only_calendar">ಓದಲು ಮಾತ್ರ (ಕ್ಯಾಲೆಂಡರ್ ಓದಲು-ಮಾತ್ರ)</string>
-    <string name="settings_developer_options">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು</string>
     <string name="settings_sync_frequency">ಸಿಂಕ್ ಆವರ್ತನ</string>
     <string name="settings_sync_frequency_hint">ಹಿನ್ನೆಲೆಯಲ್ಲಿ ಎಷ್ಟು ಬಾರಿ ಸಿಂಕ್ ಮಾಡಬೇಕು</string>
 

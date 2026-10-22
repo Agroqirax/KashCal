@@ -188,9 +188,9 @@
     <string name="settings_start_week_on">Start Week On</string>
     <string name="settings_event_emojis">Event Emojis</string>
     <string name="settings_event_emojis_info">Adds an emoji to events based on the title, like 🎂 for \"Birthday\".</string>
-    <string name="settings_force_sync">Force Full Sync</string>
+    <string name="settings_force_sync">Force full sync</string>
     <string name="settings_force_sync_subtitle">Re-download all calendar data</string>
-    <string name="settings_sync_history">Sync History</string>
+    <string name="settings_sync_history">Sync history</string>
     <string name="settings_sync_history_subtitle">View sync sessions (last 48 hours)</string>
     <string name="settings_import_subtitle">Add events from an ICS file to any calendar</string>
     <string name="settings_export_subtitle">Save events to an ICS file</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Event preferences</string>
     <string name="settings_section_sync">Sync</string>
     <string name="settings_section_data">Backup &amp; Restore</string>
+    <string name="settings_section_troubleshooting">Troubleshooting</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Export debug report</string>
+    <string name="debug_report_row_subtitle">Crash, sync and setup details to send with a bug report</string>
+    <string name="debug_report_sheet_title">Debug report</string>
+    <string name="debug_report_sheet_body">A text file to send with a bug report. Send it soon after the problem: the app log keeps only recent activity.</string>
+    <string name="debug_report_item_exits">Why the app closed recently</string>
+    <string name="debug_report_item_exits_detail">Crashes, freezes, low memory</string>
+    <string name="debug_report_item_log">App log</string>
+    <string name="debug_report_item_log_detail">KashCal\'s own messages, including crash details</string>
+    <string name="debug_report_item_sync_detail">Recent syncs, up to 48 hours back</string>
+    <string name="debug_report_item_pending">Waiting changes</string>
+    <string name="debug_report_item_pending_detail">Edits not yet sent to your server</string>
+    <string name="debug_report_item_setup">Setup</string>
+    <string name="debug_report_item_setup_detail">App and Android version, permissions, battery settings, account types</string>
+    <string name="debug_report_privacy_note">Email addresses, web addresses and tokens are masked. Event titles, calendar names and contact names are not. Send it by email, not in a public post.</string>
+    <string name="debug_report_share">Share report</string>
+    <string name="debug_report_chooser_title">Share debug report</string>
+    <string name="debug_report_failed">Couldn\'t create the debug report</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">App lock</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Enter exact time</string>
     <string name="time_entry_dialog_title">Enter time</string>
     <string name="time_entry_tap_to_edit">Tap to edit</string>
-    <string name="cd_version_info">KashCal version %1$s. Long press for debug options.</string>
+    <string name="cd_version_info">KashCal version %1$s</string>
     <string name="cd_about_setting">About %1$s</string>
     <string name="cd_color_slider">Colour slider, currently %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d degrees</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d visible</string>
     <string name="label_reminders_truncated">%1$d not shown (%2$d total, max %3$d editable)</string>
     <string name="label_found_events">Found: %1$d events</string>
-    <string name="label_open_debug_menu">Open debug menu</string>
     <string name="placeholder_search">Search…</string>
     <string name="settings_search_placeholder">Search settings…</string>
     <string name="settings_search_no_results">No settings found for \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Local</string>
     <string name="device_calendars_read_only_no_write">Read only (no write permission)</string>
     <string name="device_calendars_read_only_calendar">Read only (calendar is read-only)</string>
-    <string name="settings_developer_options">Developer Options</string>
     <string name="settings_sync_frequency">Sync Frequency</string>
     <string name="settings_sync_frequency_hint">How often to sync in the background</string>
 

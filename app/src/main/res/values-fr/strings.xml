@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Préférences des événements</string>
     <string name="settings_section_sync">Synchronisation</string>
     <string name="settings_section_data">Sauvegarde &amp; restauration</string>
+    <string name="settings_section_troubleshooting">Dépannage</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Exporter le rapport de débogage</string>
+    <string name="debug_report_row_subtitle">Détails des plantages, de la synchronisation et de la configuration à joindre à un rapport de bug</string>
+    <string name="debug_report_sheet_title">Rapport de débogage</string>
+    <string name="debug_report_sheet_body">Un fichier texte à joindre à un rapport de bug. Envoie-le peu après le problème : le journal de l\'app ne garde que l\'activité récente.</string>
+    <string name="debug_report_item_exits">Pourquoi l\'app s\'est fermée récemment</string>
+    <string name="debug_report_item_exits_detail">Plantages, blocages, mémoire insuffisante</string>
+    <string name="debug_report_item_log">Journal de l\'app</string>
+    <string name="debug_report_item_log_detail">Messages propres à KashCal, y compris les détails des plantages</string>
+    <string name="debug_report_item_sync_detail">Synchronisations récentes, jusqu\'à 48 heures en arrière</string>
+    <string name="debug_report_item_pending">Modifications en attente</string>
+    <string name="debug_report_item_pending_detail">Modifications pas encore envoyées à ton serveur</string>
+    <string name="debug_report_item_setup">Configuration</string>
+    <string name="debug_report_item_setup_detail">Version de l\'app et d\'Android, autorisations, paramètres de batterie, types de compte</string>
+    <string name="debug_report_privacy_note">Les adresses e-mail, les adresses web et les jetons sont masqués. Les titres d\'événements, les noms de calendriers et les noms de contacts ne le sont pas. Envoie-le par e-mail, pas dans une publication publique.</string>
+    <string name="debug_report_share">Partager le rapport</string>
+    <string name="debug_report_chooser_title">Partager le rapport de débogage</string>
+    <string name="debug_report_failed">Impossible de créer le rapport de débogage</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Verrouillage de l\'app</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Saisir l\'heure exacte</string>
     <string name="time_entry_dialog_title">Saisir l\'heure</string>
     <string name="time_entry_tap_to_edit">Appuyer pour modifier</string>
-    <string name="cd_version_info">KashCal version %1$s. Appui long pour les options de débogage.</string>
+    <string name="cd_version_info">KashCal version %1$s</string>
     <string name="cd_about_setting">À propos de %1$s</string>
     <string name="cd_color_slider">Curseur de couleur, actuellement %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d degrés</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d visibles</string>
     <string name="label_reminders_truncated">%1$d non affichés (%2$d au total, %3$d modifiables max)</string>
     <string name="label_found_events">Trouvés : %1$d événements</string>
-    <string name="label_open_debug_menu">Ouvrir le menu de débogage</string>
     <string name="placeholder_search">Rechercher…</string>
     <string name="settings_search_placeholder">Rechercher dans les paramètres…</string>
     <string name="settings_search_no_results">Aucun paramètre trouvé pour \"%1$s\"</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Local</string>
     <string name="device_calendars_read_only_no_write">Lecture seule (pas d\'autorisation d\'écriture)</string>
     <string name="device_calendars_read_only_calendar">Lecture seule (calendrier en lecture seule)</string>
-    <string name="settings_developer_options">Options pour développeurs</string>
     <string name="settings_sync_frequency">Fréquence de synchronisation</string>
     <string name="settings_sync_frequency_hint">À quelle fréquence synchroniser en arrière-plan</string>
 

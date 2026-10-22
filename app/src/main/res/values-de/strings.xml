@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Termineinstellungen</string>
     <string name="settings_section_sync">Synchronisierung</string>
     <string name="settings_section_data">Sichern &amp; Wiederherstellen</string>
+    <string name="settings_section_troubleshooting">Fehlerbehebung</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Debug-Bericht exportieren</string>
+    <string name="debug_report_row_subtitle">Absturz-, Sync- und Einrichtungsdetails für einen Fehlerbericht</string>
+    <string name="debug_report_sheet_title">Debug-Bericht</string>
+    <string name="debug_report_sheet_body">Eine Textdatei, die du mit einem Fehlerbericht schickst. Schick sie bald nach dem Problem: Das App-Protokoll enthält nur die letzten Aktivitäten.</string>
+    <string name="debug_report_item_exits">Warum die App kürzlich beendet wurde</string>
+    <string name="debug_report_item_exits_detail">Abstürze, Hänger, wenig Speicher</string>
+    <string name="debug_report_item_log">App-Protokoll</string>
+    <string name="debug_report_item_log_detail">KashCals eigene Meldungen, einschließlich Absturzdetails</string>
+    <string name="debug_report_item_sync_detail">Letzte Synchronisierungen, bis zu 48 Stunden zurück</string>
+    <string name="debug_report_item_pending">Wartende Änderungen</string>
+    <string name="debug_report_item_pending_detail">Änderungen, die noch nicht an deinen Server gesendet wurden</string>
+    <string name="debug_report_item_setup">Einrichtung</string>
+    <string name="debug_report_item_setup_detail">App- und Android-Version, Berechtigungen, Akkueinstellungen, Kontotypen</string>
+    <string name="debug_report_privacy_note">E-Mail-Adressen, Webadressen und Tokens werden unkenntlich gemacht. Termintitel, Kalendernamen und Kontaktnamen nicht. Schick den Bericht per E-Mail, nicht in einem öffentlichen Beitrag.</string>
+    <string name="debug_report_share">Bericht teilen</string>
+    <string name="debug_report_chooser_title">Debug-Bericht teilen</string>
+    <string name="debug_report_failed">Debug-Bericht konnte nicht erstellt werden</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">App-Sperre</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Genaue Uhrzeit eingeben</string>
     <string name="time_entry_dialog_title">Uhrzeit eingeben</string>
     <string name="time_entry_tap_to_edit">Zum Bearbeiten tippen</string>
-    <string name="cd_version_info">KashCal Version %1$s. Lange drücken für Debug-Optionen.</string>
+    <string name="cd_version_info">KashCal Version %1$s</string>
     <string name="cd_about_setting">Über %1$s</string>
     <string name="cd_color_slider">Farbregler, aktuell %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d Grad</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d sichtbar</string>
     <string name="label_reminders_truncated">%1$d nicht angezeigt (%2$d gesamt, max. %3$d bearbeitbar)</string>
     <string name="label_found_events">Gefunden: %1$d Termine</string>
-    <string name="label_open_debug_menu">Debug-Menü öffnen</string>
     <string name="placeholder_search">Suche…</string>
     <string name="settings_search_placeholder">Einstellungen durchsuchen…</string>
     <string name="settings_search_no_results">Keine Einstellungen gefunden für \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Lokal</string>
     <string name="device_calendars_read_only_no_write">Nur Lesen (keine Schreibberechtigung)</string>
     <string name="device_calendars_read_only_calendar">Nur Lesen (Kalender ist schreibgeschützt)</string>
-    <string name="settings_developer_options">Entwickleroptionen</string>
     <string name="settings_sync_frequency">Sync-Häufigkeit</string>
     <string name="settings_sync_frequency_hint">Wie oft im Hintergrund synchronisiert wird</string>
 

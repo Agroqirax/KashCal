@@ -188,7 +188,7 @@
     <string name="settings_start_week_on">Begin Week Op</string>
     <string name="settings_event_emojis">Gebeurtenis-emojis</string>
     <string name="settings_event_emojis_info">Voeg \'n emoji by gebeurtenisse gebaseer op die titel, soos 🎂 vir \"Verjaarsdag\".</string>
-    <string name="settings_force_sync">Forseer Volle Sinkronisering</string>
+    <string name="settings_force_sync">Forseer volle sinkronisering</string>
     <string name="settings_force_sync_subtitle">Herlaai alle kalenderdata</string>
     <string name="settings_sync_history">Sinkroniseringsgeskiedenis</string>
     <string name="settings_sync_history_subtitle">Bekyk sinkroniseringsessies (laaste 48 uur)</string>
@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Gebeurtenisvoorkeure</string>
     <string name="settings_section_sync">Sinkronisering</string>
     <string name="settings_section_data">Rugsteun &amp; Herstel</string>
+    <string name="settings_section_troubleshooting">Probleemoplossing</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Voer foutopsporingsverslag uit</string>
+    <string name="debug_report_row_subtitle">Omval-, sinkroniserings- en opstellingbesonderhede om saam met \'n foutverslag te stuur</string>
+    <string name="debug_report_sheet_title">Foutopsporingsverslag</string>
+    <string name="debug_report_sheet_body">\'n Tekslêer om saam met \'n foutverslag te stuur. Stuur dit kort ná die probleem: die app-logboek hou net onlangse aktiwiteit.</string>
+    <string name="debug_report_item_exits">Waarom die app onlangs gesluit het</string>
+    <string name="debug_report_item_exits_detail">Omvalle, vasvries, min geheue</string>
+    <string name="debug_report_item_log">App-logboek</string>
+    <string name="debug_report_item_log_detail">KashCal se eie boodskappe, insluitend omvalbesonderhede</string>
+    <string name="debug_report_item_sync_detail">Onlangse sinkroniserings, tot 48 uur terug</string>
+    <string name="debug_report_item_pending">Wagtende veranderinge</string>
+    <string name="debug_report_item_pending_detail">Wysigings wat nog nie na jou bediener gestuur is nie</string>
+    <string name="debug_report_item_setup">Opstelling</string>
+    <string name="debug_report_item_setup_detail">App- en Android-weergawe, toestemmings, batteryinstellings, rekeningtipes</string>
+    <string name="debug_report_privacy_note">E-posadresse, webadresse en tokens word gemasker. Gebeurtenistitels, kalendername en kontakname word nie gemasker nie. Stuur dit per e-pos, nie in \'n openbare plasing nie.</string>
+    <string name="debug_report_share">Deel verslag</string>
+    <string name="debug_report_chooser_title">Deel foutopsporingsverslag</string>
+    <string name="debug_report_failed">Kon nie die foutopsporingsverslag skep nie</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Toeslot</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Voer presiese tyd in</string>
     <string name="time_entry_dialog_title">Voer tyd in</string>
     <string name="time_entry_tap_to_edit">Tik om te wysig</string>
-    <string name="cd_version_info">KashCal weergawe %1$s. Hou lank in vir ontfoutopsies.</string>
+    <string name="cd_version_info">KashCal weergawe %1$s</string>
     <string name="cd_about_setting">Oor %1$s</string>
     <string name="cd_color_slider">Kleurskuifbalk, tans %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d grade</string>
@@ -671,7 +691,6 @@
     <string name="label_visible_count">%1$d / %2$d sigbaar</string>
     <string name="label_reminders_truncated">%1$d nie gewys nie (%2$d totaal, maks %3$d redigeerbaar)</string>
     <string name="label_found_events">Gevind: %1$d gebeurtenisse</string>
-    <string name="label_open_debug_menu">Open ontfoutkieslys</string>
     <string name="placeholder_search">Soek…</string>
     <string name="settings_search_placeholder">Soek instellings…</string>
     <string name="settings_search_no_results">Geen instellings gevind vir \"%1$s\" nie</string>
@@ -692,7 +711,6 @@
     <string name="device_calendars_local">Plaaslik</string>
     <string name="device_calendars_read_only_no_write">Leesalleen (geen skryftoestemming)</string>
     <string name="device_calendars_read_only_calendar">Leesalleen (kalender is leesalleen)</string>
-    <string name="settings_developer_options">Ontwikkelaaropsies</string>
     <string name="settings_sync_frequency">Sinkroniseringsfrekwensie</string>
     <string name="settings_sync_frequency_hint">Hoe dikwels om op die agtergrond te sinkroniseer</string>
 

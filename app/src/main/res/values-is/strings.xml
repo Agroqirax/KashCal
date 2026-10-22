@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Stillingar viðburða</string>
     <string name="settings_section_sync">Samstilling</string>
     <string name="settings_section_data">Öryggisafrit &amp; endurheimt</string>
+    <string name="settings_section_troubleshooting">Úrræðaleit</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Flytja út villuleitarskýrslu</string>
+    <string name="debug_report_row_subtitle">Upplýsingar um hrun, samstillingu og uppsetningu til að senda með villutilkynningu</string>
+    <string name="debug_report_sheet_title">Villuleitarskýrsla</string>
+    <string name="debug_report_sheet_body">Textaskrá til að senda með villutilkynningu. Sendu hana fljótlega eftir að vandinn kemur upp: atvikaskrá forritsins geymir aðeins nýlega virkni.</string>
+    <string name="debug_report_item_exits">Hvers vegna forritið lokaðist nýlega</string>
+    <string name="debug_report_item_exits_detail">Hrun, forritið hættir að svara, lítið minni</string>
+    <string name="debug_report_item_log">Atvikaskrá forritsins</string>
+    <string name="debug_report_item_log_detail">Eigin skilaboð KashCal, þar á meðal upplýsingar um hrun</string>
+    <string name="debug_report_item_sync_detail">Nýlegar samstillingar, allt að 48 klukkustundir aftur í tímann</string>
+    <string name="debug_report_item_pending">Breytingar í bið</string>
+    <string name="debug_report_item_pending_detail">Breytingar sem hafa ekki enn verið sendar á þjóninn þinn</string>
+    <string name="debug_report_item_setup">Uppsetning</string>
+    <string name="debug_report_item_setup_detail">Útgáfa forrits og Android, heimildir, rafhlöðustillingar, reikningsgerðir</string>
+    <string name="debug_report_privacy_note">Netföng, vefslóðir og aðgangslyklar eru falin. Heiti viðburða, dagatala og tengiliða eru ekki falin. Sendu skýrsluna í tölvupósti, ekki í opinberri færslu.</string>
+    <string name="debug_report_share">Deila skýrslu</string>
+    <string name="debug_report_chooser_title">Deila villuleitarskýrslu</string>
+    <string name="debug_report_failed">Ekki tókst að búa til villuleitarskýrsluna</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">Forritslæsing</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Slá inn nákvæman tíma</string>
     <string name="time_entry_dialog_title">Slá inn tíma</string>
     <string name="time_entry_tap_to_edit">Ýttu til að breyta</string>
-    <string name="cd_version_info">KashCal útgáfa %1$s. Haltu lengi inni fyrir villuleitarvalkosti.</string>
+    <string name="cd_version_info">KashCal útgáfa %1$s</string>
     <string name="cd_about_setting">Um %1$s</string>
     <string name="cd_color_slider">Litasleði, núna %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d gráður</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d sýnileg</string>
     <string name="label_reminders_truncated">%1$d ekki sýndar (%2$d alls, hámark %3$d breytanlegar)</string>
     <string name="label_found_events">Fundust: %1$d viðburðir</string>
-    <string name="label_open_debug_menu">Opna villuleitarvalmynd</string>
     <string name="placeholder_search">Leita…</string>
     <string name="settings_search_placeholder">Leita í stillingum…</string>
     <string name="settings_search_no_results">Engar stillingar fundust fyrir \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Staðbundið</string>
     <string name="device_calendars_read_only_no_write">Skrifvarið (engin skrifheimild)</string>
     <string name="device_calendars_read_only_calendar">Skrifvarið (dagatalið er skrifvarið)</string>
-    <string name="settings_developer_options">Þróunarvalkostir</string>
     <string name="settings_sync_frequency">Samstillingartíðni</string>
     <string name="settings_sync_frequency_hint">Hversu oft er samstillt í bakgrunni</string>
 

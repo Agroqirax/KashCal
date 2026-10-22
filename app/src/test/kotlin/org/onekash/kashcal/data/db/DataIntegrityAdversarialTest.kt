@@ -45,6 +45,7 @@ class DataIntegrityAdversarialTest {
     fun setup() {
         val context: Context = ApplicationProvider.getApplicationContext()
         database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
+            .addCallback(PendingOperationTriggers.callback())
             .allowMainThreadQueries()
             .build()
     }
@@ -432,7 +433,8 @@ class DataIntegrityAdversarialTest {
 
     @Test
     fun `pendingOperation with non-existent eventId is allowed`() = runTest {
-        // eventId isn't a foreign key, so an operation outlives its deleted event.
+        // eventId isn't a foreign key: a self-contained DELETE outlives its deleted event
+        // (PendingOperationTriggers keeps it).
         val op = PendingOperation(
             eventId = 999999L,
             operation = PendingOperation.OPERATION_DELETE

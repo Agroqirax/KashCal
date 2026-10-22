@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">Afspraakvoorkeuren</string>
     <string name="settings_section_sync">Synchronisatie</string>
     <string name="settings_section_data">Back-up &amp; herstel</string>
+    <string name="settings_section_troubleshooting">Probleemoplossing</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">Debugrapport exporteren</string>
+    <string name="debug_report_row_subtitle">Crash-, synchronisatie- en configuratiegegevens om mee te sturen met een bugmelding</string>
+    <string name="debug_report_sheet_title">Debugrapport</string>
+    <string name="debug_report_sheet_body">Een tekstbestand om mee te sturen met een bugmelding. Stuur het kort na het probleem: het app-logboek bewaart alleen recente activiteit.</string>
+    <string name="debug_report_item_exits">Waarom de app onlangs werd afgesloten</string>
+    <string name="debug_report_item_exits_detail">Crashes, vastlopers, weinig geheugen</string>
+    <string name="debug_report_item_log">App-logboek</string>
+    <string name="debug_report_item_log_detail">KashCals eigen berichten, inclusief crashgegevens</string>
+    <string name="debug_report_item_sync_detail">Recente synchronisaties, tot 48 uur terug</string>
+    <string name="debug_report_item_pending">Wachtende wijzigingen</string>
+    <string name="debug_report_item_pending_detail">Wijzigingen die nog niet naar je server zijn verzonden</string>
+    <string name="debug_report_item_setup">Configuratie</string>
+    <string name="debug_report_item_setup_detail">App- en Android-versie, machtigingen, batterij-instellingen, accounttypen</string>
+    <string name="debug_report_privacy_note">E-mailadressen, webadressen en tokens worden afgeschermd. Afspraaktitels, agendanamen en contactnamen niet. Stuur het per e-mail, niet in een openbaar bericht.</string>
+    <string name="debug_report_share">Rapport delen</string>
+    <string name="debug_report_chooser_title">Debugrapport delen</string>
+    <string name="debug_report_failed">Kan het debugrapport niet maken</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">App-vergrendeling</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">Exacte tijd invoeren</string>
     <string name="time_entry_dialog_title">Tijd invoeren</string>
     <string name="time_entry_tap_to_edit">Tik om te bewerken</string>
-    <string name="cd_version_info">KashCal versie %1$s. Houd ingedrukt voor debug-opties.</string>
+    <string name="cd_version_info">KashCal versie %1$s</string>
     <string name="cd_about_setting">Over %1$s</string>
     <string name="cd_color_slider">Kleurschuif, momenteel %1$s</string>
     <string name="cd_color_slider_state">%1$s, %2$d graden</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d zichtbaar</string>
     <string name="label_reminders_truncated">%1$d niet getoond (%2$d totaal, max %3$d bewerkbaar)</string>
     <string name="label_found_events">Gevonden: %1$d afspraken</string>
-    <string name="label_open_debug_menu">Debug-menu openen</string>
     <string name="placeholder_search">Zoeken…</string>
     <string name="settings_search_placeholder">Instellingen zoeken…</string>
     <string name="settings_search_no_results">Geen instellingen gevonden voor \"%1$s\"</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">Lokaal</string>
     <string name="device_calendars_read_only_no_write">Alleen lezen (geen schrijftoestemming)</string>
     <string name="device_calendars_read_only_calendar">Alleen lezen (agenda is alleen-lezen)</string>
-    <string name="settings_developer_options">Ontwikkelaarsopties</string>
     <string name="settings_sync_frequency">Synchronisatiefrequentie</string>
     <string name="settings_sync_frequency_hint">Hoe vaak op de achtergrond wordt gesynchroniseerd</string>
 

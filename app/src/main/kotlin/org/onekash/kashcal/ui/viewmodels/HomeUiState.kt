@@ -357,12 +357,15 @@ sealed class PendingAction {
     }
 
     /**
-     * Opens a new event, from a widget, the New Event app shortcut or the Quick Settings tile.
-     * With no [startTs], Quick Add opens when it is enabled, else the full form.
+     * Opens the full event form for a new event, from a widget, the New Event app shortcut or
+     * the Quick Settings tile; [HomeViewModel.requestCreateEvent] picks it.
      *
      * @param startTs start in epoch millis, set by the week widget; null for the next hour.
      */
     data class CreateEvent(val startTs: Long? = null) : PendingAction()
+
+    /** Opens the Quick Add dialog for a new event; [HomeViewModel.requestCreateEvent] picks it. */
+    data object OpenQuickAdd : PendingAction()
 
     /** Opens search, from the Search app shortcut. */
     data object OpenSearch : PendingAction()

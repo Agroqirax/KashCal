@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">予定の設定</string>
     <string name="settings_section_sync">同期</string>
     <string name="settings_section_data">バックアップと復元</string>
+    <string name="settings_section_troubleshooting">トラブルシューティング</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">デバッグレポートをエクスポート</string>
+    <string name="debug_report_row_subtitle">バグ報告に添付するクラッシュ、同期、環境の詳細</string>
+    <string name="debug_report_sheet_title">デバッグレポート</string>
+    <string name="debug_report_sheet_body">バグ報告に添付するテキストファイルです。問題が起きたらすぐに送信してください。アプリのログには最近の動作しか残りません。</string>
+    <string name="debug_report_item_exits">アプリが最近終了した理由</string>
+    <string name="debug_report_item_exits_detail">クラッシュ、フリーズ、メモリ不足</string>
+    <string name="debug_report_item_log">アプリのログ</string>
+    <string name="debug_report_item_log_detail">KashCal自身のメッセージ（クラッシュの詳細を含む）</string>
+    <string name="debug_report_item_sync_detail">最近の同期（最大48時間前まで）</string>
+    <string name="debug_report_item_pending">未送信の変更</string>
+    <string name="debug_report_item_pending_detail">まだサーバーに送信されていない編集</string>
+    <string name="debug_report_item_setup">使用環境</string>
+    <string name="debug_report_item_setup_detail">アプリとAndroidのバージョン、権限、バッテリー設定、アカウントの種類</string>
+    <string name="debug_report_privacy_note">メールアドレス、ウェブアドレス、トークンは伏せられます。予定のタイトル、カレンダー名、連絡先の名前は伏せられません。公開の場に投稿せず、メールで送信してください。</string>
+    <string name="debug_report_share">レポートを共有</string>
+    <string name="debug_report_chooser_title">デバッグレポートを共有</string>
+    <string name="debug_report_failed">デバッグレポートを作成できませんでした</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">アプリロック</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">正確な時刻を入力する</string>
     <string name="time_entry_dialog_title">時刻を入力</string>
     <string name="time_entry_tap_to_edit">タップして編集</string>
-    <string name="cd_version_info">KashCal バージョン%1$s。長押しでデバッグオプションを表示。</string>
+    <string name="cd_version_info">KashCal バージョン%1$s</string>
     <string name="cd_about_setting">%1$s について</string>
     <string name="cd_color_slider">カラースライダー、現在%1$s</string>
     <string name="cd_color_slider_state">%1$s、%2$d度</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d 表示中</string>
     <string name="label_reminders_truncated">%1$d件が非表示（合計%2$d件、最大%3$d件まで編集可能）</string>
     <string name="label_found_events">検出: %1$d件の予定</string>
-    <string name="label_open_debug_menu">デバッグメニューを開く</string>
     <string name="placeholder_search">検索…</string>
     <string name="settings_search_placeholder">設定を検索…</string>
     <string name="settings_search_no_results">\"%1$s\" に一致する設定はありません</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">ローカル</string>
     <string name="device_calendars_read_only_no_write">読み取り専用（書き込み許可なし）</string>
     <string name="device_calendars_read_only_calendar">読み取り専用（カレンダーが読み取り専用）</string>
-    <string name="settings_developer_options">開発者オプション</string>
     <string name="settings_sync_frequency">同期頻度</string>
     <string name="settings_sync_frequency_hint">バックグラウンドで同期する頻度</string>
 

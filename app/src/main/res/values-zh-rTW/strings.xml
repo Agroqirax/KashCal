@@ -201,6 +201,26 @@
     <string name="settings_section_creating_events">事件偏好設定</string>
     <string name="settings_section_sync">同步</string>
     <string name="settings_section_data">備份與還原</string>
+    <string name="settings_section_troubleshooting">疑難排解</string>
+
+    <!-- ==================== Debug report (Settings > Troubleshooting) ==================== -->
+    <string name="debug_report_row_label">匯出偵錯報告</string>
+    <string name="debug_report_row_subtitle">隨錯誤回報傳送的當機、同步和組態詳細資料</string>
+    <string name="debug_report_sheet_title">偵錯報告</string>
+    <string name="debug_report_sheet_body">隨錯誤回報傳送的文字檔。請在問題發生後盡快傳送：應用程式記錄只會保留最近的活動。</string>
+    <string name="debug_report_item_exits">應用程式最近關閉的原因</string>
+    <string name="debug_report_item_exits_detail">當機、沒有回應、記憶體不足</string>
+    <string name="debug_report_item_log">應用程式記錄</string>
+    <string name="debug_report_item_log_detail">KashCal 本身的訊息，包括當機詳細資料</string>
+    <string name="debug_report_item_sync_detail">最近的同步，最多回溯 48 小時</string>
+    <string name="debug_report_item_pending">待傳送的變更</string>
+    <string name="debug_report_item_pending_detail">尚未傳送到伺服器的編輯內容</string>
+    <string name="debug_report_item_setup">組態資訊</string>
+    <string name="debug_report_item_setup_detail">應用程式和 Android 版本、權限、電池設定、帳戶類型</string>
+    <string name="debug_report_privacy_note">電子郵件地址、網址和權杖會被遮蔽。事件標題、行事曆名稱和聯絡人姓名不會被遮蔽。請透過電子郵件傳送，不要公開張貼。</string>
+    <string name="debug_report_share">分享報告</string>
+    <string name="debug_report_chooser_title">分享偵錯報告</string>
+    <string name="debug_report_failed">無法建立偵錯報告</string>
 
     <!-- ==================== App Lock (Privacy) ==================== -->
     <string name="app_lock_label">應用程式鎖</string>
@@ -408,7 +428,7 @@
     <string name="cd_time_entry_keyboard">輸入精確時間</string>
     <string name="time_entry_dialog_title">輸入時間</string>
     <string name="time_entry_tap_to_edit">輕觸以編輯</string>
-    <string name="cd_version_info">KashCal 版本 %1$s。長按開啟偵錯選項。</string>
+    <string name="cd_version_info">KashCal 版本 %1$s</string>
     <string name="cd_about_setting">關於%1$s</string>
     <string name="cd_color_slider">顏色滑桿，目前為 %1$s</string>
     <string name="cd_color_slider_state">%1$s，%2$d 度</string>
@@ -670,7 +690,6 @@
     <string name="label_visible_count">%1$d / %2$d 可見</string>
     <string name="label_reminders_truncated">%1$d 個未顯示（共 %2$d 個，最多可編輯 %3$d 個）</string>
     <string name="label_found_events">找到：%1$d 個事件</string>
-    <string name="label_open_debug_menu">開啟偵錯選單</string>
     <string name="placeholder_search">搜尋…</string>
     <string name="settings_search_placeholder">搜尋設定…</string>
     <string name="settings_search_no_results">找不到與 \"%1$s\" 相符的設定</string>
@@ -691,7 +710,6 @@
     <string name="device_calendars_local">本機</string>
     <string name="device_calendars_read_only_no_write">唯讀（無寫入權限）</string>
     <string name="device_calendars_read_only_calendar">唯讀（行事曆為唯讀）</string>
-    <string name="settings_developer_options">開發人員選項</string>
     <string name="settings_sync_frequency">同步頻率</string>
     <string name="settings_sync_frequency_hint">背景同步的頻率</string>
 
