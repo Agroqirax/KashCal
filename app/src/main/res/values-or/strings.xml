@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">ଅନ୍ୟ ଏକ ନାମ ଚେଷ୍ଟା କରନ୍ତୁ</string>
     <string name="holiday_catalog_validate_error">ଏହି କ୍ୟାଲେଣ୍ଡରରେ ପହଞ୍ଚି ହେଲା ନାହିଁ। ଆପଣଙ୍କ ସଂଯୋଗ ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird ରୁ ଛୁଟି କ୍ୟାଲେଣ୍ଡର, %1$s ଅଧୀନରେ ଲାଇସେନ୍ସପ୍ରାପ୍ତ।</string>
+    <string name="account_feeds_add">ଆକାଉଣ୍ଟରୁ ଯୋଡ଼ନ୍ତୁ</string>
+    <string name="account_feeds_note">ଆପଣଙ୍କ iCloud ଓ CalDAV ଆକାଉଣ୍ଟରେ ସେଭ୍ ହୋଇଥିବା କ୍ୟାଲେଣ୍ଡର ଫିଡଗୁଡ଼ିକ ଏଠାରେ ଦେଖାଯାଏ। କ୍ୟାଲେଣ୍ଡର ଫିଡ ବିଭାଗରେ ଯୋଡ଼ିବାକୁ ଅନ୍ କରନ୍ତୁ।</string>
+    <string name="account_feeds_checking">ଯାଞ୍ଚ କରୁଛି…</string>
+    <string name="account_feeds_none">କୌଣସି କ୍ୟାଲେଣ୍ଡର ଫିଡ ମିଳିଲା ନାହିଁ</string>
+    <string name="account_feeds_failed">କ୍ୟାଲେଣ୍ଡର ଫିଡ ଲୋଡ୍ କରାଯାଇପାରିଲା ନାହିଁ</string>
     <string name="subscriptions_row_label">କ୍ୟାଲେଣ୍ଡର ଫିଡ (ICS)</string>
     <string name="subscriptions_row_hint">ଉଦା. ଛୁଟି, କ୍ରୀଡ଼ା, ବିଦ୍ୟାଳୟ</string>
 

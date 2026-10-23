@@ -541,6 +541,11 @@
     <string name="holiday_catalog_empty_hint">Prøv et annet navn</string>
     <string name="holiday_catalog_validate_error">Kunne ikke nå denne kalenderen. Sjekk tilkoblingen og prøv igjen.</string>
     <string name="holiday_catalog_attribution">Helligdagskalendere fra Mozilla Thunderbird, lisensiert under %1$s.</string>
+    <string name="account_feeds_add">Legg til fra konto</string>
+    <string name="account_feeds_note">Viser kalenderstrømmene som er lagret på iCloud- og CalDAV-kontoene dine. Slå den på for å legge den til i Kalenderstrømmer.</string>
+    <string name="account_feeds_checking">Sjekker…</string>
+    <string name="account_feeds_none">Ingen kalenderstrømmer funnet</string>
+    <string name="account_feeds_failed">Kunne ikke laste inn kalenderstrømmer</string>
     <string name="subscriptions_row_label">Kalenderstrømmer (ICS)</string>
     <string name="subscriptions_row_hint">f.eks. helligdager, sport, skole</string>
 

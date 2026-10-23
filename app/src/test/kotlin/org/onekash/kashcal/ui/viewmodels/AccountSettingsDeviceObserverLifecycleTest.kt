@@ -48,6 +48,7 @@ import org.onekash.kashcal.domain.backup.BackupJson
 import org.onekash.kashcal.domain.backup.BackupPreferenceValue
 import org.onekash.kashcal.domain.backup.SettingsBackupImporter
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.noFeedAccountsServerCalendarFeeds
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.SyncLogReader
 import org.onekash.kashcal.reminder.device.DeviceCalendarReminderScheduler
@@ -158,6 +159,7 @@ class AccountSettingsDeviceObserverLifecycleTest {
             discoveryService = mockk(),
             calDavDiscoveryService = mockk(),
             eventCoordinator = eventCoordinator,
+            serverCalendarFeeds = noFeedAccountsServerCalendarFeeds(),
             syncLogReader = syncLogReader,
             contactEventManager = mockk<ContactEventManager>(),
             calendarProviderManager = manager,

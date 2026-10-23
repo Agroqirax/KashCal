@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Bain triail as ainm eile</string>
     <string name="holiday_catalog_validate_error">Níorbh fhéidir an féilire seo a rochtain. Seiceáil do cheangal agus bain triail eile as.</string>
     <string name="holiday_catalog_attribution">Féilirí saoire ó Mozilla Thunderbird, ceadúnaithe faoi %1$s.</string>
+    <string name="account_feeds_add">Cuir leis ó chuntas</string>
+    <string name="account_feeds_note">Liostaítear na fothaí féilire atá sábháilte ar do chuntais iCloud agus CalDAV. Cas air chun é a chur le Fothaí Féilire.</string>
+    <string name="account_feeds_checking">Ag seiceáil…</string>
+    <string name="account_feeds_none">Níor aimsíodh aon fhothaí féilire</string>
+    <string name="account_feeds_failed">Níorbh fhéidir fothaí féilire a lódáil</string>
     <string name="subscriptions_row_label">Fothaí Féilire (ICS)</string>
     <string name="subscriptions_row_hint">m.s. laethanta saoire, spóirt, scoil</string>
 

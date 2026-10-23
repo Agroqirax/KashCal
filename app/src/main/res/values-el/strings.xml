@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Δοκιμάστε διαφορετικό όνομα</string>
     <string name="holiday_catalog_validate_error">Δεν ήταν δυνατή η σύνδεση με αυτό το ημερολόγιο. Ελέγξτε τη σύνδεσή σας και προσπαθήστε ξανά.</string>
     <string name="holiday_catalog_attribution">Ημερολόγια αργιών από το Mozilla Thunderbird, υπό την άδεια %1$s.</string>
+    <string name="account_feeds_add">Προσθήκη από λογαριασμό</string>
+    <string name="account_feeds_note">Εμφανίζει τις ροές ημερολογίου που είναι αποθηκευμένες στους λογαριασμούς σας iCloud και CalDAV. Ενεργοποιήστε τη για να την προσθέσετε στις «Ροές ημερολογίου».</string>
+    <string name="account_feeds_checking">Έλεγχος…</string>
+    <string name="account_feeds_none">Δεν βρέθηκαν ροές ημερολογίου</string>
+    <string name="account_feeds_failed">Δεν ήταν δυνατή η φόρτωση των ροών ημερολογίου</string>
     <string name="subscriptions_row_label">Ροές ημερολογίου (ICS)</string>
     <string name="subscriptions_row_hint">π.χ. αργίες, αθλητικά, σχολείο</string>
 

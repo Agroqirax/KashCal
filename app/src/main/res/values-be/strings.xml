@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Паспрабуйце іншую назву</string>
     <string name="holiday_catalog_validate_error">Не ўдалося адкрыць гэты каляндар. Праверце злучэнне і паўтарыце спробу.</string>
     <string name="holiday_catalog_attribution">Календары святаў ад Mozilla Thunderbird, ліцэнзія %1$s.</string>
+    <string name="account_feeds_add">Дадаць з уліковага запісу</string>
+    <string name="account_feeds_note">Тут паказаны стужкі календара, захаваныя ў тваіх уліковых запісах iCloud і CalDAV. Уключы стужку, каб дадаць яе ў раздзел «Стужкі календара».</string>
+    <string name="account_feeds_checking">Праверка…</string>
+    <string name="account_feeds_none">Стужкі календара не знойдзены</string>
+    <string name="account_feeds_failed">Не ўдалося загрузіць стужкі календара</string>
     <string name="subscriptions_row_label">Стужкі календара (ICS)</string>
     <string name="subscriptions_row_hint">напр. святы, спорт, школа</string>
 

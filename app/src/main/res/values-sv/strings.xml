@@ -541,6 +541,11 @@
     <string name="holiday_catalog_empty_hint">Prova ett annat namn</string>
     <string name="holiday_catalog_validate_error">Det gick inte att nå den här kalendern. Kontrollera din anslutning och försök igen.</string>
     <string name="holiday_catalog_attribution">Helgdagskalendrar från Mozilla Thunderbird, licensierade under %1$s.</string>
+    <string name="account_feeds_add">Lägg till från konto</string>
+    <string name="account_feeds_note">Visar kalenderflödena som sparats på dina iCloud- och CalDAV-konton. Slå på flödet för att lägga till det i Kalenderflöden.</string>
+    <string name="account_feeds_checking">Kontrollerar…</string>
+    <string name="account_feeds_none">Inga kalenderflöden hittades</string>
+    <string name="account_feeds_failed">Det gick inte att läsa in kalenderflöden</string>
     <string name="subscriptions_row_label">Kalenderflöden (ICS)</string>
     <string name="subscriptions_row_hint">t.ex. helgdagar, sport, skola</string>
 

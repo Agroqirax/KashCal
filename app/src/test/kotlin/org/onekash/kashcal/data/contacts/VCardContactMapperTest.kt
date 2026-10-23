@@ -450,6 +450,24 @@ class VCardContactMapperTest {
         )
     }
 
+    @Test
+    fun `placeholder-year birthday reaches the reader as month and day without a year`() {
+        // vCard 3.0 has no year-less date, so some servers serve a birthday without a year as
+        // 1604 plus a parameter saying to ignore it (#395). The mapper writes the full date and
+        // the reader drops the out-of-range year.
+        val body = "BEGIN:VCARD\r\nVERSION:3.0\r\nUID:placeholder-year\r\nFN:Jane Doe\r\n" +
+            "N:Doe;Jane;;;\r\nBDAY;X-APPLE-OMIT-YEAR=1604:1604-03-15\r\nEND:VCARD\r\n"
+        val contact = parser.parse(body).single()
+
+        val bday = VCardContactMapper.toEntity(contact).dataRows.ofType(Event.CONTENT_ITEM_TYPE)
+            .single { it.getAsInteger(Event.TYPE) == Event.TYPE_BIRTHDAY }
+        assertEquals("1604-03-15", bday.getAsString(Event.START_DATE))
+        assertEquals(
+            ContactEventDate(3, 15, null),
+            ContactEventUtils.parseContactDate(bday.getAsString(Event.START_DATE)),
+        )
+    }
+
     // ========== Untrusted-input robustness (constructed models) ==========
 
     private fun contact(

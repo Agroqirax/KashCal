@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">வேறு பெயரை முயற்சிக்கவும்</string>
     <string name="holiday_catalog_validate_error">இந்த நாட்காட்டியை அணுக முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird இலிருந்து விடுமுறை நாட்காட்டிகள், %1$s இன் கீழ் உரிமம் பெற்றவை.</string>
+    <string name="account_feeds_add">கணக்கிலிருந்து சேர்க்கவும்</string>
+    <string name="account_feeds_note">உங்கள் iCloud மற்றும் CalDAV கணக்குகளில் சேமிக்கப்பட்ட நாட்காட்டி ஊட்டங்களைப் பட்டியலிடுகிறது. நாட்காட்டி ஊட்டங்கள் பகுதியில் சேர்க்க இயக்கவும்.</string>
+    <string name="account_feeds_checking">சரிபார்க்கிறது…</string>
+    <string name="account_feeds_none">நாட்காட்டி ஊட்டங்கள் எதுவும் கிடைக்கவில்லை</string>
+    <string name="account_feeds_failed">நாட்காட்டி ஊட்டங்களை ஏற்ற முடியவில்லை</string>
     <string name="subscriptions_row_label">நாட்காட்டி ஊட்டங்கள் (ICS)</string>
     <string name="subscriptions_row_hint">எ.கா. விடுமுறை, விளையாட்டு, பள்ளி</string>
 

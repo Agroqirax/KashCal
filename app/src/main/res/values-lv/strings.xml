@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Mēģiniet citu nosaukumu</string>
     <string name="holiday_catalog_validate_error">Neizdevās piekļūt šim kalendāram. Pārbaudiet savienojumu un mēģiniet vēlreiz.</string>
     <string name="holiday_catalog_attribution">Svētku kalendāri no Mozilla Thunderbird, licencēti saskaņā ar %1$s.</string>
+    <string name="account_feeds_add">Pievienot no konta</string>
+    <string name="account_feeds_note">Šeit redzamas kalendāra plūsmas, kas saglabātas tavos iCloud un CalDAV kontos. Ieslēdz plūsmu, lai pievienotu to sadaļai “Kalendāra plūsmas”.</string>
+    <string name="account_feeds_checking">Pārbauda…</string>
+    <string name="account_feeds_none">Kalendāra plūsmas nav atrastas</string>
+    <string name="account_feeds_failed">Neizdevās ielādēt kalendāra plūsmas</string>
     <string name="subscriptions_row_label">Kalendāra plūsmas (ICS)</string>
     <string name="subscriptions_row_hint">piem. svētki, sports, skola</string>
 

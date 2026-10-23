@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Proovi muud nime</string>
     <string name="holiday_catalog_validate_error">Selle kalendriga ei õnnestunud ühendust luua. Kontrolli ühendust ja proovi uuesti.</string>
     <string name="holiday_catalog_attribution">Pühade kalendrid teenusest Mozilla Thunderbird, litsentsitud litsentsi %1$s alusel.</string>
+    <string name="account_feeds_add">Lisa kontolt</string>
+    <string name="account_feeds_note">Siin on sinu iCloud- ja CalDAV-kontodele salvestatud kalendrivood. Lülita voog sisse, et lisada see jaotisse „Kalendrivood“.</string>
+    <string name="account_feeds_checking">Kontrollib…</string>
+    <string name="account_feeds_none">Kalendrivooge ei leitud</string>
+    <string name="account_feeds_failed">Kalendrivoogude laadimine ebaõnnestus</string>
     <string name="subscriptions_row_label">Kalendrivood (ICS)</string>
     <string name="subscriptions_row_hint">nt pühad, sport, kool</string>
 

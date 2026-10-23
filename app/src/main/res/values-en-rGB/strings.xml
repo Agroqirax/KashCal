@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Try a different name</string>
     <string name="holiday_catalog_validate_error">Couldn\'t reach this calendar. Check your connection and try again.</string>
     <string name="holiday_catalog_attribution">Holiday calendars from Mozilla Thunderbird, licensed under %1$s.</string>
+    <string name="account_feeds_add">Add from account</string>
+    <string name="account_feeds_note">Lists the calendar feeds saved on your iCloud and CalDAV accounts. Turn on to add it to Calendar Feeds.</string>
+    <string name="account_feeds_checking">Checking…</string>
+    <string name="account_feeds_none">No calendar feeds found</string>
+    <string name="account_feeds_failed">Couldn\'t load calendar feeds</string>
     <string name="subscriptions_row_label">Calendar Feeds (ICS)</string>
     <string name="subscriptions_row_hint">e.g. holidays, sports, school</string>
 

@@ -815,6 +815,16 @@
     <!-- Attribution required by the data license. "Mozilla Thunderbird" and "CC BY-SA 3.0" are proper nouns; keep them as-is. %1$s is the linked license name. -->
     <string name="holiday_catalog_attribution">Holiday calendars from Mozilla Thunderbird, licensed under %1$s.</string>
     <string name="holiday_catalog_attribution_license" translatable="false">CC BY-SA 3.0</string>
+    <!-- Calendar Feeds button and sheet title: add the calendar feeds a signed-in iCloud or CalDAV account stores on its server -->
+    <string name="account_feeds_add">Add from account</string>
+    <!-- Note at the top of the "Add from account" sheet. "iCloud" and "CalDAV" are proper nouns; "Calendar Feeds" is the screen's name -->
+    <string name="account_feeds_note">Lists the calendar feeds saved on your iCloud and CalDAV accounts. Turn on to add it to Calendar Feeds.</string>
+    <!-- Shown in an account's section while its server is asked for feeds -->
+    <string name="account_feeds_checking">Checking…</string>
+    <!-- An account's server lists no calendar feeds, or no account is left -->
+    <string name="account_feeds_none">No calendar feeds found</string>
+    <!-- An account's server couldn't be reached or answered with an error; a Retry button follows -->
+    <string name="account_feeds_failed">Couldn\'t load calendar feeds</string>
     <!-- subscriptions_count_one/other removed — use R.plurals.subscriptions_count -->
     <!-- Summary row for Settings screen. Keep "ICS" untranslated (file format). -->
     <string name="subscriptions_row_label">Calendar feeds (ICS)</string>

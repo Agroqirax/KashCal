@@ -143,6 +143,8 @@ fun SettingsRoute(
         val syncIntervalMs by viewModel.syncIntervalMs.collectAsStateWithLifecycle()
         val subscriptions by viewModel.subscriptions.collectAsStateWithLifecycle()
         val subscriptionSyncing by viewModel.subscriptionSyncing.collectAsStateWithLifecycle()
+        val hasFeedAccounts by viewModel.hasFeedAccounts.collectAsStateWithLifecycle()
+        val accountFeedsSheet by viewModel.accountFeedsSheet.collectAsStateWithLifecycle()
         val defaultReminderTimed by viewModel.defaultReminderTimed.collectAsStateWithLifecycle()
         val defaultReminderAllDay by viewModel.defaultReminderAllDay.collectAsStateWithLifecycle()
         val defaultEventDuration by viewModel.defaultEventDuration.collectAsStateWithLifecycle()
@@ -631,6 +633,12 @@ fun SettingsRoute(
                             localNetworkPermissionState = localNetworkPermissionState,
                             onRequestLocalNetwork = onRequestLocalNetwork,
                             onSubscriptionDialogOpened = onSubscriptionDialogOpened,
+                            showAddFromAccount = hasFeedAccounts,
+                            onOpenAccountFeeds = viewModel::onOpenAccountFeeds,
+                            accountFeedsSheet = accountFeedsSheet,
+                            onAccountFeedSwitch = viewModel::onAccountFeedSwitch,
+                            onRetryAccountFeeds = viewModel::onRetryAccountFeeds,
+                            onCloseAccountFeeds = viewModel::onCloseAccountFeeds,
                         )
                     }
                     SettingsDestination.Tags -> {

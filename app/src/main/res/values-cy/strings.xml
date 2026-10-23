@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Rhowch gynnig ar enw gwahanol</string>
     <string name="holiday_catalog_validate_error">Methwyd cyrraedd y calendr hwn. Gwiriwch eich cysylltiad a rhowch gynnig arall.</string>
     <string name="holiday_catalog_attribution">Calendrau gwyliau gan Mozilla Thunderbird, dan drwydded %1$s.</string>
+    <string name="account_feeds_add">Ychwanegu o gyfrif</string>
+    <string name="account_feeds_note">Dyma\'r ffrydiau calendr sydd wedi\'u cadw ar eich cyfrifon iCloud a CalDAV. Trowch ymlaen i\'w hychwanegu at Ffrydiau Calendr.</string>
+    <string name="account_feeds_checking">Yn gwirio…</string>
+    <string name="account_feeds_none">Heb ddod o hyd i unrhyw ffrydiau calendr</string>
+    <string name="account_feeds_failed">Methu llwytho ffrydiau calendr</string>
     <string name="subscriptions_row_label">Ffrydiau Calendr (ICS)</string>
     <string name="subscriptions_row_hint">e.e. gwyliau, chwaraeon, ysgol</string>
 

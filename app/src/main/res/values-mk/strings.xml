@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Обиди се со друго име</string>
     <string name="holiday_catalog_validate_error">Овој календар не може да се достигне. Провери ја врската и обиди се повторно.</string>
     <string name="holiday_catalog_attribution">Календари со празници од Mozilla Thunderbird, лиценцирани под %1$s.</string>
+    <string name="account_feeds_add">Додај од сметка</string>
+    <string name="account_feeds_note">Ги прикажува каналите со календар зачувани на вашите iCloud и CalDAV сметки. Вклучете го за да го додадете во „Канали со календар“.</string>
+    <string name="account_feeds_checking">Проверување…</string>
+    <string name="account_feeds_none">Не се најдени канали со календар</string>
+    <string name="account_feeds_failed">Каналите со календар не може да се вчитаат</string>
     <string name="subscriptions_row_label">Канали со календар (ICS)</string>
     <string name="subscriptions_row_hint">на пример празници, спорт, училиште</string>
 

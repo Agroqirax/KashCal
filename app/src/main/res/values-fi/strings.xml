@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Kokeile toista nimeä</string>
     <string name="holiday_catalog_validate_error">Tähän kalenteriin ei saatu yhteyttä. Tarkista yhteytesi ja yritä uudelleen.</string>
     <string name="holiday_catalog_attribution">Juhlapäiväkalenterit palvelusta Mozilla Thunderbird, lisensoitu lisenssillä %1$s.</string>
+    <string name="account_feeds_add">Lisää tililtä</string>
+    <string name="account_feeds_note">Tässä näkyvät iCloud- ja CalDAV-tileillesi tallennetut kalenterisyötteet. Ota syöte käyttöön, niin se lisätään näkymään ”Kalenterisyötteet”.</string>
+    <string name="account_feeds_checking">Tarkistetaan…</string>
+    <string name="account_feeds_none">Kalenterisyötteitä ei löytynyt</string>
+    <string name="account_feeds_failed">Kalenterisyötteiden lataus epäonnistui</string>
     <string name="subscriptions_row_label">Kalenterisyötteet (ICS)</string>
     <string name="subscriptions_row_hint">esim. juhlapyhät, urheilu, koulu</string>
 

@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Spróbuj innej nazwy</string>
     <string name="holiday_catalog_validate_error">Nie udało się połączyć z tym kalendarzem. Sprawdź połączenie i spróbuj ponownie.</string>
     <string name="holiday_catalog_attribution">Kalendarze świąt od Mozilla Thunderbird, na licencji %1$s.</string>
+    <string name="account_feeds_add">Dodaj z konta</string>
+    <string name="account_feeds_note">Wyświetla kanały kalendarza zapisane na twoich kontach iCloud i CalDAV. Włącz kanał, aby dodać go do ekranu Kanały kalendarza.</string>
+    <string name="account_feeds_checking">Sprawdzanie…</string>
+    <string name="account_feeds_none">Nie znaleziono kanałów kalendarza</string>
+    <string name="account_feeds_failed">Nie udało się wczytać kanałów kalendarza</string>
     <string name="subscriptions_row_label">Kanały kalendarza (ICS)</string>
     <string name="subscriptions_row_hint">np. święta, sport, szkoła</string>
 

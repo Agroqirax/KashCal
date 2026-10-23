@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Pokušajte s drugim nazivom</string>
     <string name="holiday_catalog_validate_error">Nije moguće dohvatiti ovaj kalendar. Provjerite vezu i pokušajte ponovno.</string>
     <string name="holiday_catalog_attribution">Kalendari praznika iz Mozilla Thunderbird, licencirano pod %1$s.</string>
+    <string name="account_feeds_add">Dodaj s računa</string>
+    <string name="account_feeds_note">Prikazuje feedove kalendara spremljene na vašim iCloud i CalDAV računima. Uključite feed da biste ga dodali na zaslon Feedovi kalendara.</string>
+    <string name="account_feeds_checking">Provjeravanje…</string>
+    <string name="account_feeds_none">Nije pronađen nijedan feed kalendara</string>
+    <string name="account_feeds_failed">Učitavanje feedova kalendara nije uspjelo</string>
     <string name="subscriptions_row_label">Feedovi kalendara (ICS)</string>
     <string name="subscriptions_row_hint">npr. praznici, sport, škola</string>
 

@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">ลองใช้ชื่ออื่น</string>
     <string name="holiday_catalog_validate_error">ไม่สามารถเชื่อมต่อปฏิทินนี้ได้ โปรดตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง</string>
     <string name="holiday_catalog_attribution">ปฏิทินวันหยุดจาก Mozilla Thunderbird อยู่ภายใต้สัญญาอนุญาต %1$s</string>
+    <string name="account_feeds_add">เพิ่มจากบัญชี</string>
+    <string name="account_feeds_note">แสดงฟีดปฏิทินที่บันทึกไว้ในบัญชี iCloud และ CalDAV ของคุณ เปิดเพื่อเพิ่มลงในฟีดปฏิทิน</string>
+    <string name="account_feeds_checking">กำลังตรวจสอบ…</string>
+    <string name="account_feeds_none">ไม่พบฟีดปฏิทิน</string>
+    <string name="account_feeds_failed">โหลดฟีดปฏิทินไม่ได้</string>
     <string name="subscriptions_row_label">ฟีดปฏิทิน (ICS)</string>
     <string name="subscriptions_row_hint">เช่น วันหยุด กีฬา โรงเรียน</string>
 

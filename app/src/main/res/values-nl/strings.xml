@@ -541,6 +541,11 @@
     <string name="holiday_catalog_empty_hint">Probeer een andere naam</string>
     <string name="holiday_catalog_validate_error">Deze kalender kon niet worden bereikt. Controleer je verbinding en probeer het opnieuw.</string>
     <string name="holiday_catalog_attribution">Feestdagenkalenders van Mozilla Thunderbird, gelicentieerd onder %1$s.</string>
+    <string name="account_feeds_add">Vanuit account toevoegen</string>
+    <string name="account_feeds_note">Toont de agendafeeds die in je iCloud- en CalDAV-accounts zijn opgeslagen. Zet de feed aan om hem aan Agendafeeds toe te voegen.</string>
+    <string name="account_feeds_checking">Controleren…</string>
+    <string name="account_feeds_none">Geen agendafeeds gevonden</string>
+    <string name="account_feeds_failed">Kan agendafeeds niet laden</string>
     <string name="subscriptions_row_label">Agendafeeds (ICS)</string>
     <string name="subscriptions_row_hint">bijv. feestdagen, sport, school</string>
 

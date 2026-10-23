@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Prova un altre nom</string>
     <string name="holiday_catalog_validate_error">No s\'ha pogut accedir a aquest calendari. Comprova la connexió i torna-ho a provar.</string>
     <string name="holiday_catalog_attribution">Calendaris de festius de Mozilla Thunderbird, amb llicència %1$s.</string>
+    <string name="account_feeds_add">Afegeix des d\'un compte</string>
+    <string name="account_feeds_note">Mostra els fluxos de calendari desats als teus comptes d\'iCloud i CalDAV. Activa\'l per afegir-lo a Fluxos de calendari.</string>
+    <string name="account_feeds_checking">Comprovant…</string>
+    <string name="account_feeds_none">No s\'ha trobat cap flux de calendari</string>
+    <string name="account_feeds_failed">No s\'han pogut carregar els fluxos de calendari</string>
     <string name="subscriptions_row_label">Fluxos de calendari (ICS)</string>
     <string name="subscriptions_row_hint">p. ex. festius, esports, escola</string>
 

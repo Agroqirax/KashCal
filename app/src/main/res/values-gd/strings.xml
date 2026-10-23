@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Feuch ainm eile</string>
     <string name="holiday_catalog_validate_error">Cha b\'urrainn dhuinn am mìosachan seo a ruigsinn. Thoir sùil air a\' cheangal agad is feuch ris a-rithist.</string>
     <string name="holiday_catalog_attribution">Mìosachain làithean-saora o Mozilla Thunderbird, fo cheadachas %1$s.</string>
+    <string name="account_feeds_add">Cuir ris o chunntas</string>
+    <string name="account_feeds_note">Seo na h-inbhirean mìosachain a tha air an sàbhaladh sna cunntasan iCloud is CalDAV agad. Cuir air gus a chur ri Inbhirean Mìosachain.</string>
+    <string name="account_feeds_checking">A\' sgrùdadh…</string>
+    <string name="account_feeds_none">Cha deach inbhir mìosachain a lorg</string>
+    <string name="account_feeds_failed">Cha b\'urrainnear na h-inbhirean mìosachain a luchdadh</string>
     <string name="subscriptions_row_label">Inbhirean Mìosachain (ICS)</string>
     <string name="subscriptions_row_hint">m.e. saor-làithean, spòrs, sgoil</string>
 

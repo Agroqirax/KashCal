@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Pabandykite kitą pavadinimą</string>
     <string name="holiday_catalog_validate_error">Nepavyko pasiekti šio kalendoriaus. Patikrinkite ryšį ir bandykite dar kartą.</string>
     <string name="holiday_catalog_attribution">Švenčių kalendoriai iš Mozilla Thunderbird, licencijuoti pagal %1$s.</string>
+    <string name="account_feeds_add">Pridėti iš paskyros</string>
+    <string name="account_feeds_note">Čia rodomi kalendoriaus srautai, išsaugoti tavo iCloud ir CalDAV paskyrose. Įjunk srautą, kad pridėtum jį į skiltį „Kalendoriaus srautai“.</string>
+    <string name="account_feeds_checking">Tikrinama…</string>
+    <string name="account_feeds_none">Kalendoriaus srautų nerasta</string>
+    <string name="account_feeds_failed">Nepavyko įkelti kalendoriaus srautų</string>
     <string name="subscriptions_row_label">Kalendoriaus srautai (ICS)</string>
     <string name="subscriptions_row_hint">pvz. šventės, sportas, mokykla</string>
 

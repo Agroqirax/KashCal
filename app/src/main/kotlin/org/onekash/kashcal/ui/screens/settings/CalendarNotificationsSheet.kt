@@ -214,10 +214,10 @@ internal fun CalendarNotificationsContent(
 /**
  * Shows [line] with an info button that opens [detail] in a tonal box below it, inline as on the
  * Manage tags screen, and an optional [trailing] control after the button. The detail starts
- * closed whenever the sheet opens, because the sheet composes this only while it is open.
+ * closed whenever its sheet opens, because a sheet composes this only while it is open.
  */
 @Composable
-private fun LineWithInfo(
+internal fun LineWithInfo(
     detail: String,
     infoDescription: String,
     modifier: Modifier = Modifier,

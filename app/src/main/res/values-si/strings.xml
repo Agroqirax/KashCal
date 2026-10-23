@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">වෙනත් නමක් උත්සාහ කරන්න</string>
     <string name="holiday_catalog_validate_error">මෙම දින දර්ශනයට ළඟා විය නොහැකි විය. ඔබේ සම්බන්ධතාවය පරීක්ෂා කර නැවත උත්සාහ කරන්න.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird වෙතින් නිවාඩු දින දර්ශන, %1$s යටතේ බලපත්‍ර ලබා ඇත.</string>
+    <string name="account_feeds_add">ගිණුමෙන් එකතු කරන්න</string>
+    <string name="account_feeds_note">ඔබේ iCloud සහ CalDAV ගිණුම්වල සුරකින ලද දින දර්ශන පෝෂණ ලැයිස්තුගත කරයි. දින දර්ශන පෝෂණ වෙත එකතු කිරීමට සක්‍රිය කරන්න.</string>
+    <string name="account_feeds_checking">පරීක්ෂා කරමින්…</string>
+    <string name="account_feeds_none">දින දර්ශන පෝෂණ හමු නොවීය</string>
+    <string name="account_feeds_failed">දින දර්ශන පෝෂණ පූරණය කළ නොහැකි විය</string>
     <string name="subscriptions_row_label">දින දර්ශන පෝෂණ (ICS)</string>
     <string name="subscriptions_row_hint">උදා. නිවාඩු, ක්‍රීඩා, පාසල</string>
 

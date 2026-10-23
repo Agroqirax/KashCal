@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">請嘗試其他名稱</string>
     <string name="holiday_catalog_validate_error">無法連線到此日曆。請檢查網路連線後再試一次。</string>
     <string name="holiday_catalog_attribution">假日日曆來自 Mozilla Thunderbird，依據 %1$s 授權。</string>
+    <string name="account_feeds_add">從帳號新增</string>
+    <string name="account_feeds_note">列出你的 iCloud 和 CalDAV 帳號中儲存的行事曆訂閱源。開啟即可將其新增至「行事曆訂閱源」。</string>
+    <string name="account_feeds_checking">檢查中…</string>
+    <string name="account_feeds_none">找不到行事曆訂閱源</string>
+    <string name="account_feeds_failed">無法載入行事曆訂閱源</string>
     <string name="subscriptions_row_label">行事曆訂閱源 (ICS)</string>
     <string name="subscriptions_row_hint">例如：假日、體育、學校</string>
 

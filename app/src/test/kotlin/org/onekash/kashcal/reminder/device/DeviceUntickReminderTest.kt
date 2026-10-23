@@ -43,6 +43,7 @@ import org.onekash.kashcal.data.preferences.UserPreferencesRepository
 import org.onekash.kashcal.data.repository.AccountRepository
 import org.onekash.kashcal.domain.backup.SettingsBackupImporter
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.noFeedAccountsServerCalendarFeeds
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.SyncLogReader
 import org.onekash.kashcal.ui.permission.FakePermissionChecker
@@ -189,6 +190,7 @@ class DeviceUntickReminderTest {
             discoveryService = mockk(),
             calDavDiscoveryService = mockk(),
             eventCoordinator = eventCoordinator,
+            serverCalendarFeeds = noFeedAccountsServerCalendarFeeds(),
             syncLogReader = syncLogReader,
             contactEventManager = mockk<ContactEventManager>(),
             calendarProviderManager = manager,

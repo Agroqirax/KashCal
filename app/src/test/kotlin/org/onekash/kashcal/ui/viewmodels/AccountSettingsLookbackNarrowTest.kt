@@ -46,6 +46,7 @@ import org.onekash.kashcal.data.repository.AccountRepository
 import org.onekash.kashcal.data.repository.AccountRepositoryImpl
 import org.onekash.kashcal.data.repository.CalendarRepositoryImpl
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.noFeedAccountsServerCalendarFeeds
 import org.onekash.kashcal.domain.generator.OccurrenceGenerator
 import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
 import org.onekash.kashcal.domain.model.AccountProvider
@@ -354,6 +355,7 @@ class AccountSettingsLookbackNarrowTest {
             discoveryService = mockk(),
             calDavDiscoveryService = mockk(),
             eventCoordinator = coordinator,
+            serverCalendarFeeds = noFeedAccountsServerCalendarFeeds(),
             syncLogReader = syncLogReader,
             contactEventManager = mockk(),
             calendarProviderManager = manager,

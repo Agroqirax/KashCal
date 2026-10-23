@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Saiatu beste izen batekin</string>
     <string name="holiday_catalog_validate_error">Ezin izan da egutegi honetara sartu. Egiaztatu konexioa eta saiatu berriro.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird-en jaiegunen egutegiak, %1$s lizentziapean.</string>
+    <string name="account_feeds_add">Gehitu kontutik</string>
+    <string name="account_feeds_note">Zure iCloud eta CalDAV kontuetan gordetako egutegi-jarioak zerrendatzen ditu. Aktibatu Egutegi-jarioak atalera gehitzeko.</string>
+    <string name="account_feeds_checking">Egiaztatzen…</string>
+    <string name="account_feeds_none">Ez da egutegi-jariorik aurkitu</string>
+    <string name="account_feeds_failed">Ezin izan dira egutegi-jarioak kargatu</string>
     <string name="subscriptions_row_label">Egutegi-jarioak (ICS)</string>
     <string name="subscriptions_row_hint">adib. jaiegunak, kirolak, eskola</string>
 

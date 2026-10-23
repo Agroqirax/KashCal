@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Jaribu jina lingine</string>
     <string name="holiday_catalog_validate_error">Imeshindwa kufikia kalenda hii. Angalia muunganisho wako kisha ujaribu tena.</string>
     <string name="holiday_catalog_attribution">Kalenda za likizo kutoka Mozilla Thunderbird, zenye leseni chini ya %1$s.</string>
+    <string name="account_feeds_add">Ongeza kutoka kwa akaunti</string>
+    <string name="account_feeds_note">Huorodhesha milisho ya kalenda iliyohifadhiwa kwenye akaunti zako za iCloud na CalDAV. Washa ili kuuongeza kwenye Milisho ya Kalenda.</string>
+    <string name="account_feeds_checking">Inakagua…</string>
+    <string name="account_feeds_none">Hakuna milisho ya kalenda iliyopatikana</string>
+    <string name="account_feeds_failed">Imeshindwa kupakia milisho ya kalenda</string>
     <string name="subscriptions_row_label">Milisho ya Kalenda (ICS)</string>
     <string name="subscriptions_row_hint">mfano sikukuu, michezo, shule</string>
 

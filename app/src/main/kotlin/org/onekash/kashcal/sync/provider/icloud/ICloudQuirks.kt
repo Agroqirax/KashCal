@@ -50,6 +50,9 @@ class ICloudQuirks @Inject constructor() : CalDavQuirks {
         }
     }
 
+    override fun extractWebcalFeeds(responseBody: String): List<CalDavQuirks.ParsedWebcalFeed>? =
+        xmlParser.extractWebcalFeeds(responseBody)
+
     override fun classifyCalendarProbe(responseBody: String, requestedPath: String): Boolean? {
         val probed = xmlParser.extractProbedCollection(responseBody, requestedPath) ?: return null
         return probed.isCalendar &&

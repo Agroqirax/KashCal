@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">മറ്റൊരു പേര് ശ്രമിക്കുക</string>
     <string name="holiday_catalog_validate_error">ഈ കലണ്ടറിലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird-ൽ നിന്നുള്ള അവധി കലണ്ടറുകൾ, %1$s പ്രകാരം ലൈസൻസ് ചെയ്തവ.</string>
+    <string name="account_feeds_add">അക്കൗണ്ടിൽ നിന്ന് ചേർക്കുക</string>
+    <string name="account_feeds_note">നിങ്ങളുടെ iCloud, CalDAV അക്കൗണ്ടുകളിൽ സേവ് ചെയ്ത കലണ്ടർ ഫീഡുകൾ ഇവിടെ കാണാം. കലണ്ടർ ഫീഡുകൾ വിഭാഗത്തിലേക്ക് ചേർക്കാൻ ഓൺ ചെയ്യുക.</string>
+    <string name="account_feeds_checking">പരിശോധിക്കുന്നു…</string>
+    <string name="account_feeds_none">കലണ്ടർ ഫീഡുകളൊന്നും കണ്ടെത്തിയില്ല</string>
+    <string name="account_feeds_failed">കലണ്ടർ ഫീഡുകൾ ലോഡ് ചെയ്യാനായില്ല</string>
     <string name="subscriptions_row_label">കലണ്ടർ ഫീഡുകൾ (ICS)</string>
     <string name="subscriptions_row_hint">ഉദാ. അവധികൾ, കായികം, സ്കൂൾ</string>
 

@@ -11,8 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -51,6 +53,10 @@ import org.onekash.kashcal.domain.backup.SettingsBackupExporter
 import org.onekash.kashcal.domain.backup.SettingsBackupImporter
 import org.onekash.kashcal.domain.backup.toSummary
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.CalendarFeedUrl
+import org.onekash.kashcal.domain.feeds.FeedAccount
+import org.onekash.kashcal.domain.feeds.FeedListing
+import org.onekash.kashcal.domain.feeds.ServerCalendarFeeds
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.DeviceEventReader
 import org.onekash.kashcal.domain.reader.SyncLogReader
@@ -75,6 +81,10 @@ import org.onekash.kashcal.ui.permission.reconcileOnResume
 import org.onekash.kashcal.ui.permission.failureIndicatesBlockedLan
 import org.onekash.kashcal.ui.screens.AccountSettingsUiState
 import org.onekash.kashcal.ui.screens.BackupRestoreUiState
+import org.onekash.kashcal.ui.screens.settings.AccountFeedRow
+import org.onekash.kashcal.ui.screens.settings.AccountFeedsContent
+import org.onekash.kashcal.ui.screens.settings.AccountFeedsSection
+import org.onekash.kashcal.ui.screens.settings.AccountFeedsSheetState
 import org.onekash.kashcal.ui.screens.settings.AccountDetailDiscoverStatus
 import org.onekash.kashcal.ui.screens.settings.AccountDetailSyncStatus
 import org.onekash.kashcal.ui.screens.settings.CalDavAccountUiModel
@@ -94,6 +104,9 @@ import org.onekash.kashcal.widget.WidgetUpdateManager
 import javax.inject.Inject
 
 private const val TAG = "AccountSettingsVM"
+
+/** How long an "Add from account" section waits for its listing before showing Failed. */
+private const val ACCOUNT_FEEDS_TIMEOUT_MS = 20_000L
 
 // Per-attempt limit for iCloud and CalDAV sign-in discovery, so a stalled network can't hang the
 // sign-in sheet.
@@ -141,6 +154,7 @@ class AccountSettingsViewModel @Inject constructor(
     private val discoveryService: AccountDiscoveryService,
     private val calDavDiscoveryService: CalDavAccountDiscoveryService,
     private val eventCoordinator: EventCoordinator,
+    private val serverCalendarFeeds: ServerCalendarFeeds,
     private val syncLogReader: SyncLogReader,
     private val contactEventManager: ContactEventManager,
     private val calendarProviderManager: CalendarProviderManager,
@@ -204,7 +218,7 @@ class AccountSettingsViewModel @Inject constructor(
     val writableDeviceCalendarGroups: StateFlow<List<CalendarGroup>> = _writableDeviceCalendarGroups.asStateFlow()
 
     // ICS subscriptions. [subscriptions] leaves out the row in its delete-with-undo window, so it
-    // disappears on swipe (issue #133).
+    // disappears on the Delete tap (issue #133).
     private val _subscriptionsRaw = MutableStateFlow<List<IcsSubscriptionUiModel>>(emptyList())
     private val _pendingSubscriptionDeletionId = MutableStateFlow<Long?>(null)
     val subscriptions: StateFlow<List<IcsSubscriptionUiModel>> =
@@ -218,6 +232,48 @@ class AccountSettingsViewModel @Inject constructor(
 
     private val _subscriptionSyncing = MutableStateFlow(false)
     val subscriptionSyncing: StateFlow<Boolean> = _subscriptionSyncing.asStateFlow()
+
+    // Calendar Feeds' "Add from account" sheet, one section per account whose provider has
+    // [AccountProvider.supportsCalendarFeeds]. The listing state is dropped when the sheet
+    // closes; the busy URLs are not, so a reopened sheet still disables a switch whose add or
+    // removal is running.
+    private val feedAccounts: StateFlow<List<FeedAccount>> =
+        serverCalendarFeeds.observeFeedAccounts()
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /** Whether Calendar Feeds shows "Add from account": a feed account exists. */
+    val hasFeedAccounts: StateFlow<Boolean> = feedAccounts
+        .map { it.isNotEmpty() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    private val _accountFeedsSheet = MutableStateFlow<AccountFeedsSheetState?>(null)
+    private val _feedBusyUrls = MutableStateFlow<Set<String>>(emptySet())
+
+    /** The running listing per account section; touched on the main thread only. */
+    private val accountFeedJobs = mutableMapOf<Long, Job>()
+
+    /**
+     * The "Add from account" sheet, or null while closed. A row's switch is on when a visible
+     * Calendar Feeds entry has the same URL after [CalendarFeedUrl.normalize], whoever added it.
+     */
+    val accountFeedsSheet: StateFlow<AccountFeedsSheetState?> =
+        combine(_accountFeedsSheet, subscriptions, _feedBusyUrls) { sheet, visible, busy ->
+            if (sheet == null) return@combine null
+            val onUrls = visible.mapTo(HashSet()) { cleanedFeedUrl(it.url) }
+            sheet.copy(
+                sections = sheet.sections.map { section ->
+                    val content = section.content
+                    if (content !is AccountFeedsContent.Feeds) return@map section
+                    section.copy(
+                        content = content.copy(
+                            rows = content.rows.map { row ->
+                                row.copy(isOn = row.url in onUrls, isBusy = row.url in busy)
+                            }
+                        )
+                    )
+                }
+            )
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     // Sync settings
     private val _syncIntervalMs = MutableStateFlow(24 * 60 * 60 * 1000L)
@@ -1858,11 +1914,8 @@ class AccountSettingsViewModel @Inject constructor(
      * no-op when no deletion is pending.
      */
     fun onUndoSubscriptionDeletion() {
-        val pending = _pendingSubscriptionDeletionId.value ?: return
+        val pending = clearPendingSubscriptionDeletion() ?: return
         Log.i(TAG, "Undo pending subscription deletion: $pending")
-        _pendingSubscriptionDeletionId.value = null
-        _uiState.update { it.copy(pendingSubscriptionDeletionId = null) }
-        clearSnackbar()
     }
 
     /**
@@ -1874,12 +1927,21 @@ class AccountSettingsViewModel @Inject constructor(
      * `ActionPerformed`; the guard means a deletion the user undid is never committed.
      */
     fun onSubscriptionDeletionSettled() {
-        val pending = _pendingSubscriptionDeletionId.value ?: return
+        val pending = clearPendingSubscriptionDeletion() ?: return
         Log.i(TAG, "Committing pending subscription deletion: $pending")
+        commitSubscriptionDeletion(pending)
+    }
+
+    /**
+     * Ends the pending deletion's Undo window without deleting anything: clears the pending id
+     * and its snackbar. Returns the id that was pending, or null when none was.
+     */
+    private fun clearPendingSubscriptionDeletion(): Long? {
+        val pending = _pendingSubscriptionDeletionId.value ?: return null
         _pendingSubscriptionDeletionId.value = null
         _uiState.update { it.copy(pendingSubscriptionDeletionId = null) }
         clearSnackbar()
-        commitSubscriptionDeletion(pending)
+        return pending
     }
 
     /**
@@ -1905,12 +1967,171 @@ class AccountSettingsViewModel @Inject constructor(
 
     /**
      * Deletes the subscription on [applicationScope] so the delete survives the Activity being
-     * destroyed inside the undo window (issue #133). Every commit path calls this, so the scope
-     * choice can't drift.
+     * destroyed inside the undo window (issue #133). The snackbar, [onCleared] and staging a new
+     * deletion commit through this; [onAccountFeedSwitch] removes a matching staged entry in its
+     * own tracked launch, also on [applicationScope].
      */
     private fun commitSubscriptionDeletion(subscriptionId: Long) {
         applicationScope.launch { eventCoordinator.removeIcsSubscription(subscriptionId) }
     }
+
+    // ==================== Add from account ====================
+
+    /**
+     * Opens the "Add from account" sheet with one Checking section per feed account and lists
+     * them all in parallel. Every open lists fresh.
+     */
+    fun onOpenAccountFeeds() {
+        cancelAccountFeedListings()
+        val accounts = feedAccounts.value
+        _accountFeedsSheet.value = AccountFeedsSheetState(
+            sections = accounts.map { account ->
+                AccountFeedsSection(
+                    accountId = account.id,
+                    displayName = account.displayName,
+                    maskedEmail = maskEmail(account.email),
+                    content = AccountFeedsContent.Checking,
+                )
+            }
+        )
+        accounts.forEach { startAccountFeedListing(it.id) }
+    }
+
+    /** Lists one open section's account again, replacing a listing still running for it. */
+    fun onRetryAccountFeeds(accountId: Long) {
+        if (_accountFeedsSheet.value?.sections?.any { it.accountId == accountId } != true) return
+        startAccountFeedListing(accountId)
+    }
+
+    /** Closes the sheet: cancels running listings and drops what they found. */
+    fun onCloseAccountFeeds() {
+        cancelAccountFeedListings()
+        _accountFeedsSheet.value = null
+    }
+
+    /**
+     * Adds the feed with [url], as listed in account [accountId]'s section (its name and color),
+     * to Calendar Feeds ([on]), or removes every visible entry with that URL. Both run on
+     * [applicationScope], so closing the sheet doesn't cancel them, and keep the switch busy
+     * until they finish. Removal has no Undo: switching back on adds the feed again from the
+     * server's listing.
+     *
+     * A matching entry waiting in its delete-with-undo window is undone by switching on, and
+     * deleted by switching off.
+     */
+    fun onAccountFeedSwitch(accountId: Long, url: String, on: Boolean) {
+        if (url in _feedBusyUrls.value) return
+        val pendingMatchId = _pendingSubscriptionDeletionId.value?.takeIf { pending ->
+            _subscriptionsRaw.value.any { it.id == pending && cleanedFeedUrl(it.url) == url }
+        }
+
+        if (on) {
+            if (pendingMatchId != null) {
+                onUndoSubscriptionDeletion()
+                return
+            }
+            val row = accountFeedRow(accountId, url) ?: return
+            runFeedChange(url) {
+                val result = eventCoordinator.addIcsSubscription(row.url, row.name, row.color)
+                if (result is IcsSubscriptionRepository.SubscriptionResult.Error && !result.isDuplicate) {
+                    Log.e(TAG, "Couldn't add calendar feed $url: ${result.message}")
+                }
+            }
+        } else {
+            val ids = subscriptions.value
+                .filter { cleanedFeedUrl(it.url) == url }
+                .mapNotNull { it.id }
+                .toMutableList()
+            if (pendingMatchId != null) {
+                // Removed with the others in the tracked launch, not through
+                // commitSubscriptionDeletion, so the switch stays disabled until it lands.
+                clearPendingSubscriptionDeletion()
+                ids += pendingMatchId
+            }
+            if (ids.isEmpty()) return
+            runFeedChange(url) { ids.forEach { eventCoordinator.removeIcsSubscription(it) } }
+        }
+    }
+
+    private fun cancelAccountFeedListings() {
+        accountFeedJobs.values.forEach { it.cancel() }
+        accountFeedJobs.clear()
+    }
+
+    /**
+     * Starts [accountId]'s listing, cancelling one still running. The section waits at most
+     * [ACCOUNT_FEEDS_TIMEOUT_MS] and then shows Failed.
+     */
+    private fun startAccountFeedListing(accountId: Long) {
+        accountFeedJobs.remove(accountId)?.cancel()
+        setAccountFeedsContent(accountId, AccountFeedsContent.Checking)
+        val job = viewModelScope.launch(start = CoroutineStart.LAZY) {
+            // On viewModelScope, not as a child of this job, so a failed listing can't cancel the
+            // section's job; cancelled in finally on every way out.
+            val listing = viewModelScope.async { serverCalendarFeeds.listFeeds(accountId) }
+            val result = try {
+                withTimeoutOrNull(ACCOUNT_FEEDS_TIMEOUT_MS) { listing.await() } ?: FeedListing.Failed
+            } finally {
+                listing.cancel()
+            }
+            if (accountFeedJobs[accountId] !== coroutineContext[Job]) return@launch
+            accountFeedJobs.remove(accountId)
+            setAccountFeedsContent(accountId, result.toAccountFeedsContent())
+        }
+        accountFeedJobs[accountId] = job
+        job.start()
+    }
+
+    private fun setAccountFeedsContent(accountId: Long, content: AccountFeedsContent) {
+        _accountFeedsSheet.update { sheet ->
+            sheet?.copy(
+                sections = sheet.sections.map {
+                    if (it.accountId == accountId) it.copy(content = content) else it
+                }
+            )
+        }
+    }
+
+    /** Rows get the server's color, or a palette color picked here once per listing. */
+    private fun FeedListing.toAccountFeedsContent(): AccountFeedsContent = when (this) {
+        FeedListing.Failed -> AccountFeedsContent.Failed
+        is FeedListing.Feeds -> if (feeds.isEmpty()) {
+            AccountFeedsContent.NoFeeds
+        } else {
+            AccountFeedsContent.Feeds(
+                feeds.map { feed ->
+                    AccountFeedRow(
+                        url = feed.url,
+                        name = feed.name,
+                        host = CalendarFeedUrl.hostOf(feed.url),
+                        color = feed.color ?: EventColorPalette.randomArgb(),
+                    )
+                }
+            )
+        }
+    }
+
+    private fun accountFeedRow(accountId: Long, url: String): AccountFeedRow? =
+        (_accountFeedsSheet.value?.sections?.firstOrNull { it.accountId == accountId }?.content
+            as? AccountFeedsContent.Feeds)?.rows?.firstOrNull { it.url == url }
+
+    /** Runs a feed add or removal on [applicationScope] with [url] busy; a throw is logged. */
+    private fun runFeedChange(url: String, change: suspend () -> Unit) {
+        _feedBusyUrls.update { it + url }
+        applicationScope.launch {
+            try {
+                change()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e(TAG, "Calendar feed change failed for $url", e)
+            } finally {
+                _feedBusyUrls.update { it - url }
+            }
+        }
+    }
+
+    private fun cleanedFeedUrl(raw: String): String = CalendarFeedUrl.normalize(raw) ?: raw
 
     /**
      * Enables or disables an ICS subscription on [applicationScope], so the change and the

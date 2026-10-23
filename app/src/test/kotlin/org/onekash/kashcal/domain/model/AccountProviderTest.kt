@@ -149,6 +149,15 @@ class AccountProviderTest {
         }
     }
 
+    @Test
+    fun `only iCloud and CalDAV support calendar feeds`() {
+        assertTrue(AccountProvider.ICLOUD.supportsCalendarFeeds)
+        assertTrue(AccountProvider.CALDAV.supportsCalendarFeeds)
+        assertFalse(AccountProvider.LOCAL.supportsCalendarFeeds)
+        assertFalse(AccountProvider.ICS.supportsCalendarFeeds)
+        assertFalse(AccountProvider.CONTACTS.supportsCalendarFeeds)
+    }
+
     // ========== displayName Tests ==========
 
     @Test

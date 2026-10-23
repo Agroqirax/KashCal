@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Спробуйте іншу назву</string>
     <string name="holiday_catalog_validate_error">Не вдалося відкрити цей календар. Перевірте з\'єднання та повторіть спробу.</string>
     <string name="holiday_catalog_attribution">Календарі свят від Mozilla Thunderbird, ліцензія %1$s.</string>
+    <string name="account_feeds_add">Додати з облікового запису</string>
+    <string name="account_feeds_note">Тут показано стрічки календаря, збережені у твоїх облікових записах iCloud і CalDAV. Увімкни стрічку, щоб додати її до розділу «Стрічки календаря».</string>
+    <string name="account_feeds_checking">Перевірка…</string>
+    <string name="account_feeds_none">Стрічки календаря не знайдено</string>
+    <string name="account_feeds_failed">Не вдалося завантажити стрічки календаря</string>
     <string name="subscriptions_row_label">Стрічки календаря (ICS)</string>
     <string name="subscriptions_row_hint">напр. свята, спорт, школа</string>
 

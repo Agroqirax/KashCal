@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Zkuste jiný název</string>
     <string name="holiday_catalog_validate_error">Tento kalendář se nepodařilo načíst. Zkontrolujte připojení a zkuste to znovu.</string>
     <string name="holiday_catalog_attribution">Kalendáře svátků od Mozilla Thunderbird, licencováno pod %1$s.</string>
+    <string name="account_feeds_add">Přidat z účtu</string>
+    <string name="account_feeds_note">Zobrazuje kanály kalendáře uložené ve vašich účtech iCloud a CalDAV. Zapnutím kanálu jej přidáte na obrazovku Kanály kalendáře.</string>
+    <string name="account_feeds_checking">Kontrolování…</string>
+    <string name="account_feeds_none">Nebyly nalezeny žádné kanály kalendáře</string>
+    <string name="account_feeds_failed">Kanály kalendáře se nepodařilo načíst</string>
     <string name="subscriptions_row_label">Kanály kalendáře (ICS)</string>
     <string name="subscriptions_row_hint">např. svátky, sport, škola</string>
 

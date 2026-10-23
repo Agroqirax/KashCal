@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Próbálj másik nevet</string>
     <string name="holiday_catalog_validate_error">Nem sikerült elérni ezt a naptárt. Ellenőrizd a kapcsolatot, és próbáld újra.</string>
     <string name="holiday_catalog_attribution">Ünnepnaptárak a Mozilla Thunderbird forrásból, %1$s licenc alatt.</string>
+    <string name="account_feeds_add">Hozzáadás fiókból</string>
+    <string name="account_feeds_note">Felsorolja az iCloud- és CalDAV-fiókjaidban mentett naptárhírcsatornákat. Kapcsold be, hogy hozzáadd a Naptárhírcsatornákhoz.</string>
+    <string name="account_feeds_checking">Ellenőrzés…</string>
+    <string name="account_feeds_none">Nem található naptárhírcsatorna</string>
+    <string name="account_feeds_failed">Nem sikerült betölteni a naptárhírcsatornákat</string>
     <string name="subscriptions_row_label">Naptárhírcsatornák (ICS)</string>
     <string name="subscriptions_row_hint">pl. ünnepek, sport, iskola</string>
 

@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">အခြားအမည်ဖြင့် စမ်းကြည့်ပါ</string>
     <string name="holiday_catalog_validate_error">ဤပြက္ခဒိန်ကို မရောက်ရှိနိုင်ပါ။ သင့်ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်စမ်းကြည့်ပါ။</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird မှ အားလပ်ရက် ပြက္ခဒိန်များ၊ %1$s အောက်တွင် လိုင်စင်ရထားသည်။</string>
+    <string name="account_feeds_add">အကောင့်မှ ထည့်ပါ</string>
+    <string name="account_feeds_note">သင့် iCloud နှင့် CalDAV အကောင့်များတွင် သိမ်းထားသော ပြက္ခဒိန် ဖိဒ်များကို ပြသည်။ ပြက္ခဒိန် ဖိဒ်များ သို့ ထည့်ရန် ဖွင့်ပါ။</string>
+    <string name="account_feeds_checking">စစ်ဆေးနေသည်…</string>
+    <string name="account_feeds_none">ပြက္ခဒိန် ဖိဒ် မတွေ့ပါ</string>
+    <string name="account_feeds_failed">ပြက္ခဒိန် ဖိဒ်များကို တင်၍မရပါ</string>
     <string name="subscriptions_row_label">ပြက္ခဒိန် ဖိဒ်များ (ICS)</string>
     <string name="subscriptions_row_hint">ဥပမာ ရုံးပိတ်ရက်၊ အားကစား၊ ကျောင်း</string>
 

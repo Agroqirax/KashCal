@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Басқа атауды қолданып көріңіз</string>
     <string name="holiday_catalog_validate_error">Бұл күнтізбеге қосылу мүмкін болмады. Байланысыңызды тексеріп, қайталап көріңіз.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird мереке күнтізбелері, %1$s аясында лицензияланған.</string>
+    <string name="account_feeds_add">Есептік жазбадан қосу</string>
+    <string name="account_feeds_note">iCloud және CalDAV есептік жазбаларыңызда сақталған күнтізбе арналарын көрсетеді. Күнтізбе арналары бөліміне қосу үшін іске қосыңыз.</string>
+    <string name="account_feeds_checking">Тексеру…</string>
+    <string name="account_feeds_none">Күнтізбе арналары табылмады</string>
+    <string name="account_feeds_failed">Күнтізбе арналарын жүктеу мүмкін болмады</string>
     <string name="subscriptions_row_label">Күнтізбе арналары (ICS)</string>
     <string name="subscriptions_row_hint">мысалы, мерекелер, спорт, мектеп</string>
 

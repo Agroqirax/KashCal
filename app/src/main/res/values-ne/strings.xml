@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">अर्को नाम प्रयास गर्नुहोस्</string>
     <string name="holiday_catalog_validate_error">यो क्यालेन्डरमा पुग्न सकिएन। आफ्नो जडान जाँच गर्नुहोस् र फेरि प्रयास गर्नुहोस्।</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird बाट बिदा क्यालेन्डरहरू, %1$s अन्तर्गत इजाजतपत्र प्राप्त।</string>
+    <string name="account_feeds_add">खाताबाट थप्नुहोस्</string>
+    <string name="account_feeds_note">तपाईंका iCloud र CalDAV खाताहरूमा सुरक्षित गरिएका क्यालेन्डर फिडहरू देखाउँछ। क्यालेन्डर फिडहरू मा थप्न अन गर्नुहोस्।</string>
+    <string name="account_feeds_checking">जाँच गर्दै…</string>
+    <string name="account_feeds_none">कुनै क्यालेन्डर फिड फेला परेन</string>
+    <string name="account_feeds_failed">क्यालेन्डर फिडहरू लोड गर्न सकिएन</string>
     <string name="subscriptions_row_label">क्यालेन्डर फिडहरू (ICS)</string>
     <string name="subscriptions_row_hint">जस्तै बिदाहरू, खेलकुद, विद्यालय</string>
 

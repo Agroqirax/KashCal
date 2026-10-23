@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Farklı bir ad deneyin</string>
     <string name="holiday_catalog_validate_error">Bu takvime ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin.</string>
     <string name="holiday_catalog_attribution">Mozilla Thunderbird tatil takvimleri, %1$s lisansı altında sunulmaktadır.</string>
+    <string name="account_feeds_add">Hesaptan ekle</string>
+    <string name="account_feeds_note">iCloud ve CalDAV hesaplarında kayıtlı takvim akışlarını listeler. Takvim Akışları\'na eklemek için aç.</string>
+    <string name="account_feeds_checking">Kontrol ediliyor…</string>
+    <string name="account_feeds_none">Takvim akışı bulunamadı</string>
+    <string name="account_feeds_failed">Takvim akışları yüklenemedi</string>
     <string name="subscriptions_row_label">Takvim Akışları (ICS)</string>
     <string name="subscriptions_row_hint">örn. tatiller, spor, okul</string>
 

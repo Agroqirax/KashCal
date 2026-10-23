@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Sumubok ng ibang pangalan</string>
     <string name="holiday_catalog_validate_error">Hindi maabot ang kalendaryong ito. Suriin ang iyong koneksyon at subukang muli.</string>
     <string name="holiday_catalog_attribution">Mga kalendaryo ng pista opisyal mula sa Mozilla Thunderbird, lisensyado sa ilalim ng %1$s.</string>
+    <string name="account_feeds_add">Magdagdag mula sa account</string>
+    <string name="account_feeds_note">Inililista ang mga calendar feed na naka-save sa iyong mga iCloud at CalDAV account. I-on para idagdag ito sa Mga Calendar Feed.</string>
+    <string name="account_feeds_checking">Sinusuri…</string>
+    <string name="account_feeds_none">Walang nahanap na calendar feed</string>
+    <string name="account_feeds_failed">Hindi ma-load ang mga calendar feed</string>
     <string name="subscriptions_row_label">Mga Calendar Feed (ICS)</string>
     <string name="subscriptions_row_hint">hal. pista opisyal, sports, paaralan</string>
 

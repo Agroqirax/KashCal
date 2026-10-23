@@ -22,6 +22,7 @@ import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
 import org.onekash.kashcal.sync.session.SyncSessionStore
 import org.onekash.kashcal.ui.model.CalendarGroup
 import org.onekash.kashcal.ui.permission.LocalNetworkPermissionState
+import org.onekash.kashcal.ui.screens.settings.AccountFeedsSheetState
 import org.onekash.kashcal.ui.screens.settings.IcsSubscriptionUiModel
 import org.onekash.kashcal.ui.screens.settings.ICloudConnectionState
 import org.onekash.kashcal.ui.theme.ColorSource
@@ -101,6 +102,8 @@ class AccountSettingsScreenViewModelWiringTest {
         every { vm.syncIntervalMs } returns MutableStateFlow(24 * 60 * 60 * 1000L)
         every { vm.subscriptions } returns MutableStateFlow(emptyList<IcsSubscriptionUiModel>())
         every { vm.subscriptionSyncing } returns MutableStateFlow(false)
+        every { vm.hasFeedAccounts } returns MutableStateFlow(false)
+        every { vm.accountFeedsSheet } returns MutableStateFlow<AccountFeedsSheetState?>(null)
         every { vm.defaultReminderTimed } returns MutableStateFlow(15)
         every { vm.defaultReminderAllDay } returns MutableStateFlow(900)
         every { vm.defaultEventDuration } returns MutableStateFlow(30)

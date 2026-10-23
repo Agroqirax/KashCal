@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Опитай с друго име</string>
     <string name="holiday_catalog_validate_error">Този календар не можа да бъде достигнат. Провери връзката и опитай отново.</string>
     <string name="holiday_catalog_attribution">Календари с празници от Mozilla Thunderbird, лицензирани под %1$s.</string>
+    <string name="account_feeds_add">Добавяне от акаунт</string>
+    <string name="account_feeds_note">Показва календарните канали, запазени във вашите акаунти в iCloud и CalDAV. Включете го, за да го добавите в „Календарни канали“.</string>
+    <string name="account_feeds_checking">Проверка…</string>
+    <string name="account_feeds_none">Няма намерени календарни канали</string>
+    <string name="account_feeds_failed">Календарните канали не можаха да бъдат заредени</string>
     <string name="subscriptions_row_label">Календарни канали (ICS)</string>
     <string name="subscriptions_row_hint">напр. празници, спорт, училище</string>
 

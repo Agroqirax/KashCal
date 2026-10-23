@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Provu alian nomon</string>
     <string name="holiday_catalog_validate_error">Ne eblis atingi ĉi tiun kalendaron. Kontrolu vian konekton kaj reprovu.</string>
     <string name="holiday_catalog_attribution">Feritagaj kalendaroj de Mozilla Thunderbird, licencitaj sub %1$s.</string>
+    <string name="account_feeds_add">Aldoni el konto</string>
+    <string name="account_feeds_note">Listigas la kalendarajn fluojn konservitajn en viaj kontoj de iCloud kaj CalDAV. Ŝaltu por aldoni ĝin al Kalendaraj fluoj.</string>
+    <string name="account_feeds_checking">Kontrolante…</string>
+    <string name="account_feeds_none">Neniuj kalendaraj fluoj trovitaj</string>
+    <string name="account_feeds_failed">Ne eblis ŝargi kalendarajn fluojn</string>
     <string name="subscriptions_row_label">Kalendaraj fluoj (ICS)</string>
     <string name="subscriptions_row_hint">ekz. festoj, sportoj, lernejo</string>
 

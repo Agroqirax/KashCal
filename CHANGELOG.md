@@ -1,3 +1,17 @@
+## [2026.10.23]
+
+Somewhere on your server sits a small shelf of calendar feeds: the public holidays you subscribed to on a laptop years ago, a team's fixtures, the school terms. The server has kept every one of them safe. KashCal just never asked.
+
+Now it asks. Calendar Feeds has `Add from account`, which goes round your iCloud and CalDAV accounts and politely enquires what they have been holding on to. Each account answers in its own section. Flip a feed on and it moves in as an ordinary subscription that refreshes itself from then on; flip it off and it packs up and leaves.
+
+The quickest way to find something, it turns out, is to ask whoever has been holding it.
+
+### Everything in this release
+
+- Added `Add from account` to Calendar Feeds, listing the calendar feeds saved on your iCloud and CalDAV accounts; turning one on adds it as a Calendar Feeds subscription with the server's name and color, turning it off removes it, #68
+- Changed swiping a Calendar Feeds row to reveal a `Delete` button instead of deleting at once; tapping it deletes the feed with `Undo`, and scrolling or tapping elsewhere closes it
+- Fixed contact birthdays and anniversaries saved without a year under a placeholder year such as 1604 not appearing; they now show every year without an age, #395
+
 ## [2026.10.22]
 
 - Added a `Troubleshooting` section to Settings with `Export debug report`, a text file of recent crashes, syncs, waiting changes, setup and the app's own log to send with a bug report; email addresses, web addresses and tokens are masked, #183

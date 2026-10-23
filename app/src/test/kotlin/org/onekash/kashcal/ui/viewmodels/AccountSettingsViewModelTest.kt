@@ -9,15 +9,19 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -49,6 +53,10 @@ import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
 import org.onekash.kashcal.data.repository.AccountRepository
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.FeedAccount
+import org.onekash.kashcal.domain.feeds.FeedListing
+import org.onekash.kashcal.domain.feeds.ServerCalendarFeeds
+import org.onekash.kashcal.domain.feeds.ServerFeed
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.SyncLogReader
 import org.onekash.kashcal.error.CalendarError
@@ -62,14 +70,18 @@ import org.onekash.kashcal.sync.scheduler.SyncScheduler
 import org.onekash.kashcal.sync.scheduler.SyncStatus
 import org.onekash.kashcal.ui.screens.settings.AccountDetailDiscoverStatus
 import org.onekash.kashcal.ui.screens.settings.AccountDetailSyncStatus
+import org.onekash.kashcal.ui.screens.settings.AccountFeedRow
+import org.onekash.kashcal.ui.screens.settings.AccountFeedsContent
 import org.onekash.kashcal.ui.screens.settings.CalDavConnectionState
 import org.onekash.kashcal.ui.screens.settings.ContactSyncConfirmation
 import org.onekash.kashcal.ui.screens.settings.ICloudConnectionState
 import org.onekash.kashcal.ui.shared.EventColorPalette
+import org.onekash.kashcal.ui.shared.maskEmail
 import org.onekash.kashcal.ui.util.UiMessage
 import org.onekash.kashcal.widget.WidgetUpdateManager
 import java.util.UUID
 import org.onekash.kashcal.testutil.plainImportFile
+import kotlinx.coroutines.withContext
 
 /**
  * Tests AccountSettingsViewModel.
@@ -133,6 +145,8 @@ class AccountSettingsViewModelTest {
     private lateinit var backupExporter: org.onekash.kashcal.domain.backup.SettingsBackupExporter
     private lateinit var backupImporter: org.onekash.kashcal.domain.backup.SettingsBackupImporter
     private lateinit var permissionChecker: org.onekash.kashcal.ui.permission.FakePermissionChecker
+    private lateinit var serverCalendarFeeds: ServerCalendarFeeds
+    private val feedAccountsFlow = MutableStateFlow<List<FeedAccount>>(emptyList())
 
     // Flows we control
     private lateinit var calendarsFlow: MutableStateFlow<List<Calendar>>
@@ -264,6 +278,10 @@ class AccountSettingsViewModelTest {
 
         every { eventCoordinator.getAllIcsSubscriptions() } returns flowOf(emptyList())
 
+        // Strict: only the feed-account flow is stubbed; each feeds test stubs what it calls.
+        serverCalendarFeeds = mockk()
+        every { serverCalendarFeeds.observeFeedAccounts() } returns feedAccountsFlow
+
         every { dataStore.contactBirthdaysEnabled } returns contactBirthdaysEnabledFlow
         every { dataStore.contactBirthdaysLastSync } returns contactBirthdaysLastSyncFlow
         every { dataStore.birthdayReminder } returns birthdayReminderFlow
@@ -309,6 +327,7 @@ class AccountSettingsViewModelTest {
             discoveryService = discoveryService,
             calDavDiscoveryService = calDavDiscoveryService,
             eventCoordinator = eventCoordinator,
+            serverCalendarFeeds = serverCalendarFeeds,
             syncLogReader = syncLogReader,
             contactEventManager = contactEventManager,
             calendarProviderManager = calendarProviderManager,
@@ -4568,5 +4587,346 @@ class AccountSettingsViewModelTest {
         advanceUntilIdle()
 
         assertFalse((viewModel.uiState.value.iCloudState as ICloudConnectionState.Connected).isEnabled)
+    }
+
+    // ==================== Add from account sheet ====================
+
+    private val nc = FeedAccount(id = 7L, displayName = "Nextcloud", email = "user@example.test")
+    private val ic = FeedAccount(id = 8L, displayName = "iCloud", email = "other@example.test")
+    private val usUrl = "https://feeds.example.test/us.ics"
+    private val deUrl = "https://feeds.example.test/de.ics"
+
+    private fun subscriptionsFlowOf(vararg rows: Pair<Long, String>) {
+        every { eventCoordinator.getAllIcsSubscriptions() } returns flowOf(
+            rows.map { (id, url) ->
+                IcsSubscription(id = id, url = url, name = "Feed $id", color = 0, calendarId = 100 + id)
+            }
+        )
+    }
+
+    private fun feedsSection(vm: AccountSettingsViewModel, accountId: Long) =
+        vm.accountFeedsSheet.value!!.sections.single { it.accountId == accountId }
+
+    private fun rowsOf(vm: AccountSettingsViewModel, accountId: Long): List<AccountFeedRow> =
+        (feedsSection(vm, accountId).content as AccountFeedsContent.Feeds).rows
+
+    @Test
+    fun `Add from account shows while a feed account exists`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        assertFalse(viewModel.hasFeedAccounts.value)
+
+        feedAccountsFlow.value = listOf(nc)
+        advanceUntilIdle()
+        assertTrue(viewModel.hasFeedAccounts.value)
+    }
+
+    @Test
+    fun `opening the sheet starts every account Checking and lists them in parallel`() = runTest {
+        feedAccountsFlow.value = listOf(nc, ic)
+        val ncGate = CompletableDeferred<FeedListing>()
+        val icGate = CompletableDeferred<FeedListing>()
+        coEvery { serverCalendarFeeds.listFeeds(7L) } coAnswers { ncGate.await() }
+        coEvery { serverCalendarFeeds.listFeeds(8L) } coAnswers { icGate.await() }
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onOpenAccountFeeds()
+        runCurrent()
+
+        val sections = viewModel.accountFeedsSheet.value!!.sections
+        assertEquals(listOf(7L, 8L), sections.map { it.accountId })
+        assertEquals(maskEmail("user@example.test"), sections[0].maskedEmail)
+        assertEquals("Nextcloud", sections[0].displayName)
+        assertTrue(sections.all { it.content == AccountFeedsContent.Checking })
+        coVerify(exactly = 1) { serverCalendarFeeds.listFeeds(7L) }
+        coVerify(exactly = 1) { serverCalendarFeeds.listFeeds(8L) }
+
+        icGate.complete(FeedListing.Failed)
+        ncGate.complete(FeedListing.Feeds(emptyList()))
+        advanceUntilIdle()
+        assertEquals(AccountFeedsContent.NoFeeds, feedsSection(viewModel, 7L).content)
+        assertEquals(AccountFeedsContent.Failed, feedsSection(viewModel, 8L).content)
+    }
+
+    @Test
+    fun `a listing's feeds become rows with the server name, host and color`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns
+            FeedListing.Feeds(listOf(ServerFeed(usUrl, "US Holidays", 0xFF1E88E5.toInt())))
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        assertEquals(
+            listOf(AccountFeedRow(usUrl, "US Holidays", "feeds.example.test", 0xFF1E88E5.toInt())),
+            rowsOf(viewModel, 7L),
+        )
+    }
+
+    @Test
+    fun `a listing that never returns shows Failed after 20 seconds`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        // Like OkHttp's blocking call: cancelling the caller doesn't stop it.
+        val gate = CompletableDeferred<FeedListing>()
+        coEvery { serverCalendarFeeds.listFeeds(7L) } coAnswers { withContext(NonCancellable) { gate.await() } }
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onOpenAccountFeeds()
+        advanceTimeBy(19_999)
+        runCurrent()
+        assertEquals(AccountFeedsContent.Checking, feedsSection(viewModel, 7L).content)
+
+        advanceTimeBy(2)
+        runCurrent()
+        assertEquals(AccountFeedsContent.Failed, feedsSection(viewModel, 7L).content)
+        gate.complete(FeedListing.Feeds(emptyList()))
+    }
+
+    @Test
+    fun `Retry lists only that account again and a superseded listing never shows`() = runTest {
+        feedAccountsFlow.value = listOf(nc, ic)
+        val oldGate = CompletableDeferred<FeedListing>()
+        var ncCalls = 0
+        coEvery { serverCalendarFeeds.listFeeds(7L) } coAnswers {
+            ncCalls++
+            if (ncCalls == 1) withContext(NonCancellable) { oldGate.await() }
+            else FeedListing.Feeds(listOf(ServerFeed(deUrl, "German", null)))
+        }
+        coEvery { serverCalendarFeeds.listFeeds(8L) } returns FeedListing.Feeds(emptyList())
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        runCurrent()
+
+        viewModel.onRetryAccountFeeds(7L)
+        advanceUntilIdle()
+        assertEquals(listOf(deUrl), rowsOf(viewModel, 7L).map { it.url })
+
+        oldGate.complete(FeedListing.Failed)
+        advanceUntilIdle()
+        assertEquals(listOf(deUrl), rowsOf(viewModel, 7L).map { it.url })
+        coVerify(exactly = 1) { serverCalendarFeeds.listFeeds(8L) }
+    }
+
+    @Test
+    fun `closing the sheet cancels listings, drops the state, and each open lists fresh`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        val gate = CompletableDeferred<FeedListing>()
+        coEvery { serverCalendarFeeds.listFeeds(7L) } coAnswers { gate.await() }
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        runCurrent()
+
+        viewModel.onCloseAccountFeeds()
+        gate.complete(FeedListing.Feeds(listOf(ServerFeed(usUrl, "US", null))))
+        advanceUntilIdle()
+        assertNull(viewModel.accountFeedsSheet.value)
+
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(emptyList())
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+        assertEquals(AccountFeedsContent.NoFeeds, feedsSection(viewModel, 7L).content)
+        coVerify(exactly = 2) { serverCalendarFeeds.listFeeds(7L) }
+    }
+
+    @Test
+    fun `with no feed account left the sheet opens with no sections`() = runTest {
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        assertEquals(emptyList<Any>(), viewModel.accountFeedsSheet.value!!.sections)
+    }
+
+    @Test
+    fun `a switch is on when a Calendar Feeds entry has the same URL in any spelling, in every section`() = runTest {
+        feedAccountsFlow.value = listOf(nc, ic)
+        subscriptionsFlowOf(1L to "WEBCAL://Feeds.Example.test/us.ics")
+        coEvery { serverCalendarFeeds.listFeeds(any()) } returns FeedListing.Feeds(
+            listOf(ServerFeed(usUrl, "US", null), ServerFeed(deUrl, "DE", null))
+        )
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        for (account in listOf(7L, 8L)) {
+            val rows = rowsOf(viewModel, account).associateBy { it.url }
+            assertTrue(rows.getValue(usUrl).isOn)
+            assertFalse(rows.getValue(deUrl).isOn)
+        }
+    }
+
+    @Test
+    fun `switching on adds the feed on the app scope with its name and the row's color, busy until done`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(listOf(ServerFeed(usUrl, "US Holidays", null)))
+        coEvery { eventCoordinator.addIcsSubscription(any(), any(), any()) } returns
+            IcsSubscriptionRepository.SubscriptionResult.Success(
+                IcsSubscription(id = 5, url = usUrl, name = "US Holidays", color = 0, calendarId = 105)
+            )
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+        val color = rowsOf(viewModel, 7L).single().color
+        advanceUntilIdle()
+        assertEquals("the fallback color stays put", color, rowsOf(viewModel, 7L).single().color)
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = true)
+        advanceUntilIdle()
+        assertTrue("busy until the app-scope add runs", rowsOf(viewModel, 7L).single().isBusy)
+        coVerify(exactly = 0) { eventCoordinator.addIcsSubscription(any(), any(), any()) }
+
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+        coVerify(exactly = 1) { eventCoordinator.addIcsSubscription(usUrl, "US Holidays", color) }
+        assertFalse(rowsOf(viewModel, 7L).single().isBusy)
+    }
+
+    @Test
+    fun `switching on adds the feed with the tapped section's name and color`() = runTest {
+        feedAccountsFlow.value = listOf(nc, ic)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns
+            FeedListing.Feeds(listOf(ServerFeed(deUrl, "German Holidays", 0xFFE53935.toInt())))
+        coEvery { serverCalendarFeeds.listFeeds(8L) } returns
+            FeedListing.Feeds(listOf(ServerFeed(deUrl, "Bavaria Holidays", 0xFF43A047.toInt())))
+        coEvery { eventCoordinator.addIcsSubscription(any(), any(), any()) } returns
+            IcsSubscriptionRepository.SubscriptionResult.Error("dup", isDuplicate = true)
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        viewModel.onAccountFeedSwitch(8L, deUrl, on = true)
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { eventCoordinator.addIcsSubscription(deUrl, "Bavaria Holidays", 0xFF43A047.toInt()) }
+    }
+
+    @Test
+    fun `switching off removes every matching entry right away with no Undo`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        subscriptionsFlowOf(1L to usUrl, 2L to "webcal://feeds.example.test/us.ics", 3L to deUrl)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(listOf(ServerFeed(usUrl, "US", null)))
+        coEvery { eventCoordinator.removeIcsSubscription(any()) } returns Unit
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = false)
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { eventCoordinator.removeIcsSubscription(1L) }
+        coVerify(exactly = 1) { eventCoordinator.removeIcsSubscription(2L) }
+        coVerify(exactly = 0) { eventCoordinator.removeIcsSubscription(3L) }
+        assertNull(viewModel.uiState.value.pendingSnackbarMessage)
+        assertNull(viewModel.uiState.value.pendingSubscriptionDeletionId)
+    }
+
+    @Test
+    fun `switching on a feed pending a swipe-delete undoes the delete instead of adding`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        subscriptionsFlowOf(1L to usUrl)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(listOf(ServerFeed(usUrl, "US", null)))
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onDeleteSubscription(1L, "Removed", "Undo")
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+        assertFalse("hidden while pending", rowsOf(viewModel, 7L).single().isOn)
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = true)
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.pendingSubscriptionDeletionId)
+        assertTrue(rowsOf(viewModel, 7L).single().isOn)
+        coVerify(exactly = 0) { eventCoordinator.addIcsSubscription(any(), any(), any()) }
+    }
+
+    @Test
+    fun `switching off settles a matching pending swipe-delete and removes it once`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        subscriptionsFlowOf(1L to usUrl, 2L to "webcal://feeds.example.test/us.ics")
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(listOf(ServerFeed(usUrl, "US", null)))
+        coEvery { eventCoordinator.removeIcsSubscription(any()) } returns Unit
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onDeleteSubscription(1L, "Removed", "Undo")
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = false)
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.pendingSubscriptionDeletionId)
+        assertNull(viewModel.uiState.value.pendingSnackbarMessage)
+        coVerify(exactly = 1) { eventCoordinator.removeIcsSubscription(1L) }
+        coVerify(exactly = 1) { eventCoordinator.removeIcsSubscription(2L) }
+
+        viewModel.onSubscriptionDeletionSettled()
+        appDispatcher.scheduler.advanceUntilIdle()
+        coVerify(exactly = 1) { eventCoordinator.removeIcsSubscription(1L) }
+    }
+
+    @Test
+    fun `a throwing add or removal clears busy and doesn't escape`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        subscriptionsFlowOf(1L to deUrl)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(
+            listOf(ServerFeed(usUrl, "US", null), ServerFeed(deUrl, "DE", null))
+        )
+        coEvery { eventCoordinator.addIcsSubscription(any(), any(), any()) } throws IllegalStateException("db")
+        coEvery { eventCoordinator.removeIcsSubscription(any()) } throws IllegalStateException("db")
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = true)
+        viewModel.onAccountFeedSwitch(7L, deUrl, on = false)
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+
+        // runTest fails the test on an exception escaping any coroutine, so reaching here also
+        // shows neither throw escaped applicationScope.
+        assertTrue(rowsOf(viewModel, 7L).none { it.isBusy })
+    }
+
+    @Test
+    fun `closing and reopening the sheet mid-add keeps the switch disabled`() = runTest {
+        feedAccountsFlow.value = listOf(nc)
+        coEvery { serverCalendarFeeds.listFeeds(7L) } returns FeedListing.Feeds(listOf(ServerFeed(usUrl, "US", null)))
+        val addGate = CompletableDeferred<IcsSubscriptionRepository.SubscriptionResult>()
+        coEvery { eventCoordinator.addIcsSubscription(any(), any(), any()) } coAnswers { addGate.await() }
+        val viewModel = createViewModel()
+        advanceUntilIdle()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+
+        viewModel.onAccountFeedSwitch(7L, usUrl, on = true)
+        appDispatcher.scheduler.runCurrent()
+        viewModel.onCloseAccountFeeds()
+        viewModel.onOpenAccountFeeds()
+        advanceUntilIdle()
+        assertTrue(rowsOf(viewModel, 7L).single().isBusy)
+
+        addGate.complete(IcsSubscriptionRepository.SubscriptionResult.Error("dup", isDuplicate = true))
+        appDispatcher.scheduler.advanceUntilIdle()
+        advanceUntilIdle()
+        assertFalse(rowsOf(viewModel, 7L).single().isBusy)
     }
 }

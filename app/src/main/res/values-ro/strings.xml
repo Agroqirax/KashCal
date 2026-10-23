@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Încearcă un alt nume</string>
     <string name="holiday_catalog_validate_error">Nu s-a putut accesa acest calendar. Verifică conexiunea și încearcă din nou.</string>
     <string name="holiday_catalog_attribution">Calendare de sărbători de la Mozilla Thunderbird, sub licența %1$s.</string>
+    <string name="account_feeds_add">Adaugă din cont</string>
+    <string name="account_feeds_note">Listează fluxurile de calendar salvate în conturile tale iCloud și CalDAV. Activează-l pentru a-l adăuga în „Fluxuri de calendar”.</string>
+    <string name="account_feeds_checking">Se verifică…</string>
+    <string name="account_feeds_none">Nu s-au găsit fluxuri de calendar</string>
+    <string name="account_feeds_failed">Nu s-au putut încărca fluxurile de calendar</string>
     <string name="subscriptions_row_label">Fluxuri de calendar (ICS)</string>
     <string name="subscriptions_row_hint">ex. sărbători, sport, școală</string>
 

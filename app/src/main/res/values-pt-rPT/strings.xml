@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Experimente outro nome</string>
     <string name="holiday_catalog_validate_error">Não foi possível aceder a este calendário. Verifique a sua ligação e tente novamente.</string>
     <string name="holiday_catalog_attribution">Calendários de feriados da Mozilla Thunderbird, sob a licença %1$s.</string>
+    <string name="account_feeds_add">Adicionar da conta</string>
+    <string name="account_feeds_note">Lista os feeds de calendário guardados nas tuas contas iCloud e CalDAV. Ativa-o para o adicionar a Feeds de calendário.</string>
+    <string name="account_feeds_checking">A verificar…</string>
+    <string name="account_feeds_none">Nenhum feed de calendário encontrado</string>
+    <string name="account_feeds_failed">Não foi possível carregar os feeds de calendário</string>
     <string name="subscriptions_row_label">Feeds de calendário (ICS)</string>
     <string name="subscriptions_row_hint">ex. feriados, desporto, escola</string>
 

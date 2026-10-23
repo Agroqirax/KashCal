@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Poskusite z drugim imenom</string>
     <string name="holiday_catalog_validate_error">Tega koledarja ni bilo mogoče doseči. Preverite povezavo in poskusite znova.</string>
     <string name="holiday_catalog_attribution">Koledarji praznikov iz Mozilla Thunderbird, licencirano pod %1$s.</string>
+    <string name="account_feeds_add">Dodaj iz računa</string>
+    <string name="account_feeds_note">Prikaže koledarske vire, shranjene v vaših računih iCloud in CalDAV. Vklopite vir, da ga dodate na zaslon Koledarski viri.</string>
+    <string name="account_feeds_checking">Preverjanje…</string>
+    <string name="account_feeds_none">Ni najdenih koledarskih virov</string>
+    <string name="account_feeds_failed">Koledarskih virov ni bilo mogoče naložiti</string>
     <string name="subscriptions_row_label">Koledarski viri (ICS)</string>
     <string name="subscriptions_row_hint">npr. prazniki, šport, šola</string>
 

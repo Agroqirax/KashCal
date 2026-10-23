@@ -541,6 +541,11 @@
     <string name="holiday_catalog_empty_hint">Prófaðu annað heiti</string>
     <string name="holiday_catalog_validate_error">Ekki tókst að ná í þetta dagatal. Athugaðu nettenginguna og reyndu aftur.</string>
     <string name="holiday_catalog_attribution">Frídagadagatöl frá Mozilla Thunderbird, með leyfi samkvæmt %1$s.</string>
+    <string name="account_feeds_add">Bæta við úr reikningi</string>
+    <string name="account_feeds_note">Sýnir dagatalsstraumana sem eru vistaðir á iCloud- og CalDAV-reikningunum þínum. Kveiktu á straumnum til að bæta honum við á skjáinn Dagatalsstraumar.</string>
+    <string name="account_feeds_checking">Athuga…</string>
+    <string name="account_feeds_none">Engir dagatalsstraumar fundust</string>
+    <string name="account_feeds_failed">Ekki tókst að hlaða dagatalsstraumum</string>
     <string name="subscriptions_row_label">Dagatalsstraumar (ICS)</string>
     <string name="subscriptions_row_hint">t.d. frídagar, íþróttir, skóli</string>
 

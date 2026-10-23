@@ -43,6 +43,7 @@ import org.onekash.kashcal.domain.backup.ImportResult
 import org.onekash.kashcal.domain.backup.SettingsBackupExporter
 import org.onekash.kashcal.domain.backup.SettingsBackupImporter
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.feeds.noFeedAccountsServerCalendarFeeds
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.SyncLogReader
 import org.onekash.kashcal.reminder.device.DeviceCalendarReminderScheduler
@@ -152,6 +153,7 @@ class BackupRestoreViewModelStateTest {
         discoveryService = discoveryService,
         calDavDiscoveryService = calDavDiscoveryService,
         eventCoordinator = eventCoordinator,
+        serverCalendarFeeds = noFeedAccountsServerCalendarFeeds(),
         syncLogReader = syncLogReader,
         contactEventManager = contactEventManager,
         calendarProviderManager = calendarProviderManager,

@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Essayez un autre nom</string>
     <string name="holiday_catalog_validate_error">Impossible d\'accéder à ce calendrier. Vérifiez votre connexion et réessayez.</string>
     <string name="holiday_catalog_attribution">Calendriers de jours fériés de Mozilla Thunderbird, sous licence %1$s.</string>
+    <string name="account_feeds_add">Ajouter depuis un compte</string>
+    <string name="account_feeds_note">Liste les flux de calendrier enregistrés sur tes comptes iCloud et CalDAV. Active-le pour l\'ajouter à Flux de calendrier.</string>
+    <string name="account_feeds_checking">Vérification…</string>
+    <string name="account_feeds_none">Aucun flux de calendrier trouvé</string>
+    <string name="account_feeds_failed">Impossible de charger les flux de calendrier</string>
     <string name="subscriptions_row_label">Flux de calendrier (ICS)</string>
     <string name="subscriptions_row_hint">ex. fêtes, sport, école</string>
 

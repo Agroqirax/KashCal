@@ -29,6 +29,7 @@ import org.onekash.kashcal.sync.client.model.CalDavResult
 import org.onekash.kashcal.sync.client.model.CalendarMetadataProbe
 import org.onekash.kashcal.sync.client.model.OutboxResponse
 import org.onekash.kashcal.sync.client.model.SyncReport
+import org.onekash.kashcal.sync.quirks.CalDavQuirks
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -84,6 +85,7 @@ class PushStrategyOutboxIdempotencyCycleTest {
         override suspend fun discoverScheduleOutboxUrl(principalUrl: String): CalDavResult<String?> = CalDavResult.success(null)
         override suspend fun supportsAutoSchedule(calendarUrl: String): CalDavResult<Boolean> = CalDavResult.success(false)
         override suspend fun listCalendars(calendarHomeUrl: String): CalDavResult<List<CalDavCalendar>> = CalDavResult.success(emptyList())
+        override suspend fun listWebcalFeeds(calendarHomeUrl: String): CalDavResult<List<CalDavQuirks.ParsedWebcalFeed>> = CalDavResult.success(emptyList())
         override suspend fun probeCalendarCollection(calendarUrl: String): CalDavResult<Boolean> = CalDavResult.success(true)
         override suspend fun getCtag(calendarUrl: String): CalDavResult<CalendarMetadataProbe> = CalDavResult.error(404, "no")
         override suspend fun getSyncToken(calendarUrl: String): CalDavResult<String?> = CalDavResult.success(null)

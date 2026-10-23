@@ -542,6 +542,11 @@
     <string name="holiday_catalog_empty_hint">Попробуйте другое название</string>
     <string name="holiday_catalog_validate_error">Не удалось открыть этот календарь. Проверьте подключение и повторите попытку.</string>
     <string name="holiday_catalog_attribution">Календари праздников от Mozilla Thunderbird, лицензия %1$s.</string>
+    <string name="account_feeds_add">Добавить из аккаунта</string>
+    <string name="account_feeds_note">Здесь показаны календарные ленты, сохранённые в твоих аккаунтах iCloud и CalDAV. Включи ленту, чтобы добавить её в раздел «Календарные ленты».</string>
+    <string name="account_feeds_checking">Проверка…</string>
+    <string name="account_feeds_none">Календарные ленты не найдены</string>
+    <string name="account_feeds_failed">Не удалось загрузить календарные ленты</string>
     <string name="subscriptions_row_label">Календарные ленты (ICS)</string>
     <string name="subscriptions_row_hint">напр. праздники, спорт, школа</string>
 

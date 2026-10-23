@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -438,5 +439,44 @@ class ContactAnniversaryRepositoryTest {
         assertEquals(1, (result as ContactEventSyncResult.Success).updated)
 
         coVerify { reminderScheduler.cancelRemindersForEvent(100L) }
+    }
+
+    /**
+     * Some sources store a date without a year under a placeholder year such as 1604 (#395): the
+     * sync adds the event on its month and day with no year, so no age or count is shown.
+     */
+    @Test
+    fun `syncEvents adds an anniversary stored with a placeholder year, without a year`() = runTest {
+        coEvery {
+            accountRepository.getAccountByProviderAndEmail(AccountProvider.CONTACTS, ContactEventType.ANNIVERSARY.accountEmail)
+        } returns testAccount
+        coEvery { calendarsDao.getByAccountIdOnce(10L) } returns listOf(testCalendar)
+        coEvery { calendarsDao.getById(20L) } returns testCalendar
+        coEvery { dataStore.getAnniversaryReminder() } returns KashCalDataStore.REMINDER_OFF
+        coEvery { eventsDao.getAllMasterEventsForCalendar(20L) } returns emptyList()
+        val inserted = slot<Event>()
+        coEvery { eventsDao.insert(capture(inserted)) } returns 100L
+
+        val mockCursor = mockk<Cursor>(relaxed = true)
+        every { mockCursor.getColumnIndex(ContactsContract.Data.LOOKUP_KEY) } returns 0
+        every { mockCursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME) } returns 1
+        every { mockCursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE) } returns 2
+        every { mockCursor.moveToNext() } returnsMany listOf(true, false)
+        every { mockCursor.getString(0) } returns "lookup-jane"
+        every { mockCursor.getString(1) } returns "Jane Doe"
+        every { mockCursor.getString(2) } returns "1604-09-22"
+        every { contentResolver.query(any(), any(), any(), any(), any()) } returns mockCursor
+
+        val result = repository.syncEvents()
+
+        assertTrue("sync failed: $result", result is ContactEventSyncResult.Success)
+        assertEquals(1, (result as ContactEventSyncResult.Success).added)
+        val event = inserted.captured
+        assertEquals(ContactEventType.ANNIVERSARY.getCaldavUrl("lookup-jane", 9, 22), event.caldavUrl)
+        assertNull(event.description)
+        assertEquals(ContactEventUtils.getStartTimestamp(9, 22, null), event.startTs)
+        assertEquals(ContactEventUtils.YEARLY_RRULE, event.rrule)
+        assertTrue(event.isAllDay)
+        assertNull(event.reminders)
     }
 }
