@@ -88,7 +88,6 @@
     <string name="action_discard">Hylkää</string>
     <string name="action_discard_confirm">Hylätäänkö?</string>
     <string name="action_dismiss">Ohita</string>
-    <string name="action_show_all">Näytä kaikki</string>
     <string name="action_connect">Yhdistä</string>
     <string name="action_duplicate">Kopioi</string>
     <string name="action_share">Jaa</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Synkronointihistoria</string>
     <string name="settings_sync_history_subtitle">Näytä synkronointiistunnot (viimeiset 48 tuntia)</string>
     <string name="settings_import_subtitle">Lisää tapahtumia ICS-tiedostosta mihin tahansa kalenteriin</string>
-    <string name="settings_export_subtitle">Tallenna tapahtumat ICS-tiedostoon</string>
     <string name="settings_birthday_reminder">Syntymäpäivämuistutus</string>
     <string name="settings_use_device_timezone">Käytä laitteen aikavyöhykettä</string>
     <string name="settings_section_calendars">Kalenterit ja tilit</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Päivämääränä</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Näkyvät kalenterit</string>
     <string name="settings_default_calendar">Oletuskalenteri</string>
     <string name="settings_default_event_length">Tapahtuman oletuspituus</string>
     <string name="settings_default_event_length_hint">Uusien tapahtumien oletuskesto</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Hae kalenteri</string>
     <string name="action_import_from_file">Tuo tapahtumat tiedostosta</string>
-    <string name="action_export_local_calendar">Vie paikallinen kalenteri</string>
+    <string name="settings_export_calendars">Vie kalenterit</string>
+    <string name="settings_export_calendars_subtitle">Tallenna kalenteri ICS-tiedostona</string>
+    <string name="export_calendar_no_events">Ei tapahtumia</string>
+    <string name="export_calendar_preparing">Valmistellaan…</string>
+    <string name="cd_export_calendar">Vie %1$s</string>
+    <string name="cd_export_calendar_preparing">Valmistellaan %1$s</string>
+    <string name="export_calendar_chooser_title">Vie kalenteri</string>
+    <string name="export_event_chooser_title">Vie tapahtuma</string>
+    <string name="export_file_failed">Tiedoston luominen epäonnistui.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Laitteen kalenterit</string>
     <string name="settings_device_calendars_hint">Muiden sovellusten kalenterit</string>
+    <string name="offline_calendars_row_label">Offline-kalenterit</string>
+    <string name="offline_calendars_row_hint">Kalenterit, jotka pysyvät tässä puhelimessa</string>
+    <string name="offline_calendars_manage_note">Lisää, nimeä uudelleen, vaihda väriä tai poista offline-kalentereitasi.</string>
+    <string name="offline_calendars_info">Säilytetään vain tässä puhelimessa, eikä niitä koskaan synkronoida. Varmuuskopiot eivät sisällä tapahtumia, joten vie kalenteri, jos haluat säilyttää kopion.</string>
+    <string name="offline_calendars_info_cd">Tietoja offline-kalentereista</string>
+    <string name="offline_calendar_default_state">Oletus</string>
+    <string name="offline_calendar_new">Uusi kalenteri</string>
+    <string name="offline_calendar_new_in_picker">Uusi offline-kalenteri</string>
+    <string name="action_create">Luo</string>
+    <string name="offline_calendar_rename">Nimeä uudelleen</string>
+    <string name="offline_calendar_color">Väri</string>
+    <string name="offline_calendar_export">Vie kalenteri</string>
+    <string name="offline_calendar_builtin_info">Sisäänrakennettua kalenteria ei voi nimetä uudelleen tai poistaa. Uudet tapahtumat tallentuvat tänne, jos kalenteria ei valita.</string>
+    <string name="offline_calendar_builtin_info_cd">Tietoja sisäänrakennetusta kalenterista</string>
+    <string name="offline_calendar_rename_cancel_cd">Peruuta uudelleennimeäminen</string>
+    <string name="offline_calendar_rename_save_cd">Tallenna nimi</string>
+    <string name="offline_calendar_delete_cd">Poista %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Poistetaanko \"%2$s\" ja sen %1$d tapahtuma pysyvästi? Tätä ei voi kumota.</item>
+        <item quantity="other">Poistetaanko \"%2$s\" ja sen %1$d tapahtumaa pysyvästi? Tätä ei voi kumota.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Poistetaanko \"%1$s\" pysyvästi? Siinä ei ole tapahtumia.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Poista myös %1$d tapahtuma</item>
+        <item quantity="other">Poista myös %1$d tapahtumaa</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Kalenteri %1$s poistettu</string>
+    <string name="offline_calendar_duplicate_name">Offline-kalenteri nimeltä \"%1$s\" on jo olemassa</string>
     <string name="settings_quick_event_add">Älykäs tapahtuman lisäys</string>
     <string name="settings_quick_event_add_info">Luo tapahtumia kirjoittamalla luonnollisesti. \"Lounas Samin kanssa perjantaina klo 13:00\" täyttää otsikon, päivämäärän ja kellonajan puolestasi.</string>
     <string name="settings_suggest_titles">Ehdota tapahtumien otsikoita</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Eilen</string>
     <string name="label_device_calendars">Laitteen kalenterit</string>
     <string name="label_default_calendar_hint">Uudet tapahtumat luodaan tähän kalenteriin</string>
-    <string name="label_visible_count">%1$d / %2$d näkyvissä</string>
     <string name="label_reminders_truncated">%1$d ei näytetty (%2$d yhteensä, enintään %3$d muokattavissa)</string>
     <string name="label_found_events">Löydetty: %1$d tapahtumaa</string>
     <string name="placeholder_search">Hae…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Ei tuotavaa</string>
-    <plurals name="exported_events">
-        <item quantity="one">Vietiin %1$d tapahtuma</item>
-        <item quantity="other">Vietiin %1$d tapahtumaa</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d tapahtuma</item>
         <item quantity="other">%1$d tapahtumaa</item>

@@ -88,7 +88,6 @@
     <string name="action_discard">ਰੱਦ ਕਰੋ</string>
     <string name="action_discard_confirm">ਰੱਦ ਕਰਨਾ ਹੈ?</string>
     <string name="action_dismiss">ਖ਼ਾਰਜ ਕਰੋ</string>
-    <string name="action_show_all">ਸਭ ਦਿਖਾਓ</string>
     <string name="action_connect">ਕਨੈਕਟ ਕਰੋ</string>
     <string name="action_duplicate">ਡੁਪਲੀਕੇਟ</string>
     <string name="action_share">ਸਾਂਝਾ ਕਰੋ</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ਸਿੰਕ ਇਤਿਹਾਸ</string>
     <string name="settings_sync_history_subtitle">ਸਿੰਕ ਸੈਸ਼ਨ ਦੇਖੋ (ਪਿਛਲੇ 48 ਘੰਟੇ)</string>
     <string name="settings_import_subtitle">ICS ਫ਼ਾਈਲ ਤੋਂ ਕਿਸੇ ਵੀ ਕੈਲੰਡਰ ਵਿੱਚ ਘਟਨਾਵਾਂ ਸ਼ਾਮਲ ਕਰੋ</string>
-    <string name="settings_export_subtitle">ਘਟਨਾਵਾਂ ICS ਫ਼ਾਈਲ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="settings_birthday_reminder">ਜਨਮਦਿਨ ਯਾਦ-ਦਹਾਨੀ</string>
     <string name="settings_use_device_timezone">ਡਿਵਾਈਸ ਟਾਈਮਜ਼ੋਨ ਵਰਤੋ</string>
     <string name="settings_section_calendars">ਕੈਲੰਡਰ &amp; ਖਾਤੇ</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">ਮਿਤੀ \'ਤੇ</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">ਦਿੱਸਣਯੋਗ ਕੈਲੰਡਰ</string>
     <string name="settings_default_calendar">ਡਿਫ਼ੌਲਟ ਕੈਲੰਡਰ</string>
     <string name="settings_default_event_length">ਡਿਫ਼ੌਲਟ ਘਟਨਾ ਸਮਾਂ</string>
     <string name="settings_default_event_length_hint">ਨਵੇਂ ਸਮਾਗਮਾਂ ਲਈ ਮੂਲ ਮਿਆਦ</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ਕੈਲੰਡਰ ਲਿਆਓ</string>
     <string name="action_import_from_file">ਫ਼ਾਈਲ ਤੋਂ ਘਟਨਾਵਾਂ ਇੰਪੋਰਟ</string>
-    <string name="action_export_local_calendar">ਸਥਾਨਕ ਕੈਲੰਡਰ ਐਕਸਪੋਰਟ</string>
+    <string name="settings_export_calendars">ਕੈਲੰਡਰ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="settings_export_calendars_subtitle">ਕੈਲੰਡਰ ਨੂੰ ICS ਫਾਈਲ ਵਜੋਂ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="export_calendar_no_events">ਕੋਈ ਘਟਨਾ ਨਹੀਂ</string>
+    <string name="export_calendar_preparing">ਤਿਆਰੀ…</string>
+    <string name="cd_export_calendar">%1$s ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="cd_export_calendar_preparing">%1$s ਤਿਆਰੀ</string>
+    <string name="export_calendar_chooser_title">ਕੈਲੰਡਰ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="export_event_chooser_title">ਘਟਨਾ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="export_file_failed">ਫਾਈਲ ਨਹੀਂ ਬਣਾ ਸਕੇ।</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ਡਿਵਾਈਸ ਕੈਲੰਡਰ</string>
     <string name="settings_device_calendars_hint">ਹੋਰ ਐਪਾਂ ਦੇ ਕੈਲੰਡਰ</string>
+    <string name="offline_calendars_row_label">ਆਫ਼ਲਾਈਨ ਕੈਲੰਡਰ</string>
+    <string name="offline_calendars_row_hint">ਕੈਲੰਡਰ ਜੋ ਇਸ ਫ਼ੋਨ \'ਤੇ ਹੀ ਰਹਿੰਦੇ ਹਨ</string>
+    <string name="offline_calendars_manage_note">ਆਪਣੇ ਆਫ਼ਲਾਈਨ ਕੈਲੰਡਰ ਜੋੜੋ, ਨਾਂ ਬਦਲੋ, ਰੰਗ ਬਦਲੋ ਜਾਂ ਹਟਾਓ।</string>
+    <string name="offline_calendars_info">ਸਿਰਫ਼ ਇਸ ਫ਼ੋਨ \'ਤੇ ਰੱਖੇ ਜਾਂਦੇ ਹਨ ਅਤੇ ਕਦੇ ਸਿੰਕ ਨਹੀਂ ਹੁੰਦੇ। ਬੈਕਅੱਪ ਵਿੱਚ ਘਟਨਾਵਾਂ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦੀਆਂ, ਇਸ ਲਈ ਕਾਪੀ ਰੱਖਣ ਲਈ ਕੈਲੰਡਰ ਐਕਸਪੋਰਟ ਕਰੋ।</string>
+    <string name="offline_calendars_info_cd">ਆਫ਼ਲਾਈਨ ਕੈਲੰਡਰਾਂ ਬਾਰੇ</string>
+    <string name="offline_calendar_default_state">ਡਿਫ਼ੌਲਟ</string>
+    <string name="offline_calendar_new">ਨਵਾਂ ਕੈਲੰਡਰ</string>
+    <string name="offline_calendar_new_in_picker">ਨਵਾਂ ਆਫ਼ਲਾਈਨ ਕੈਲੰਡਰ</string>
+    <string name="action_create">ਬਣਾਓ</string>
+    <string name="offline_calendar_rename">ਨਾਂ ਬਦਲੋ</string>
+    <string name="offline_calendar_color">ਰੰਗ</string>
+    <string name="offline_calendar_export">ਕੈਲੰਡਰ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="offline_calendar_builtin_info">ਬਿਲਟ-ਇਨ ਕੈਲੰਡਰ ਦਾ ਨਾਂ ਬਦਲਿਆ ਜਾਂ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ। ਕੋਈ ਕੈਲੰਡਰ ਨਾ ਚੁਣੇ ਜਾਣ \'ਤੇ ਨਵੀਆਂ ਘਟਨਾਵਾਂ ਇੱਥੇ ਜਾਂਦੀਆਂ ਹਨ।</string>
+    <string name="offline_calendar_builtin_info_cd">ਬਿਲਟ-ਇਨ ਕੈਲੰਡਰ ਬਾਰੇ</string>
+    <string name="offline_calendar_rename_cancel_cd">ਨਾਂ ਬਦਲਣਾ ਰੱਦ ਕਰੋ</string>
+    <string name="offline_calendar_rename_save_cd">ਨਾਂ ਸੇਵ ਕਰੋ</string>
+    <string name="offline_calendar_delete_cd">%1$s ਮਿਟਾਓ</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">ਕੀ \"%2$s\" ਅਤੇ ਇਸਦੀ %1$d ਘਟਨਾ ਹਮੇਸ਼ਾ ਲਈ ਮਿਟਾਉਣੀ ਹੈ? ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।</item>
+        <item quantity="other">ਕੀ \"%2$s\" ਅਤੇ ਇਸਦੀਆਂ %1$d ਘਟਨਾਵਾਂ ਹਮੇਸ਼ਾ ਲਈ ਮਿਟਾਉਣੀਆਂ ਹਨ? ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">ਕੀ \"%1$s\" ਹਮੇਸ਼ਾ ਲਈ ਮਿਟਾਉਣਾ ਹੈ? ਇਸ ਵਿੱਚ ਕੋਈ ਘਟਨਾ ਨਹੀਂ ਹੈ।</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ਘਟਨਾ ਵੀ ਮਿਟਾਓ</item>
+        <item quantity="other">%1$d ਘਟਨਾਵਾਂ ਵੀ ਮਿਟਾਓ</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ਮਿਟਾਇਆ ਗਿਆ</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" ਨਾਂ ਦਾ ਆਫ਼ਲਾਈਨ ਕੈਲੰਡਰ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
     <string name="settings_quick_event_add">ਸਮਾਰਟ ਘਟਨਾ ਜੋੜੋ</string>
     <string name="settings_quick_event_add_info">ਕੁਦਰਤੀ ਤੌਰ \'ਤੇ ਟਾਈਪ ਕਰਕੇ ਸਮਾਗਮ ਬਣਾਓ। \"Sam ਨਾਲ ਸ਼ੁੱਕਰਵਾਰ ਦੁਪਹਿਰ 1 ਵਜੇ ਦੁਪਹਿਰ ਦਾ ਖਾਣਾ\" ਤੁਹਾਡੇ ਲਈ ਸਿਰਲੇਖ, ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਭਰ ਦਿੰਦਾ ਹੈ।</string>
     <string name="settings_suggest_titles">ਘਟਨਾ ਟਾਇਟਲ ਸੁਝਾਓ</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ਕੱਲ੍ਹ (ਬੀਤੀ)</string>
     <string name="label_device_calendars">ਡਿਵਾਈਸ ਕੈਲੰਡਰ</string>
     <string name="label_default_calendar_hint">ਨਵੀਆਂ ਘਟਨਾਵਾਂ ਇਸ ਕੈਲੰਡਰ ਵਿੱਚ ਬਣਾਈਆਂ ਜਾਣਗੀਆਂ</string>
-    <string name="label_visible_count">%1$d / %2$d ਦਿੱਸਣਯੋਗ</string>
     <string name="label_reminders_truncated">%1$d ਨਹੀਂ ਦਿਖਾਈਆਂ (%2$d ਕੁੱਲ, ਅਧਿਕਤਮ %3$d ਸੰਪਾਦਨਯੋਗ)</string>
     <string name="label_found_events">ਮਿਲੀਆਂ: %1$d ਘਟਨਾਵਾਂ</string>
     <string name="placeholder_search">ਖੋਜੋ…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ਇੰਪੋਰਟ ਕਰਨ ਲਈ ਕੁਝ ਨਹੀਂ</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ਘਟਨਾ ਐਕਸਪੋਰਟ ਹੋਈ</item>
-        <item quantity="other">%1$d ਘਟਨਾਵਾਂ ਐਕਸਪੋਰਟ ਹੋਈਆਂ</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ਘਟਨਾ</item>
         <item quantity="other">%1$d ਘਟਨਾਵਾਂ</item>

@@ -88,7 +88,6 @@
     <string name="action_discard">खारेज गर्नुहोस्</string>
     <string name="action_discard_confirm">खारेज गर्ने?</string>
     <string name="action_dismiss">हटाउनुहोस्</string>
-    <string name="action_show_all">सबै देखाउनुहोस्</string>
     <string name="action_connect">जोड्नुहोस्</string>
     <string name="action_duplicate">नक्कल</string>
     <string name="action_share">साझा गर्नुहोस्</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">सिंक इतिहास</string>
     <string name="settings_sync_history_subtitle">सिंक सत्रहरू हेर्नुहोस् (पछिल्लो ४८ घण्टा)</string>
     <string name="settings_import_subtitle">ICS फाइलबाट कुनै पनि क्यालेन्डरमा कार्यक्रम थप्नुहोस्</string>
-    <string name="settings_export_subtitle">कार्यक्रमहरू ICS फाइलमा सुरक्षित गर्नुहोस्</string>
     <string name="settings_birthday_reminder">जन्मदिन सम्झना</string>
     <string name="settings_use_device_timezone">उपकरणको समय क्षेत्र प्रयोग गर्नुहोस्</string>
     <string name="settings_section_calendars">पात्राहरू &amp; खाताहरू</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">मितिमा</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">दृश्य क्यालेन्डरहरू</string>
     <string name="settings_default_calendar">पूर्वनिर्धारित क्यालेन्डर</string>
     <string name="settings_default_event_length">पूर्वनिर्धारित कार्यक्रम अवधि</string>
     <string name="settings_default_event_length_hint">नयाँ घटनाहरूको लागि पूर्वनिर्धारित अवधि</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">क्यालेन्डर ल्याउनुहोस्</string>
     <string name="action_import_from_file">फाइलबाट कार्यक्रम आयात</string>
-    <string name="action_export_local_calendar">स्थानीय क्यालेन्डर निर्यात</string>
+    <string name="settings_export_calendars">क्यालेन्डरहरू निर्यात गर्नुहोस्</string>
+    <string name="settings_export_calendars_subtitle">क्यालेन्डरलाई ICS फाइलको रूपमा सुरक्षित गर्नुहोस्</string>
+    <string name="export_calendar_no_events">कुनै कार्यक्रम छैन</string>
+    <string name="export_calendar_preparing">तयार गर्दै…</string>
+    <string name="cd_export_calendar">%1$s निर्यात गर्नुहोस्</string>
+    <string name="cd_export_calendar_preparing">%1$s तयार गर्दै</string>
+    <string name="export_calendar_chooser_title">क्यालेन्डर निर्यात गर्नुहोस्</string>
+    <string name="export_event_chooser_title">कार्यक्रम निर्यात गर्नुहोस्</string>
+    <string name="export_file_failed">फाइल सिर्जना गर्न सकिएन।</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">उपकरण क्यालेन्डरहरू</string>
     <string name="settings_device_calendars_hint">अन्य एपहरूका क्यालेन्डरहरू</string>
+    <string name="offline_calendars_row_label">अफलाइन क्यालेन्डरहरू</string>
+    <string name="offline_calendars_row_hint">यस फोनमा मात्र रहने क्यालेन्डरहरू</string>
+    <string name="offline_calendars_manage_note">आफ्ना अफलाइन क्यालेन्डरहरू थप्नुहोस्, नाम बदल्नुहोस्, रङ बदल्नुहोस् वा हटाउनुहोस्।</string>
+    <string name="offline_calendars_info">यस फोनमा मात्र राखिन्छ र कहिल्यै सिंक हुँदैन। ब्याकअपमा कार्यक्रमहरू समावेश हुँदैनन्, त्यसैले प्रतिलिपि राख्न क्यालेन्डर निर्यात गर्नुहोस्।</string>
+    <string name="offline_calendars_info_cd">अफलाइन क्यालेन्डरहरूबारे</string>
+    <string name="offline_calendar_default_state">पूर्वनिर्धारित</string>
+    <string name="offline_calendar_new">नयाँ क्यालेन्डर</string>
+    <string name="offline_calendar_new_in_picker">नयाँ अफलाइन क्यालेन्डर</string>
+    <string name="action_create">सिर्जना गर्नुहोस्</string>
+    <string name="offline_calendar_rename">नाम बदल्नुहोस्</string>
+    <string name="offline_calendar_color">रङ</string>
+    <string name="offline_calendar_export">क्यालेन्डर निर्यात गर्नुहोस्</string>
+    <string name="offline_calendar_builtin_info">बिल्ट-इन क्यालेन्डरको नाम बदल्न वा मेटाउन सकिँदैन। कुनै क्यालेन्डर नछानिएमा नयाँ कार्यक्रमहरू यहीँ जान्छन्।</string>
+    <string name="offline_calendar_builtin_info_cd">बिल्ट-इन क्यालेन्डरबारे</string>
+    <string name="offline_calendar_rename_cancel_cd">नाम बदल्न रद्द गर्नुहोस्</string>
+    <string name="offline_calendar_rename_save_cd">नाम सुरक्षित गर्नुहोस्</string>
+    <string name="offline_calendar_delete_cd">%1$s मेट्नुहोस्</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" र यसको %1$d कार्यक्रम सधैंका लागि मेट्ने? पूर्ववत् गर्न सकिँदैन।</item>
+        <item quantity="other">\"%2$s\" र यसका %1$d कार्यक्रमहरू सधैंका लागि मेट्ने? पूर्ववत् गर्न सकिँदैन।</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" सधैंका लागि मेट्ने? यसमा कुनै कार्यक्रम छैन।</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d कार्यक्रम पनि मेट्नुहोस्</item>
+        <item quantity="other">%1$d कार्यक्रमहरू पनि मेट्नुहोस्</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s मेटियो</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" नामको अफलाइन क्यालेन्डर पहिल्यै छ</string>
     <string name="settings_quick_event_add">स्मार्ट कार्यक्रम थप</string>
     <string name="settings_quick_event_add_info">स्वाभाविक रूपमा टाइप गरेर घटनाहरू सिर्जना गर्नुहोस्। \"Sam सँग शुक्रबार दिउँसो १ बजे खाजा\" ले तपाईंको लागि शीर्षक, मिति र समय भर्छ।</string>
     <string name="settings_suggest_titles">कार्यक्रम शीर्षकहरू सुझाव</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">हिजो</string>
     <string name="label_device_calendars">उपकरण क्यालेन्डरहरू</string>
     <string name="label_default_calendar_hint">नयाँ कार्यक्रमहरू यो क्यालेन्डरमा बनाइनेछ</string>
-    <string name="label_visible_count">%1$d / %2$d दृश्य</string>
     <string name="label_reminders_truncated">%1$d देखाइएको छैन (%2$d जम्मा, अधिकतम %3$d सम्पादनयोग्य)</string>
     <string name="label_found_events">भेटियो: %1$d कार्यक्रम</string>
     <string name="placeholder_search">खोज्नुहोस्…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">आयात गर्न केही छैन</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d कार्यक्रम निर्यात भयो</item>
-        <item quantity="other">%1$d कार्यक्रम निर्यात भयो</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d कार्यक्रम</item>
         <item quantity="other">%1$d कार्यक्रम</item>

@@ -900,6 +900,22 @@ class KashCalDataStore(
         setICloudUrlMigrationCompleted(false)
     }
 
+    // ========== UTC Series Zone Repair ==========
+
+    suspend fun getUtcSeriesZoneRepaired(): Boolean =
+        getPreference(PreferencesKeys.UTC_SERIES_ZONE_REPAIRED, false).first()
+
+    suspend fun setUtcSeriesZoneRepaired(done: Boolean) {
+        setPreference(PreferencesKeys.UTC_SERIES_ZONE_REPAIRED, done)
+    }
+
+    suspend fun getFeedValidatorsClearedForUtcSeries(): Boolean =
+        getPreference(PreferencesKeys.FEED_VALIDATORS_CLEARED_FOR_UTC_SERIES, false).first()
+
+    suspend fun setFeedValidatorsClearedForUtcSeries(done: Boolean) {
+        setPreference(PreferencesKeys.FEED_VALIDATORS_CLEARED_FOR_UTC_SERIES, done)
+    }
+
     // ========== Share Availability ==========
 
     /**

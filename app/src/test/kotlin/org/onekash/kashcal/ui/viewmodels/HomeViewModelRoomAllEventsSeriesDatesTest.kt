@@ -170,6 +170,27 @@ class HomeViewModelRoomAllEventsSeriesDatesTest {
     }
 
     @Test
+    fun `a series stored in UTC opens in UTC and an edit keeps the UTC zone and serializes in UTC form`() = runTest(dispatcher) {
+        // 15:00Z weekly from Tue 5 Mar 2024, across the New York clock change on 10 Mar.
+        val start = java.time.ZonedDateTime.of(2024, 3, 5, 15, 0, 0, 0, ZoneId.of("UTC")).toInstant().toEpochMilli()
+        val id = seed(timedSeriesEvent("utc-series@example.test").copy(startTs = start, endTs = start + HOUR_MS, timezone = "UTC"))
+        val third = start + 14 * DAY_MS
+
+        val form = openForm(id, third)
+        assertEquals("UTC", form.timezone)
+        assertEquals(15, form.startHour)
+
+        assertTrue(saveAllEvents(form.copy(title = "Daily sync")).isSuccess)
+
+        val saved = event(id)
+        assertEquals("UTC", saved.timezone)
+        assertEquals(start, saved.startTs)
+        assertEquals((0..3).map { start + it * 7 * DAY_MS }, occurrenceStarts(id))
+        val upload = org.onekash.kashcal.sync.parser.icaldav.IcsPatcher.serialize(saved).lines()
+        assertTrue(upload.toString(), "DTSTART:20240305T150000Z" in upload)
+    }
+
+    @Test
     fun `other field edits from a later occurrence apply to the series and keep its dates`() = runTest(dispatcher) {
         val id = seedTimedSeries()
         val guest = Attendee(eventId = 0, address = "mailto:guest@example.test", partstat = "NEEDS-ACTION", sortOrder = 0)

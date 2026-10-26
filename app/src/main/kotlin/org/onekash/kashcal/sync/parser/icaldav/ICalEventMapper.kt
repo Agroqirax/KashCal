@@ -37,10 +37,32 @@ data class MappedEntity(
 object ICalEventMapper {
 
     /**
+     * The zone stored for a timed series whose DTSTART is a UTC time. Room rows holding it are
+     * written back in UTC form ([EventToICalEventMapper.writeZone]).
+     */
+    const val UTC_SERIES_ZONE = "UTC"
+
+    /**
+     * Returns the zone [Event.timezone] stores for [icalEvent]: [UTC_SERIES_ZONE] for a timed
+     * series (an RRULE) whose DTSTART is a UTC time, else DTSTART's own zone (null for a UTC or
+     * DATE start, the device zone for a floating one).
+     *
+     * A UTC time is an absolute time (RFC 5545 §3.3.5 FORM #2), so a series written in UTC keeps
+     * its UTC time of day on every occurrence; with no zone it would expand in the device zone
+     * and move an hour at each clock change. One-offs and changed occurrences keep a null zone:
+     * they aren't expanded, so their zone moves nothing.
+     */
+    fun storedZoneOf(icalEvent: ICalEvent): String? {
+        val start = icalEvent.dtStart
+        return if (icalEvent.rrule != null && start.isUtc && !start.isDate) UTC_SERIES_ZONE else start.timezone?.id
+    }
+
+    /**
      * Maps [icalEvent] to a synced Room event plus its ATTENDEE rows; see [MappedEntity] for
      * the attendee `eventId` rule.
      *
-     * @param rawIcal the original ICS, kept for round trips.
+     * @param rawIcal the stored copy kept for round trips ([Event.rawIcal]): the server's resource
+     *   on the pull, the file's text for its UID on a file import.
      * @param masterDtStart the master's DTSTART when [icalEvent] is an exception, used to
      *   normalize a value-type-mismatched RECURRENCE-ID ([normalizeRecurrenceId]). Null for
      *   masters or when the master isn't available; the RECURRENCE-ID is then stored as is.
@@ -104,7 +126,7 @@ object ICalEventMapper {
             .takeIf { it.isNotEmpty() }
             ?.joinToString(",")
 
-        val timezone = icalEvent.dtStart.timezone?.id
+        val timezone = storedZoneOf(icalEvent)
 
         // RFC 5545 §3.8.2.2 permits DTEND TZID to differ from DTSTART TZID (e.g., flights).
         val endTimezone = icalEvent.dtEnd?.timezone?.id?.takeIf { it != timezone }

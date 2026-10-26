@@ -566,6 +566,29 @@ interface EventsDao {
     @Query("UPDATE events SET etag = NULL")
     suspend fun clearAllEtags()
 
+    /**
+     * Returns the series rows [org.onekash.kashcal.domain.initializer.UtcSeriesZoneRepair] reads:
+     * timed, with no zone and a stored copy, not waiting to be deleted.
+     */
+    @Query("""
+        SELECT * FROM events
+        WHERE original_event_id IS NULL
+        AND rrule IS NOT NULL AND rrule != ''
+        AND is_all_day = 0
+        AND timezone IS NULL
+        AND raw_ical IS NOT NULL
+        AND sync_status != 'PENDING_DELETE'
+    """)
+    suspend fun getUtcSeriesRepairCandidates(): List<Event>
+
+    /**
+     * Sets [timezone] on row [id] only while it has no zone and its stored copy is still [rawIcal],
+     * touching no other column. Returns the rows changed: 0 when a write replaced the row since
+     * it was read.
+     */
+    @Query("UPDATE events SET timezone = :timezone WHERE id = :id AND timezone IS NULL AND raw_ical = :rawIcal")
+    suspend fun setTimezoneIfUnset(id: Long, timezone: String, rawIcal: String): Int
+
     // ========== Recurrence Updates ==========
 
     /** Sets EXDATE, marks the event PENDING_UPDATE and increments its SEQUENCE. */
@@ -599,6 +622,19 @@ interface EventsDao {
 
     @Query("SELECT COUNT(*) FROM events WHERE calendar_id = :calendarId")
     suspend fun getCountByCalendar(calendarId: Long): Int
+
+    /**
+     * Counts a calendar's events as a user sees them: one-offs and series masters, not
+     * exceptions (a repeating series counts once) and not PENDING_DELETE rows. The same rows as
+     * [getAllMasterEventsForCalendar].
+     */
+    @Query("""
+        SELECT COUNT(*) FROM events
+        WHERE calendar_id = :calendarId
+        AND sync_status != 'PENDING_DELETE'
+        AND original_event_id IS NULL
+    """)
+    suspend fun countUserEventsInCalendar(calendarId: Long): Int
 
     /**
      * Returns a calendar's masters and one-off events by start time, without exceptions or

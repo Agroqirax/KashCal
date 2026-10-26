@@ -324,6 +324,22 @@ object PreferencesKeys {
      */
     val ICLOUD_URL_MIGRATION_COMPLETED = booleanPreferencesKey("icloud_url_migration_completed")
 
+    // ========== UTC Series Zone Repair ==========
+
+    /**
+     * Set once [org.onekash.kashcal.domain.initializer.UtcSeriesZoneRepair] has gone over every
+     * candidate row with none failing; left unset while a row failed, so the next launch retries
+     * it.
+     */
+    val UTC_SERIES_ZONE_REPAIRED = booleanPreferencesKey("utc_series_zone_repaired")
+
+    /**
+     * Set once [org.onekash.kashcal.domain.initializer.UtcSeriesZoneRepair] has dropped every
+     * feed's cached ETag and Last-Modified, so each feed's next refresh downloads and maps it
+     * again.
+     */
+    val FEED_VALIDATORS_CLEARED_FOR_UTC_SERIES = booleanPreferencesKey("feed_validators_cleared_for_utc_series")
+
     // ========== Share Availability ==========
 
     /** Days in the shared availability summary (1..14, default 7). */

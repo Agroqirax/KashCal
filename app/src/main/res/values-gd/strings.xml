@@ -88,7 +88,6 @@
     <string name="action_discard">Tilg air falbh</string>
     <string name="action_discard_confirm">Tilg air falbh na h-atharraichean?</string>
     <string name="action_dismiss">Leig seachad</string>
-    <string name="action_show_all">Seall na h-Uile</string>
     <string name="action_connect">Ceangail</string>
     <string name="action_duplicate">Dùblaich</string>
     <string name="action_share">Co-roinn</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Eachdraidh sioncronachaidh</string>
     <string name="settings_sync_history_subtitle">Seall seiseanan sioncronachaidh (48 uairean mu dheireadh)</string>
     <string name="settings_import_subtitle">Cuir tachartasan bho fhaidhle ICS ri mìosachan sam bith</string>
-    <string name="settings_export_subtitle">Sàbhail tachartasan gu faidhle ICS</string>
     <string name="settings_birthday_reminder">Cuimhneachan Co-là Breith</string>
     <string name="settings_use_device_timezone">Cleachd roinn-tìde an uidheim</string>
     <string name="settings_section_calendars">Mìosachain is cunntasan</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Air ceann-là</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Mìosachain Faicsinneach</string>
     <string name="settings_default_calendar">Mìosachan Bunaiteach</string>
     <string name="settings_default_event_length">Fad Tachartais Bunaiteach</string>
     <string name="settings_default_event_length_hint">Faid bhunaiteach airson tachartasan ùra</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Faigh Mìosachan</string>
     <string name="action_import_from_file">Ion-phortaich tachartasan bho fhaidhle</string>
-    <string name="action_export_local_calendar">Às-phortaich mìosachan ionadail</string>
+    <string name="settings_export_calendars">Às-phortaich mìosachain</string>
+    <string name="settings_export_calendars_subtitle">Sàbhail mìosachan mar fhaidhle ICS</string>
+    <string name="export_calendar_no_events">Gun tachartasan</string>
+    <string name="export_calendar_preparing">Ag ullachadh…</string>
+    <string name="cd_export_calendar">Às-phortaich %1$s</string>
+    <string name="cd_export_calendar_preparing">Ag ullachadh %1$s</string>
+    <string name="export_calendar_chooser_title">Às-phortaich mìosachan</string>
+    <string name="export_event_chooser_title">Às-phortaich tachartas</string>
+    <string name="export_file_failed">Cha b\' urrainn dhuinn am faidhle a chruthachadh.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Mìosachain an Uidheim</string>
     <string name="settings_device_calendars_hint">Mìosachain bho aplacaidean eile</string>
+    <string name="offline_calendars_row_label">Mìosachain far loidhne</string>
+    <string name="offline_calendars_row_hint">Mìosachain a dh\'fhanas air an fhòn seo</string>
+    <string name="offline_calendars_manage_note">Cuir ris, thoir ainm ùr, atharraich an dath no sguab às na mìosachain far loidhne agad.</string>
+    <string name="offline_calendars_info">Cha tèid an cumail ach air an fhòn seo is cha tèid an sioncronachadh idir. Chan eil tachartasan sna lethbhreacan-glèidhidh, mar sin às-phortaich mìosachan airson lethbhreac a chumail.</string>
+    <string name="offline_calendars_info_cd">Mu na mìosachain far loidhne</string>
+    <string name="offline_calendar_default_state">Bunaiteach</string>
+    <string name="offline_calendar_new">Mìosachan ùr</string>
+    <string name="offline_calendar_new_in_picker">Mìosachan ùr far loidhne</string>
+    <string name="action_create">Cruthaich</string>
+    <string name="offline_calendar_rename">Thoir ainm ùr</string>
+    <string name="offline_calendar_color">Dath</string>
+    <string name="offline_calendar_export">Às-phortaich mìosachan</string>
+    <string name="offline_calendar_builtin_info">Chan urrainn dhut ainm ùr a thoirt air a\' mhìosachan thogte no a sguabadh às. Thèid tachartasan ùra an seo nuair nach tagh thu mìosachan.</string>
+    <string name="offline_calendar_builtin_info_cd">Mun mhìosachan thogte</string>
+    <string name="offline_calendar_rename_cancel_cd">Sguir dhen ainm ùr</string>
+    <string name="offline_calendar_rename_save_cd">Sàbhail an t-ainm</string>
+    <string name="offline_calendar_delete_cd">Sguab às %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">A bheil thu airson \"%2$s\" agus a %1$d thachartas a sguabadh às gu buan? Cha ghabh seo aiseag.</item>
+        <item quantity="two">A bheil thu airson \"%2$s\" agus a %1$d thachartas a sguabadh às gu buan? Cha ghabh seo aiseag.</item>
+        <item quantity="few">A bheil thu airson \"%2$s\" agus a %1$d tachartasan a sguabadh às gu buan? Cha ghabh seo aiseag.</item>
+        <item quantity="other">A bheil thu airson \"%2$s\" agus a %1$d tachartas a sguabadh às gu buan? Cha ghabh seo aiseag.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">A bheil thu airson \"%1$s\" a sguabadh às gu buan? Chan eil tachartas ann.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Sguab às %1$d thachartas cuideachd</item>
+        <item quantity="two">Sguab às %1$d thachartas cuideachd</item>
+        <item quantity="few">Sguab às %1$d tachartasan cuideachd</item>
+        <item quantity="other">Sguab às %1$d tachartas cuideachd</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Chaidh %1$s a sguabadh às</string>
+    <string name="offline_calendar_duplicate_name">Tha mìosachan far loidhne air a bheil \"%1$s\" ann mu thràth</string>
     <string name="settings_quick_event_add">Cuir tachartasan ris gu tapaidh</string>
     <string name="settings_quick_event_add_info">Cruthaich tachartasan le bhith a\' sgrìobhadh gu nàdarra. Lìonaidh \"Lòn le Sam Dihaoine 1f\" an tiotal, an ceann-latha agus an t-àm dhut.</string>
     <string name="settings_suggest_titles">Mol tiotalan thachartasan</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">An-dè</string>
     <string name="label_device_calendars">Mìosachain an Uidheim</string>
     <string name="label_default_calendar_hint">Thèid tachartasan ùra a chruthachadh sa mhìosachan seo</string>
-    <string name="label_visible_count">%1$d / %2$d faicsinneach</string>
     <string name="label_reminders_truncated">%1$d gun sealltainn (%2$d san iomlan, as motha %3$d ri dheasachadh)</string>
     <string name="label_found_events">Air lorg: %1$d tachartas</string>
     <string name="placeholder_search">Lorg…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Chan eil dad ri ion-phortadh</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d thachartas air às-phortachadh</item>
-        <item quantity="two">%1$d thachartas air an às-phortachadh</item>
-        <item quantity="few">%1$d tachartasan air an às-phortachadh</item>
-        <item quantity="other">%1$d tachartas air an às-phortachadh</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d thachartas</item>
         <item quantity="two">%1$d thachartas</item>

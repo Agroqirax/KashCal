@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DeleteOutline
@@ -116,7 +115,7 @@ import org.onekash.kashcal.ui.components.pickers.ActiveDateTimeSheet
 import org.onekash.kashcal.ui.components.pickers.CalendarPickerRow
 import org.onekash.kashcal.ui.components.pickers.DateTimeDisplayRow
 import org.onekash.kashcal.ui.components.pickers.DateTimeSheet
-import org.onekash.kashcal.ui.components.pickers.EventColorSheet
+import org.onekash.kashcal.ui.components.pickers.EventColorPalettePanel
 import org.onekash.kashcal.ui.components.pickers.EventFormRow
 import org.onekash.kashcal.ui.components.pickers.RecurrencePickerRow
 import org.onekash.kashcal.ui.components.pickers.ReminderPickerRow
@@ -862,6 +861,7 @@ fun EventFormSheet(
     attendeeAccount: org.onekash.kashcal.data.db.entity.Account? = null,
     isSchedulable: Boolean = true,
     onCalendarSelected: ((Long) -> Unit)? = null,
+    onCreateOfflineCalendar: (suspend (name: String, color: Int) -> Result<Long>)? = null,
     onQueryContacts: (suspend (String) -> List<org.onekash.kashcal.data.contacts.ContactEmail>)? = null,
     contactsPermissionState: org.onekash.kashcal.ui.permission.ContactsPermissionState =
         org.onekash.kashcal.ui.permission.ContactsPermissionState.NotRequested,
@@ -893,7 +893,8 @@ fun EventFormSheet(
     // with safeDrawingPadding handles the status bar, IME and nav bar insets, as in
     // QuickAddDialog. The platform back dismissal is off (dismissOnBackPress = false):
     // back goes through the content's BackHandler to attemptDismiss, like Cancel, so
-    // the discard guard still fires.
+    // the discard guard still fires. An open color palette takes back first
+    // ([EventColorPalettePanel]).
     Dialog(
         onDismissRequest = attemptDismiss,
         properties = DialogProperties(
@@ -952,6 +953,7 @@ fun EventFormSheet(
             attendeeAccount = attendeeAccount,
             isSchedulable = isSchedulable,
             onCalendarSelected = onCalendarSelected,
+            onCreateOfflineCalendar = onCreateOfflineCalendar,
             onQueryContacts = onQueryContacts,
             contactsPermissionState = contactsPermissionState,
             onRequestContactsPermission = onRequestContactsPermission,
@@ -992,7 +994,10 @@ fun EventFormContent(
     onHasChangesChange: (Boolean) -> Unit = {},
     /** When true, the Cancel button renders the discard-confirmation label. */
     showDiscardConfirm: Boolean = false,
-    /** Invoked by Cancel and by back ([BackHandler]); the host runs its dismiss guard. */
+    /**
+     * Invoked by Cancel, and by back ([BackHandler]) once no color palette takes it first; the
+     * host runs its dismiss guard.
+     */
     onRequestDismiss: () -> Unit = {},
     modifier: Modifier = Modifier,
     eventId: Long? = null,
@@ -1102,6 +1107,8 @@ fun EventFormContent(
      * opened with.
      */
     onCalendarSelected: ((Long) -> Unit)? = null,
+    /** Creates an offline calendar from the picker's "New offline calendar"; null hides it. */
+    onCreateOfflineCalendar: (suspend (name: String, color: Int) -> Result<Long>)? = null,
     /** Debounced contact-email lookup for the picker's type-ahead. */
     onQueryContacts: (suspend (String) -> List<org.onekash.kashcal.data.contacts.ContactEmail>)? = null,
     /** READ_CONTACTS state, for the picker's permission banner. */
@@ -1200,8 +1207,8 @@ fun EventFormContent(
     var deviceNoticeDismissed by remember { mutableStateOf(false) }
 
     var expandedPicker by remember { mutableStateOf<String?>(null) }
+    var showNewOfflineCalendar by remember { mutableStateOf(false) }
     var activeSheet by remember { mutableStateOf(ActiveDateTimeSheet.NONE) }
-    var showColorPicker by remember { mutableStateOf(false) }
     var showAttendeeSheet by remember { mutableStateOf(false) }
     var showAttendeePicker by remember { mutableStateOf(false) }
     // In-session dismissal of the picker's permission banner.
@@ -1720,8 +1727,9 @@ fun EventFormContent(
     }
     SideEffect { onHasChangesChange(hasUnsavedChanges) }
 
-    // Back runs the same dismiss guard as Cancel. This content sits in the form's
-    // own dialog window, whose built-in back dismissal is off.
+    // Back runs the same dismiss guard as Cancel, unless the color palette is open: its
+    // own handler, registered later, takes back first ([EventColorPalettePanel]). This
+    // content sits in the form's own dialog window, whose built-in back dismissal is off.
     BackHandler(onBack = onRequestDismiss)
 
     val paneTitleText = if (state.isEditMode) {
@@ -2165,6 +2173,29 @@ fun EventFormContent(
 
                 HorizontalDivider(modifier = Modifier.padding(vertical = SECTION_DIVIDER_SPACING))
 
+                // A pick from the list and a calendar just created from it select the same way.
+                val selectCalendar: (Long, String, Int?, Boolean) -> Unit = { id, name, color, isDevice ->
+                    state = state.copy(
+                        selectedCalendarId = id,
+                        selectedCalendarName = name,
+                        selectedCalendarColor = color,
+                        isDeviceCalendar = isDevice
+                    )
+                    // Re-resolves the attendee context for the new
+                    // calendar's account.
+                    onCalendarSelected?.invoke(id)
+                    expandedPicker = null
+                }
+                if (showNewOfflineCalendar && onCreateOfflineCalendar != null) {
+                    NewOfflineCalendarSheet(
+                        onCreate = onCreateOfflineCalendar,
+                        onCreated = { id, name, color ->
+                            showNewOfflineCalendar = false
+                            selectCalendar(id, name, color, false)
+                        },
+                        onDismiss = { showNewOfflineCalendar = false },
+                    )
+                }
                 CalendarPickerRow(
                     selectedCalendarId = state.selectedCalendarId,
                     selectedCalendarName = state.selectedCalendarName,
@@ -2199,24 +2230,30 @@ fun EventFormContent(
                         !(state.isEditMode && state.isDeviceCalendar && state.rrule != null) &&
                         !(state.isEditMode && !state.isDeviceCalendar && state.attendees.isNotEmpty()),
                     onToggle = { expandedPicker = if (expandedPicker == "calendar") null else "calendar" },
-                    onSelect = { id, name, color, isDevice ->
-                        state = state.copy(
-                            selectedCalendarId = id,
-                            selectedCalendarName = name,
-                            selectedCalendarColor = color,
-                            isDeviceCalendar = isDevice
-                        )
-                        // Re-resolves the attendee context for the new
-                        // calendar's account.
-                        onCalendarSelected?.invoke(id)
-                        expandedPicker = null
-                    }
+                    onSelect = selectCalendar,
+                    onNewOfflineCalendar = onCreateOfflineCalendar?.let { { showNewOfflineCalendar = true } },
                 )
 
+                val colorExpanded = expandedPicker == "color"
                 EventFormRow(
                     icon = Icons.Default.Palette,
                     iconContentDescription = stringResource(R.string.label_event_color),
-                    onToggle = { if (!isReadOnly) showColorPicker = true }
+                    isExpanded = colorExpanded,
+                    showExpandIcon = !isReadOnly,
+                    onToggle = { if (!isReadOnly) expandedPicker = if (colorExpanded) null else "color" },
+                    expandedContent = {
+                        EventColorPalettePanel(
+                            selectedArgb = state.eventColor,
+                            calendarDefaultArgb = state.selectedCalendarColor
+                                ?: MaterialTheme.colorScheme.primary.toArgb(),
+                            expanded = colorExpanded,
+                            onColorSelected = { color ->
+                                state = state.copy(eventColor = color)
+                                expandedPicker = null
+                            },
+                            onCollapse = { expandedPicker = null },
+                        )
+                    },
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -2241,12 +2278,6 @@ fun EventFormContent(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
 
                 ReminderPickerRow(
@@ -2610,18 +2641,6 @@ fun EventFormContent(
                             label = { Text(stringResource(R.string.label_free)) }
                         )
                     }
-                }
-
-                if (showColorPicker) {
-                    EventColorSheet(
-                        selectedArgb = state.eventColor,
-                        calendarDefaultArgb = state.selectedCalendarColor ?: MaterialTheme.colorScheme.primary.toArgb(),
-                        onColorSelected = { color ->
-                            state = state.copy(eventColor = color)
-                            showColorPicker = false
-                        },
-                        onDismiss = { showColorPicker = false }
-                    )
                 }
 
                 if (state.error != null) {

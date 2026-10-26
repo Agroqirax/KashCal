@@ -88,7 +88,6 @@
     <string name="action_discard">Απόρριψη</string>
     <string name="action_discard_confirm">Να γίνει απόρριψη;</string>
     <string name="action_dismiss">Παράβλεψη</string>
-    <string name="action_show_all">Εμφάνιση όλων</string>
     <string name="action_connect">Σύνδεση</string>
     <string name="action_duplicate">Αντιγραφή</string>
     <string name="action_share">Κοινοποίηση</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Ιστορικό συγχρονισμού</string>
     <string name="settings_sync_history_subtitle">Προβολή συνεδριών συγχρονισμού (τελευταίες 48 ώρες)</string>
     <string name="settings_import_subtitle">Προσθήκη συμβάντων από αρχείο ICS σε οποιοδήποτε ημερολόγιο</string>
-    <string name="settings_export_subtitle">Αποθήκευση συμβάντων σε αρχείο ICS</string>
     <string name="settings_birthday_reminder">Υπενθύμιση γενεθλίων</string>
     <string name="settings_use_device_timezone">Χρήση ζώνης ώρας συσκευής</string>
     <string name="settings_section_calendars">Ημερολόγια και λογαριασμοί</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Σε ημερομηνία</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Ορατά ημερολόγια</string>
     <string name="settings_default_calendar">Προεπιλεγμένο ημερολόγιο</string>
     <string name="settings_default_event_length">Προεπιλεγμένη διάρκεια συμβάντος</string>
     <string name="settings_default_event_length_hint">Προεπιλεγμένη διάρκεια για νέα συμβάντα</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Λήψη ημερολογίου</string>
     <string name="action_import_from_file">Εισαγωγή συμβάντων από αρχείο</string>
-    <string name="action_export_local_calendar">Εξαγωγή τοπικού ημερολογίου</string>
+    <string name="settings_export_calendars">Εξαγωγή ημερολογίων</string>
+    <string name="settings_export_calendars_subtitle">Αποθήκευση ημερολογίου ως αρχείο ICS</string>
+    <string name="export_calendar_no_events">Δεν υπάρχουν συμβάντα</string>
+    <string name="export_calendar_preparing">Προετοιμασία…</string>
+    <string name="cd_export_calendar">Εξαγωγή %1$s</string>
+    <string name="cd_export_calendar_preparing">Προετοιμασία %1$s</string>
+    <string name="export_calendar_chooser_title">Εξαγωγή ημερολογίου</string>
+    <string name="export_event_chooser_title">Εξαγωγή συμβάντος</string>
+    <string name="export_file_failed">Δεν ήταν δυνατή η δημιουργία του αρχείου.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Ημερολόγια συσκευής</string>
     <string name="settings_device_calendars_hint">Ημερολόγια από άλλες εφαρμογές</string>
+    <string name="offline_calendars_row_label">Ημερολόγια εκτός σύνδεσης</string>
+    <string name="offline_calendars_row_hint">Ημερολόγια που μένουν σε αυτό το τηλέφωνο</string>
+    <string name="offline_calendars_manage_note">Προσθέστε, μετονομάστε, αλλάξτε χρώμα ή αφαιρέστε τα ημερολόγιά σας εκτός σύνδεσης.</string>
+    <string name="offline_calendars_info">Διατηρούνται μόνο σε αυτό το τηλέφωνο και δεν συγχρονίζονται ποτέ. Τα αντίγραφα ασφαλείας δεν περιλαμβάνουν συμβάντα, οπότε εξαγάγετε ένα ημερολόγιο για να κρατήσετε αντίγραφο.</string>
+    <string name="offline_calendars_info_cd">Σχετικά με τα ημερολόγια εκτός σύνδεσης</string>
+    <string name="offline_calendar_default_state">Προεπιλογή</string>
+    <string name="offline_calendar_new">Νέο ημερολόγιο</string>
+    <string name="offline_calendar_new_in_picker">Νέο ημερολόγιο εκτός σύνδεσης</string>
+    <string name="action_create">Δημιουργία</string>
+    <string name="offline_calendar_rename">Μετονομασία</string>
+    <string name="offline_calendar_color">Χρώμα</string>
+    <string name="offline_calendar_export">Εξαγωγή ημερολογίου</string>
+    <string name="offline_calendar_builtin_info">Το ενσωματωμένο ημερολόγιο δεν μπορεί να μετονομαστεί ή να διαγραφεί. Τα νέα συμβάντα πηγαίνουν εδώ όταν δεν επιλέγεται ημερολόγιο.</string>
+    <string name="offline_calendar_builtin_info_cd">Σχετικά με το ενσωματωμένο ημερολόγιο</string>
+    <string name="offline_calendar_rename_cancel_cd">Ακύρωση μετονομασίας</string>
+    <string name="offline_calendar_rename_save_cd">Αποθήκευση ονόματος</string>
+    <string name="offline_calendar_delete_cd">Διαγραφή %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Οριστική διαγραφή του \"%2$s\" και του %1$d συμβάντος του; Δεν είναι δυνατή η αναίρεση.</item>
+        <item quantity="other">Οριστική διαγραφή του \"%2$s\" και των %1$d συμβάντων του; Δεν είναι δυνατή η αναίρεση.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Οριστική διαγραφή του \"%1$s\"; Δεν έχει συμβάντα.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Διαγραφή και %1$d συμβάντος</item>
+        <item quantity="other">Διαγραφή και %1$d συμβάντων</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Διαγράφηκε: %1$s</string>
+    <string name="offline_calendar_duplicate_name">Υπάρχει ήδη ημερολόγιο εκτός σύνδεσης με όνομα \"%1$s\"</string>
     <string name="settings_quick_event_add">Έξυπνη προσθήκη συμβάντων</string>
     <string name="settings_quick_event_add_info">Δημιουργήστε συμβάντα πληκτρολογώντας φυσικά. Το \"Μεσημεριανό με τον Sam Παρασκευή 13:00\" συμπληρώνει για εσάς τον τίτλο, την ημερομηνία και την ώρα.</string>
     <string name="settings_suggest_titles">Πρόταση τίτλων συμβάντων</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Χθες</string>
     <string name="label_device_calendars">Ημερολόγια συσκευής</string>
     <string name="label_default_calendar_hint">Τα νέα συμβάντα θα δημιουργούνται σε αυτό το ημερολόγιο</string>
-    <string name="label_visible_count">%1$d / %2$d ορατά</string>
     <string name="label_reminders_truncated">%1$d δεν εμφανίζονται (%2$d σύνολο, μέγ. %3$d επεξεργάσιμα)</string>
     <string name="label_found_events">Βρέθηκαν: %1$d συμβάντα</string>
     <string name="placeholder_search">Αναζήτηση…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Τίποτα για εισαγωγή</string>
-    <plurals name="exported_events">
-        <item quantity="one">Εξήχθη %1$d συμβάν</item>
-        <item quantity="other">Εξήχθησαν %1$d συμβάντα</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d συμβάν</item>
         <item quantity="other">%1$d συμβάντα</item>

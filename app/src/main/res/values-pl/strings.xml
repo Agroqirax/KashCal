@@ -88,7 +88,6 @@
     <string name="action_discard">Odrzuć</string>
     <string name="action_discard_confirm">Odrzucić?</string>
     <string name="action_dismiss">Odrzuć</string>
-    <string name="action_show_all">Pokaż wszystko</string>
     <string name="action_connect">Połącz</string>
     <string name="action_duplicate">Duplikuj</string>
     <string name="action_share">Udostępnij</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Historia synchronizacji</string>
     <string name="settings_sync_history_subtitle">Pokaż sesje synchronizacji (ostatnie 48 godzin)</string>
     <string name="settings_import_subtitle">Dodaj wydarzenia z pliku ICS do dowolnego kalendarza</string>
-    <string name="settings_export_subtitle">Zapisz wydarzenia do pliku ICS</string>
     <string name="settings_birthday_reminder">Przypomnienie o urodzinach</string>
     <string name="settings_use_device_timezone">Użyj strefy czasowej urządzenia</string>
     <string name="settings_section_calendars">Kalendarze i konta</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">W dniu</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Widoczne kalendarze</string>
     <string name="settings_default_calendar">Domyślny kalendarz</string>
     <string name="settings_default_event_length">Domyślna długość wydarzenia</string>
     <string name="settings_default_event_length_hint">Domyślna długość nowych wydarzeń</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Pobierz kalendarz</string>
     <string name="action_import_from_file">Importuj wydarzenia z pliku</string>
-    <string name="action_export_local_calendar">Eksportuj kalendarz Lokalny</string>
+    <string name="settings_export_calendars">Eksportuj kalendarze</string>
+    <string name="settings_export_calendars_subtitle">Zapisz kalendarz jako plik ICS</string>
+    <string name="export_calendar_no_events">Brak wydarzeń</string>
+    <string name="export_calendar_preparing">Przygotowywanie…</string>
+    <string name="cd_export_calendar">Eksportuj %1$s</string>
+    <string name="cd_export_calendar_preparing">Przygotowywanie %1$s</string>
+    <string name="export_calendar_chooser_title">Eksportuj kalendarz</string>
+    <string name="export_event_chooser_title">Eksportuj wydarzenie</string>
+    <string name="export_file_failed">Nie udało się utworzyć pliku.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Kalendarze urządzenia</string>
     <string name="settings_device_calendars_hint">Kalendarze z innych aplikacji</string>
+    <string name="offline_calendars_row_label">Kalendarze offline</string>
+    <string name="offline_calendars_row_hint">Kalendarze, które zostają na tym telefonie</string>
+    <string name="offline_calendars_manage_note">Dodawaj, zmieniaj nazwę i kolor lub usuwaj kalendarze offline.</string>
+    <string name="offline_calendars_info">Przechowywane tylko na tym telefonie i nigdy nie synchronizowane. Kopie zapasowe nie obejmują wydarzeń, więc wyeksportuj kalendarz, aby zachować kopię.</string>
+    <string name="offline_calendars_info_cd">Informacje o kalendarzach offline</string>
+    <string name="offline_calendar_default_state">Domyślny</string>
+    <string name="offline_calendar_new">Nowy kalendarz</string>
+    <string name="offline_calendar_new_in_picker">Nowy kalendarz offline</string>
+    <string name="action_create">Utwórz</string>
+    <string name="offline_calendar_rename">Zmień nazwę</string>
+    <string name="offline_calendar_color">Kolor</string>
+    <string name="offline_calendar_export">Eksportuj kalendarz</string>
+    <string name="offline_calendar_builtin_info">Nie można zmienić nazwy wbudowanego kalendarza ani go usunąć. Nowe wydarzenia trafiają do niego, gdy nie wybrano kalendarza.</string>
+    <string name="offline_calendar_builtin_info_cd">Informacje o wbudowanym kalendarzu</string>
+    <string name="offline_calendar_rename_cancel_cd">Anuluj zmianę nazwy</string>
+    <string name="offline_calendar_rename_save_cd">Zapisz nazwę</string>
+    <string name="offline_calendar_delete_cd">Usuń %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Usunąć \"%2$s\" i %1$d wydarzenie na zawsze? Tego nie można cofnąć.</item>
+        <item quantity="few">Usunąć \"%2$s\" i %1$d wydarzenia na zawsze? Tego nie można cofnąć.</item>
+        <item quantity="many">Usunąć \"%2$s\" i %1$d wydarzeń na zawsze? Tego nie można cofnąć.</item>
+        <item quantity="other">Usunąć \"%2$s\" i %1$d wydarzenia na zawsze? Tego nie można cofnąć.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Usunąć \"%1$s\" na zawsze? Nie ma wydarzeń.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Usuń też %1$d wydarzenie</item>
+        <item quantity="few">Usuń też %1$d wydarzenia</item>
+        <item quantity="many">Usuń też %1$d wydarzeń</item>
+        <item quantity="other">Usuń też %1$d wydarzenia</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Usunięto %1$s</string>
+    <string name="offline_calendar_duplicate_name">Kalendarz offline o nazwie \"%1$s\" już istnieje</string>
     <string name="settings_quick_event_add">Inteligentne dodawanie wydarzeń</string>
     <string name="settings_quick_event_add_info">Twórz wydarzenia, pisząc naturalnie. \"Lunch z Sam w piątek 13:00\" uzupełni tytuł, datę i godzinę za Ciebie.</string>
     <string name="settings_suggest_titles">Sugeruj tytuły wydarzeń</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">Wczoraj</string>
     <string name="label_device_calendars">Kalendarze urządzenia</string>
     <string name="label_default_calendar_hint">Nowe wydarzenia będą tworzone w tym kalendarzu</string>
-    <string name="label_visible_count">%1$d / %2$d widocznych</string>
     <string name="label_reminders_truncated">%1$d niepokazanych (%2$d łącznie, maks. %3$d edytowalnych)</string>
     <string name="label_found_events">Znaleziono: %1$d wydarzeń</string>
     <string name="placeholder_search">Szukaj…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nic do zaimportowania</string>
-    <plurals name="exported_events">
-        <item quantity="one">Wyeksportowano %1$d wydarzenie</item>
-        <item quantity="few">Wyeksportowano %1$d wydarzenia</item>
-        <item quantity="many">Wyeksportowano %1$d wydarzeń</item>
-        <item quantity="other">Wyeksportowano %1$d wydarzenia</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d wydarzenie</item>
         <item quantity="few">%1$d wydarzenia</item>

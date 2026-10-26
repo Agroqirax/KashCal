@@ -88,7 +88,6 @@
     <string name="action_discard">Bỏ</string>
     <string name="action_discard_confirm">Bỏ thay đổi?</string>
     <string name="action_dismiss">Bỏ qua</string>
-    <string name="action_show_all">Hiện tất cả</string>
     <string name="action_connect">Kết nối</string>
     <string name="action_duplicate">Nhân đôi</string>
     <string name="action_share">Chia sẻ</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Lịch sử đồng bộ</string>
     <string name="settings_sync_history_subtitle">Xem phiên đồng bộ (48 giờ gần nhất)</string>
     <string name="settings_import_subtitle">Thêm sự kiện từ tệp ICS vào bất kỳ lịch nào</string>
-    <string name="settings_export_subtitle">Lưu sự kiện ra tệp ICS</string>
     <string name="settings_birthday_reminder">Nhắc nhở sinh nhật</string>
     <string name="settings_use_device_timezone">Dùng múi giờ thiết bị</string>
     <string name="settings_section_calendars">Lịch và tài khoản</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Vào ngày</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Lịch hiển thị</string>
     <string name="settings_default_calendar">Lịch mặc định</string>
     <string name="settings_default_event_length">Thời lượng sự kiện mặc định</string>
     <string name="settings_default_event_length_hint">Thời lượng mặc định cho sự kiện mới</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Tải lịch</string>
     <string name="action_import_from_file">Nhập sự kiện từ tệp</string>
-    <string name="action_export_local_calendar">Xuất lịch nội bộ</string>
+    <string name="settings_export_calendars">Xuất lịch</string>
+    <string name="settings_export_calendars_subtitle">Lưu lịch dưới dạng tệp ICS</string>
+    <string name="export_calendar_no_events">Không có sự kiện</string>
+    <string name="export_calendar_preparing">Đang chuẩn bị…</string>
+    <string name="cd_export_calendar">Xuất %1$s</string>
+    <string name="cd_export_calendar_preparing">Đang chuẩn bị %1$s</string>
+    <string name="export_calendar_chooser_title">Xuất lịch</string>
+    <string name="export_event_chooser_title">Xuất sự kiện</string>
+    <string name="export_file_failed">Không thể tạo tệp.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Lịch thiết bị</string>
     <string name="settings_device_calendars_hint">Lịch từ các ứng dụng khác</string>
+    <string name="offline_calendars_row_label">Lịch ngoại tuyến</string>
+    <string name="offline_calendars_row_hint">Lịch chỉ lưu trên điện thoại này</string>
+    <string name="offline_calendars_manage_note">Thêm, đổi tên, đổi màu hoặc xóa lịch ngoại tuyến của bạn.</string>
+    <string name="offline_calendars_info">Chỉ lưu trên điện thoại này và không bao giờ đồng bộ. Bản sao lưu không gồm sự kiện, vì vậy hãy xuất lịch để giữ một bản sao.</string>
+    <string name="offline_calendars_info_cd">Giới thiệu về lịch ngoại tuyến</string>
+    <string name="offline_calendar_default_state">Mặc định</string>
+    <string name="offline_calendar_new">Lịch mới</string>
+    <string name="offline_calendar_new_in_picker">Lịch ngoại tuyến mới</string>
+    <string name="action_create">Tạo</string>
+    <string name="offline_calendar_rename">Đổi tên</string>
+    <string name="offline_calendar_color">Màu</string>
+    <string name="offline_calendar_export">Xuất lịch</string>
+    <string name="offline_calendar_builtin_info">Không thể đổi tên hoặc xóa lịch tích hợp sẵn. Sự kiện mới sẽ vào đây khi bạn không chọn lịch.</string>
+    <string name="offline_calendar_builtin_info_cd">Giới thiệu về lịch tích hợp sẵn</string>
+    <string name="offline_calendar_rename_cancel_cd">Hủy đổi tên</string>
+    <string name="offline_calendar_rename_save_cd">Lưu tên</string>
+    <string name="offline_calendar_delete_cd">Xóa %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">Xóa vĩnh viễn \"%2$s\" và %1$d sự kiện của lịch này? Không thể hoàn tác.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Xóa vĩnh viễn \"%1$s\"? Lịch này không có sự kiện nào.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">Xóa cả %1$d sự kiện</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Đã xóa %1$s</string>
+    <string name="offline_calendar_duplicate_name">Đã có lịch ngoại tuyến tên \"%1$s\"</string>
     <string name="settings_quick_event_add">Thêm sự kiện thông minh</string>
     <string name="settings_quick_event_add_info">Tạo sự kiện bằng cách gõ tự nhiên. \"Ăn trưa với Sam thứ Sáu 13:00\" sẽ tự điền tiêu đề, ngày và giờ cho bạn.</string>
     <string name="settings_suggest_titles">Gợi ý tiêu đề sự kiện</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">Hôm qua</string>
     <string name="label_device_calendars">Lịch thiết bị</string>
     <string name="label_default_calendar_hint">Sự kiện mới sẽ được tạo trong lịch này</string>
-    <string name="label_visible_count">%1$d / %2$d hiển thị</string>
     <string name="label_reminders_truncated">%1$d bị ẩn (tổng %2$d, tối đa chỉnh sửa %3$d)</string>
     <string name="label_found_events">Tìm thấy: %1$d sự kiện</string>
     <string name="placeholder_search">Tìm kiếm…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Không có gì để nhập</string>
-    <plurals name="exported_events">
-        <item quantity="other">Đã xuất %1$d sự kiện</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">%1$d sự kiện</item>
     </plurals>

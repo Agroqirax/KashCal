@@ -88,7 +88,6 @@
     <string name="action_discard">ඉවතලන්න</string>
     <string name="action_discard_confirm">ඉවතලන්නද?</string>
     <string name="action_dismiss">ඉවත් කරන්න</string>
-    <string name="action_show_all">සියල්ල පෙන්වන්න</string>
     <string name="action_connect">සම්බන්ධ කරන්න</string>
     <string name="action_duplicate">අනුපිටපත</string>
     <string name="action_share">බෙදාගන්න</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">සමමුහුර්ත ඉතිහාසය</string>
     <string name="settings_sync_history_subtitle">සමමුහුර්ත සැසි බලන්න (පසුගිය පැය 48)</string>
     <string name="settings_import_subtitle">ICS ගොනුවකින් ඕනෑම දින දර්ශනයකට සිදුවීම් එකතු කරන්න</string>
-    <string name="settings_export_subtitle">සිදුවීම් ICS ගොනුවකට සුරකින්න</string>
     <string name="settings_birthday_reminder">උපන්දින මතක්කිරීම</string>
     <string name="settings_use_device_timezone">උපාංග වේලා කලාපය භාවිත කරන්න</string>
     <string name="settings_section_calendars">දින දර්ශන &amp; ගිණුම්</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">දිනයේදී</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">දෘශ්‍ය දින දර්ශන</string>
     <string name="settings_default_calendar">පෙරනිමි දින දර්ශනය</string>
     <string name="settings_default_event_length">පෙරනිමි සිදුවීම් කාලය</string>
     <string name="settings_default_event_length_hint">නව සිදුවීම් සඳහා පෙරනිමි කාලසීමාව</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">දින දර්ශනය ලබාගන්න</string>
     <string name="action_import_from_file">ගොනුවෙන් සිදුවීම් ආයාත</string>
-    <string name="action_export_local_calendar">දේශීය දින දර්ශනය නිර්යාත</string>
+    <string name="settings_export_calendars">දින දර්ශන නිර්යාත කරන්න</string>
+    <string name="settings_export_calendars_subtitle">දින දර්ශනය ICS ගොනුවක් ලෙස සුරකින්න</string>
+    <string name="export_calendar_no_events">සිදුවීම් නැත</string>
+    <string name="export_calendar_preparing">සූදානම් වෙමින්…</string>
+    <string name="cd_export_calendar">%1$s නිර්යාත කරන්න</string>
+    <string name="cd_export_calendar_preparing">%1$s සූදානම් වෙමින්</string>
+    <string name="export_calendar_chooser_title">දින දර්ශනය නිර්යාත කරන්න</string>
+    <string name="export_event_chooser_title">සිදුවීම නිර්යාත කරන්න</string>
+    <string name="export_file_failed">ගොනුව සෑදිය නොහැකි විය.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">උපාංග දින දර්ශන</string>
     <string name="settings_device_calendars_hint">වෙනත් යෙදුම්වල දින දර්ශන</string>
+    <string name="offline_calendars_row_label">මාර්ගගත නැති දින දර්ශන</string>
+    <string name="offline_calendars_row_hint">මෙම දුරකථනයේම රැඳෙන දින දර්ශන</string>
+    <string name="offline_calendars_manage_note">ඔබේ මාර්ගගත නැති දින දර්ශන එකතු කරන්න, නැවත නම් කරන්න, වර්ණය වෙනස් කරන්න හෝ ඉවත් කරන්න.</string>
+    <string name="offline_calendars_info">මෙම දුරකථනයේ පමණක් තබා ඇති අතර කිසිදා සමමුහුර්ත නොවේ. උපස්ථවලට සිදුවීම් ඇතුළත් නොවන බැවින්, පිටපතක් තබා ගැනීමට දින දර්ශනයක් නිර්යාත කරන්න.</string>
+    <string name="offline_calendars_info_cd">මාර්ගගත නැති දින දර්ශන ගැන</string>
+    <string name="offline_calendar_default_state">පෙරනිමිය</string>
+    <string name="offline_calendar_new">නව දින දර්ශනය</string>
+    <string name="offline_calendar_new_in_picker">නව මාර්ගගත නැති දින දර්ශනය</string>
+    <string name="action_create">සාදන්න</string>
+    <string name="offline_calendar_rename">නැවත නම් කරන්න</string>
+    <string name="offline_calendar_color">වර්ණය</string>
+    <string name="offline_calendar_export">දින දර්ශනය නිර්යාත කරන්න</string>
+    <string name="offline_calendar_builtin_info">අන්තර්ගත දින දර්ශනය නැවත නම් කිරීමට හෝ මැකීමට නොහැක. දින දර්ශනයක් තෝරා නොමැති විට නව සිදුවීම් මෙහි යයි.</string>
+    <string name="offline_calendar_builtin_info_cd">අන්තර්ගත දින දර්ශනය ගැන</string>
+    <string name="offline_calendar_rename_cancel_cd">නැවත නම් කිරීම අවලංගු කරන්න</string>
+    <string name="offline_calendar_rename_save_cd">නම සුරකින්න</string>
+    <string name="offline_calendar_delete_cd">%1$s මකන්න</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" සහ එහි සිදුවීම %1$d සදහටම මකන්නද? අහෝසි කළ නොහැක.</item>
+        <item quantity="other">\"%2$s\" සහ එහි සිදුවීම් %1$d සදහටම මකන්නද? අහෝසි කළ නොහැක.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" සදහටම මකන්නද? එහි සිදුවීම් නැත.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">සිදුවීම %1$d ද මකන්න</item>
+        <item quantity="other">සිදුවීම් %1$d ද මකන්න</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s මකා දමන ලදී</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" නමින් මාර්ගගත නැති දින දර්ශනයක් දැනටමත් පවතී</string>
     <string name="settings_quick_event_add">ස්මාට් සිදුවීම් එකතුව</string>
     <string name="settings_quick_event_add_info">ස්වාභාවිකව ටයිප් කිරීමෙන් සිදුවීම් සාදන්න. \"Sam සමඟ සිකුරාදා දහවල් 1ට දිවා ආහාරය\" මගින් මාතෘකාව, දිනය සහ වේලාව ඔබ වෙනුවෙන් පුරවයි.</string>
     <string name="settings_suggest_titles">සිදුවීම් මාතෘකා යෝජනා කරන්න</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ඊයේ</string>
     <string name="label_device_calendars">උපාංග දින දර්ශන</string>
     <string name="label_default_calendar_hint">නව සිදුවීම් මෙම දින දර්ශනයේ සාදනු ඇත</string>
-    <string name="label_visible_count">%1$d / %2$d දෘශ්‍ය</string>
     <string name="label_reminders_truncated">%1$d නොපෙන්වයි (%2$d මුළු, උපරිම %3$d සංස්කරණය කළ හැකි)</string>
     <string name="label_found_events">හමු විය: සිදුවීම් %1$d</string>
     <string name="placeholder_search">සොයන්න…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ආයාත කිරීමට කිසිවක් නැත</string>
-    <plurals name="exported_events">
-        <item quantity="one">සිදුවීම %1$d ක් නිර්යාත විය</item>
-        <item quantity="other">සිදුවීම් %1$d ක් නිර්යාත විය</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">සිදුවීම %1$d</item>
         <item quantity="other">සිදුවීම් %1$d</item>

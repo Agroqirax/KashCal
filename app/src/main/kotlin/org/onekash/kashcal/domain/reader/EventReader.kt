@@ -20,6 +20,8 @@ import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.db.entity.Occurrence
 import org.onekash.kashcal.domain.changes.RecentChangeItem
 import org.onekash.kashcal.domain.changes.RecentChangesRecorder
+import org.onekash.kashcal.domain.model.AccountProvider
+import org.onekash.kashcal.domain.model.LocalCalendarSummary
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -145,6 +147,17 @@ class EventReader @Inject constructor(
         attendeesDao.getForEvent(eventId).distinctUntilChanged()
 
     /**
+     * Reads the attendees of [eventIds] once, keyed by event ID; an event without rows has no
+     * entry. Queries in chunks of 500, as [getExceptionsForMasters] does.
+     */
+    suspend fun getAttendeesForEventsOnce(eventIds: List<Long>): Map<Long, List<Attendee>> {
+        if (eventIds.isEmpty()) return emptyMap()
+        return eventIds.chunked(500)
+            .flatMap { chunk -> attendeesDao.getForEventsOnce(chunk) }
+            .groupBy { it.eventId }
+    }
+
+    /**
      * Observes the attendees of [eventIds] in one Flow, keyed by event ID, so a list of cards
      * needs no Flow per event. An empty [eventIds] emits an empty map without a query.
      */
@@ -253,6 +266,34 @@ class EventReader @Inject constructor(
     suspend fun getCalendarById(calendarId: Long): Calendar? {
         return calendarsDao.getById(calendarId)
     }
+
+    /**
+     * Emits every offline calendar, the built-in included, with its event count, and emits again
+     * when a calendar or a count changes. Sorted by [localizeName] ignoring case, the order
+     * [org.onekash.kashcal.ui.model.CalendarGroup] gives the drawer and pickers.
+     *
+     * @param localizeName maps a calendar to its user-facing name, for example
+     *   `localizedDisplayName`, which shows the built-in's translated label
+     */
+    fun getLocalCalendarSummaries(
+        localizeName: (Calendar) -> String = { it.displayName }
+    ): Flow<List<LocalCalendarSummary>> =
+        calendarsDao.getWithEventCountsByProvider(AccountProvider.LOCAL)
+            .map { rows ->
+                rows.map { LocalCalendarSummary(it.calendar, it.eventCount) }
+                    .sortedBy { localizeName(it.calendar).lowercase() }
+            }
+            .distinctUntilChanged()
+
+    /**
+     * Emits each calendar's event count keyed by calendar id, every calendar listed (0 when it
+     * has none), and emits again when a count changes; counted as
+     * [org.onekash.kashcal.data.db.dao.EventsDao.countUserEventsInCalendar] counts.
+     */
+    fun getCalendarEventCounts(): Flow<Map<Long, Int>> =
+        calendarsDao.getAllEventCounts()
+            .map { rows -> rows.associate { it.calendarId to it.eventCount } }
+            .distinctUntilChanged()
 
     /** Emits the calendars of accounts whose provider is [provider], e.g. "icloud", "local". */
     fun getCalendarsByProvider(provider: String): Flow<List<Calendar>> {

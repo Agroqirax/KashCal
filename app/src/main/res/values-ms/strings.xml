@@ -88,7 +88,6 @@
     <string name="action_discard">Buang</string>
     <string name="action_discard_confirm">Buang perubahan?</string>
     <string name="action_dismiss">Abaikan</string>
-    <string name="action_show_all">Tunjuk Semua</string>
     <string name="action_connect">Sambung</string>
     <string name="action_duplicate">Duplikat</string>
     <string name="action_share">Kongsi</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sejarah segerak</string>
     <string name="settings_sync_history_subtitle">Lihat sesi segerak (48 jam lepas)</string>
     <string name="settings_import_subtitle">Tambah acara daripada fail ICS ke mana-mana kalendar</string>
-    <string name="settings_export_subtitle">Simpan acara ke fail ICS</string>
     <string name="settings_birthday_reminder">Peringatan Hari Lahir</string>
     <string name="settings_use_device_timezone">Guna zon masa peranti</string>
     <string name="settings_section_calendars">Kalendar dan akaun</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Pada tarikh</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Kalendar Kelihatan</string>
     <string name="settings_default_calendar">Kalendar Lalai</string>
     <string name="settings_default_event_length">Tempoh Acara Lalai</string>
     <string name="settings_default_event_length_hint">Tempoh lalai untuk acara baharu</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Ambil Kalendar</string>
     <string name="action_import_from_file">Import acara dari fail</string>
-    <string name="action_export_local_calendar">Eksport Kalendar Tempatan</string>
+    <string name="settings_export_calendars">Eksport kalendar</string>
+    <string name="settings_export_calendars_subtitle">Simpan kalendar sebagai fail ICS</string>
+    <string name="export_calendar_no_events">Tiada acara</string>
+    <string name="export_calendar_preparing">Bersedia…</string>
+    <string name="cd_export_calendar">Eksport %1$s</string>
+    <string name="cd_export_calendar_preparing">Bersedia %1$s</string>
+    <string name="export_calendar_chooser_title">Eksport kalendar</string>
+    <string name="export_event_chooser_title">Eksport acara</string>
+    <string name="export_file_failed">Tidak dapat mencipta fail.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Kalendar Peranti</string>
     <string name="settings_device_calendars_hint">Kalendar dari aplikasi lain</string>
+    <string name="offline_calendars_row_label">Kalendar luar talian</string>
+    <string name="offline_calendars_row_hint">Kalendar yang kekal pada telefon ini</string>
+    <string name="offline_calendars_manage_note">Tambah, namakan semula, tukar warna atau padam kalendar luar talian anda.</string>
+    <string name="offline_calendars_info">Disimpan hanya pada telefon ini dan tidak pernah disegerakkan. Sandaran tidak termasuk acara, jadi eksport kalendar untuk menyimpan salinan.</string>
+    <string name="offline_calendars_info_cd">Perihal kalendar luar talian</string>
+    <string name="offline_calendar_default_state">Lalai</string>
+    <string name="offline_calendar_new">Kalendar baharu</string>
+    <string name="offline_calendar_new_in_picker">Kalendar luar talian baharu</string>
+    <string name="action_create">Cipta</string>
+    <string name="offline_calendar_rename">Namakan semula</string>
+    <string name="offline_calendar_color">Warna</string>
+    <string name="offline_calendar_export">Eksport kalendar</string>
+    <string name="offline_calendar_builtin_info">Kalendar terbina dalam tidak boleh dinamakan semula atau dipadam. Acara baharu disimpan di sini apabila tiada kalendar dipilih.</string>
+    <string name="offline_calendar_builtin_info_cd">Perihal kalendar terbina dalam</string>
+    <string name="offline_calendar_rename_cancel_cd">Batal penamaan semula</string>
+    <string name="offline_calendar_rename_save_cd">Simpan nama</string>
+    <string name="offline_calendar_delete_cd">Padam %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">Padam \"%2$s\" dan %1$d acaranya selama-lamanya? Tidak boleh dibuat asal.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Padam \"%1$s\" selama-lamanya? Ia tiada acara.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">Padam juga %1$d acara</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s dipadam</string>
+    <string name="offline_calendar_duplicate_name">Kalendar luar talian bernama \"%1$s\" sudah wujud</string>
     <string name="settings_quick_event_add">Tambah acara pintar</string>
     <string name="settings_quick_event_add_info">Cipta acara dengan menaip secara semula jadi. \"Makan tengah hari dengan Sam Jumaat 1petang\" akan mengisi tajuk, tarikh dan masa untuk anda.</string>
     <string name="settings_suggest_titles">Cadangkan tajuk acara</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">Semalam</string>
     <string name="label_device_calendars">Kalendar Peranti</string>
     <string name="label_default_calendar_hint">Acara baharu akan dicipta dalam kalendar ini</string>
-    <string name="label_visible_count">%1$d / %2$d kelihatan</string>
     <string name="label_reminders_truncated">%1$d tidak dipaparkan (jumlah %2$d, maksimum boleh edit %3$d)</string>
     <string name="label_found_events">Dijumpai: %1$d acara</string>
     <string name="placeholder_search">Cari…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Tiada apa-apa untuk diimport</string>
-    <plurals name="exported_events">
-        <item quantity="other">%1$d acara dieksport</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">%1$d acara</item>
     </plurals>

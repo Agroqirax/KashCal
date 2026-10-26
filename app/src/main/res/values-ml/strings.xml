@@ -88,7 +88,6 @@
     <string name="action_discard">നിരസിക്കുക</string>
     <string name="action_discard_confirm">മാറ്റങ്ങൾ ഉപേക്ഷിക്കണോ?</string>
     <string name="action_dismiss">ഡിസ്മിസ്</string>
-    <string name="action_show_all">എല്ലാം കാണിക്കുക</string>
     <string name="action_connect">കണക്ട് ചെയ്യുക</string>
     <string name="action_duplicate">ഡ്യൂപ്ലിക്കേറ്റ്</string>
     <string name="action_share">പങ്കിടുക</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">സിങ്ക് ചരിത്രം</string>
     <string name="settings_sync_history_subtitle">സിങ്ക് സെഷനുകൾ കാണുക (കഴിഞ്ഞ 48 മണിക്കൂർ)</string>
     <string name="settings_import_subtitle">ICS ഫയലിൽ നിന്നുള്ള ഇവന്റുകൾ ഏത് കലണ്ടറിലേക്കും ചേർക്കുക</string>
-    <string name="settings_export_subtitle">ഇവന്റുകൾ ICS ഫയലിലേക്ക് സേവ് ചെയ്യുക</string>
     <string name="settings_birthday_reminder">ജന്മദിന റിമൈൻഡർ</string>
     <string name="settings_use_device_timezone">ഉപകരണ ടൈംസോൺ ഉപയോഗിക്കുക</string>
     <string name="settings_section_calendars">കലണ്ടറുകളും അക്കൗണ്ടുകളും</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">തീയതിയിൽ</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">ദൃശ്യമായ കലണ്ടറുകൾ</string>
     <string name="settings_default_calendar">ഡിഫോൾട്ട് കലണ്ടർ</string>
     <string name="settings_default_event_length">ഡിഫോൾട്ട് ഇവന്റ് ദൈർഘ്യം</string>
     <string name="settings_default_event_length_hint">പുതിയ ഇവന്റുകൾക്കുള്ള ഡിഫോൾട്ട് ദൈർഘ്യം</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">കലണ്ടർ നേടുക</string>
     <string name="action_import_from_file">ഫയലിൽ നിന്ന് ഇവന്റുകൾ ഇമ്പോർട്ട് ചെയ്യുക</string>
-    <string name="action_export_local_calendar">ലോക്കൽ കലണ്ടർ എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="settings_export_calendars">കലണ്ടറുകൾ എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="settings_export_calendars_subtitle">കലണ്ടർ ICS ഫയലായി സേവ് ചെയ്യുക</string>
+    <string name="export_calendar_no_events">ഇവന്റുകൾ ഇല്ല</string>
+    <string name="export_calendar_preparing">തയ്യാറെടുക്കുന്നു…</string>
+    <string name="cd_export_calendar">%1$s എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="cd_export_calendar_preparing">%1$s തയ്യാറെടുക്കുന്നു</string>
+    <string name="export_calendar_chooser_title">കലണ്ടർ എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="export_event_chooser_title">ഇവന്റ് എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="export_file_failed">ഫയൽ സൃഷ്ടിക്കാനായില്ല.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ഉപകരണ കലണ്ടറുകൾ</string>
     <string name="settings_device_calendars_hint">മറ്റ് ആപ്പുകളിൽ നിന്നുള്ള കലണ്ടറുകൾ</string>
+    <string name="offline_calendars_row_label">ഓഫ്‌ലൈൻ കലണ്ടറുകൾ</string>
+    <string name="offline_calendars_row_hint">ഈ ഫോണിൽ മാത്രം നിലനിൽക്കുന്ന കലണ്ടറുകൾ</string>
+    <string name="offline_calendars_manage_note">നിങ്ങളുടെ ഓഫ്‌ലൈൻ കലണ്ടറുകൾ ചേർക്കുക, പേരോ നിറമോ മാറ്റുക, അല്ലെങ്കിൽ ഇല്ലാതാക്കുക.</string>
+    <string name="offline_calendars_info">ഈ ഫോണിൽ മാത്രം സൂക്ഷിക്കുന്നു, ഒരിക്കലും സിങ്ക് ചെയ്യില്ല. ബാക്കപ്പുകളിൽ ഇവന്റുകൾ ഉൾപ്പെടില്ല, അതിനാൽ ഒരു പകർപ്പ് സൂക്ഷിക്കാൻ കലണ്ടർ എക്സ്‌പോർട്ട് ചെയ്യുക.</string>
+    <string name="offline_calendars_info_cd">ഓഫ്‌ലൈൻ കലണ്ടറുകളെക്കുറിച്ച്</string>
+    <string name="offline_calendar_default_state">ഡിഫോൾട്ട്</string>
+    <string name="offline_calendar_new">പുതിയ കലണ്ടർ</string>
+    <string name="offline_calendar_new_in_picker">പുതിയ ഓഫ്‌ലൈൻ കലണ്ടർ</string>
+    <string name="action_create">സൃഷ്ടിക്കുക</string>
+    <string name="offline_calendar_rename">പേര് മാറ്റുക</string>
+    <string name="offline_calendar_color">നിറം</string>
+    <string name="offline_calendar_export">കലണ്ടർ എക്സ്‌പോർട്ട് ചെയ്യുക</string>
+    <string name="offline_calendar_builtin_info">ബിൽറ്റ്-ഇൻ കലണ്ടറിന്റെ പേര് മാറ്റാനോ അത് ഇല്ലാതാക്കാനോ കഴിയില്ല. കലണ്ടർ തിരഞ്ഞെടുക്കാത്തപ്പോൾ പുതിയ ഇവന്റുകൾ ഇവിടെ ചേരും.</string>
+    <string name="offline_calendar_builtin_info_cd">ബിൽറ്റ്-ഇൻ കലണ്ടറിനെക്കുറിച്ച്</string>
+    <string name="offline_calendar_rename_cancel_cd">പേര് മാറ്റൽ റദ്ദാക്കുക</string>
+    <string name="offline_calendar_rename_save_cd">പേര് സേവ് ചെയ്യുക</string>
+    <string name="offline_calendar_delete_cd">%1$s ഇല്ലാതാക്കുക</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" ഉം അതിലെ %1$d ഇവന്റും എന്നെന്നേക്കുമായി ഇല്ലാതാക്കണോ? പഴയപടിയാക്കാനാകില്ല.</item>
+        <item quantity="other">\"%2$s\" ഉം അതിലെ %1$d ഇവന്റുകളും എന്നെന്നേക്കുമായി ഇല്ലാതാക്കണോ? പഴയപടിയാക്കാനാകില്ല.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" എന്നെന്നേക്കുമായി ഇല്ലാതാക്കണോ? ഇതിൽ ഇവന്റുകളൊന്നുമില്ല.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ഇവന്റും ഇല്ലാതാക്കുക</item>
+        <item quantity="other">%1$d ഇവന്റുകളും ഇല്ലാതാക്കുക</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ഇല്ലാതാക്കി</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" എന്ന പേരിൽ ഒരു ഓഫ്‌ലൈൻ കലണ്ടർ നിലവിലുണ്ട്</string>
     <string name="settings_quick_event_add">സ്മാർട്ട് ഇവന്റ് ചേർക്കൽ</string>
     <string name="settings_quick_event_add_info">സ്വാഭാവികമായി ടൈപ്പ് ചെയ്ത് ഇവന്റുകൾ സൃഷ്ടിക്കുക. \"വെള്ളിയാഴ്ച ഉച്ചയ്ക്ക് 1 മണിക്ക് Sam-നൊപ്പം ഉച്ചഭക്ഷണം\" നിങ്ങൾക്കായി ശീർഷകം, തീയതി, സമയം എന്നിവ പൂരിപ്പിക്കുന്നു.</string>
     <string name="settings_suggest_titles">ഇവന്റ് ശീർഷകങ്ങൾ നിർദ്ദേശിക്കുക</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ഇന്നലെ</string>
     <string name="label_device_calendars">ഉപകരണ കലണ്ടറുകൾ</string>
     <string name="label_default_calendar_hint">പുതിയ ഇവന്റുകൾ ഈ കലണ്ടറിൽ സൃഷ്ടിക്കും</string>
-    <string name="label_visible_count">%1$d / %2$d ദൃശ്യം</string>
     <string name="label_reminders_truncated">%1$d കാണിച്ചില്ല (%2$d ആകെ, പരമാവധി %3$d തിരുത്താവുന്നവ)</string>
     <string name="label_found_events">കണ്ടെത്തി: %1$d ഇവന്റുകൾ</string>
     <string name="placeholder_search">തിരയുക…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ഇമ്പോർട്ട് ചെയ്യാൻ ഒന്നുമില്ല</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ഇവന്റ് എക്സ്‌പോർട്ട് ചെയ്തു</item>
-        <item quantity="other">%1$d ഇവന്റുകൾ എക്സ്‌പോർട്ട് ചെയ്തു</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ഇവന്റ്</item>
         <item quantity="other">%1$d ഇവന്റുകൾ</item>

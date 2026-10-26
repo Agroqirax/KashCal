@@ -257,4 +257,29 @@ class SwipeRevealRowTest {
         assertEquals("closeOr only closes when a row is open", 1, ran)
         assertEquals(null, row.openId)
     }
+
+    @Test
+    fun `RevealedRow keeps a row's inline confirm until something closes it`() {
+        var ran = 0
+        val row = RevealedRow()
+        row.set(3L, true)
+        row.confirmingId = 3L
+        // The swiped row reports closed when the confirm replaces it; the confirm stays.
+        row.set(3L, false)
+        assertEquals(3L, row.confirmingId)
+
+        row.set(4L, true)
+        assertEquals("opening another row closes the confirm", null, row.confirmingId)
+
+        row.close()
+        row.confirmingId = 4L
+        assertTrue("a showing confirm counts as something to close", row.close())
+        assertEquals(null, row.confirmingId)
+        assertEquals(null, row.openId)
+
+        row.confirmingId = 4L
+        row.closeOr { ran++ }
+        assertEquals("a tap while a confirm shows only closes it", 0, ran)
+        assertEquals(null, row.confirmingId)
+    }
 }

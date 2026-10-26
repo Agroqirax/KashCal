@@ -88,7 +88,6 @@
     <string name="action_discard">စွန့်ပစ်</string>
     <string name="action_discard_confirm">စွန့်ပစ်မလား?</string>
     <string name="action_dismiss">ပယ်</string>
-    <string name="action_show_all">အားလုံးပြ</string>
     <string name="action_connect">ချိတ်ဆက်</string>
     <string name="action_duplicate">ပွားယူ</string>
     <string name="action_share">မျှဝေ</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ချိန်ကိုက်မှတ်တမ်း</string>
     <string name="settings_sync_history_subtitle">ချိန်ကိုက်စက်ရှင်များ ကြည့်ရန် (နောက်ဆုံး ၄၈ နာရီ)</string>
     <string name="settings_import_subtitle">မည်သည့် ပြက္ခဒိန်သို့မဆို ICS ဖိုင်မှ ပွဲများ ထည့်ပါ</string>
-    <string name="settings_export_subtitle">ပွဲများကို ICS ဖိုင်သို့ သိမ်းပါ</string>
     <string name="settings_birthday_reminder">မွေးနေ့ သတိပေးချက်</string>
     <string name="settings_use_device_timezone">စက် အချိန်ဇုန် သုံးရန်</string>
     <string name="settings_section_calendars">ပြက္ခဒိန်များ &amp; အကောင့်များ</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">ရက်စွဲတွင်</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">မြင်နိုင်သော ပြက္ခဒိန်များ</string>
     <string name="settings_default_calendar">မူရင်း ပြက္ခဒိန်</string>
     <string name="settings_default_event_length">မူရင်း ပွဲကြာချိန်</string>
     <string name="settings_default_event_length_hint">ပွဲအသစ်များအတွက် မူရင်းကြာချိန်</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ပြက္ခဒိန် ရယူ</string>
     <string name="action_import_from_file">ဖိုင်မှ ပွဲများ တင်သွင်း</string>
-    <string name="action_export_local_calendar">ဒေသဆိုင်ရာ ပြက္ခဒိန် ထုတ်ယူ</string>
+    <string name="settings_export_calendars">ပြက္ခဒိန်များ ထုတ်ယူ</string>
+    <string name="settings_export_calendars_subtitle">ပြက္ခဒိန်ကို ICS ဖိုင်အဖြစ် သိမ်းဆည်း</string>
+    <string name="export_calendar_no_events">ပွဲများ မရှိပါ</string>
+    <string name="export_calendar_preparing">ပြင်ဆင်နေသည်…</string>
+    <string name="cd_export_calendar">%1$s ထုတ်ယူ</string>
+    <string name="cd_export_calendar_preparing">%1$s ပြင်ဆင်နေသည်</string>
+    <string name="export_calendar_chooser_title">ပြက္ခဒိန် ထုတ်ယူ</string>
+    <string name="export_event_chooser_title">ပွဲ ထုတ်ယူ</string>
+    <string name="export_file_failed">ဖိုင်မဖန်တီးနိုင်ပါ။</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">စက် ပြက္ခဒိန်များ</string>
     <string name="settings_device_calendars_hint">အခြားအက်ပ်များမှ ပြက္ခဒိန်များ</string>
+    <string name="offline_calendars_row_label">အော့ဖ်လိုင်း ပြက္ခဒိန်များ</string>
+    <string name="offline_calendars_row_hint">ဤဖုန်းပေါ်တွင်သာ ရှိနေသော ပြက္ခဒိန်များ</string>
+    <string name="offline_calendars_manage_note">သင့် အော့ဖ်လိုင်း ပြက္ခဒိန်များကို ထည့်ခြင်း၊ အမည်ပြောင်းခြင်း၊ အရောင်ပြောင်းခြင်း သို့မဟုတ် ဖယ်ရှားခြင်း ပြုလုပ်ပါ။</string>
+    <string name="offline_calendars_info">ဤဖုန်းပေါ်တွင်သာ သိမ်းထားပြီး ဘယ်တော့မှ ချိန်ကိုက်မည်မဟုတ်ပါ။ အရန်သိမ်းဆည်းမှုများတွင် ပွဲများ မပါဝင်သဖြင့် မိတ္တူတစ်ခု ထားရှိရန် ပြက္ခဒိန်ကို ထုတ်ယူပါ။</string>
+    <string name="offline_calendars_info_cd">အော့ဖ်လိုင်း ပြက္ခဒိန်များ အကြောင်း</string>
+    <string name="offline_calendar_default_state">မူရင်း</string>
+    <string name="offline_calendar_new">ပြက္ခဒိန် အသစ်</string>
+    <string name="offline_calendar_new_in_picker">အော့ဖ်လိုင်း ပြက္ခဒိန် အသစ်</string>
+    <string name="action_create">ဖန်တီး</string>
+    <string name="offline_calendar_rename">အမည်ပြောင်း</string>
+    <string name="offline_calendar_color">အရောင်</string>
+    <string name="offline_calendar_export">ပြက္ခဒိန် ထုတ်ယူ</string>
+    <string name="offline_calendar_builtin_info">မူလပါဝင်သော ပြက္ခဒိန်ကို အမည်ပြောင်း၍ သို့မဟုတ် ဖျက်၍ မရပါ။ ပြက္ခဒိန် မရွေးထားပါက ပွဲအသစ်များ ဤနေရာသို့ ရောက်ပါမည်။</string>
+    <string name="offline_calendar_builtin_info_cd">မူလပါဝင်သော ပြက္ခဒိန် အကြောင်း</string>
+    <string name="offline_calendar_rename_cancel_cd">အမည်ပြောင်းခြင်း ပယ်ဖျက်</string>
+    <string name="offline_calendar_rename_save_cd">အမည် သိမ်း</string>
+    <string name="offline_calendar_delete_cd">%1$s ဖျက်</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">\"%2$s\" နှင့် ၎င်း၏ ပွဲ %1$d ခုကို အပြီးဖျက်မလား။ ပြန်ပြင်၍ မရပါ။</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ကို အပြီးဖျက်မလား။ ၎င်းတွင် ပွဲ မရှိပါ။</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">ပွဲ %1$d ခုကိုလည်း ဖျက်</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ကို ဖျက်ပြီး</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" အမည်ဖြင့် အော့ဖ်လိုင်း ပြက္ခဒိန် ရှိပြီးသားဖြစ်သည်</string>
     <string name="settings_quick_event_add">စမတ် ပွဲ ထည့်ခြင်း</string>
     <string name="settings_quick_event_add_info">သဘာဝအတိုင်း ရိုက်ထည့်ခြင်းဖြင့် ပွဲများ ဖန်တီးပါ။ \"Sam နှင့် သောကြာနေ့ မွန်းလွဲ ၁ နာရီ နေ့လယ်စာ\" က ခေါင်းစဉ်၊ ရက်စွဲနှင့် အချိန်ကို သင့်အတွက် ဖြည့်ပေးသည်။</string>
     <string name="settings_suggest_titles">ပွဲစဉ်ခေါင်းစဉ်များကိုအကြံပြုပါ</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">မနေ့က</string>
     <string name="label_device_calendars">စက် ပြက္ခဒိန်များ</string>
     <string name="label_default_calendar_hint">ပွဲအသစ်များကို ဤပြက္ခဒိန်တွင် ဖန်တီးပါမည်</string>
-    <string name="label_visible_count">%1$d / %2$d မြင်နိုင်</string>
     <string name="label_reminders_truncated">%1$d ခု မပြထား (%2$d ခု စုစုပေါင်း, အများဆုံး %3$d ခု ပြင်ဆင်နိုင်)</string>
     <string name="label_found_events">တွေ့ရှိ: ပွဲ %1$d ခု</string>
     <string name="placeholder_search">ရှာဖွေ…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">"၊ "</string>
     <string name="ics_import_summary_nothing">တင်သွင်းစရာ မရှိပါ</string>
-    <plurals name="exported_events">
-        <item quantity="other">ပွဲ %1$d ခု ထုတ်ယူပြီး</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">ပွဲ %1$d ခု</item>
     </plurals>

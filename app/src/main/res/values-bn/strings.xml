@@ -88,7 +88,6 @@
     <string name="action_discard">বাতিল করুন</string>
     <string name="action_discard_confirm">পরিবর্তন বাতিল করবেন?</string>
     <string name="action_dismiss">খারিজ করুন</string>
-    <string name="action_show_all">সব দেখান</string>
     <string name="action_connect">সংযোগ করুন</string>
     <string name="action_duplicate">ডুপ্লিকেট</string>
     <string name="action_share">শেয়ার করুন</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">সিংক ইতিহাস</string>
     <string name="settings_sync_history_subtitle">সিংক সেশন দেখুন (গত ৪৮ ঘণ্টা)</string>
     <string name="settings_import_subtitle">যেকোনো ক্যালেন্ডারে ICS ফাইল থেকে ইভেন্ট যোগ করুন</string>
-    <string name="settings_export_subtitle">ইভেন্ট ICS ফাইলে সংরক্ষণ করুন</string>
     <string name="settings_birthday_reminder">জন্মদিনের রিমাইন্ডার</string>
     <string name="settings_use_device_timezone">ডিভাইসের টাইমজোন ব্যবহার করুন</string>
     <string name="settings_section_calendars">ক্যালেন্ডার ও অ্যাকাউন্ট</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">তারিখে</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">দৃশ্যমান ক্যালেন্ডার</string>
     <string name="settings_default_calendar">ডিফল্ট ক্যালেন্ডার</string>
     <string name="settings_default_event_length">ডিফল্ট ইভেন্ট সময়কাল</string>
     <string name="settings_default_event_length_hint">নতুন ইভেন্টের জন্য ডিফল্ট সময়কাল</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ক্যালেন্ডার আনুন</string>
     <string name="action_import_from_file">ফাইল থেকে ইভেন্ট ইমপোর্ট</string>
-    <string name="action_export_local_calendar">স্থানীয় ক্যালেন্ডার এক্সপোর্ট</string>
+    <string name="settings_export_calendars">ক্যালেন্ডার এক্সপোর্ট</string>
+    <string name="settings_export_calendars_subtitle">ক্যালেন্ডার ICS ফাইল হিসেবে সংরক্ষণ করুন</string>
+    <string name="export_calendar_no_events">কোনো ইভেন্ট নেই</string>
+    <string name="export_calendar_preparing">প্রস্তুত হচ্ছে…</string>
+    <string name="cd_export_calendar">%1$s এক্সপোর্ট</string>
+    <string name="cd_export_calendar_preparing">%1$s প্রস্তুত হচ্ছে</string>
+    <string name="export_calendar_chooser_title">ক্যালেন্ডার এক্সপোর্ট</string>
+    <string name="export_event_chooser_title">ইভেন্ট এক্সপোর্ট</string>
+    <string name="export_file_failed">ফাইল তৈরি করা যায়নি।</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ডিভাইস ক্যালেন্ডার</string>
     <string name="settings_device_calendars_hint">অন্যান্য অ্যাপের ক্যালেন্ডার</string>
+    <string name="offline_calendars_row_label">অফলাইন ক্যালেন্ডার</string>
+    <string name="offline_calendars_row_hint">যে ক্যালেন্ডারগুলো এই ফোনেই থাকে</string>
+    <string name="offline_calendars_manage_note">আপনার অফলাইন ক্যালেন্ডার যোগ করুন, নাম বা রঙ পরিবর্তন করুন, বা মুছুন।</string>
+    <string name="offline_calendars_info">কেবল এই ফোনে রাখা হয় এবং কখনো সিংক হয় না। ব্যাকআপে ইভেন্ট থাকে না, তাই একটি কপি রাখতে ক্যালেন্ডার এক্সপোর্ট করুন।</string>
+    <string name="offline_calendars_info_cd">অফলাইন ক্যালেন্ডার সম্পর্কে</string>
+    <string name="offline_calendar_default_state">ডিফল্ট</string>
+    <string name="offline_calendar_new">নতুন ক্যালেন্ডার</string>
+    <string name="offline_calendar_new_in_picker">নতুন অফলাইন ক্যালেন্ডার</string>
+    <string name="action_create">তৈরি করুন</string>
+    <string name="offline_calendar_rename">নাম পরিবর্তন করুন</string>
+    <string name="offline_calendar_color">রঙ</string>
+    <string name="offline_calendar_export">ক্যালেন্ডার এক্সপোর্ট</string>
+    <string name="offline_calendar_builtin_info">বিল্ট-ইন ক্যালেন্ডারের নাম পরিবর্তন বা মোছা যায় না। কোনো ক্যালেন্ডার বেছে না নিলে নতুন ইভেন্ট এখানে যায়।</string>
+    <string name="offline_calendar_builtin_info_cd">বিল্ট-ইন ক্যালেন্ডার সম্পর্কে</string>
+    <string name="offline_calendar_rename_cancel_cd">নাম পরিবর্তন বাতিল</string>
+    <string name="offline_calendar_rename_save_cd">নাম সংরক্ষণ</string>
+    <string name="offline_calendar_delete_cd">%1$s মুছুন</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" এবং এর %1$dটি ইভেন্ট চিরতরে মুছবেন? এটি পূর্বাবস্থায় ফেরানো যাবে না।</item>
+        <item quantity="other">\"%2$s\" এবং এর %1$dটি ইভেন্ট চিরতরে মুছবেন? এটি পূর্বাবস্থায় ফেরানো যাবে না।</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" চিরতরে মুছবেন? এতে কোনো ইভেন্ট নেই।</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$dটি ইভেন্টও মুছুন</item>
+        <item quantity="other">%1$dটি ইভেন্টও মুছুন</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s মুছে ফেলা হয়েছে</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" নামে একটি অফলাইন ক্যালেন্ডার আগে থেকেই আছে</string>
     <string name="settings_quick_event_add">স্মার্ট ইভেন্ট যোগ</string>
     <string name="settings_quick_event_add_info">স্বাভাবিকভাবে টাইপ করে ইভেন্ট তৈরি করুন. \"শুক্রবার দুপুর ১টায় Sam-এর সাথে লাঞ্চ\" আপনার জন্য শিরোনাম, তারিখ ও সময় পূরণ করে দেয়.</string>
     <string name="settings_suggest_titles">ইভেন্টের শিরোনাম প্রস্তাব করুন</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">গতকাল</string>
     <string name="label_device_calendars">ডিভাইস ক্যালেন্ডার</string>
     <string name="label_default_calendar_hint">নতুন ইভেন্ট এই ক্যালেন্ডারে তৈরি হবে</string>
-    <string name="label_visible_count">%1$d / %2$d দৃশ্যমান</string>
     <string name="label_reminders_truncated">%1$d দেখানো হয়নি (%2$d মোট, সর্বোচ্চ %3$d সম্পাদনযোগ্য)</string>
     <string name="label_found_events">পাওয়া গেছে: %1$d ইভেন্ট</string>
     <string name="placeholder_search">অনুসন্ধান…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ইমপোর্ট করার মতো কিছু নেই</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ইভেন্ট এক্সপোর্ট হয়েছে</item>
-        <item quantity="other">%1$d ইভেন্ট এক্সপোর্ট হয়েছে</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ইভেন্ট</item>
         <item quantity="other">%1$d ইভেন্ট</item>

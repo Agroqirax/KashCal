@@ -53,6 +53,7 @@ import org.onekash.kashcal.data.ics.IcsParserService
 import org.onekash.kashcal.data.preferences.DefaultCalendar
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
 import org.onekash.kashcal.domain.coordinator.EventCoordinator
+import org.onekash.kashcal.domain.model.EventExport
 import org.onekash.kashcal.domain.mapper.toExportEvent
 import org.onekash.kashcal.domain.model.DisplayEvent
 import org.onekash.kashcal.domain.model.buildShareText
@@ -83,6 +84,7 @@ import org.onekash.kashcal.ui.lock.AppLockVeil
 import org.onekash.kashcal.ui.lock.decideDisableAction
 import org.onekash.kashcal.ui.lock.decideEnrollmentAction
 import org.onekash.kashcal.ui.model.localizedDisplayName
+import org.onekash.kashcal.ui.model.offlineCalendarIds
 import org.onekash.kashcal.ui.screens.HomeScreen
 import org.onekash.kashcal.ui.theme.ColorSource
 import org.onekash.kashcal.ui.theme.KashCalTheme
@@ -271,6 +273,9 @@ class MainActivity : FragmentActivity() {
                 // Share-as-card sheet state
                 var showShareCardSheet by remember { mutableStateOf(false) }
                 var shareCardEvent by remember { mutableStateOf<Event?>(null) }
+                // Whether shareCardEvent was built from a device-calendar event, whose zone the
+                // shared file writes as the device calendar holds it (IcsExporter.exportShareCopy).
+                var shareCardFromDevice by remember { mutableStateOf(false) }
                 // One-shot share-as-card coach mark, shared by the Room and device-event quick
                 // views: whichever shows it first dismisses it, so it appears once per install.
                 val shownShareCardTooltip by homeViewModel.shownShareCardTooltip
@@ -378,8 +383,9 @@ class MainActivity : FragmentActivity() {
 
                 // Opens the share-as-card sheet for both the Room and device-event quick views,
                 // so the two entry points can't drift.
-                val openShareCard = { event: Event ->
+                val openShareCard = { event: Event, fromDevice: Boolean ->
                     shareCardEvent = event
+                    shareCardFromDevice = fromDevice
                     showShareCardSheet = true
                 }
 
@@ -436,7 +442,9 @@ class MainActivity : FragmentActivity() {
                                     Log.d(TAG, "Processing ICS file import: ${action.uri}")
                                     val result = icsFileReader.readIcsContent(action.uri)
                                     result.onSuccess { content ->
-                                        val file = runCatching { IcsParserService.parseForImport(content) }.getOrNull()
+                                        val file = withContext(Dispatchers.Default) {
+                                            runCatching { IcsParserService.parseForImport(content) }.getOrNull()
+                                        }
                                         when {
                                             file == null -> homeViewModel.showSnackbar(
                                                 resources.getString(R.string.error_import_invalid_format)
@@ -923,27 +931,18 @@ class MainActivity : FragmentActivity() {
                         },
                         onExportIcs = {
                             coroutineScope.launch {
-                                val eventToExport = event
-                                val exceptions = if (eventToExport.isRecurring) {
-                                    eventCoordinator.getExceptionsForMaster(eventToExport.id)
-                                } else {
-                                    emptyList()
-                                }
+                                val export = eventCoordinator.getEventForExport(event.id)
+                                    ?: EventExport(event, emptyList(), emptyMap())
 
-                                icsExporter.exportEvent(
-                                    context = this@MainActivity,
-                                    event = eventToExport,
-                                    exceptions = exceptions
-                                ).onSuccess { uri ->
-                                    val intent = Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/calendar"
-                                        putExtra(Intent.EXTRA_STREAM, uri)
-                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                    }
-                                    startActivity(ShareChooser.createKashCalChooser(this@MainActivity, intent, "Export Event"))
+                                icsExporter.exportEvent(this@MainActivity, export).onSuccess { uri ->
+                                    startActivity(
+                                        ShareChooser.createFileChooser(
+                                            this@MainActivity, uri, "text/calendar", getString(R.string.export_event_chooser_title)
+                                        )
+                                    )
                                 }.onFailure { e ->
                                     Log.e(TAG, "Failed to export event", e)
-                                    homeViewModel.showSnackbar("Export failed: ${e.message}")
+                                    homeViewModel.showSnackbar(getString(R.string.export_file_failed))
                                 }
 
                                 showQuickViewSheet = false
@@ -955,7 +954,7 @@ class MainActivity : FragmentActivity() {
                         onShareAsCard = {
                             // Keep the QuickViewSheet open; the user may back
                             // out of the share and return to it.
-                            openShareCard(event)
+                            openShareCard(event, false)
                         },
                         showShareCardTooltip = !shownShareCardTooltip,
                         onShareCardTooltipDismissed = {
@@ -1107,7 +1106,7 @@ class MainActivity : FragmentActivity() {
                                     occurrenceStartTs = viewerStartTs,
                                     occurrenceEndTs = viewerEndTs,
                                 )
-                                icsExporter.exportEvent(this@MainActivity, occurrenceEvent)
+                                icsExporter.exportShareCopy(this@MainActivity, occurrenceEvent, shareCardFromDevice)
                                     .getOrNull()
                             }
                         },
@@ -1281,14 +1280,14 @@ class MainActivity : FragmentActivity() {
                         onExportIcs = {
                             // Mirrors the Room handler: reads the master and its exceptions from
                             // Events, cancelled ones included, maps each to an unsaved Room Event
-                            // and exports through the same icsExporter.exportEvent.
+                            // and exports through icsExporter.exportDeviceEvent.
                             val event = deviceDisplayEvent
                             val masterEventId = event.instance.originalId ?: event.instance.eventId
                             coroutineScope.launch {
                                 val export = deviceEventReader.getEventWithExceptionsForExport(masterEventId)
                                 if (export == null) {
                                     Log.w(TAG, "Device event $masterEventId not found for export")
-                                    homeViewModel.showSnackbar("Event not found")
+                                    homeViewModel.showSnackbar(getString(R.string.error_device_event_not_found))
                                     showDeviceQuickViewSheet = false
                                     deviceQuickViewEvent = null
                                     return@launch
@@ -1299,20 +1298,19 @@ class MainActivity : FragmentActivity() {
                                     ex.toExportEvent(remindersById[ex.id].orEmpty())
                                 }
 
-                                icsExporter.exportEvent(
+                                icsExporter.exportDeviceEvent(
                                     context = this@MainActivity,
                                     event = masterSynthetic,
                                     exceptions = exceptionsSynthetic
                                 ).onSuccess { uri ->
-                                    val intent = Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/calendar"
-                                        putExtra(Intent.EXTRA_STREAM, uri)
-                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                    }
-                                    startActivity(ShareChooser.createKashCalChooser(this@MainActivity, intent, "Export Event"))
+                                    startActivity(
+                                        ShareChooser.createFileChooser(
+                                            this@MainActivity, uri, "text/calendar", getString(R.string.export_event_chooser_title)
+                                        )
+                                    )
                                 }.onFailure { e ->
                                     Log.e(TAG, "Failed to export device event", e)
-                                    homeViewModel.showSnackbar("Export failed: ${e.message}")
+                                    homeViewModel.showSnackbar(getString(R.string.export_file_failed))
                                 }
 
                                 showDeviceQuickViewSheet = false
@@ -1323,7 +1321,7 @@ class MainActivity : FragmentActivity() {
                             // An unsaved Room Event built from the device
                             // instance with no attendee or organizer data,
                             // per [toEventForShareCard].
-                            openShareCard(deviceDisplayEvent.toEventForShareCard())
+                            openShareCard(deviceDisplayEvent.toEventForShareCard(), true)
                         },
                         showShareCardTooltip = !shownShareCardTooltip,
                         onShareCardTooltipDismissed = {
@@ -1533,6 +1531,7 @@ class MainActivity : FragmentActivity() {
                         },
                         attendeeAccount = formAttendeeContext.account,
                         isSchedulable = formAttendeeContext.isSchedulable,
+                        onCreateOfflineCalendar = homeViewModel::createOfflineCalendar,
                         onCalendarSelected = { calId ->
                             // Recompute the attendee context on a calendar switch so
                             // the schedulable gate and "You" detection follow the new
@@ -1661,6 +1660,9 @@ class MainActivity : FragmentActivity() {
                         defaultCalendarId = defaultRoomCalendarId,
                         deviceCalendarGroups = uiState.deviceCalendarGroups,
                         defaultDeviceCalendarId = defaultDeviceCalendarId,
+                        offlineCalendarIds = remember(uiState.calendarGroups) {
+                            uiState.calendarGroups.offlineCalendarIds()
+                        },
                         loadPreview = { calendarId, isDeviceCalendar ->
                             if (isDeviceCalendar) {
                                 homeViewModel.previewIcsImportOnDevice(file, calendarId)

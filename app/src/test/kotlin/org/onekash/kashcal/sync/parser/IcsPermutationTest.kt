@@ -49,8 +49,14 @@ class IcsPermutationTest {
     private lateinit var icalParser: ICalParser
     private var testCalendarId: Long = 0
 
+    // The fixtures use floating times, read in the device zone. Pinned so the round trip
+    // compares local times whatever the host zone; on a phone whose zone id is UTC a series is
+    // written in UTC form instead (EventToICalEventMapper.writeZone).
+    private val savedZone: java.util.TimeZone = java.util.TimeZone.getDefault()
+
     @Before
     fun setup() = runTest {
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("America/New_York"))
         val context: Context = ApplicationProvider.getApplicationContext()
         database = Room.inMemoryDatabaseBuilder(context, KashCalDatabase::class.java)
             .allowMainThreadQueries()
@@ -75,6 +81,7 @@ class IcsPermutationTest {
     @After
     fun teardown() {
         database.close()
+        java.util.TimeZone.setDefault(savedZone)
     }
 
     // ==================== Frequency Permutations ====================

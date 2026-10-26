@@ -108,6 +108,7 @@ class IcsSubscriptionRepositoryTest {
         coEvery { icsSubscriptionsDao.urlExists(any()) } returns false
         coEvery { icsSubscriptionsDao.insert(any()) } returns 0L
         coEvery { icsSubscriptionsDao.updateSyncSuccess(any(), any(), any(), any()) } returns Unit
+        coEvery { icsSubscriptionsDao.updateSyncTimeOnly(any(), any()) } returns Unit
         coEvery { icsSubscriptionsDao.updateSyncError(any(), any()) } returns Unit
         coEvery { icsSubscriptionsDao.setEnabled(any(), any()) } returns Unit
         coEvery { icsSubscriptionsDao.updateSettings(any(), any(), any(), any()) } returns Unit
@@ -460,7 +461,9 @@ class IcsSubscriptionRepositoryTest {
         val result = repository.refreshSubscription(1L)
 
         assertTrue(result is IcsSubscriptionRepository.SyncResult.NotModified)
-        coVerify { icsSubscriptionsDao.updateSyncSuccess(any(), any(), any(), any()) }
+        // Only the sync time: the validators stay as stored now, not as this request sent them.
+        coVerify { icsSubscriptionsDao.updateSyncTimeOnly(1L, any()) }
+        coVerify(exactly = 0) { icsSubscriptionsDao.updateSyncSuccess(any(), any(), any(), any()) }
     }
 
     @Test

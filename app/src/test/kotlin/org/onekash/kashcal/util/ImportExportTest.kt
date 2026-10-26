@@ -14,6 +14,7 @@ import org.onekash.kashcal.data.db.KashCalDatabase
 import org.onekash.kashcal.data.db.entity.Account
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.domain.model.EventExport
 import org.onekash.kashcal.domain.generator.OccurrenceGenerator
 import org.onekash.kashcal.domain.model.AccountProvider
 import org.onekash.kashcal.domain.reader.EventReader
@@ -245,11 +246,7 @@ class ImportExportTest {
         val event2 = eventWriter.createEvent(createTestEvent(title = "Event 2"), isLocal = true)
         val event3 = eventWriter.createEvent(createTestEvent(title = "Event 3"), isLocal = true)
 
-        val events = listOf(
-            Pair(event1, emptyList<Event>()),
-            Pair(event2, emptyList()),
-            Pair(event3, emptyList())
-        )
+        val events = listOf(event1, event2, event3).map { EventExport(it, emptyList(), emptyMap()) }
 
         val context = ApplicationProvider.getApplicationContext<Context>()
         val result = exporter.exportCalendar(context, events, "My Calendar")

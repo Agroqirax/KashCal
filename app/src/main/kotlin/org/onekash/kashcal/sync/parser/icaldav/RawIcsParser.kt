@@ -9,8 +9,9 @@ import org.onekash.icaldav.parser.ICalParser
  *
  * [Event.reminders][org.onekash.kashcal.data.db.entity.Event.reminders] keeps at most five alarms
  * and no column holds the rest; `ReminderScheduler` reads the full set from the stored `rawIcal`
- * here when `Event.alarmCount` is over 3. Every function reads the file's first VEVENT and returns
- * empty when parsing fails.
+ * here when `Event.alarmCount` is over 3 and the copy is a server's, not an imported file's
+ * ([Event.holdsFileCopy][org.onekash.kashcal.data.db.entity.Event.holdsFileCopy]). Every function
+ * reads the file's first VEVENT and returns empty when parsing fails.
  */
 object RawIcsParser {
 

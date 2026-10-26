@@ -88,7 +88,6 @@
     <string name="action_discard">ละทิ้ง</string>
     <string name="action_discard_confirm">ละทิ้งการเปลี่ยนแปลงไหม</string>
     <string name="action_dismiss">ปิด</string>
-    <string name="action_show_all">แสดงทั้งหมด</string>
     <string name="action_connect">เชื่อมต่อ</string>
     <string name="action_duplicate">ทำซ้ำ</string>
     <string name="action_share">แชร์</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ประวัติการซิงค์</string>
     <string name="settings_sync_history_subtitle">ดูเซสชันการซิงค์ (48 ชั่วโมงล่าสุด)</string>
     <string name="settings_import_subtitle">เพิ่มกิจกรรมจากไฟล์ ICS ไปยังปฏิทินใดก็ได้</string>
-    <string name="settings_export_subtitle">บันทึกกิจกรรมเป็นไฟล์ ICS</string>
     <string name="settings_birthday_reminder">แจ้งเตือนวันเกิด</string>
     <string name="settings_use_device_timezone">ใช้เขตเวลาของอุปกรณ์</string>
     <string name="settings_section_calendars">ปฏิทินและบัญชี</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">วันที่กำหนด</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">ปฏิทินที่แสดง</string>
     <string name="settings_default_calendar">ปฏิทินเริ่มต้น</string>
     <string name="settings_default_event_length">ระยะเวลากิจกรรมเริ่มต้น</string>
     <string name="settings_default_event_length_hint">ระยะเวลาเริ่มต้นสำหรับกิจกรรมใหม่</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ดึงปฏิทิน</string>
     <string name="action_import_from_file">นำเข้ากิจกรรมจากไฟล์</string>
-    <string name="action_export_local_calendar">ส่งออกปฏิทินในเครื่อง</string>
+    <string name="settings_export_calendars">ส่งออกปฏิทิน</string>
+    <string name="settings_export_calendars_subtitle">บันทึกปฏิทินเป็นไฟล์ ICS</string>
+    <string name="export_calendar_no_events">ไม่มีกิจกรรม</string>
+    <string name="export_calendar_preparing">กำลังเตรียม…</string>
+    <string name="cd_export_calendar">ส่งออก%1$s</string>
+    <string name="cd_export_calendar_preparing">กำลังเตรียม%1$s</string>
+    <string name="export_calendar_chooser_title">ส่งออกปฏิทิน</string>
+    <string name="export_event_chooser_title">ส่งออกกิจกรรม</string>
+    <string name="export_file_failed">สร้างไฟล์ไม่สำเร็จ</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ปฏิทินอุปกรณ์</string>
     <string name="settings_device_calendars_hint">ปฏิทินจากแอปอื่น</string>
+    <string name="offline_calendars_row_label">ปฏิทินออฟไลน์</string>
+    <string name="offline_calendars_row_hint">ปฏิทินที่เก็บไว้ในโทรศัพท์เครื่องนี้</string>
+    <string name="offline_calendars_manage_note">เพิ่ม เปลี่ยนชื่อ เปลี่ยนสี หรือลบปฏิทินออฟไลน์ของคุณ</string>
+    <string name="offline_calendars_info">เก็บไว้ในโทรศัพท์เครื่องนี้เท่านั้นและไม่ซิงค์ การสำรองข้อมูลไม่รวมกิจกรรม ส่งออกปฏิทินเพื่อเก็บสำเนาไว้</string>
+    <string name="offline_calendars_info_cd">เกี่ยวกับปฏิทินออฟไลน์</string>
+    <string name="offline_calendar_default_state">ค่าเริ่มต้น</string>
+    <string name="offline_calendar_new">ปฏิทินใหม่</string>
+    <string name="offline_calendar_new_in_picker">ปฏิทินออฟไลน์ใหม่</string>
+    <string name="action_create">สร้าง</string>
+    <string name="offline_calendar_rename">เปลี่ยนชื่อ</string>
+    <string name="offline_calendar_color">สี</string>
+    <string name="offline_calendar_export">ส่งออกปฏิทิน</string>
+    <string name="offline_calendar_builtin_info">ปฏิทินในตัวเปลี่ยนชื่อหรือลบไม่ได้ กิจกรรมใหม่จะอยู่ที่นี่เมื่อไม่ได้เลือกปฏิทิน</string>
+    <string name="offline_calendar_builtin_info_cd">เกี่ยวกับปฏิทินในตัว</string>
+    <string name="offline_calendar_rename_cancel_cd">ยกเลิกการเปลี่ยนชื่อ</string>
+    <string name="offline_calendar_rename_save_cd">บันทึกชื่อ</string>
+    <string name="offline_calendar_delete_cd">ลบ %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">ลบ \"%2$s\" และกิจกรรม %1$d รายการอย่างถาวรไหม เลิกทำไม่ได้</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">ลบ \"%1$s\" อย่างถาวรไหม ไม่มีกิจกรรมในปฏิทินนี้</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">ลบกิจกรรม %1$d รายการด้วย</item>
+    </plurals>
+    <string name="offline_calendar_deleted">ลบ %1$s แล้ว</string>
+    <string name="offline_calendar_duplicate_name">มีปฏิทินออฟไลน์ชื่อ \"%1$s\" อยู่แล้ว</string>
     <string name="settings_quick_event_add">เพิ่มกิจกรรมอัจฉริยะ</string>
     <string name="settings_quick_event_add_info">สร้างกิจกรรมด้วยการพิมพ์อย่างเป็นธรรมชาติ \"กินข้าวเที่ยงกับ Sam วันศุกร์ 13:00\" จะกรอกชื่อเรื่อง วันที่ และเวลาให้คุณ</string>
     <string name="settings_suggest_titles">แนะนำชื่อกิจกรรม</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">เมื่อวาน</string>
     <string name="label_device_calendars">ปฏิทินอุปกรณ์</string>
     <string name="label_default_calendar_hint">กิจกรรมใหม่จะถูกสร้างในปฏิทินนี้</string>
-    <string name="label_visible_count">%1$d / %2$d แสดง</string>
     <string name="label_reminders_truncated">%1$d ไม่แสดง (ทั้งหมด %2$d, แก้ไขได้สูงสุด %3$d)</string>
     <string name="label_found_events">พบ: %1$d กิจกรรม</string>
     <string name="placeholder_search">ค้นหา…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ไม่มีอะไรให้นำเข้า</string>
-    <plurals name="exported_events">
-        <item quantity="other">ส่งออก %1$d กิจกรรมแล้ว</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">%1$d กิจกรรม</item>
     </plurals>

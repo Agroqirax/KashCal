@@ -1669,7 +1669,8 @@ class PushStrategy @Inject constructor(
         // existed, whose etag hasn't changed since (so the pull never backfilled it), keeps
         // its ATTENDEEs only in rawIcal. Passing empty would tell IcsPatcher to clear them,
         // silently uninviting everyone on a cosmetic edit, so empty becomes null (keep the
-        // rawIcal block).
+        // rawIcal block). An imported file's copy is not such a block: IcsPatcher writes no
+        // guests for null there ([Event.holdsFileCopy]).
         //
         // [answeringAccount], when set, sends that account's own rows at NEEDS-ACTION: the answer
         // queued for them goes as the next PUT (see processCreate).

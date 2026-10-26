@@ -18,6 +18,11 @@ import org.onekash.kashcal.util.RruleUtils
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 /**
  * Writes Room events and keeps their occurrences, attendees and sync queue in step.
@@ -231,6 +236,9 @@ class EventWriter @Inject constructor(
             val existingEvent = requireNotNull(eventsDao.getById(event.id)) {
                 "Event not found: ${event.id}"
             }
+            // The row to write: everything below, the SEQUENCE decision included, sees it.
+            @Suppress("NAME_SHADOWING")
+            val event = event.copy(exdate = movedExclusions(existingEvent, existingEvent.startTs, event))
 
             val now = System.currentTimeMillis()
 
@@ -316,10 +324,10 @@ class EventWriter @Inject constructor(
      * unqueued.
      *
      * A tag is cosmetic, so SEQUENCE is never bumped and the iTIP outbox sends no fresh invite.
-     * Events on no calendar, the local calendar or a read-only calendar, and PENDING_CREATE
-     * events, are rewritten but not queued; a PENDING_DELETE event isn't re-stamped, so its
-     * queued delete stands. An exception's update goes to its master (shared UID, one PUT),
-     * once per master.
+     * Events on no calendar, a local calendar ([LocalCalendarInitializer.isLocalAccount]) or a
+     * read-only calendar, and PENDING_CREATE events, are rewritten but not queued; a
+     * PENDING_DELETE event isn't re-stamped, so its queued delete stands. An exception's update
+     * goes to its master (shared UID, one PUT), once per master.
      *
      * @return the number of events queued for UPDATE; 0 means the caller can skip the sync.
      */
@@ -346,6 +354,10 @@ class EventWriter @Inject constructor(
                 .chunked(SQL_IN_CHUNK)
                 .flatMap { calendarsDao.getByIds(it) }
                 .associateBy { it.id }
+            val localAccountIds = database.accountsDao().getAllOnce()
+                .filter(LocalCalendarInitializer::isLocalAccount)
+                .map { it.id }
+                .toSet()
 
             var queued = 0
             for (target in targets) {
@@ -355,10 +367,10 @@ class EventWriter @Inject constructor(
                 // A never-synced event already carries the new categories in its
                 // pending CREATE; don't downgrade it to PENDING_UPDATE.
                 if (target.syncStatus == SyncStatus.PENDING_CREATE) continue
-                // Skip what can't be pushed: no calendar, the local calendar, or a
-                // read-only calendar.
+                // Skip what can't be pushed: no calendar, a local calendar, or a read-only
+                // calendar.
                 val calendar = calendarsById[target.calendarId] ?: continue
-                if (calendar.caldavUrl == LocalCalendarInitializer.LOCAL_CALENDAR_URL) continue
+                if (calendar.accountId in localAccountIds) continue
                 if (calendar.isReadOnly) continue
 
                 // updateSyncStatus restamps local_modified_at and updated_at, so the
@@ -430,10 +442,16 @@ class EventWriter @Inject constructor(
     }
 
     /**
-     * Rewrites stored row [eventId] from a newer imported file (the local calendar only):
-     * [incoming]'s content, SEQUENCE and [Event.itipDtstamp] as given, with no SEQUENCE bump,
-     * and its attendee rows. The row keeps its id, calendar, UID, links, sync fields and the
-     * user's reminders; occurrences are regenerated (or the exception relinked). Queues nothing.
+     * Rewrites stored row [eventId] from a newer imported file (local calendars only,
+     * [org.onekash.kashcal.domain.ics.ImportTarget.LOCAL]): [incoming]'s content, SEQUENCE and
+     * [Event.itipDtstamp] as given, with no SEQUENCE bump, and its attendee rows. The row keeps
+     * its id, calendar, UID, links, sync fields and the user's reminders; occurrences are
+     * regenerated (or the exception relinked). Queues nothing.
+     *
+     * The stored copy becomes the newer file's when the row is an import not on a server
+     * ([Event.isUnsyncedImport]) and the newer file has one; any other row (a synced event moved
+     * into this calendar, a row a CANCEL created) keeps its own, so the rules for a file's copy
+     * ([Event.holdsFileCopy]) never meet a copy they don't cover.
      */
     suspend fun applyImportedUpdate(
         eventId: Long,
@@ -448,7 +466,7 @@ class EventWriter @Inject constructor(
             uid = existing.uid,
             caldavUrl = existing.caldavUrl,
             etag = existing.etag,
-            rawIcal = existing.rawIcal,
+            rawIcal = incoming.rawIcal?.takeIf { existing.isUnsyncedImport } ?: existing.rawIcal,
             syncStatus = existing.syncStatus,
             reminders = existing.reminders,
             alarmCount = existing.alarmCount,
@@ -474,9 +492,11 @@ class EventWriter @Inject constructor(
     }
 
     /**
-     * Adds an exception to series [masterEventId] at [instanceTime] from an imported file (the
-     * local calendar only): [incoming]'s content with its SEQUENCE and [Event.itipDtstamp], the
-     * master's UID and links, [attendees], linked to its occurrence. Queues nothing.
+     * Adds an exception to series [masterEventId] at [instanceTime] from an imported file (local
+     * calendars only, [org.onekash.kashcal.domain.ics.ImportTarget.LOCAL]): [incoming]'s content
+     * with its SEQUENCE and [Event.itipDtstamp], the master's UID and links, [attendees], linked
+     * to its occurrence. Queues nothing. It keeps [incoming]'s stored copy, the newer file's, when
+     * the master is an import not on a server ([Event.isUnsyncedImport]), none otherwise.
      */
     suspend fun createImportedException(
         masterEventId: Long,
@@ -499,7 +519,7 @@ class EventWriter @Inject constructor(
             syncStatus = SyncStatus.SYNCED,
             caldavUrl = master.caldavUrl,
             etag = master.etag,
-            rawIcal = null,
+            rawIcal = if (master.isUnsyncedImport) incoming.rawIcal else null,
             // The series' reminders are the user's; a file's VALARMs are its sender's.
             reminders = master.reminders,
             alarmCount = master.alarmCount,
@@ -689,9 +709,15 @@ class EventWriter @Inject constructor(
                 } else {
                     existingException.sequence
                 }
+                // The form builds the row from the series row. A changed occurrence holding a file
+                // copy keeps it and its own import id, which IcsPatcher needs to find its lines
+                // ([Event.holdsFileCopy]); any other row takes the series row's.
+                val ownCopy = existingException.takeIf { it.holdsFileCopy }
                 val updatedEvent = modifiedEvent.copy(
                     id = existingException.id,
                     uid = existingException.uid, // Should equal the master's UID
+                    rawIcal = ownCopy?.rawIcal ?: modifiedEvent.rawIcal,
+                    importId = ownCopy?.importId ?: modifiedEvent.importId,
                     calendarId = masterEvent.calendarId,
                     originalEventId = masterEventId,
                     originalInstanceTime = occurrenceTimeMs,
@@ -879,7 +905,7 @@ class EventWriter @Inject constructor(
 
             // A split at or before the master's start is an "edit all events".
             if (splitTimeMs <= masterEvent.startTs) {
-                return@withTransaction updateMasterInPlace(masterEvent, modifiedEvent, isLocal, attendees)
+                return@withTransaction updateMasterInPlace(masterEvent, modifiedEvent, isLocal, attendees, splitTimeMs)
             }
 
             // pastCount matters only for a COUNT rule, so UNTIL and unbounded rules skip
@@ -906,7 +932,7 @@ class EventWriter @Inject constructor(
 
             // pastCount <= 0 or >= total would give COUNT=0 on one side.
             if (RruleUtils.isDegenerateCountSplit(rrule, pastCount)) {
-                return@withTransaction updateMasterInPlace(masterEvent, modifiedEvent, isLocal, attendees)
+                return@withTransaction updateMasterInPlace(masterEvent, modifiedEvent, isLocal, attendees, splitTimeMs)
             }
 
             // Splits so the total occurrence count is kept. modifiedEvent.rrule == null
@@ -937,6 +963,7 @@ class EventWriter @Inject constructor(
             val newEvent = modifiedEvent.copy(
                 id = 0,
                 uid = generateUid(),
+                exdate = movedExclusions(masterEvent, splitTimeMs, modifiedEvent),
                 calendarId = masterEvent.calendarId,
                 // The form sends modifiedEvent.startTs as the first occurrence's time on
                 // the split day ("Jun 02 08:00" when editing the Jun 02 occurrence). Adding
@@ -988,12 +1015,15 @@ class EventWriter @Inject constructor(
      *
      * @param attendees the edited guest set, cascaded to exceptions; null leaves attendees
      *   alone
+     * @param fromStartTs the occurrence [modifiedEvent]'s start moved from, which the exclusions
+     *   move with ([movedExclusions]): the split occurrence when [splitSeries] edits in place
      */
     private suspend fun updateMasterInPlace(
         masterEvent: Event,
         modifiedEvent: Event,
         isLocal: Boolean,
         attendees: List<Attendee>? = null,
+        fromStartTs: Long = masterEvent.startTs,
     ): Event {
         val now = System.currentTimeMillis()
         val newSyncStatus = when {
@@ -1001,8 +1031,9 @@ class EventWriter @Inject constructor(
             masterEvent.syncStatus == SyncStatus.PENDING_CREATE -> SyncStatus.PENDING_CREATE
             else -> SyncStatus.PENDING_UPDATE
         }
-        val newSequence = SequenceBumper.nextSequence(masterEvent, modifiedEvent)
-        val updated = modifiedEvent.copy(
+        val moved = modifiedEvent.copy(exdate = movedExclusions(masterEvent, fromStartTs, modifiedEvent))
+        val newSequence = SequenceBumper.nextSequence(masterEvent, moved)
+        val updated = moved.copy(
             id = masterEvent.id,
             uid = masterEvent.uid,
             calendarId = masterEvent.calendarId,
@@ -1191,9 +1222,8 @@ class EventWriter @Inject constructor(
             val sourceAccount = sourceAccountId?.let { accountsDao.getById(it) }
             val targetAccount = accountsDao.getById(targetAccountId)
 
-            // Local means the account's provider needs no sync.
-            val sourceIsLocal = sourceAccount?.provider?.requiresSync == false
-            val targetIsLocal = targetAccount?.provider?.requiresSync == false
+            val sourceIsLocal = LocalCalendarInitializer.isLocalAccount(sourceAccount)
+            val targetIsLocal = LocalCalendarInitializer.isLocalAccount(targetAccount)
             val isSameAccount = sourceAccountId == targetAccountId && sourceAccountId != null
 
             // A cross-account move of an event with attendees would carry the source
@@ -1369,6 +1399,46 @@ class EventWriter @Inject constructor(
     }
 
     /**
+     * Returns the EXDATE [edited] should store when it moves series [stored]: each stored
+     * exclusion keeps its own date and takes the series' change of clock time and zone, from
+     * [fromStartTs] in [stored]'s zone to [edited]'s start in its zone, so it still names the
+     * occurrence it removed (RFC 5545 §3.8.5.1 matches by start; other clients rewrite them the
+     * same way, see [org.onekash.kashcal.sync.model.ChangedField.cancelledInstances]). The date
+     * isn't moved: a rule that pins its days (BYDAY, BYMONTHDAY) keeps them when DTSTART's date
+     * changes, so a deleted day stays the day deleted. [fromStartTs] is the series start for an
+     * edit of the whole series and the split occurrence for a split.
+     *
+     * [edited]'s own EXDATE is returned as it is when the caller changed it, when the edited row
+     * isn't a timed series, when its rule has BYHOUR, BYMINUTE or BYSECOND (moving DTSTART's
+     * clock doesn't move those occurrences), or when neither clock time, zone nor all-day flag
+     * changed. An all-day row's values are read in UTC, where its dates are stored. A value that
+     * isn't epoch milliseconds is kept, and a moved clock time is resolved as the expander
+     * resolves it ([ZonedDateTime.of]). RDATEs are left alone: each keeps its own time.
+     */
+    private fun movedExclusions(stored: Event, fromStartTs: Long, edited: Event): String? {
+        val exdate = edited.exdate
+        if (exdate.isNullOrBlank() || exdate != stored.exdate) return exdate
+        val rrule = edited.rrule
+        if (rrule.isNullOrBlank() || edited.isAllDay) return exdate
+        if (rrule.split(';').any { it.substringBefore('=') in CLOCK_RULE_PARTS }) return exdate
+
+        val fromZone = if (stored.isAllDay) ZoneOffset.UTC else zoneOrDevice(stored.timezone)
+        val toZone = zoneOrDevice(edited.timezone)
+        val fromTime = Instant.ofEpochMilli(fromStartTs).atZone(fromZone).toLocalTime()
+        val toTime = Instant.ofEpochMilli(edited.startTs).atZone(toZone).toLocalTime()
+        if (fromTime == toTime && fromZone == toZone && !stored.isAllDay) return exdate
+        val clockShift = Duration.between(fromTime, toTime)
+        return exdate.split(',').joinToString(",") { token ->
+            val ms = token.trim().toLongOrNull() ?: return@joinToString token
+            val local = Instant.ofEpochMilli(ms).atZone(fromZone).toLocalDateTime().plus(clockShift)
+            ZonedDateTime.of(local, toZone).toInstant().toEpochMilli().toString()
+        }
+    }
+
+    private fun zoneOrDevice(tzid: String?): ZoneId =
+        tzid?.let { runCatching { ZoneId.of(it) }.getOrNull() } ?: ZoneId.systemDefault()
+
+    /**
      * Appends [timestampMs] to an EXDATE value of comma-separated epoch milliseconds.
      *
      * The pull ([org.onekash.kashcal.sync.parser.icaldav.ICalEventMapper]) stores and the push
@@ -1428,5 +1498,8 @@ class EventWriter @Inject constructor(
         // SQLite caps a statement at 999 bind variables; IN (:ids) queries are chunked
         // below that so a rename touching thousands of events can't overflow it.
         const val SQL_IN_CHUNK = 500
+
+        /** RRULE parts that place occurrences at their own clock times, apart from DTSTART's. */
+        val CLOCK_RULE_PARTS = setOf("BYHOUR", "BYMINUTE", "BYSECOND")
     }
 }

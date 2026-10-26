@@ -155,6 +155,8 @@ object ExportablePreferences {
         PreferencesKeys.REMINDER_MIGRATION_VERSION.name,
         PreferencesKeys.PARSER_VERSION.name,
         PreferencesKeys.ICLOUD_URL_MIGRATION_COMPLETED.name,
+        PreferencesKeys.UTC_SERIES_ZONE_REPAIRED.name,
+        PreferencesKeys.FEED_VALIDATORS_CLEARED_FOR_UTC_SERIES.name,
         // Onboarding flags
         PreferencesKeys.ONBOARDING_COMPLETED.name,
         PreferencesKeys.SHOWN_LOCAL_CALENDAR_INTRO.name,

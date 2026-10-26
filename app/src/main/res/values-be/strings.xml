@@ -88,7 +88,6 @@
     <string name="action_discard">Адхіліць</string>
     <string name="action_discard_confirm">Адхіліць?</string>
     <string name="action_dismiss">Закрыць</string>
-    <string name="action_show_all">Паказаць усё</string>
     <string name="action_connect">Падключыць</string>
     <string name="action_duplicate">Дубляваць</string>
     <string name="action_share">Падзяліцца</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Гісторыя сінхранізацыі</string>
     <string name="settings_sync_history_subtitle">Прагляд сеансаў сінхранізацыі (за 48 гадзін)</string>
     <string name="settings_import_subtitle">Дадаць падзеі з файла ICS у любы каляндар</string>
-    <string name="settings_export_subtitle">Захаваць падзеі ў файл ICS</string>
     <string name="settings_birthday_reminder">Напамінанне пра дзень нараджэння</string>
     <string name="settings_use_device_timezone">Часавы пояс прылады</string>
     <string name="settings_section_calendars">Календары і акаўнты</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Да даты</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Бачныя календары</string>
     <string name="settings_default_calendar">Каляндар па змаўчанні</string>
     <string name="settings_default_event_length">Працягласць падзеі па змаўчанні</string>
     <string name="settings_default_event_length_hint">Прадвызначаная працягласць новых падзей</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Загрузіць каляндар</string>
     <string name="action_import_from_file">Імпартаваць падзеі з файла</string>
-    <string name="action_export_local_calendar">Экспартаваць лакальны каляндар</string>
+    <string name="settings_export_calendars">Экспарт каляндароў</string>
+    <string name="settings_export_calendars_subtitle">Захаваць каляндар як ICS-файл</string>
+    <string name="export_calendar_no_events">Няма падзей</string>
+    <string name="export_calendar_preparing">Падрыхтоўка…</string>
+    <string name="cd_export_calendar">Экспартаваць %1$s</string>
+    <string name="cd_export_calendar_preparing">Падрыхтоўка %1$s</string>
+    <string name="export_calendar_chooser_title">Экспартаваць каляндар</string>
+    <string name="export_event_chooser_title">Экспартаваць падзею</string>
+    <string name="export_file_failed">Не атрымалася стварыць файл.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Календары прылады</string>
     <string name="settings_device_calendars_hint">Календары з іншых праграм</string>
+    <string name="offline_calendars_row_label">Календары без сеткі</string>
+    <string name="offline_calendars_row_hint">Календары, якія захоўваюцца на гэтым тэлефоне</string>
+    <string name="offline_calendars_manage_note">Дадавай, перайменоўвай, мяняй колер або выдаляй календары без сеткі.</string>
+    <string name="offline_calendars_info">Захоўваюцца толькі на гэтым тэлефоне і ніколі не сінхранізуюцца. Рэзервовыя копіі не ўключаюць падзеі, таму экспартуй каляндар, каб захаваць копію.</string>
+    <string name="offline_calendars_info_cd">Пра календары без сеткі</string>
+    <string name="offline_calendar_default_state">Па змаўчанні</string>
+    <string name="offline_calendar_new">Новы каляндар</string>
+    <string name="offline_calendar_new_in_picker">Новы каляндар без сеткі</string>
+    <string name="action_create">Стварыць</string>
+    <string name="offline_calendar_rename">Перайменаваць</string>
+    <string name="offline_calendar_color">Колер</string>
+    <string name="offline_calendar_export">Экспартаваць каляндар</string>
+    <string name="offline_calendar_builtin_info">Убудаваны каляндар нельга перайменаваць або выдаліць. Новыя падзеі трапляюць сюды, калі каляндар не выбраны.</string>
+    <string name="offline_calendar_builtin_info_cd">Пра ўбудаваны каляндар</string>
+    <string name="offline_calendar_rename_cancel_cd">Скасаваць перайменаванне</string>
+    <string name="offline_calendar_rename_save_cd">Захаваць назву</string>
+    <string name="offline_calendar_delete_cd">Выдаліць %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Выдаліць \"%2$s\" і яго %1$d падзею назаўсёды? Гэта нельга адрабіць.</item>
+        <item quantity="few">Выдаліць \"%2$s\" і яго %1$d падзеі назаўсёды? Гэта нельга адрабіць.</item>
+        <item quantity="many">Выдаліць \"%2$s\" і яго %1$d падзей назаўсёды? Гэта нельга адрабіць.</item>
+        <item quantity="other">Выдаліць \"%2$s\" і яго %1$d падзеі назаўсёды? Гэта нельга адрабіць.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Выдаліць \"%1$s\" назаўсёды? У ім няма падзей.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Таксама выдаліць %1$d падзею</item>
+        <item quantity="few">Таксама выдаліць %1$d падзеі</item>
+        <item quantity="many">Таксама выдаліць %1$d падзей</item>
+        <item quantity="other">Таксама выдаліць %1$d падзеі</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Каляндар %1$s выдалены</string>
+    <string name="offline_calendar_duplicate_name">Каляндар без сеткі з назвай \"%1$s\" ужо існуе</string>
     <string name="settings_quick_event_add">Разумнае даданне падзей</string>
     <string name="settings_quick_event_add_info">Стварайце падзеі, набіраючы звычайны тэкст. \"Абед са Sam у пятніцу ў 13:00\" запоўніць назву, дату і час.</string>
     <string name="settings_suggest_titles">Прапаноўваць назвы падзей</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">Учора</string>
     <string name="label_device_calendars">Календары прылады</string>
     <string name="label_default_calendar_hint">Новыя падзеі ствараюцца ў гэтым календары</string>
-    <string name="label_visible_count">%1$d / %2$d бачных</string>
     <string name="label_reminders_truncated">%1$d не паказана (%2$d усяго, макс. %3$d для рэдагавання)</string>
     <string name="label_found_events">Знойдзена: %1$d падзей</string>
     <string name="placeholder_search">Пошук…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Няма чаго імпартаваць</string>
-    <plurals name="exported_events">
-        <item quantity="one">Экспартавана %1$d падзея</item>
-        <item quantity="few">Экспартавана %1$d падзеі</item>
-        <item quantity="many">Экспартавана %1$d падзей</item>
-        <item quantity="other">Экспартавана %1$d падзей</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d падзея</item>
         <item quantity="few">%1$d падзеі</item>

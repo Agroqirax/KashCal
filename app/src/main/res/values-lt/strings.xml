@@ -88,7 +88,6 @@
     <string name="action_discard">Atmesti</string>
     <string name="action_discard_confirm">Atmesti?</string>
     <string name="action_dismiss">Uždaryti</string>
-    <string name="action_show_all">Rodyti viską</string>
     <string name="action_connect">Prijungti</string>
     <string name="action_duplicate">Dubliuoti</string>
     <string name="action_share">Dalintis</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sinchronizavimo istorija</string>
     <string name="settings_sync_history_subtitle">Peržiūrėti sinchronizavimo seansus (per 48 val.)</string>
     <string name="settings_import_subtitle">Pridėti įvykius iš ICS failo į bet kurį kalendorių</string>
-    <string name="settings_export_subtitle">Išsaugoti įvykius į ICS failą</string>
     <string name="settings_birthday_reminder">Gimtadienio priminimas</string>
     <string name="settings_use_device_timezone">Įrenginio laiko juosta</string>
     <string name="settings_section_calendars">Kalendoriai ir paskyros</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Iki datos</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Matomi kalendoriai</string>
     <string name="settings_default_calendar">Numatytasis kalendorius</string>
     <string name="settings_default_event_length">Numatytoji įvykio trukmė</string>
     <string name="settings_default_event_length_hint">Numatytoji naujų įvykių trukmė</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Gauti kalendorių</string>
     <string name="action_import_from_file">Importuoti įvykius iš failo</string>
-    <string name="action_export_local_calendar">Eksportuoti vietinį kalendorių</string>
+    <string name="settings_export_calendars">Eksportuoti kalendorius</string>
+    <string name="settings_export_calendars_subtitle">Išsaugoti kalendorių kaip ICS failą</string>
+    <string name="export_calendar_no_events">Įvykių nėra</string>
+    <string name="export_calendar_preparing">Ruošiamasi…</string>
+    <string name="cd_export_calendar">Eksportuoti %1$s</string>
+    <string name="cd_export_calendar_preparing">Ruošiama %1$s</string>
+    <string name="export_calendar_chooser_title">Eksportuoti kalendorių</string>
+    <string name="export_event_chooser_title">Eksportuoti įvykį</string>
+    <string name="export_file_failed">Nepavyko sukurti failo.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Įrenginio kalendoriai</string>
     <string name="settings_device_calendars_hint">Kalendoriai iš kitų programų</string>
+    <string name="offline_calendars_row_label">Kalendoriai be ryšio</string>
+    <string name="offline_calendars_row_hint">Kalendoriai, kurie lieka šiame telefone</string>
+    <string name="offline_calendars_manage_note">Pridėk, pervadink, pakeisk spalvą arba ištrink kalendorius be ryšio.</string>
+    <string name="offline_calendars_info">Laikomi tik šiame telefone ir niekada nesinchronizuojami. Atsarginės kopijos neapima įvykių, todėl eksportuok kalendorių, kad turėtum kopiją.</string>
+    <string name="offline_calendars_info_cd">Apie kalendorius be ryšio</string>
+    <string name="offline_calendar_default_state">Numatytasis</string>
+    <string name="offline_calendar_new">Naujas kalendorius</string>
+    <string name="offline_calendar_new_in_picker">Naujas kalendorius be ryšio</string>
+    <string name="action_create">Sukurti</string>
+    <string name="offline_calendar_rename">Pervadinti</string>
+    <string name="offline_calendar_color">Spalva</string>
+    <string name="offline_calendar_export">Eksportuoti kalendorių</string>
+    <string name="offline_calendar_builtin_info">Integruoto kalendoriaus negalima pervadinti ar ištrinti. Nauji įvykiai patenka čia, kai kalendorius nepasirinktas.</string>
+    <string name="offline_calendar_builtin_info_cd">Apie integruotą kalendorių</string>
+    <string name="offline_calendar_rename_cancel_cd">Atšaukti pervadinimą</string>
+    <string name="offline_calendar_rename_save_cd">Išsaugoti pavadinimą</string>
+    <string name="offline_calendar_delete_cd">Ištrinti %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Ištrinti \"%2$s\" ir jo %1$d įvykį visam laikui? Nebus galima atšaukti.</item>
+        <item quantity="few">Ištrinti \"%2$s\" ir jo %1$d įvykius visam laikui? Nebus galima atšaukti.</item>
+        <item quantity="many">Ištrinti \"%2$s\" ir jo %1$d įvykių visam laikui? Nebus galima atšaukti.</item>
+        <item quantity="other">Ištrinti \"%2$s\" ir jo %1$d įvykio visam laikui? Nebus galima atšaukti.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Ištrinti \"%1$s\" visam laikui? Jame nėra įvykių.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Taip pat ištrinti %1$d įvykį</item>
+        <item quantity="few">Taip pat ištrinti %1$d įvykius</item>
+        <item quantity="many">Taip pat ištrinti %1$d įvykių</item>
+        <item quantity="other">Taip pat ištrinti %1$d įvykio</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Kalendorius %1$s ištrintas</string>
+    <string name="offline_calendar_duplicate_name">Kalendorius be ryšio pavadinimu \"%1$s\" jau yra</string>
     <string name="settings_quick_event_add">Išmanusis įvykių pridėjimas</string>
     <string name="settings_quick_event_add_info">Kurkite įvykius rašydami įprastu tekstu. „Pietūs su Sam penktadienį 13:00“ užpildo pavadinimą, datą ir laiką už jus.</string>
     <string name="settings_suggest_titles">Siūlyti įvykių pavadinimus</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">Vakar</string>
     <string name="label_device_calendars">Įrenginio kalendoriai</string>
     <string name="label_default_calendar_hint">Nauji įvykiai kuriami šiame kalendoriuje</string>
-    <string name="label_visible_count">%1$d / %2$d matomi</string>
     <string name="label_reminders_truncated">%1$d nerodomi (%2$d iš viso, maks. %3$d redaguojamų)</string>
     <string name="label_found_events">Rasta: %1$d įvykių</string>
     <string name="placeholder_search">Paieška…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nėra ką importuoti</string>
-    <plurals name="exported_events">
-        <item quantity="one">Eksportuotas %1$d įvykis</item>
-        <item quantity="few">Eksportuoti %1$d įvykiai</item>
-        <item quantity="many">Eksportuota %1$d įvykio</item>
-        <item quantity="other">Eksportuota %1$d įvykių</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d įvykis</item>
         <item quantity="few">%1$d įvykiai</item>

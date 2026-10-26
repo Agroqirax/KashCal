@@ -186,8 +186,9 @@ interface ScheduledRemindersDao {
 
     /**
      * Returns the PENDING and SNOOZED reminders of [calendarId]'s events, whose alarms
-     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.cancelRemindersForCalendar] and
-     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.silenceRemindersForCalendar]
+     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.cancelRemindersForCalendar],
+     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.silenceRemindersForCalendar] and
+     * [org.onekash.kashcal.reminder.scheduler.ReminderScheduler.cancelCalendarAlarmsAfter]
      * cancel.
      */
     @Query("""

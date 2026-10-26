@@ -88,7 +88,6 @@
     <string name="action_discard">Baztertu</string>
     <string name="action_discard_confirm">Aldaketak baztertu?</string>
     <string name="action_dismiss">Baztertu</string>
-    <string name="action_show_all">Dena erakutsi</string>
     <string name="action_connect">Konektatu</string>
     <string name="action_duplicate">Bikoiztu</string>
     <string name="action_share">Partekatu</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sinkronizazio-historia</string>
     <string name="settings_sync_history_subtitle">Sinkronizazio-saioak ikusi (azken 48 orduak)</string>
     <string name="settings_import_subtitle">Gehitu ICS fitxategi bateko ekitaldiak edozein egutegitara</string>
-    <string name="settings_export_subtitle">Gorde ekitaldiak ICS fitxategi batean</string>
     <string name="settings_birthday_reminder">Urtebetetze-gogorarazlea</string>
     <string name="settings_use_device_timezone">Gailuaren ordu-zona erabili</string>
     <string name="settings_section_calendars">Egutegiak eta kontuak</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Datan</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Egutegi ikusgarriak</string>
     <string name="settings_default_calendar">Egutegi lehenetsia</string>
     <string name="settings_default_event_length">Gertaeraren iraupena lehenetsia</string>
     <string name="settings_default_event_length_hint">Gertaera berrien iraupen lehenetsia</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Egutegia eskuratu</string>
     <string name="action_import_from_file">Inportatu ekitaldiak fitxategitik</string>
-    <string name="action_export_local_calendar">Esportatu tokiko egutegia</string>
+    <string name="settings_export_calendars">Esportatu egutegiak</string>
+    <string name="settings_export_calendars_subtitle">Gorde egutegia ICS fitxategi gisa</string>
+    <string name="export_calendar_no_events">Gertaerarik ez</string>
+    <string name="export_calendar_preparing">Prestatzen…</string>
+    <string name="cd_export_calendar">Esportatu %1$s</string>
+    <string name="cd_export_calendar_preparing">%1$s prestatzen</string>
+    <string name="export_calendar_chooser_title">Esportatu egutegia</string>
+    <string name="export_event_chooser_title">Esportatu gertaera</string>
+    <string name="export_file_failed">Ezin izan da fitxategia sortu.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Gailuko egutegiak</string>
     <string name="settings_device_calendars_hint">Beste aplikazioetako egutegiak</string>
+    <string name="offline_calendars_row_label">Lineaz kanpoko egutegiak</string>
+    <string name="offline_calendars_row_hint">Telefono honetan geratzen diren egutegiak</string>
+    <string name="offline_calendars_manage_note">Gehitu, aldatu izena edo kolorea, edo ezabatu lineaz kanpoko egutegiak.</string>
+    <string name="offline_calendars_info">Telefono honetan bakarrik gordetzen dira eta ez dira inoiz sinkronizatzen. Babeskopiek ez dituzte gertaerak barne hartzen; beraz, esportatu egutegi bat kopia bat gordetzeko.</string>
+    <string name="offline_calendars_info_cd">Lineaz kanpoko egutegiei buruz</string>
+    <string name="offline_calendar_default_state">Lehenetsia</string>
+    <string name="offline_calendar_new">Egutegi berria</string>
+    <string name="offline_calendar_new_in_picker">Lineaz kanpoko egutegi berria</string>
+    <string name="action_create">Sortu</string>
+    <string name="offline_calendar_rename">Aldatu izena</string>
+    <string name="offline_calendar_color">Kolorea</string>
+    <string name="offline_calendar_export">Esportatu egutegia</string>
+    <string name="offline_calendar_builtin_info">Integratutako egutegiari ezin zaio izena aldatu, ezta ezabatu ere. Gertaera berriak hona doaz egutegirik aukeratzen ez denean.</string>
+    <string name="offline_calendar_builtin_info_cd">Integratutako egutegiari buruz</string>
+    <string name="offline_calendar_rename_cancel_cd">Utzi izena aldatzeari</string>
+    <string name="offline_calendar_rename_save_cd">Gorde izena</string>
+    <string name="offline_calendar_delete_cd">Ezabatu %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" eta bere gertaera %1$d betiko ezabatu? Ezin da desegin.</item>
+        <item quantity="other">\"%2$s\" eta bere %1$d gertaerak betiko ezabatu? Ezin da desegin.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" betiko ezabatu? Ez du gertaerarik.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Ezabatu %1$d gertaera ere</item>
+        <item quantity="other">Ezabatu %1$d gertaerak ere</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ezabatu da</string>
+    <string name="offline_calendar_duplicate_name">Badago \"%1$s\" izeneko lineaz kanpoko egutegi bat</string>
     <string name="settings_quick_event_add">Gertaerak modu adimendunean gehitu</string>
     <string name="settings_quick_event_add_info">Sortu gertaerak modu naturalean idatziz. \"Bazkaria Sam-ekin ostirala eguerdiko 1ean\" izenburua, data eta ordua betetzen ditu zuretzat.</string>
     <string name="settings_suggest_titles">Iradoki gertaeren izenburuak</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Atzo</string>
     <string name="label_device_calendars">Gailuko egutegiak</string>
     <string name="label_default_calendar_hint">Gertaera berriak egutegi honetan sortuko dira</string>
-    <string name="label_visible_count">%1$d / %2$d ikusgai</string>
     <string name="label_reminders_truncated">%1$d erakutsi gabe (%2$d guztira, gehienez %3$d editagarri)</string>
     <string name="label_found_events">Aurkitutakoak: %1$d gertaera</string>
     <string name="placeholder_search">Bilatu…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Ez dago inportatzekorik</string>
-    <plurals name="exported_events">
-        <item quantity="one">Gertaera %1$d esportatu da</item>
-        <item quantity="other">%1$d gertaera esportatu dira</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">gertaera %1$d</item>
         <item quantity="other">%1$d gertaera</item>

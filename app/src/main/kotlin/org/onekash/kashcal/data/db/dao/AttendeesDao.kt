@@ -85,6 +85,10 @@ interface AttendeesDao {
     @Query("SELECT * FROM attendees WHERE event_id IN (:eventIds) ORDER BY event_id ASC, sort_order ASC")
     fun getForEvents(eventIds: List<Long>): Flow<List<Attendee>>
 
+    /** One-shot variant of [getForEvents], for ICS export. */
+    @Query("SELECT * FROM attendees WHERE event_id IN (:eventIds) ORDER BY event_id ASC, sort_order ASC")
+    suspend fun getForEventsOnce(eventIds: List<Long>): List<Attendee>
+
     /**
      * Reads the DECLINED attendee rows of [eventIds]. The SQL filter keeps the result small even
      * for a month's range; whether a decline is the user's own is decided in Kotlin by

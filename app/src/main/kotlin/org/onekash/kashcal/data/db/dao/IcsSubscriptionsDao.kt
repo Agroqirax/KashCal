@@ -100,6 +100,17 @@ interface IcsSubscriptionsDao {
     @Query("UPDATE ics_subscriptions SET last_error = NULL WHERE id = :id")
     suspend fun clearError(id: Long)
 
+    /**
+     * Records a sync with no new content (304 Not Modified): the time, and no error. The stored
+     * validators are left as they are now, which may differ from those the request sent.
+     */
+    @Query("UPDATE ics_subscriptions SET last_sync = :timestamp, last_error = NULL WHERE id = :id")
+    suspend fun updateSyncTimeOnly(id: Long, timestamp: Long)
+
+    /** Drops every subscription's ETag and Last-Modified, so each next fetch is unconditional. */
+    @Query("UPDATE ics_subscriptions SET etag = NULL, last_modified = NULL")
+    suspend fun clearAllValidators()
+
     // ========== Settings Updates ==========
 
     @Query("UPDATE ics_subscriptions SET enabled = :enabled WHERE id = :id")

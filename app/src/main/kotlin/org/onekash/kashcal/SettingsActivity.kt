@@ -27,9 +27,11 @@ import org.onekash.kashcal.ui.screens.SettingsRoute
 import org.onekash.kashcal.ui.theme.ColorSource
 import org.onekash.kashcal.ui.theme.ThemeMode
 import org.onekash.kashcal.ui.viewmodels.AccountSettingsViewModel
+import org.onekash.kashcal.ui.viewmodels.CalendarExportEvent
+import org.onekash.kashcal.ui.viewmodels.CalendarExportFailure
+import org.onekash.kashcal.ui.viewmodels.CalendarExportViewModel
 import org.onekash.kashcal.ui.viewmodels.DebugReportEvent
 import org.onekash.kashcal.ui.viewmodels.DebugReportViewModel
-import org.onekash.kashcal.util.IcsExporter
 import org.onekash.kashcal.util.IcsFileReader
 import org.onekash.kashcal.util.ShareChooser
 import javax.inject.Inject
@@ -57,6 +59,7 @@ class SettingsActivity : FragmentActivity() {
 
     private val viewModel: AccountSettingsViewModel by viewModels()
     private val debugReportViewModel: DebugReportViewModel by viewModels()
+    private val calendarExportViewModel: CalendarExportViewModel by viewModels()
 
     private val localNetworkPermissionManager by lazy {
         LocalNetworkPermissionManager(applicationContext)
@@ -68,9 +71,6 @@ class SettingsActivity : FragmentActivity() {
 
     @Inject
     lateinit var eventCoordinator: EventCoordinator
-
-    @Inject
-    lateinit var icsExporter: IcsExporter
 
     @Inject
     lateinit var syncSessionStore: SyncSessionStore
@@ -110,7 +110,7 @@ class SettingsActivity : FragmentActivity() {
                 syncSessionStore = syncSessionStore,
                 openTagsInitially = openTags,
                 onFinish = { finish() },
-                onExportCalendar = ::exportCalendar,
+                calendarExportViewModel = calendarExportViewModel,
                 readIcsContent = { uri -> icsFileReader.readIcsContent(uri) },
                 importIcsToRoom = { file, calendarId -> eventCoordinator.importIcsFile(file, calendarId) },
                 previewIcsInRoom = { file, calendarId -> eventCoordinator.previewIcsImport(file, calendarId) },
@@ -136,6 +136,11 @@ class SettingsActivity : FragmentActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 debugReportViewModel.events.collect(::showDebugReportEvent)
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                calendarExportViewModel.events.collect(::showCalendarExportEvent)
             }
         }
 
@@ -193,40 +198,23 @@ class SettingsActivity : FragmentActivity() {
         }
     }
 
-    /** Exports a calendar to ICS and hands it to the system share sheet. */
-    private fun exportCalendar(calendarId: Long) {
-        lifecycleScope.launch {
-            try {
-                val calendar = eventCoordinator.getCalendarById(calendarId)
-                if (calendar == null) {
-                    viewModel.showSnackbar("Calendar not found")
-                    return@launch
-                }
-                val events = eventCoordinator.getCalendarEventsForExport(calendarId)
-                if (events.isEmpty()) {
-                    viewModel.showSnackbar("No events to export")
-                    return@launch
-                }
-                icsExporter.exportCalendar(
-                    context = this@SettingsActivity,
-                    events = events,
-                    calendarName = calendar.displayName
-                ).onSuccess { uri ->
-                    val intent = Intent(Intent.ACTION_SEND).apply {
-                        type = "text/calendar"
-                        putExtra(Intent.EXTRA_STREAM, uri)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    /** Opens the share sheet for an exported calendar, or shows why there is no file. */
+    private fun showCalendarExportEvent(event: CalendarExportEvent) {
+        when (event) {
+            is CalendarExportEvent.Share -> startActivity(
+                ShareChooser.createFileChooser(
+                    this, event.uri, "text/calendar", getString(R.string.export_calendar_chooser_title)
+                )
+            )
+            is CalendarExportEvent.Failed -> viewModel.showSnackbar(
+                getString(
+                    when (event.reason) {
+                        CalendarExportFailure.CALENDAR_NOT_FOUND -> R.string.error_calendar_not_found
+                        CalendarExportFailure.NO_EVENTS -> R.string.error_export_no_events
+                        CalendarExportFailure.FILE_FAILED -> R.string.export_file_failed
                     }
-                    startActivity(ShareChooser.createKashCalChooser(this@SettingsActivity, intent, "Export Calendar"))
-                    viewModel.showSnackbar(resources.getQuantityString(R.plurals.exported_events, events.size, events.size))
-                }.onFailure { e ->
-                    Log.e(TAG, "Failed to export calendar", e)
-                    viewModel.showSnackbar("Export failed")
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to export calendar", e)
-                viewModel.showSnackbar("Export failed")
-            }
+                )
+            )
         }
     }
 

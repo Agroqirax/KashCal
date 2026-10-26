@@ -88,7 +88,6 @@
     <string name="action_discard">Verwerpen</string>
     <string name="action_discard_confirm">Verwerpen?</string>
     <string name="action_dismiss">Sluiten</string>
-    <string name="action_show_all">Alles tonen</string>
     <string name="action_connect">Verbinden</string>
     <string name="action_duplicate">Dupliceren</string>
     <string name="action_share">Delen</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Synchronisatiegeschiedenis</string>
     <string name="settings_sync_history_subtitle">Sync-sessies bekijken (afgelopen 48 uur)</string>
     <string name="settings_import_subtitle">Afspraken vanuit een ICS-bestand aan een agenda toevoegen</string>
-    <string name="settings_export_subtitle">Afspraken opslaan in een ICS-bestand</string>
     <string name="settings_birthday_reminder">Verjaardagsherinnering</string>
     <string name="settings_use_device_timezone">Apparaattijdzone gebruiken</string>
     <string name="settings_section_calendars">Agenda\'s &amp; accounts</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Op datum</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Zichtbare agenda\'s</string>
     <string name="settings_default_calendar">Standaardagenda</string>
     <string name="settings_default_event_length">Standaard afspraakduur</string>
     <string name="settings_default_event_length_hint">Standaardduur voor nieuwe afspraken</string>
@@ -487,7 +484,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Agenda ophalen</string>
     <string name="action_import_from_file">Afspraken uit bestand importeren</string>
-    <string name="action_export_local_calendar">Lokale agenda exporteren</string>
+    <string name="settings_export_calendars">Agenda\'s exporteren</string>
+    <string name="settings_export_calendars_subtitle">Agenda opslaan als ICS-bestand</string>
+    <string name="export_calendar_no_events">Geen afspraken</string>
+    <string name="export_calendar_preparing">Voorbereiden…</string>
+    <string name="cd_export_calendar">%1$s exporteren</string>
+    <string name="cd_export_calendar_preparing">%1$s voorbereiden</string>
+    <string name="export_calendar_chooser_title">Agenda exporteren</string>
+    <string name="export_event_chooser_title">Afspraak exporteren</string>
+    <string name="export_file_failed">Kon bestand niet aanmaken.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -616,6 +621,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Apparaatagenda\'s</string>
     <string name="settings_device_calendars_hint">Agenda\'s uit andere apps</string>
+    <string name="offline_calendars_row_label">Offline agenda\'s</string>
+    <string name="offline_calendars_row_hint">Agenda\'s die op deze telefoon blijven</string>
+    <string name="offline_calendars_manage_note">Voeg je offline agenda\'s toe, hernoem ze, geef ze een andere kleur of verwijder ze.</string>
+    <string name="offline_calendars_info">Alleen op deze telefoon bewaard en nooit gesynchroniseerd. Back-ups bevatten geen afspraken, dus exporteer een agenda om een kopie te bewaren.</string>
+    <string name="offline_calendars_info_cd">Over offline agenda\'s</string>
+    <string name="offline_calendar_default_state">Standaard</string>
+    <string name="offline_calendar_new">Nieuwe agenda</string>
+    <string name="offline_calendar_new_in_picker">Nieuwe offline agenda</string>
+    <string name="action_create">Maken</string>
+    <string name="offline_calendar_rename">Hernoemen</string>
+    <string name="offline_calendar_color">Kleur</string>
+    <string name="offline_calendar_export">Agenda exporteren</string>
+    <string name="offline_calendar_builtin_info">De ingebouwde agenda kan niet worden hernoemd of verwijderd. Nieuwe afspraken komen hier als er geen agenda is gekozen.</string>
+    <string name="offline_calendar_builtin_info_cd">Over de ingebouwde agenda</string>
+    <string name="offline_calendar_rename_cancel_cd">Hernoemen annuleren</string>
+    <string name="offline_calendar_rename_save_cd">Naam opslaan</string>
+    <string name="offline_calendar_delete_cd">%1$s verwijderen</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" en de %1$d afspraak definitief verwijderen? Dit kan niet ongedaan worden gemaakt.</item>
+        <item quantity="other">\"%2$s\" en de %1$d afspraken definitief verwijderen? Dit kan niet ongedaan worden gemaakt.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" definitief verwijderen? Er staan geen afspraken in.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Ook %1$d afspraak verwijderen</item>
+        <item quantity="other">Ook %1$d afspraken verwijderen</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s verwijderd</string>
+    <string name="offline_calendar_duplicate_name">Er bestaat al een offline agenda met de naam \"%1$s\"</string>
     <string name="settings_quick_event_add">Slim afspraken toevoegen</string>
     <string name="settings_quick_event_add_info">Maak afspraken door natuurlijk te typen. \"Lunch met Sam vrijdag 13:00\" vult de titel, datum en tijd voor je in.</string>
     <string name="settings_suggest_titles">Titels van afspraken voorstellen</string>
@@ -692,7 +725,6 @@
     <string name="label_yesterday">Gisteren</string>
     <string name="label_device_calendars">Apparaatagenda\'s</string>
     <string name="label_default_calendar_hint">Nieuwe afspraken worden in deze agenda gemaakt</string>
-    <string name="label_visible_count">%1$d / %2$d zichtbaar</string>
     <string name="label_reminders_truncated">%1$d niet getoond (%2$d totaal, max %3$d bewerkbaar)</string>
     <string name="label_found_events">Gevonden: %1$d afspraken</string>
     <string name="placeholder_search">Zoeken…</string>
@@ -874,10 +906,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Niets om te importeren</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d afspraak geëxporteerd</item>
-        <item quantity="other">%1$d afspraken geëxporteerd</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d afspraak</item>
         <item quantity="other">%1$d afspraken</item>

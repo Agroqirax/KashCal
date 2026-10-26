@@ -88,7 +88,6 @@
     <string name="action_discard">छोड़ें</string>
     <string name="action_discard_confirm">बदलाव छोड़ दें?</string>
     <string name="action_dismiss">खारिज करें</string>
-    <string name="action_show_all">सभी दिखाएँ</string>
     <string name="action_connect">कनेक्ट करें</string>
     <string name="action_duplicate">डुप्लिकेट</string>
     <string name="action_share">शेयर करें</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">सिंक इतिहास</string>
     <string name="settings_sync_history_subtitle">सिंक सत्र देखें (पिछले 48 घंटे)</string>
     <string name="settings_import_subtitle">किसी भी कैलेंडर में ICS फ़ाइल से इवेंट जोड़ें</string>
-    <string name="settings_export_subtitle">इवेंट ICS फ़ाइल में सहेजें</string>
     <string name="settings_birthday_reminder">जन्मदिन रिमाइंडर</string>
     <string name="settings_use_device_timezone">डिवाइस टाइमज़ोन का उपयोग करें</string>
     <string name="settings_section_calendars">कैलेंडर और खाते</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">तारीख पर</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">दृश्य कैलेंडर</string>
     <string name="settings_default_calendar">डिफ़ॉल्ट कैलेंडर</string>
     <string name="settings_default_event_length">डिफ़ॉल्ट इवेंट अवधि</string>
     <string name="settings_default_event_length_hint">नए इवेंट के लिए डिफ़ॉल्ट अवधि</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">कैलेंडर लाएँ</string>
     <string name="action_import_from_file">फ़ाइल से इवेंट आयात करें</string>
-    <string name="action_export_local_calendar">स्थानीय कैलेंडर निर्यात करें</string>
+    <string name="settings_export_calendars">कैलेंडर निर्यात करें</string>
+    <string name="settings_export_calendars_subtitle">कैलेंडर को ICS फ़ाइल के रूप में सहेजें</string>
+    <string name="export_calendar_no_events">कोई इवेंट नहीं</string>
+    <string name="export_calendar_preparing">तैयारी हो रही है…</string>
+    <string name="cd_export_calendar">%1$s निर्यात करें</string>
+    <string name="cd_export_calendar_preparing">%1$s की तैयारी हो रही है</string>
+    <string name="export_calendar_chooser_title">कैलेंडर निर्यात करें</string>
+    <string name="export_event_chooser_title">इवेंट निर्यात करें</string>
+    <string name="export_file_failed">फ़ाइल नहीं बनाई जा सकी।</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">डिवाइस कैलेंडर</string>
     <string name="settings_device_calendars_hint">अन्य ऐप्स के कैलेंडर</string>
+    <string name="offline_calendars_row_label">ऑफ़लाइन कैलेंडर</string>
+    <string name="offline_calendars_row_hint">इस फ़ोन पर रहने वाले कैलेंडर</string>
+    <string name="offline_calendars_manage_note">अपने ऑफ़लाइन कैलेंडर जोड़ें, उनका नाम या रंग बदलें, या उन्हें हटाएँ।</string>
+    <string name="offline_calendars_info">केवल इस फ़ोन पर रखे जाते हैं और कभी सिंक नहीं होते। बैकअप में इवेंट शामिल नहीं होते, इसलिए कॉपी रखने के लिए कैलेंडर निर्यात करें।</string>
+    <string name="offline_calendars_info_cd">ऑफ़लाइन कैलेंडर के बारे में</string>
+    <string name="offline_calendar_default_state">डिफ़ॉल्ट</string>
+    <string name="offline_calendar_new">नया कैलेंडर</string>
+    <string name="offline_calendar_new_in_picker">नया ऑफ़लाइन कैलेंडर</string>
+    <string name="action_create">बनाएँ</string>
+    <string name="offline_calendar_rename">नाम बदलें</string>
+    <string name="offline_calendar_color">रंग</string>
+    <string name="offline_calendar_export">कैलेंडर निर्यात करें</string>
+    <string name="offline_calendar_builtin_info">अंतर्निहित कैलेंडर का नाम नहीं बदला जा सकता और न ही उसे हटाया जा सकता है। कोई कैलेंडर न चुनने पर नए इवेंट यहीं जाते हैं।</string>
+    <string name="offline_calendar_builtin_info_cd">अंतर्निहित कैलेंडर के बारे में</string>
+    <string name="offline_calendar_rename_cancel_cd">नाम बदलना रद्द करें</string>
+    <string name="offline_calendar_rename_save_cd">नाम सहेजें</string>
+    <string name="offline_calendar_delete_cd">%1$s हटाएँ</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" और उसका %1$d इवेंट हमेशा के लिए हटाएँ? इसे पूर्ववत नहीं किया जा सकता।</item>
+        <item quantity="other">\"%2$s\" और उसके %1$d इवेंट हमेशा के लिए हटाएँ? इसे पूर्ववत नहीं किया जा सकता।</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" हमेशा के लिए हटाएँ? इसमें कोई इवेंट नहीं है।</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d इवेंट भी हटाएँ</item>
+        <item quantity="other">%1$d इवेंट भी हटाएँ</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s हटाया गया</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" नाम का ऑफ़लाइन कैलेंडर पहले से मौजूद है</string>
     <string name="settings_quick_event_add">स्मार्ट इवेंट जोड़ें</string>
     <string name="settings_quick_event_add_info">स्वाभाविक रूप से टाइप करके इवेंट बनाएँ. \"शुक्रवार दोपहर 1 बजे Sam के साथ लंच\" आपके लिए शीर्षक, तारीख और समय भर देता है.</string>
     <string name="settings_suggest_titles">इवेंट शीर्षक सुझाएँ</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">कल</string>
     <string name="label_device_calendars">डिवाइस कैलेंडर</string>
     <string name="label_default_calendar_hint">नए इवेंट इस कैलेंडर में बनाए जाएँगे</string>
-    <string name="label_visible_count">%1$d / %2$d दृश्य</string>
     <string name="label_reminders_truncated">%1$d नहीं दिखाए (%2$d कुल, अधिकतम %3$d संपादन योग्य)</string>
     <string name="label_found_events">मिले: %1$d इवेंट</string>
     <string name="placeholder_search">खोजें…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">आयात करने के लिए कुछ नहीं</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d इवेंट निर्यात हुआ</item>
-        <item quantity="other">%1$d इवेंट निर्यात हुए</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d इवेंट</item>
         <item quantity="other">%1$d इवेंट</item>

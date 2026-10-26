@@ -17,6 +17,7 @@ import org.onekash.kashcal.data.credential.CredentialMigration
 import org.onekash.kashcal.data.db.dao.EventsDao
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.di.ApplicationScope
+import org.onekash.kashcal.domain.initializer.UtcSeriesZoneRepair
 import org.onekash.kashcal.network.NetworkMonitor
 import org.onekash.kashcal.reminder.notification.InviteNotificationChannels
 import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
@@ -112,6 +113,9 @@ class KashCalApplication : Application(), Configuration.Provider {
     lateinit var contactSyncScheduleReconciler: ContactSyncScheduleReconciler
 
     @Inject
+    lateinit var utcSeriesZoneRepair: UtcSeriesZoneRepair
+
+    @Inject
     @ApplicationScope
     lateinit var applicationScope: CoroutineScope
 
@@ -203,6 +207,14 @@ class KashCalApplication : Application(), Configuration.Provider {
             // reconciler catches and logs.
             applicationScope.launch {
                 contactSyncScheduleReconciler.reconcile()
+            }
+
+            // Once per install: series stored with no zone though they start at a UTC time get
+            // the zone UTC, and feeds are re-read on their next refresh (UtcSeriesZoneRepair).
+            // Offline; it re-arms reminders, so it stays out of unit tests with the rest here.
+            // No try/catch: the repair catches and logs.
+            applicationScope.launch {
+                utcSeriesZoneRepair.run()
             }
         }
 

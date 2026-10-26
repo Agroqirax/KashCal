@@ -88,7 +88,6 @@
     <string name="action_discard">Verwerfen</string>
     <string name="action_discard_confirm">Verwerfen?</string>
     <string name="action_dismiss">Schließen</string>
-    <string name="action_show_all">Alle anzeigen</string>
     <string name="action_connect">Verbinden</string>
     <string name="action_duplicate">Duplizieren</string>
     <string name="action_share">Teilen</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sync-Verlauf</string>
     <string name="settings_sync_history_subtitle">Sync-Sitzungen anzeigen (letzte 48 Stunden)</string>
     <string name="settings_import_subtitle">Termine aus einer ICS-Datei in einen beliebigen Kalender hinzufügen</string>
-    <string name="settings_export_subtitle">Termine in einer ICS-Datei speichern</string>
     <string name="settings_birthday_reminder">Geburtstagserinnerung</string>
     <string name="settings_use_device_timezone">Geräte-Zeitzone verwenden</string>
     <string name="settings_section_calendars">Kalender &amp; Konten</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Am Datum</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Sichtbare Kalender</string>
     <string name="settings_default_calendar">Standardkalender</string>
     <string name="settings_default_event_length">Standard-Terminlänge</string>
     <string name="settings_default_event_length_hint">Standardlänge für neue Termine</string>
@@ -487,7 +484,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Kalender abrufen</string>
     <string name="action_import_from_file">Termine aus Datei importieren</string>
-    <string name="action_export_local_calendar">Lokalen Kalender exportieren</string>
+    <string name="settings_export_calendars">Kalender exportieren</string>
+    <string name="settings_export_calendars_subtitle">Kalender als ICS-Datei speichern</string>
+    <string name="export_calendar_no_events">Keine Termine</string>
+    <string name="export_calendar_preparing">Wird vorbereitet…</string>
+    <string name="cd_export_calendar">%1$s exportieren</string>
+    <string name="cd_export_calendar_preparing">%1$s wird vorbereitet</string>
+    <string name="export_calendar_chooser_title">Kalender exportieren</string>
+    <string name="export_event_chooser_title">Termin exportieren</string>
+    <string name="export_file_failed">Datei konnte nicht erstellt werden.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -616,6 +621,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Gerätekalender</string>
     <string name="settings_device_calendars_hint">Kalender aus anderen Apps</string>
+    <string name="offline_calendars_row_label">Offline-Kalender</string>
+    <string name="offline_calendars_row_hint">Kalender, die auf diesem Telefon bleiben</string>
+    <string name="offline_calendars_manage_note">Offline-Kalender hinzufügen, umbenennen, umfärben oder entfernen.</string>
+    <string name="offline_calendars_info">Nur auf diesem Telefon gespeichert und nie synchronisiert. Sicherungen enthalten keine Termine, exportiere also einen Kalender, um eine Kopie zu behalten.</string>
+    <string name="offline_calendars_info_cd">Über Offline-Kalender</string>
+    <string name="offline_calendar_default_state">Standard</string>
+    <string name="offline_calendar_new">Neuer Kalender</string>
+    <string name="offline_calendar_new_in_picker">Neuer Offline-Kalender</string>
+    <string name="action_create">Erstellen</string>
+    <string name="offline_calendar_rename">Umbenennen</string>
+    <string name="offline_calendar_color">Farbe</string>
+    <string name="offline_calendar_export">Kalender exportieren</string>
+    <string name="offline_calendar_builtin_info">Der integrierte Kalender kann nicht umbenannt oder gelöscht werden. Neue Termine landen hier, wenn kein Kalender gewählt ist.</string>
+    <string name="offline_calendar_builtin_info_cd">Über den integrierten Kalender</string>
+    <string name="offline_calendar_rename_cancel_cd">Umbenennen abbrechen</string>
+    <string name="offline_calendar_rename_save_cd">Namen speichern</string>
+    <string name="offline_calendar_delete_cd">%1$s löschen</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" und seinen %1$d Termin endgültig löschen? Kann nicht rückgängig gemacht werden.</item>
+        <item quantity="other">\"%2$s\" und seine %1$d Termine endgültig löschen? Kann nicht rückgängig gemacht werden.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" endgültig löschen? Er enthält keine Termine.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Auch %1$d Termin löschen</item>
+        <item quantity="other">Auch %1$d Termine löschen</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s gelöscht</string>
+    <string name="offline_calendar_duplicate_name">Ein Offline-Kalender namens \"%1$s\" existiert bereits</string>
     <string name="settings_quick_event_add">Intelligentes Hinzufügen</string>
     <string name="settings_quick_event_add_info">Erstelle Termine durch natürliche Eingabe. \"Mittagessen mit Sam Freitag 13:00\" füllt Titel, Datum und Uhrzeit für dich aus.</string>
     <string name="settings_suggest_titles">Terminnamen vorschlagen</string>
@@ -692,7 +725,6 @@
     <string name="label_yesterday">Gestern</string>
     <string name="label_device_calendars">Gerätekalender</string>
     <string name="label_default_calendar_hint">Neue Termine werden in diesem Kalender erstellt</string>
-    <string name="label_visible_count">%1$d / %2$d sichtbar</string>
     <string name="label_reminders_truncated">%1$d nicht angezeigt (%2$d gesamt, max. %3$d bearbeitbar)</string>
     <string name="label_found_events">Gefunden: %1$d Termine</string>
     <string name="placeholder_search">Suche…</string>
@@ -874,10 +906,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nichts zu importieren</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d Termin exportiert</item>
-        <item quantity="other">%1$d Termine exportiert</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d Termin</item>
         <item quantity="other">%1$d Termine</item>

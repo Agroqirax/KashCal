@@ -3124,4 +3124,41 @@ class IcsPatcherTest {
         val after = IcsPatcher.patchAttendeeReply(replyResource(), selfAccount(), " tentative ", occurrence = movedInstance)!!
         assertTrue(veventTexts(after)[1].contains("PARTSTAT=TENTATIVE;RSVP=TRUE:mailto:self@example.test"))
     }
+
+    // ---- an imported file's copy and a server's copy, with no attendee set ----
+
+    private val withGuestsCopy = listOf(
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Example//Test//EN", "BEGIN:VEVENT",
+        "UID:copy-guests@example.test", "DTSTAMP:20260901T120000Z", "DTSTART:20261020T160000Z",
+        "DTEND:20261020T170000Z", "SUMMARY:Planning", "ORGANIZER:mailto:org@example.test",
+        "ATTENDEE;PARTSTAT=ACCEPTED:mailto:guest@example.test", "END:VEVENT", "END:VCALENDAR",
+    ).joinToString("\r\n", postfix = "\r\n")
+
+    private fun copyRow(caldavUrl: String?, importSource: String?) = Event(
+        uid = "copy-guests@example.test", calendarId = 1, title = "Planning",
+        startTs = 1_792_512_000_000L, endTs = 1_792_515_600_000L, timezone = "UTC",
+        organizerEmail = "org@example.test", rawIcal = withGuestsCopy, dtstamp = 0,
+        caldavUrl = caldavUrl, importSource = importSource,
+    )
+
+    private fun attendeeLines(ics: String) =
+        ics.replace(Regex("\r?\n[ \t]"), "").lines().filter { it.startsWith("ATTENDEE") }
+
+    @Test
+    fun `a file's copy given no attendee set writes no guests`() {
+        val row = copyRow(caldavUrl = null, importSource = Event.IMPORT_SOURCE_ICS_FILE)
+        assertTrue(row.holdsFileCopy)
+        assertTrue(attendeeLines(IcsPatcher.serialize(row)).isEmpty())
+    }
+
+    @Test
+    fun `a server's copy given no attendee set keeps its guests`() {
+        for (row in listOf(
+            copyRow(caldavUrl = "https://dav.example.test/cal/copy-guests.ics", importSource = null),
+            copyRow(caldavUrl = "https://dav.example.test/cal/copy-guests.ics", importSource = Event.IMPORT_SOURCE_ICS_FILE),
+        )) {
+            assertFalse(row.holdsFileCopy)
+            assertEquals(1, attendeeLines(IcsPatcher.serialize(row)).size)
+        }
+    }
 }

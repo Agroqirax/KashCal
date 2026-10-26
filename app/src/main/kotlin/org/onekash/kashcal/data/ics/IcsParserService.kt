@@ -74,10 +74,15 @@ object IcsParserService {
      * subscriptions: the METHOD, ORGANIZER and ATTENDEE rows, and CANCELLED components (a
      * cancellation has to reach the event it cancels). Returns null when the file doesn't parse.
      *
-     * Each component is mapped as the pull maps it, with `calendarId` 0 and no URL or stored
-     * copy, its `itipDtstamp` set to the file's DTSTAMP, and the file's SCHEDULE-STATUS receipts
-     * cleared (they describe a server's delivery, not this import). An exception is mapped with
-     * its group's master DTSTART so its RECURRENCE-ID normalizes as the pull's does.
+     * Each component is mapped as the pull maps it, with `calendarId` 0 and no URL, its
+     * `itipDtstamp` set to the file's DTSTAMP, and the file's SCHEDULE-STATUS receipts cleared
+     * (they describe a server's delivery, not this import). An exception is mapped with its
+     * group's master DTSTART so its RECURRENCE-ID normalizes as the pull's does.
+     *
+     * Every component of a group carries the group's text from the file as its stored copy
+     * ([ImportedCopy]; the rules for a file's copy are on [Event.holdsFileCopy]). A group whose
+     * copy doesn't re-parse to the same (UID, RECURRENCE-ID) set, or whose copy can't be built,
+     * gets none and imports from its fields alone.
      */
     fun parseForImport(content: String): IcsImportFile? {
         val result = parser.parseWithMethod(content)
@@ -86,13 +91,16 @@ object IcsParserService {
             return null
         }
         val thisAndFuture = thisAndFutureKeys(content)
+        val method = ImportMethod.fromValue(result.value.method?.name)
+        val copies = copiesOf(content, dropAlarms = method?.isInvitation == true)
         val groups = result.value.events.groupBy { it.uid }.map { (uid, icalEvents) ->
             val masters = icalEvents.filter { it.recurrenceId == null }
             val masterDtStart = masters.singleOrNull()?.dtStart
+            val copy = verifiedCopy(copies[uid], icalEvents)
             fun component(icalEvent: org.onekash.icaldav.model.ICalEvent): ImportedComponent {
                 val mapped = ICalEventMapper.toEntity(
                     icalEvent = icalEvent,
-                    rawIcal = null,
+                    rawIcal = copy,
                     calendarId = 0,
                     caldavUrl = null,
                     etag = null,
@@ -119,6 +127,7 @@ object IcsParserService {
                         )
                     },
                     thisAndFuture = recurrenceDigits != null && "$uid|$recurrenceDigits" in thisAndFuture,
+                    writtenZone = icalEvent.dtStart.timezone?.id,
                 )
             }
             ImportGroup(
@@ -127,8 +136,37 @@ object IcsParserService {
                 exceptions = icalEvents.filter { it.recurrenceId != null }.map(::component),
             )
         }
-        return IcsImportFile(ImportMethod.fromValue(result.value.method?.name), groups)
+        return IcsImportFile(method, groups)
     }
+
+    /** Returns [ImportedCopy.build]'s copies, or none when the text can't be scanned. */
+    private fun copiesOf(content: String, dropAlarms: Boolean): Map<String, String> = try {
+        ImportedCopy.build(content, dropAlarms)
+    } catch (e: Exception) {
+        Log.w(TAG, "Couldn't keep the file's text: ${e.javaClass.simpleName}")
+        emptyMap()
+    } catch (e: StackOverflowError) {
+        Log.w(TAG, "Couldn't keep the file's text: ${e.javaClass.simpleName}")
+        emptyMap()
+    }
+
+    /**
+     * Returns [copy] when it parses to the same (UID, RECURRENCE-ID) set as [events], the group
+     * the parser read from the whole file; null otherwise, so a copy the text scan got wrong is
+     * never stored.
+     */
+    internal fun verifiedCopy(copy: String?, events: List<org.onekash.icaldav.model.ICalEvent>): String? =
+        copy?.takeIf { identities(it) == events.map(::identity).toSet() }
+
+    /** Returns the (UID, RECURRENCE-ID) set [copy] parses to, empty when it doesn't parse. */
+    private fun identities(copy: String): Set<Pair<String, String?>> = try {
+        (parser.parseAllEvents(copy).getOrNull() ?: emptyList()).map(::identity).toSet()
+    } catch (e: Exception) {
+        emptySet()
+    }
+
+    private fun identity(event: org.onekash.icaldav.model.ICalEvent): Pair<String, String?> =
+        event.uid to event.recurrenceId?.toICalString()
 
     /**
      * Returns "uid|digits" keys for every RECURRENCE-ID in [content] that carries

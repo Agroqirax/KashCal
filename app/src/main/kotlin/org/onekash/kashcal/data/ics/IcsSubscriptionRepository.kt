@@ -228,13 +228,10 @@ class IcsSubscriptionRepository @Inject constructor(
 
             when (fetchResult) {
                 is FetchResult.NotModified -> {
-                    // Unchanged: record the sync time, keep the stored validators.
-                    icsSubscriptionsDao.updateSyncSuccess(
-                        id = subscriptionId,
-                        timestamp = System.currentTimeMillis(),
-                        etag = subscription.etag,
-                        lastModified = subscription.lastModified
-                    )
+                    // Unchanged: record the sync time and leave the validators as stored now.
+                    // Writing back the ones this request sent would undo a clear made while it
+                    // ran (UtcSeriesZoneRepair), and the feed would never be read again.
+                    icsSubscriptionsDao.updateSyncTimeOnly(subscriptionId, System.currentTimeMillis())
                     return@withContext SyncResult.NotModified
                 }
 

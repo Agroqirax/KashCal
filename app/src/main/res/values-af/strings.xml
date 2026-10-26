@@ -88,7 +88,6 @@
     <string name="action_discard">Gooi Weg</string>
     <string name="action_discard_confirm">Gooi weg?</string>
     <string name="action_dismiss">Maak Toe</string>
-    <string name="action_show_all">Wys Alles</string>
     <string name="action_connect">Koppel</string>
     <string name="action_duplicate">Dupliseer</string>
     <string name="action_share">Deel</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sinkroniseringsgeskiedenis</string>
     <string name="settings_sync_history_subtitle">Bekyk sinkroniseringsessies (laaste 48 uur)</string>
     <string name="settings_import_subtitle">Voeg gebeurtenisse vanaf \'n ICS-lêer by enige kalender</string>
-    <string name="settings_export_subtitle">Stoor gebeurtenisse na \'n ICS-lêer</string>
     <string name="settings_birthday_reminder">Verjaarsdagherinnering</string>
     <string name="settings_use_device_timezone">Gebruik toesteltydzone</string>
     <string name="settings_section_calendars">Kalenders &amp; rekeninge</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Op datum</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Sigbare Kalenders</string>
     <string name="settings_default_calendar">Verstek Kalender</string>
     <string name="settings_default_event_length">Verstek Gebeurtenislengte</string>
     <string name="settings_default_event_length_hint">Verstek lengte vir nuwe gebeurtenisse</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Haal Kalender</string>
     <string name="action_import_from_file">Voer gebeurtenisse vanaf lêer in</string>
-    <string name="action_export_local_calendar">Voer Plaaslike kalender uit</string>
+    <string name="settings_export_calendars">Voer kalenders uit</string>
+    <string name="settings_export_calendars_subtitle">Stoor ’n kalender as ’n ICS-lêer</string>
+    <string name="export_calendar_no_events">Geen gebeurtenisse</string>
+    <string name="export_calendar_preparing">Berei voor…</string>
+    <string name="cd_export_calendar">Voer %1$s uit</string>
+    <string name="cd_export_calendar_preparing">Berei %1$s voor</string>
+    <string name="export_calendar_chooser_title">Voer kalender uit</string>
+    <string name="export_event_chooser_title">Voer gebeurtenis uit</string>
+    <string name="export_file_failed">Kon nie die lêer skep nie.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Toestelkalenders</string>
     <string name="settings_device_calendars_hint">Kalenders vanuit ander programme</string>
+    <string name="offline_calendars_row_label">Vanlyn-kalenders</string>
+    <string name="offline_calendars_row_hint">Kalenders wat op hierdie foon bly</string>
+    <string name="offline_calendars_manage_note">Voeg by, hernoem, gee kleur aan of verwyder jou vanlyn-kalenders.</string>
+    <string name="offline_calendars_info">Word net op hierdie foon gehou en nooit gesinkroniseer nie. Rugsteune sluit nie gebeurtenisse in nie, so voer \'n kalender uit om \'n kopie te hou.</string>
+    <string name="offline_calendars_info_cd">Oor vanlyn-kalenders</string>
+    <string name="offline_calendar_default_state">Verstek</string>
+    <string name="offline_calendar_new">Nuwe kalender</string>
+    <string name="offline_calendar_new_in_picker">Nuwe vanlyn-kalender</string>
+    <string name="action_create">Skep</string>
+    <string name="offline_calendar_rename">Hernoem</string>
+    <string name="offline_calendar_color">Kleur</string>
+    <string name="offline_calendar_export">Voer kalender uit</string>
+    <string name="offline_calendar_builtin_info">Die ingeboude kalender kan nie hernoem of verwyder word nie. Nuwe gebeurtenisse gaan hierheen as geen kalender gekies is nie.</string>
+    <string name="offline_calendar_builtin_info_cd">Oor die ingeboude kalender</string>
+    <string name="offline_calendar_rename_cancel_cd">Kanselleer hernoeming</string>
+    <string name="offline_calendar_rename_save_cd">Stoor naam</string>
+    <string name="offline_calendar_delete_cd">Verwyder %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Verwyder \"%2$s\" en sy %1$d gebeurtenis vir altyd? Dit kan nie ontdoen word nie.</item>
+        <item quantity="other">Verwyder \"%2$s\" en sy %1$d gebeurtenisse vir altyd? Dit kan nie ontdoen word nie.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Verwyder \"%1$s\" vir altyd? Dit het geen gebeurtenisse nie.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Verwyder ook %1$d gebeurtenis</item>
+        <item quantity="other">Verwyder ook %1$d gebeurtenisse</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s verwyder</string>
+    <string name="offline_calendar_duplicate_name">\'n Vanlyn-kalender met die naam \"%1$s\" bestaan reeds</string>
     <string name="settings_quick_event_add">Slim gebeurtenis byvoeg</string>
     <string name="settings_quick_event_add_info">Skep gebeurtenisse deur natuurlik te tik. \"Middagete met Sam Vrydag 13:00\" vul die titel, datum en tyd vir jou in.</string>
     <string name="settings_suggest_titles">Stel gebeurtenistitels voor</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Gister</string>
     <string name="label_device_calendars">Toestelkalenders</string>
     <string name="label_default_calendar_hint">Nuwe gebeurtenisse sal in hierdie kalender geskep word</string>
-    <string name="label_visible_count">%1$d / %2$d sigbaar</string>
     <string name="label_reminders_truncated">%1$d nie gewys nie (%2$d totaal, maks %3$d redigeerbaar)</string>
     <string name="label_found_events">Gevind: %1$d gebeurtenisse</string>
     <string name="placeholder_search">Soek…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Niks om in te voer nie</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d gebeurtenis uitgevoer</item>
-        <item quantity="other">%1$d gebeurtenisse uitgevoer</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d gebeurtenis</item>
         <item quantity="other">%1$d gebeurtenisse</item>

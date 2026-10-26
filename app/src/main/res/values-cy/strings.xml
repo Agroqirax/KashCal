@@ -88,7 +88,6 @@
     <string name="action_discard">Taflu</string>
     <string name="action_discard_confirm">Taflu\'r newidiadau?</string>
     <string name="action_dismiss">Diswyddo</string>
-    <string name="action_show_all">Dangos Popeth</string>
     <string name="action_connect">Cysylltu</string>
     <string name="action_duplicate">Dyblygu</string>
     <string name="action_share">Rhannu</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Hanes cysoni</string>
     <string name="settings_sync_history_subtitle">Gweld sesiynau cysoni (48 awr diwethaf)</string>
     <string name="settings_import_subtitle">Ychwanegu digwyddiadau o ffeil ICS at unrhyw galendr</string>
-    <string name="settings_export_subtitle">Cadw digwyddiadau i ffeil ICS</string>
     <string name="settings_birthday_reminder">Atgoffa Pen-blwydd</string>
     <string name="settings_use_device_timezone">Defnyddio cylchfa amser y ddyfais</string>
     <string name="settings_section_calendars">Calendrau a chyfrifon</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Ar ddyddiad</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Calendrau Gweladwy</string>
     <string name="settings_default_calendar">Calendr Rhagosodedig</string>
     <string name="settings_default_event_length">Hyd Digwyddiad Rhagosodedig</string>
     <string name="settings_default_event_length_hint">Hyd rhagosodedig ar gyfer digwyddiadau newydd</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Nol Calendr</string>
     <string name="action_import_from_file">Mewnforio digwyddiadau o ffeil</string>
-    <string name="action_export_local_calendar">Allforio calendr lleol</string>
+    <string name="settings_export_calendars">Allforio calendrau</string>
+    <string name="settings_export_calendars_subtitle">Cadw calendr fel ffeil ICS</string>
+    <string name="export_calendar_no_events">Dim digwyddiadau</string>
+    <string name="export_calendar_preparing">Yn paratoi…</string>
+    <string name="cd_export_calendar">Allforio %1$s</string>
+    <string name="cd_export_calendar_preparing">Yn paratoi %1$s</string>
+    <string name="export_calendar_chooser_title">Allforio calendr</string>
+    <string name="export_event_chooser_title">Allforio digwyddiad</string>
+    <string name="export_file_failed">Methu creu\'r ffeil.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,42 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Calendrau\'r Ddyfais</string>
     <string name="settings_device_calendars_hint">Calendrau o apiau eraill</string>
+    <string name="offline_calendars_row_label">Calendrau all-lein</string>
+    <string name="offline_calendars_row_hint">Calendrau sy\'n aros ar y ffôn hwn</string>
+    <string name="offline_calendars_manage_note">Ychwanegwch, ailenwch, newidiwch liw neu dilëwch eich calendrau all-lein.</string>
+    <string name="offline_calendars_info">Yn cael eu cadw ar y ffôn hwn yn unig a byth yn cael eu cysoni. Nid yw copïau wrth gefn yn cynnwys digwyddiadau, felly allforiwch galendr i gadw copi.</string>
+    <string name="offline_calendars_info_cd">Am galendrau all-lein</string>
+    <string name="offline_calendar_default_state">Rhagosodedig</string>
+    <string name="offline_calendar_new">Calendr newydd</string>
+    <string name="offline_calendar_new_in_picker">Calendr all-lein newydd</string>
+    <string name="action_create">Creu</string>
+    <string name="offline_calendar_rename">Ailenwi</string>
+    <string name="offline_calendar_color">Lliw</string>
+    <string name="offline_calendar_export">Allforio calendr</string>
+    <string name="offline_calendar_builtin_info">Does dim modd ailenwi na dileu\'r calendr adeiledig. Mae digwyddiadau newydd yn mynd yma pan na ddewisir calendr.</string>
+    <string name="offline_calendar_builtin_info_cd">Am y calendr adeiledig</string>
+    <string name="offline_calendar_rename_cancel_cd">Canslo ailenwi</string>
+    <string name="offline_calendar_rename_save_cd">Cadw enw</string>
+    <string name="offline_calendar_delete_cd">Dileu %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="zero">Dileu \"%2$s\" a\'i %1$d digwyddiad am byth? Does dim modd dadwneud.</item>
+        <item quantity="one">Dileu \"%2$s\" a\'i %1$d digwyddiad am byth? Does dim modd dadwneud.</item>
+        <item quantity="two">Dileu \"%2$s\" a\'i %1$d ddigwyddiad am byth? Does dim modd dadwneud.</item>
+        <item quantity="few">Dileu \"%2$s\" a\'i %1$d digwyddiad am byth? Does dim modd dadwneud.</item>
+        <item quantity="many">Dileu \"%2$s\" a\'i %1$d digwyddiad am byth? Does dim modd dadwneud.</item>
+        <item quantity="other">Dileu \"%2$s\" a\'i %1$d digwyddiad am byth? Does dim modd dadwneud.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Dileu \"%1$s\" am byth? Does dim digwyddiadau ynddo.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="zero">Dileu %1$d digwyddiad hefyd</item>
+        <item quantity="one">Dileu %1$d digwyddiad hefyd</item>
+        <item quantity="two">Dileu %1$d ddigwyddiad hefyd</item>
+        <item quantity="few">Dileu %1$d digwyddiad hefyd</item>
+        <item quantity="many">Dileu %1$d digwyddiad hefyd</item>
+        <item quantity="other">Dileu %1$d digwyddiad hefyd</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Dilëwyd %1$s</string>
+    <string name="offline_calendar_duplicate_name">Mae calendr all-lein o\'r enw \"%1$s\" yn bodoli eisoes</string>
     <string name="settings_quick_event_add">Ychwanegu digwyddiad clyfar</string>
     <string name="settings_quick_event_add_info">Crëwch ddigwyddiadau drwy deipio\'n naturiol. Mae \"Cinio gyda Sam dydd Gwener 1yh\" yn llenwi\'r teitl, y dyddiad a\'r amser i chi.</string>
     <string name="settings_suggest_titles">Awgrymu teitlau digwyddiadau</string>
@@ -697,7 +738,6 @@
     <string name="label_yesterday">Ddoe</string>
     <string name="label_device_calendars">Calendrau\'r Ddyfais</string>
     <string name="label_default_calendar_hint">Bydd digwyddiadau newydd yn cael eu creu yn y calendr hwn</string>
-    <string name="label_visible_count">%1$d / %2$d gweladwy</string>
     <string name="label_reminders_truncated">%1$d heb eu dangos (%2$d cyfanswm, uchafswm %3$d y gellir eu golygu)</string>
     <string name="label_found_events">Wedi canfod: %1$d digwyddiad</string>
     <string name="placeholder_search">Chwilio…</string>
@@ -979,14 +1019,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Dim byd i\'w fewnforio</string>
-    <plurals name="exported_events">
-        <item quantity="zero">Wedi allforio %1$d digwyddiad</item>
-        <item quantity="one">Wedi allforio %1$d digwyddiad</item>
-        <item quantity="two">Wedi allforio %1$d ddigwyddiad</item>
-        <item quantity="few">Wedi allforio %1$d digwyddiad</item>
-        <item quantity="many">Wedi allforio %1$d digwyddiad</item>
-        <item quantity="other">Wedi allforio %1$d digwyddiad</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="zero">%1$d digwyddiad</item>
         <item quantity="one">%1$d digwyddiad</item>

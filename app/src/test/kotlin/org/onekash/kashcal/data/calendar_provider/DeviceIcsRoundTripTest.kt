@@ -62,7 +62,7 @@ class DeviceIcsRoundTripTest {
         val exceptions = export.exceptions.map { it.toExportEvent(export.remindersById[it.id].orEmpty()) }
         val sharedDir = File(f.context.cacheDir, "shared")
         sharedDir.deleteRecursively()
-        val result = IcsExporter().exportEvent(f.context, master, exceptions)
+        val result = IcsExporter().exportDeviceEvent(f.context, master, exceptions)
         // The exporter writes the file, then asks the file provider for a share URI, which
         // fails here (see the class doc); the written file is what a share would send.
         result.exceptionOrNull()?.let { e ->
@@ -79,6 +79,16 @@ class DeviceIcsRoundTripTest {
         f.repository.getInstancesForDayRange(startDay, endDay, setOf(calendarId)).sortedBy { it.startTs }
 
     // ---- one-off ----
+
+    @Test
+    fun `a device series in UTC exports with its own TZID=UTC`() = runTest {
+        val id = create(f.draft(rrule = "FREQ=DAILY;COUNT=3", timezone = "UTC"))
+
+        val starts = exportIcs(id).replace(Regex("\r?\n[ \t]"), "").lines().filter { it.startsWith("DTSTART") }
+
+        assertEquals(1, starts.size)
+        assertTrue(starts.toString(), starts.single().startsWith("DTSTART;TZID=UTC:"))
+    }
 
     @Test
     fun `a one-off event comes back with its times, zone, text and reminders`() = runTest {

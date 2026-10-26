@@ -256,7 +256,7 @@ fun SubscriptionsScreen(
 
 /** One of Calendar Feeds' add buttons: an outlined, full-width button with a leading plus. */
 @Composable
-private fun AddSourceButton(label: String, onClick: () -> Unit, iconDescription: String? = null) {
+internal fun AddSourceButton(label: String, onClick: () -> Unit, iconDescription: String? = null) {
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier

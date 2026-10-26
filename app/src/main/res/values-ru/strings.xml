@@ -88,7 +88,6 @@
     <string name="action_discard">Отклонить</string>
     <string name="action_discard_confirm">Отклонить?</string>
     <string name="action_dismiss">Закрыть</string>
-    <string name="action_show_all">Показать все</string>
     <string name="action_connect">Подключить</string>
     <string name="action_duplicate">Дублировать</string>
     <string name="action_share">Поделиться</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">История синхронизации</string>
     <string name="settings_sync_history_subtitle">Показать сеансы синхронизации (за 48 часов)</string>
     <string name="settings_import_subtitle">Добавить события из файла ICS в любой календарь</string>
-    <string name="settings_export_subtitle">Сохранить события в файл ICS</string>
     <string name="settings_birthday_reminder">Напоминание о дне рождения</string>
     <string name="settings_use_device_timezone">Часовой пояс устройства</string>
     <string name="settings_section_calendars">Календари и аккаунты</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">До даты</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Видимые календари</string>
     <string name="settings_default_calendar">Календарь по умолчанию</string>
     <string name="settings_default_event_length">Длительность события по умолчанию</string>
     <string name="settings_default_event_length_hint">Длительность по умолчанию для новых событий</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Загрузить календарь</string>
     <string name="action_import_from_file">Импортировать события из файла</string>
-    <string name="action_export_local_calendar">Экспортировать локальный календарь</string>
+    <string name="settings_export_calendars">Экспорт календарей</string>
+    <string name="settings_export_calendars_subtitle">Сохранить календарь как ICS-файл</string>
+    <string name="export_calendar_no_events">Нет событий</string>
+    <string name="export_calendar_preparing">Подготовка…</string>
+    <string name="cd_export_calendar">Экспортировать %1$s</string>
+    <string name="cd_export_calendar_preparing">Подготовка %1$s</string>
+    <string name="export_calendar_chooser_title">Экспортировать календарь</string>
+    <string name="export_event_chooser_title">Экспортировать событие</string>
+    <string name="export_file_failed">Не удалось создать файл.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Календари устройства</string>
     <string name="settings_device_calendars_hint">Календари других приложений</string>
+    <string name="offline_calendars_row_label">Календари без сети</string>
+    <string name="offline_calendars_row_hint">Календари, которые хранятся на этом телефоне</string>
+    <string name="offline_calendars_manage_note">Добавить, переименовать, изменить цвет или удалить календари без сети.</string>
+    <string name="offline_calendars_info">Хранятся только на этом телефоне и никогда не синхронизируются. Резервные копии не включают события, поэтому экспортируй календарь, чтобы сохранить копию.</string>
+    <string name="offline_calendars_info_cd">О календарях без сети</string>
+    <string name="offline_calendar_default_state">По умолчанию</string>
+    <string name="offline_calendar_new">Новый календарь</string>
+    <string name="offline_calendar_new_in_picker">Новый календарь без сети</string>
+    <string name="action_create">Создать</string>
+    <string name="offline_calendar_rename">Переименовать</string>
+    <string name="offline_calendar_color">Цвет</string>
+    <string name="offline_calendar_export">Экспортировать календарь</string>
+    <string name="offline_calendar_builtin_info">Встроенный календарь нельзя переименовать или удалить. Новые события попадают сюда, если календарь не выбран.</string>
+    <string name="offline_calendar_builtin_info_cd">О встроенном календаре</string>
+    <string name="offline_calendar_rename_cancel_cd">Отменить переименование</string>
+    <string name="offline_calendar_rename_save_cd">Сохранить название</string>
+    <string name="offline_calendar_delete_cd">Удалить %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Удалить \"%2$s\" и его %1$d событие навсегда? Это нельзя отменить.</item>
+        <item quantity="few">Удалить \"%2$s\" и его %1$d события навсегда? Это нельзя отменить.</item>
+        <item quantity="many">Удалить \"%2$s\" и его %1$d событий навсегда? Это нельзя отменить.</item>
+        <item quantity="other">Удалить \"%2$s\" и его %1$d события навсегда? Это нельзя отменить.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Удалить \"%1$s\" навсегда? В нём нет событий.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Также удалить %1$d событие</item>
+        <item quantity="few">Также удалить %1$d события</item>
+        <item quantity="many">Также удалить %1$d событий</item>
+        <item quantity="other">Также удалить %1$d события</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Календарь %1$s удалён</string>
+    <string name="offline_calendar_duplicate_name">Календарь без сети с названием \"%1$s\" уже существует</string>
     <string name="settings_quick_event_add">Умное добавление событий</string>
     <string name="settings_quick_event_add_info">Создавайте события, вводя обычный текст. \"Обед с Sam в пятницу в 13:00\" заполнит название, дату и время.</string>
     <string name="settings_suggest_titles">Предлагать названия событий</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">Вчера</string>
     <string name="label_device_calendars">Календари устройства</string>
     <string name="label_default_calendar_hint">Новые события создаются в этом календаре</string>
-    <string name="label_visible_count">%1$d / %2$d видимых</string>
     <string name="label_reminders_truncated">%1$d не показано (%2$d всего, макс. %3$d редактируемых)</string>
     <string name="label_found_events">Найдено: %1$d событий</string>
     <string name="placeholder_search">Поиск…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Нечего импортировать</string>
-    <plurals name="exported_events">
-        <item quantity="one">Экспортировано %1$d событие</item>
-        <item quantity="few">Экспортировано %1$d события</item>
-        <item quantity="many">Экспортировано %1$d событий</item>
-        <item quantity="other">Экспортировано %1$d событий</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d событие</item>
         <item quantity="few">%1$d события</item>

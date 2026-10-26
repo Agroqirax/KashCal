@@ -231,9 +231,13 @@ class ReminderScheduler @Inject constructor(
     private fun isArmable(triggerTime: Long, now: Long): Boolean =
         triggerTime >= now + MIN_TRIGGER_FUTURE_MS && triggerTime <= windowEnd(now)
 
-    /** Returns the event's alarm offsets: every VALARM in rawIcal when it has over 3 alarms. */
+    /**
+     * Returns the event's alarm offsets: every VALARM in its stored copy when it has over 3
+     * alarms, since [Event.reminders] holds at most 5; [Event.reminders] for a file's copy
+     * ([Event.holdsFileCopy]), whose alarms are the file's, not the user's.
+     */
     private fun reminderOffsetsFor(event: Event): List<String> =
-        if (event.alarmCount > 3 && event.rawIcal != null) {
+        if (event.alarmCount > 3 && event.rawIcal != null && !event.holdsFileCopy) {
             RawIcsParser.getAllAlarmTriggers(event.rawIcal)
                 .takeIf { it.isNotEmpty() }
                 ?: event.reminders.orEmpty()
@@ -265,16 +269,7 @@ class ReminderScheduler @Inject constructor(
             return
         }
 
-        // Determine which alarms to schedule
-        val reminderOffsets: List<String> = if (event.alarmCount > 3 && event.rawIcal != null) {
-            // More than 3 alarms: read every VALARM from rawIcal
-            Log.d(TAG, "Event ${event.id} has ${event.alarmCount} alarms, parsing rawIcal")
-            RawIcsParser.getAllAlarmTriggers(event.rawIcal)
-                .takeIf { it.isNotEmpty() }
-                ?: storedReminders.orEmpty()
-        } else {
-            storedReminders.orEmpty()
-        }
+        val reminderOffsets = reminderOffsetsFor(event)
 
         if (reminderOffsets.isEmpty()) {
             Log.d(TAG, "No reminders after processing for event ${event.id}")
@@ -651,6 +646,25 @@ class ReminderScheduler @Inject constructor(
         val pendingIntent = createAlarmPendingIntent(reminderId)
         alarmManager.cancel(pendingIntent)
         Log.d(TAG, "Cancelled alarm for reminder $reminderId")
+    }
+
+    /**
+     * Reads [calendarId]'s pending and snoozed reminders, runs [delete], and then cancels those
+     * reminders' alarms; returns what [delete] returned. If [delete] throws, no alarm is cancelled.
+     *
+     * For deleting the calendar row, whose cascade removes the reminder rows: the alarms are
+     * cancelled only once the rows are gone, so a failed delete keeps every reminder. An alarm is
+     * keyed by its reminder id alone ([createAlarmPendingIntent]), so a row re-armed in between
+     * is cancelled too. A row created in between, or re-armed after the cancel by a caller that
+     * read it before the delete, keeps a stray alarm; ReminderAlarmReceiver finds no row when it
+     * fires and posts nothing. Takes no lock.
+     */
+    suspend fun <T> cancelCalendarAlarmsAfter(calendarId: Long, delete: suspend () -> T): T {
+        val reminderIds = scheduledRemindersDao.getPendingForCalendar(calendarId).map { it.id }
+        val result = delete()
+        reminderIds.forEach { cancelAlarm(it) }
+        Log.d(TAG, "Cancelled ${reminderIds.size} alarms of deleted calendar $calendarId")
+        return result
     }
 
     /** Cancels the alarms of [eventId]'s pending and snoozed reminders and deletes all its rows. */

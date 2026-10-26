@@ -88,7 +88,6 @@
     <string name="action_discard">Discard</string>
     <string name="action_discard_confirm">Discard?</string>
     <string name="action_dismiss">Dismiss</string>
-    <string name="action_show_all">Show All</string>
     <string name="action_connect">Connect</string>
     <string name="action_duplicate">Duplicate</string>
     <string name="action_share">Share</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sync history</string>
     <string name="settings_sync_history_subtitle">View sync sessions (last 48 hours)</string>
     <string name="settings_import_subtitle">Add events from an ICS file to any calendar</string>
-    <string name="settings_export_subtitle">Save events to an ICS file</string>
     <string name="settings_birthday_reminder">Birthday Reminder</string>
     <string name="settings_use_device_timezone">Use device timezone</string>
     <string name="settings_section_calendars">Calendars &amp; accounts</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">On date</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Visible Calendars</string>
     <string name="settings_default_calendar">Default Calendar</string>
     <string name="settings_default_event_length">Default Event Length</string>
     <string name="settings_default_event_length_hint">Default length for new events</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Fetch Calendar</string>
     <string name="action_import_from_file">Import events from file</string>
-    <string name="action_export_local_calendar">Export Local calendar</string>
+    <string name="settings_export_calendars">Export calendars</string>
+    <string name="settings_export_calendars_subtitle">Save a calendar as an ICS file</string>
+    <string name="export_calendar_no_events">No events</string>
+    <string name="export_calendar_preparing">Preparing…</string>
+    <string name="cd_export_calendar">Export %1$s</string>
+    <string name="cd_export_calendar_preparing">Preparing %1$s</string>
+    <string name="export_calendar_chooser_title">Export calendar</string>
+    <string name="export_event_chooser_title">Export event</string>
+    <string name="export_file_failed">Couldn\'t create the file.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Device Calendars</string>
     <string name="settings_device_calendars_hint">Calendars from other apps</string>
+    <string name="offline_calendars_row_label">Offline calendars</string>
+    <string name="offline_calendars_row_hint">Calendars that stay on this phone</string>
+    <string name="offline_calendars_manage_note">Add, rename, recolour or remove your offline calendars.</string>
+    <string name="offline_calendars_info">Kept only on this phone and never synced. Backups don\'t include events, so export a calendar to keep a copy.</string>
+    <string name="offline_calendars_info_cd">About offline calendars</string>
+    <string name="offline_calendar_default_state">Default</string>
+    <string name="offline_calendar_new">New calendar</string>
+    <string name="offline_calendar_new_in_picker">New offline calendar</string>
+    <string name="action_create">Create</string>
+    <string name="offline_calendar_rename">Rename</string>
+    <string name="offline_calendar_color">Colour</string>
+    <string name="offline_calendar_export">Export calendar</string>
+    <string name="offline_calendar_builtin_info">The built-in calendar can\'t be renamed or deleted. New events go here when no calendar is chosen.</string>
+    <string name="offline_calendar_builtin_info_cd">About the built-in calendar</string>
+    <string name="offline_calendar_rename_cancel_cd">Cancel rename</string>
+    <string name="offline_calendar_rename_save_cd">Save name</string>
+    <string name="offline_calendar_delete_cd">Delete %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Delete \"%2$s\" and its %1$d event forever? Can\'t be undone.</item>
+        <item quantity="other">Delete \"%2$s\" and its %1$d events forever? Can\'t be undone.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Delete \"%1$s\" forever? It has no events.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Also delete %1$d event</item>
+        <item quantity="other">Also delete %1$d events</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s deleted</string>
+    <string name="offline_calendar_duplicate_name">An offline calendar named \"%1$s\" already exists</string>
     <string name="settings_quick_event_add">Smart event add</string>
     <string name="settings_quick_event_add_info">Create events by typing naturally. \"Lunch with Sam Friday 1pm\" fills in the title, date, and time for you.</string>
     <string name="settings_suggest_titles">Suggest event titles</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Yesterday</string>
     <string name="label_device_calendars">Device Calendars</string>
     <string name="label_default_calendar_hint">New events will be created in this calendar</string>
-    <string name="label_visible_count">%1$d / %2$d visible</string>
     <string name="label_reminders_truncated">%1$d not shown (%2$d total, max %3$d editable)</string>
     <string name="label_found_events">Found: %1$d events</string>
     <string name="placeholder_search">Search…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nothing to import</string>
-    <plurals name="exported_events">
-        <item quantity="one">Exported %1$d event</item>
-        <item quantity="other">Exported %1$d events</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d event</item>
         <item quantity="other">%1$d events</item>

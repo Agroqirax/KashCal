@@ -88,7 +88,6 @@
     <string name="action_discard">破棄</string>
     <string name="action_discard_confirm">破棄しますか？</string>
     <string name="action_dismiss">閉じる</string>
-    <string name="action_show_all">すべて表示</string>
     <string name="action_connect">接続</string>
     <string name="action_duplicate">複製</string>
     <string name="action_share">共有</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">同期履歴</string>
     <string name="settings_sync_history_subtitle">同期セッションを表示（過去48時間）</string>
     <string name="settings_import_subtitle">ICSファイルの予定を任意のカレンダーに追加します</string>
-    <string name="settings_export_subtitle">ICSファイルに予定を保存します</string>
     <string name="settings_birthday_reminder">誕生日リマインダー</string>
     <string name="settings_use_device_timezone">デバイスのタイムゾーンを使用</string>
     <string name="settings_section_calendars">カレンダーとアカウント</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">日付指定</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">表示するカレンダー</string>
     <string name="settings_default_calendar">デフォルトカレンダー</string>
     <string name="settings_default_event_length">デフォルトの予定時間</string>
     <string name="settings_default_event_length_hint">新しい予定の既定の長さ</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">カレンダーを取得</string>
     <string name="action_import_from_file">ファイルから予定をインポート</string>
-    <string name="action_export_local_calendar">ローカルカレンダーをエクスポート</string>
+    <string name="settings_export_calendars">カレンダーをエクスポート</string>
+    <string name="settings_export_calendars_subtitle">カレンダーをICSファイルとして保存</string>
+    <string name="export_calendar_no_events">予定なし</string>
+    <string name="export_calendar_preparing">準備中…</string>
+    <string name="cd_export_calendar">%1$sをエクスポート</string>
+    <string name="cd_export_calendar_preparing">%1$sを準備中</string>
+    <string name="export_calendar_chooser_title">カレンダーをエクスポート</string>
+    <string name="export_event_chooser_title">予定をエクスポート</string>
+    <string name="export_file_failed">ファイルを作成できませんでした。</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">デバイスカレンダー</string>
     <string name="settings_device_calendars_hint">他のアプリのカレンダー</string>
+    <string name="offline_calendars_row_label">オフラインカレンダー</string>
+    <string name="offline_calendars_row_hint">このスマートフォンだけに保存するカレンダー</string>
+    <string name="offline_calendars_manage_note">オフラインカレンダーの追加、名前の変更、色の変更、削除ができます。</string>
+    <string name="offline_calendars_info">このスマートフォンだけに保存され、同期されません。バックアップには予定が含まれないため、コピーを残すにはカレンダーをエクスポートしてください。</string>
+    <string name="offline_calendars_info_cd">オフラインカレンダーについて</string>
+    <string name="offline_calendar_default_state">デフォルト</string>
+    <string name="offline_calendar_new">新しいカレンダー</string>
+    <string name="offline_calendar_new_in_picker">新しいオフラインカレンダー</string>
+    <string name="action_create">作成</string>
+    <string name="offline_calendar_rename">名前を変更</string>
+    <string name="offline_calendar_color">色</string>
+    <string name="offline_calendar_export">カレンダーをエクスポート</string>
+    <string name="offline_calendar_builtin_info">組み込みのカレンダーは名前の変更や削除ができません。カレンダーを選ばなかった新しい予定はここに追加されます。</string>
+    <string name="offline_calendar_builtin_info_cd">組み込みのカレンダーについて</string>
+    <string name="offline_calendar_rename_cancel_cd">名前の変更をキャンセル</string>
+    <string name="offline_calendar_rename_save_cd">名前を保存</string>
+    <string name="offline_calendar_delete_cd">%1$sを削除</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">「%2$s」とその予定 %1$d 件を完全に削除しますか？元に戻せません。</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">「%1$s」を完全に削除しますか？予定はありません。</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">予定 %1$d 件も削除</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$sを削除しました</string>
+    <string name="offline_calendar_duplicate_name">「%1$s」という名前のオフラインカレンダーはすでにあります</string>
     <string name="settings_quick_event_add">スマート予定入力</string>
     <string name="settings_quick_event_add_info">自然な入力で予定を作成できます。「Sam と金曜日の午後1時にランチ」と入力すると、タイトル、日付、時刻が自動的に入力されます。</string>
     <string name="settings_suggest_titles">予定のタイトルを提案</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">昨日</string>
     <string name="label_device_calendars">デバイスカレンダー</string>
     <string name="label_default_calendar_hint">新しい予定はこのカレンダーに作成されます</string>
-    <string name="label_visible_count">%1$d / %2$d 表示中</string>
     <string name="label_reminders_truncated">%1$d件が非表示（合計%2$d件、最大%3$d件まで編集可能）</string>
     <string name="label_found_events">検出: %1$d件の予定</string>
     <string name="placeholder_search">検索…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">"、"</string>
     <string name="ics_import_summary_nothing">インポートするものはありません</string>
-    <plurals name="exported_events">
-        <item quantity="other">%1$d件の予定をエクスポートしました</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">%1$d件の予定</item>
     </plurals>

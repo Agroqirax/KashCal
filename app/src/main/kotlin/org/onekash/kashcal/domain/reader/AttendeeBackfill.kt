@@ -8,13 +8,15 @@ import org.onekash.icaldav.parser.ICalParser
 import org.onekash.kashcal.data.db.dao.AttendeesDao
 import org.onekash.kashcal.data.db.dao.EventsDao
 import org.onekash.kashcal.data.db.entity.Attendee
+import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.sync.parser.icaldav.ICalEventMapper
 import org.onekash.kashcal.util.maskUid
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Fills an event's attendee rows on demand from `Event.rawIcal`.
+ * Fills an event's attendee rows on demand from `Event.rawIcal`, a server's copy; never from an
+ * imported file's copy ([Event.holdsFileCopy]), whose guests are the file's, not the user's.
  *
  * `PullStrategy` skips the upsert when the local etag matches the server's, so an event whose
  * etag hasn't changed since before attendees were stored has no attendee rows. The quick view
@@ -43,12 +45,15 @@ class AttendeeBackfill @Inject constructor(
      * attendee rows or any row's address is unusable. Returns the count written, 0 for a no-op.
      *
      * A parse that throws or fails returns 0 with one log line, the UID masked ([maskUid]). A
-     * missing event or `rawIcal`, no ATTENDEE text, no master VEVENT or no usable address return
-     * 0 without a log line. DAO exceptions propagate.
+     * missing event or `rawIcal`, an imported file's copy ([Event.holdsFileCopy]), no ATTENDEE
+     * text, no master VEVENT or no usable address return 0 without a log line. DAO exceptions
+     * propagate.
      */
     suspend fun backfillIfEmpty(eventId: Long): Int {
         val event = eventsDao.getById(eventId) ?: return 0
         val rawIcal = event.rawIcal?.takeIf { it.isNotEmpty() } ?: return 0
+        // A file's copy lists the file's guests; the attendee table is the user's current set.
+        if (event.holdsFileCopy) return 0
 
         // Skip the parse when the body has no ATTENDEE text.
         if (!rawIcal.contains("ATTENDEE")) return 0

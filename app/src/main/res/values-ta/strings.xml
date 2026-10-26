@@ -88,7 +88,6 @@
     <string name="action_discard">நிராகரி</string>
     <string name="action_discard_confirm">மாற்றங்களை நிராகரிக்கவா?</string>
     <string name="action_dismiss">நிராகரி</string>
-    <string name="action_show_all">அனைத்தையும் காட்டு</string>
     <string name="action_connect">இணை</string>
     <string name="action_duplicate">நகலெடு</string>
     <string name="action_share">பகிர்</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ஒத்திசைவு வரலாறு</string>
     <string name="settings_sync_history_subtitle">ஒத்திசைவு அமர்வுகளைக் காண் (கடந்த 48 மணி)</string>
     <string name="settings_import_subtitle">ICS கோப்பிலிருந்து நிகழ்வுகளை எந்த நாட்காட்டியிலும் சேர்</string>
-    <string name="settings_export_subtitle">நிகழ்வுகளை ICS கோப்பில் சேமி</string>
     <string name="settings_birthday_reminder">பிறந்தநாள் நினைவூட்டல்</string>
     <string name="settings_use_device_timezone">சாதன நேரமண்டலத்தைப் பயன்படுத்து</string>
     <string name="settings_section_calendars">நாள்காட்டிகள் &amp; கணக்குகள்</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">தேதியில்</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">காணக்கூடிய நாட்காட்டிகள்</string>
     <string name="settings_default_calendar">இயல்புநிலை நாட்காட்டி</string>
     <string name="settings_default_event_length">இயல்புநிலை நிகழ்வு நீளம்</string>
     <string name="settings_default_event_length_hint">புதிய நிகழ்வுகளுக்கான இயல்புநிலை நீளம்</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">நாட்காட்டியைப் பெறு</string>
     <string name="action_import_from_file">கோப்பிலிருந்து நிகழ்வுகளை இறக்குமதி செய்</string>
-    <string name="action_export_local_calendar">உள்ளூர் நாட்காட்டியை ஏற்றுமதி செய்</string>
+    <string name="settings_export_calendars">நாட்காட்டிகளை ஏற்றுமதி செய்</string>
+    <string name="settings_export_calendars_subtitle">நாட்காட்டியை ICS கோப்பாக சேமிக்கவும்</string>
+    <string name="export_calendar_no_events">நிகழ்வுகள் இல்லை</string>
+    <string name="export_calendar_preparing">தயாராகிறது…</string>
+    <string name="cd_export_calendar">%1$s ஏற்றுமதி செய்</string>
+    <string name="cd_export_calendar_preparing">%1$s தயாராகிறது</string>
+    <string name="export_calendar_chooser_title">நாட்காட்டியை ஏற்றுமதி செய்</string>
+    <string name="export_event_chooser_title">நிகழ்வை ஏற்றுமதி செய்</string>
+    <string name="export_file_failed">கோப்பை உருவாக்க முடியவில்லை.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">சாதன நாட்காட்டிகள்</string>
     <string name="settings_device_calendars_hint">பிற ஆப்ப்களின் நாட்காட்டிகள்</string>
+    <string name="offline_calendars_row_label">ஆஃப்லைன் நாட்காட்டிகள்</string>
+    <string name="offline_calendars_row_hint">இந்தத் தொலைபேசியில் மட்டும் இருக்கும் நாட்காட்டிகள்</string>
+    <string name="offline_calendars_manage_note">உங்கள் ஆஃப்லைன் நாட்காட்டிகளைச் சேர்க்கலாம், மறுபெயரிடலாம், நிறம் மாற்றலாம் அல்லது நீக்கலாம்.</string>
+    <string name="offline_calendars_info">இந்தத் தொலைபேசியில் மட்டுமே வைக்கப்படும், ஒருபோதும் ஒத்திசைக்கப்படாது. காப்புப்பிரதிகளில் நிகழ்வுகள் சேர்க்கப்படாது, எனவே ஒரு நகலை வைத்திருக்க நாட்காட்டியை ஏற்றுமதி செய்யவும்.</string>
+    <string name="offline_calendars_info_cd">ஆஃப்லைன் நாட்காட்டிகள் பற்றி</string>
+    <string name="offline_calendar_default_state">இயல்புநிலை</string>
+    <string name="offline_calendar_new">புதிய நாட்காட்டி</string>
+    <string name="offline_calendar_new_in_picker">புதிய ஆஃப்லைன் நாட்காட்டி</string>
+    <string name="action_create">உருவாக்கு</string>
+    <string name="offline_calendar_rename">மறுபெயரிடு</string>
+    <string name="offline_calendar_color">நிறம்</string>
+    <string name="offline_calendar_export">நாட்காட்டியை ஏற்றுமதி செய்</string>
+    <string name="offline_calendar_builtin_info">உள்ளமைந்த நாட்காட்டியை மறுபெயரிடவோ நீக்கவோ முடியாது. எந்த நாட்காட்டியும் தேர்ந்தெடுக்கப்படாதபோது புதிய நிகழ்வுகள் இங்கே சேரும்.</string>
+    <string name="offline_calendar_builtin_info_cd">உள்ளமைந்த நாட்காட்டி பற்றி</string>
+    <string name="offline_calendar_rename_cancel_cd">மறுபெயரிடலை ரத்துசெய்</string>
+    <string name="offline_calendar_rename_save_cd">பெயரைச் சேமி</string>
+    <string name="offline_calendar_delete_cd">%1$s ஐ நீக்கு</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" மற்றும் அதன் %1$d நிகழ்வை நிரந்தரமாக நீக்கவா? செயல்தவிர்க்க முடியாது.</item>
+        <item quantity="other">\"%2$s\" மற்றும் அதன் %1$d நிகழ்வுகளை நிரந்தரமாக நீக்கவா? செயல்தவிர்க்க முடியாது.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ஐ நிரந்தரமாக நீக்கவா? இதில் நிகழ்வுகள் இல்லை.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d நிகழ்வையும் நீக்கு</item>
+        <item quantity="other">%1$d நிகழ்வுகளையும் நீக்கு</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s நீக்கப்பட்டது</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" என்ற பெயரில் ஒரு ஆஃப்லைன் நாட்காட்டி ஏற்கனவே உள்ளது</string>
     <string name="settings_quick_event_add">ஸ்மார்ட் நிகழ்வு சேர்</string>
     <string name="settings_quick_event_add_info">இயல்பாகத் தட்டச்சு செய்து நிகழ்வுகளை உருவாக்குங்கள். \"வெள்ளிக்கிழமை மதியம் 1 மணிக்கு Sam உடன் மதிய உணவு\" உங்களுக்காகத் தலைப்பு, தேதி மற்றும் நேரத்தை நிரப்புகிறது.</string>
     <string name="settings_suggest_titles">நிகழ்வு தலைப்புகளை பரிந்துரை</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">நேற்று</string>
     <string name="label_device_calendars">சாதன நாட்காட்டிகள்</string>
     <string name="label_default_calendar_hint">புதிய நிகழ்வுகள் இந்த நாட்காட்டியில் உருவாக்கப்படும்</string>
-    <string name="label_visible_count">%1$d / %2$d காணக்கூடியவை</string>
     <string name="label_reminders_truncated">%1$d காட்டப்படவில்லை (%2$d மொத்தம், அதிகபட்சம் %3$d திருத்தக்கூடியவை)</string>
     <string name="label_found_events">கண்டறியப்பட்டவை: %1$d நிகழ்வுகள்</string>
     <string name="placeholder_search">தேடு…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">இறக்குமதி செய்ய எதுவும் இல்லை</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d நிகழ்வு ஏற்றுமதி செய்யப்பட்டது</item>
-        <item quantity="other">%1$d நிகழ்வுகள் ஏற்றுமதி செய்யப்பட்டன</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d நிகழ்வு</item>
         <item quantity="other">%1$d நிகழ்வுகள்</item>

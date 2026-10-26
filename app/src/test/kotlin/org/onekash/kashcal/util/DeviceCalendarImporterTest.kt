@@ -224,6 +224,30 @@ class DeviceCalendarImporterTest {
     }
 
     @Test
+    fun `a file series whose start is in UTC imports with the device zone`() = runTest {
+        // Room stores such a series in UTC; a device calendar import writes the zone the file
+        // wrote, which for a UTC time is none, so the device zone.
+        val file = org.onekash.kashcal.data.ics.IcsParserService.parseForImport(
+            listOf(
+                "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Test//Test//EN",
+                "BEGIN:VEVENT", "UID:utc-series@example.test", "DTSTAMP:20261025T000000Z",
+                "DTSTART:20270308T150000Z", "DTEND:20270308T160000Z", "RRULE:FREQ=WEEKLY;COUNT=4",
+                "SUMMARY:Weekly", "END:VEVENT", "END:VCALENDAR", "",
+            ).joinToString("\r\n")
+        )!!
+
+        val saved = java.util.TimeZone.getDefault()
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("America/New_York"))
+        try {
+            importIcsFileToDeviceCalendar(file, 5L, fakeRepo)
+        } finally {
+            java.util.TimeZone.setDefault(saved)
+        }
+
+        assertEquals("America/New_York", fakeRepo.createdEvents.single().timezone)
+    }
+
+    @Test
     fun `event timezone is used when present`() = runTest {
         val events = listOf(makeEvent(timezone = "America/New_York"))
 

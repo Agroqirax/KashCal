@@ -122,7 +122,8 @@ class DebugReportExporterTest {
         errorMessage: String? = null,
         warnings: List<String>? = null,
     ) = SyncSession(
-        timestamp = now.toEpochMilli() - 60_000,
+        // The store drops sessions older than 48 hours by the system clock, not the report's.
+        timestamp = System.currentTimeMillis() - 60_000,
         calendarId = 1,
         calendarName = calendarName,
         syncType = SyncType.INCREMENTAL,

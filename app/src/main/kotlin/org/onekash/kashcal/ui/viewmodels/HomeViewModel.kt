@@ -20,6 +20,7 @@ import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
@@ -1564,17 +1565,6 @@ class HomeViewModel(
 
             // Only the dots need a rebuild: they come from a one-shot query, and the other
             // views follow the visibility through their Flows.
-            buildEventDots(_uiState.value.viewingYear, _uiState.value.viewingMonth)
-        }
-    }
-
-    /** Makes every Room calendar visible (Calendar.isVisible). */
-    fun showAllCalendars() {
-        viewModelScope.launch {
-            _uiState.value.calendars.forEach { calendar ->
-                eventCoordinator.setCalendarVisibility(calendar.id, true)
-            }
-            // Only the dots need a rebuild, as in toggleCalendarVisibility.
             buildEventDots(_uiState.value.viewingYear, _uiState.value.viewingMonth)
         }
     }
@@ -4807,6 +4797,17 @@ class HomeViewModel(
      */
     private fun minutesToIsoDuration(minutes: Int): String =
         ContactEventUtils.minutesToIsoDuration(minutes)
+
+    /**
+     * Adds an offline calendar from the event form's calendar picker
+     * ([EventCoordinator.createLocalCalendar]) and returns its id. Names are checked against the
+     * built-in calendar's translated label, read on each call. Runs on the application scope, so
+     * closing the form mid-call can't drop the result of a create Room already saved.
+     */
+    suspend fun createOfflineCalendar(name: String, color: Int): Result<Long> {
+        val builtInName = context.getString(R.string.calendar_local)
+        return applicationScope.async(ioDispatcher) { eventCoordinator.createLocalCalendar(name, color, builtInName) }.await()
+    }
 
     /** Returns the local calendar's ID, the fallback target. */
     suspend fun getLocalCalendarId(): Long {

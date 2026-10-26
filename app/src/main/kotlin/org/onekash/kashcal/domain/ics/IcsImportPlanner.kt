@@ -10,7 +10,11 @@ enum class ImportTarget {
     /** A synced Room calendar (CalDAV, iCloud included): the server's copy stays the truth. */
     CALDAV,
 
-    /** The on-phone Room calendar: nothing is sent, and the file updates it directly. */
+    /**
+     * A Room calendar of the offline account
+     * ([org.onekash.kashcal.domain.initializer.LocalCalendarInitializer.isLocalAccount]): nothing
+     * is sent, and the file updates it directly.
+     */
     LOCAL,
 
     /** An Android calendar-provider calendar: rows keep no SEQUENCE or DTSTAMP to compare. */
@@ -48,7 +52,7 @@ data class StoredUid(
  *
  * @param stored what the target calendar holds for the group's UID, or null for nothing
  * @param userAddresses the user's addresses canonicalized ([AddressNormalizer.canonical]);
- *   empty for the local calendar, which has no identity
+ *   empty for a [ImportTarget.LOCAL] calendar, which has no identity
  * @param elsewhereInAccount true when another calendar of the same account holds the UID
  */
 data class ImportPlanInput(

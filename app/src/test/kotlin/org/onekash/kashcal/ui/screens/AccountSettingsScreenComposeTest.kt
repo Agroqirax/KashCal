@@ -20,6 +20,7 @@ import androidx.compose.ui.test.longClick
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -110,11 +111,13 @@ class AccountSettingsScreenComposeTest {
         var navSubscriptions = 0
         var navBirthdays = 0
         var navDeviceCalendars = 0
+        var navOfflineCalendars = 0
 
         // () -> Unit troubleshooting cluster (counts)
         var syncHistory = 0
         var forceFullSync = 0
         var exportDebugReport = 0
+        var exportCalendars = 0
     }
 
     /**
@@ -122,7 +125,7 @@ class AccountSettingsScreenComposeTest {
      * defaults. Seed values are chosen so each row's picker offers a sentinel option distinct from
      * the seed (see the per-row tests).
      */
-    private fun render(rec: Rec = Rec(), searchQuery: String = "") {
+    private fun render(rec: Rec = Rec(), searchQuery: String = "", offlineCalendarCount: Int = 1) {
         composeTestRule.setContent {
             KashCalTheme {
                 AccountSettingsScreen(
@@ -163,10 +166,13 @@ class AccountSettingsScreenComposeTest {
                     onNavigateToSubscriptions = { rec.navSubscriptions++ },
                     onNavigateToBirthdaysAnniversaries = { rec.navBirthdays++ },
                     onNavigateToDeviceCalendars = { rec.navDeviceCalendars++ },
+                    onNavigateToOfflineCalendars = { rec.navOfflineCalendars++ },
+                    offlineCalendarCount = offlineCalendarCount,
                     // Troubleshooting cluster
                     onShowSyncLogs = { rec.syncHistory++ },
                     onForceFullSync = { rec.forceFullSync++ },
                     onExportDebugReport = { rec.exportDebugReport++ },
+                    onOpenExportCalendars = { rec.exportCalendars++ },
                     isSearchActive = searchQuery.isNotEmpty(),
                     searchQuery = searchQuery,
                     versionName = "1.0.0",
@@ -245,6 +251,7 @@ class AccountSettingsScreenComposeTest {
             "subscriptions" to rec.navSubscriptions,
             "birthdays" to rec.navBirthdays,
             "deviceCalendars" to rec.navDeviceCalendars,
+            "offlineCalendars" to rec.navOfflineCalendars,
         )
         assertEquals("$fired nav should fire exactly once", 1, all[fired])
         all.filterKeys { it != fired }.forEach { (name, count) ->
@@ -263,7 +270,7 @@ class AccountSettingsScreenComposeTest {
         all.filterKeys { it != fired }.forEach { (name, count) ->
             assertEquals("sibling '$name' must stay silent when '$fired' is used", 0, count)
         }
-        listOf(rec.navAccounts, rec.navSubscriptions, rec.navBirthdays, rec.navDeviceCalendars).forEach {
+        listOf(rec.navAccounts, rec.navSubscriptions, rec.navBirthdays, rec.navDeviceCalendars, rec.navOfflineCalendars).forEach {
             assertEquals("navigation rows must stay silent when '$fired' is used", 0, it)
         }
     }
@@ -502,6 +509,77 @@ class AccountSettingsScreenComposeTest {
         composeTestRule.onNodeWithText("Device calendars").performClick()
         assertOnlyNav(rec, fired = "deviceCalendars")
     }
+
+    // ==================== Offline calendars ====================
+
+    @Test
+    fun `the Offline calendars row sits right after Device calendars`() {
+        render()
+        val device = top("Device calendars")
+        val offline = top("Offline calendars")
+        val notifications = top("Calendar notifications")
+        assertTrue("after Device calendars", offline > device)
+        assertTrue("before Calendar notifications", offline < notifications)
+    }
+
+    @Test
+    fun `with only the built-in calendar the row shows the hint`() {
+        render(offlineCalendarCount = 1)
+        composeTestRule.onNodeWithText("Calendars that stay on this phone").assertExists()
+    }
+
+    @Test
+    fun `once a calendar is added the row shows how many there are`() {
+        render(offlineCalendarCount = 3)
+        composeTestRule.onNodeWithText("3 calendars").assertExists()
+        composeTestRule.onNodeWithText("Calendars that stay on this phone").assertDoesNotExist()
+    }
+
+    @Test
+    fun `offline calendars row fires only its navigation callback`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Offline calendars").performClick()
+        assertOnlyNav(rec, fired = "offlineCalendars")
+    }
+
+    @Test
+    fun `a settings search finds the Offline calendars row and a tap opens it`() {
+        val rec = Rec()
+        render(rec, searchQuery = "offline")
+        composeTestRule.onNodeWithText("Offline calendars", substring = true).performClick()
+        assertOnlyNav(rec, fired = "offlineCalendars")
+    }
+
+    // ==================== Backup & restore ====================
+
+    @Test
+    fun `Export calendars replaces the local-only row and opens the export sheet`() {
+        val rec = Rec()
+        render(rec)
+        composeTestRule.onNodeWithText("Save a calendar as an ICS file").assertExists()
+        composeTestRule.onNodeWithText("Export Local calendar").assertDoesNotExist()
+
+        composeTestRule.onNodeWithText("Export calendars").performClick()
+
+        assertEquals(1, rec.exportCalendars)
+    }
+
+    private fun assertSearchFindsExportCalendars(query: String) {
+        val rec = Rec()
+        render(rec, searchQuery = query)
+        composeTestRule.onNodeWithText("Export calendars", substring = true).performClick()
+        assertEquals("query '$query'", 1, rec.exportCalendars)
+    }
+
+    @Test
+    fun `a settings search for export finds Export calendars`() = assertSearchFindsExportCalendars("export")
+
+    @Test
+    fun `a settings search for ics finds Export calendars`() = assertSearchFindsExportCalendars("ics")
+
+    @Test
+    fun `a settings search for calendar finds Export calendars`() = assertSearchFindsExportCalendars("calendar")
 
     // ==================== Troubleshooting ====================
 

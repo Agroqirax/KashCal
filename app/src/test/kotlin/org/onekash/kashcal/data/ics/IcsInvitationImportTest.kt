@@ -46,6 +46,7 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import org.onekash.kashcal.testutil.insertOfflineCalendar
 
 /**
  * Imports invitation files (iTIP messages, RFC 5546) the way the app's file import does:
@@ -578,5 +579,63 @@ class IcsInvitationImportTest {
         assertEquals(Instant.parse("2026-10-06T10:00:00Z").toEpochMilli(), exception.itipDtstamp)
         assertEquals("the series' reminders, not the file's", rows(localId).single { it.id == masterId }.reminders, exception.reminders)
         assertTrue(db.pendingOperationsDao().getAllOnce().isEmpty())
+    }
+
+    // ---- a second offline calendar, under the same LOCAL account as the built-in ----
+
+    @Test
+    fun `a CANCEL without STATUS from the meeting's organizer cancels it on a second offline calendar`() = runBlocking {
+        val offlineId = db.insertOfflineCalendar()
+        importFile("nextcloud_request.ics", offlineId)
+
+        val result = importFile("nextcloud_cancel.ics", offlineId)
+
+        assertEquals("$result", 1, result.cancelled)
+        assertEquals("CANCELLED", masters(offlineId).single().status)
+        assertTrue(db.pendingOperationsDao().getAllOnce().isEmpty())
+    }
+
+    @Test
+    fun `a newer REQUEST on a second offline calendar rewrites the series as the file has it`() = runBlocking {
+        val offlineId = db.insertOfflineCalendar()
+        importText(message("REQUEST", vevent(1, "20261001T100000Z")), offlineId)
+        val before = rows(offlineId).single()
+
+        val result = importText(message("REQUEST", vevent(2, "20261005T100000Z", summary = "Weekly sync moved")), offlineId)
+
+        assertEquals("$result", 1, result.updated)
+        val after = rows(offlineId).single()
+        assertEquals(before.id, after.id)
+        assertEquals("Weekly sync moved", after.title)
+        assertEquals("the file's SEQUENCE, not a bumped one", 2, after.sequence)
+        assertEquals(SyncStatus.SYNCED, after.syncStatus)
+        assertTrue(db.pendingOperationsDao().getAllOnce().isEmpty())
+    }
+
+    @Test
+    fun `a plain file whose UID is in another offline calendar is imported as a copy with a fresh UID`() = runBlocking {
+        val offlineId = db.insertOfflineCalendar()
+        val builtInId = LocalCalendarInitializer(db).getLocalCalendarId()
+        importFile("nextcloud_request.ics", builtInId)
+        val original = masters(builtInId).single()
+        val plain = fixture("nextcloud_request.ics").replace(Regex("METHOD:REQUEST\r?\n"), "")
+
+        importText(plain, offlineId)
+
+        val copy = masters(offlineId).single()
+        assertTrue("fresh UID, got ${copy.uid}", copy.uid != nextcloudUid)
+        assertEquals(original, masters(builtInId).single())
+    }
+
+    @Test
+    fun `an invitation whose UID is in another offline calendar is skipped as on another calendar`() = runBlocking {
+        val offlineId = db.insertOfflineCalendar()
+        val builtInId = LocalCalendarInitializer(db).getLocalCalendarId()
+        importFile("nextcloud_request.ics", builtInId)
+
+        val result = importFile("nextcloud_request.ics", offlineId)
+
+        assertEquals(listOf(IgnoreReason.ON_ANOTHER_CALENDAR), result.ignored)
+        assertTrue(masters(offlineId).isEmpty())
     }
 }

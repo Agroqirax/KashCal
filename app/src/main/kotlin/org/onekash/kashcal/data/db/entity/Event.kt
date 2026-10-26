@@ -194,8 +194,8 @@ data class Event(
     /**
      * Number of alarms. A pull counts every alarm except END-relative and ACTION:NONE ones,
      * before the cap of 5 on [reminders]; a local save counts the reminders it stores.
-     * ReminderScheduler re-reads [rawIcal] when this exceeds 3, and the event form reports the
-     * alarms beyond 5.
+     * ReminderScheduler re-reads [rawIcal] when this exceeds 3, except for a file's copy
+     * ([holdsFileCopy]), and the event form reports the alarms beyond 5.
      */
     @ColumnInfo(name = "alarm_count", defaultValue = "0")
     val alarmCount: Int = 0,
@@ -208,8 +208,11 @@ data class Event(
     val extraProperties: Map<String, String>? = null,
 
     /**
-     * The server's ICS for this event. IcsPatcher, for example, patches it so alarms,
-     * attendees and other properties without a column survive a push.
+     * The stored iCalendar resource this event came from: the server's copy for a synced event
+     * (the pull stores the whole resource on every row of it, a push the body it sent), or the
+     * imported file's text for its UID ([org.onekash.kashcal.data.ics.ImportedCopy]). IcsPatcher
+     * patches the row's fields onto it, so alarms, attendees and properties without a column
+     * survive an upload or an export. A file's copy follows [holdsFileCopy].
      */
     @ColumnInfo(name = "raw_ical")
     val rawIcal: String? = null,
@@ -330,6 +333,25 @@ data class Event(
     /** True for an exception of a recurring master. */
     val isException: Boolean
         get() = originalEventId != null
+
+    /**
+     * True when [rawIcal] is an imported file's copy that no server refreshes: the row came from
+     * an ICS file import and isn't on a server (no [caldavUrl]), so it was never uploaded, its
+     * create was refused, or a move took it off its server. Nothing updates such a copy when the
+     * row changes, so it never supplies data the row holds: reminders come from [reminders]
+     * (ReminderScheduler), guests from the attendees table (AttendeeBackfill skips it) and a
+     * serialization given no attendee set writes none (IcsPatcher). Read from the row's own
+     * fields; an import gives a group's series and changed occurrences the same values.
+     */
+    val holdsFileCopy: Boolean
+        get() = rawIcal != null && isUnsyncedImport
+
+    /**
+     * True for a row an ICS file import created that isn't on a server: the rows whose [rawIcal]
+     * a newer file may replace ([holdsFileCopy] once it has one).
+     */
+    val isUnsyncedImport: Boolean
+        get() = importSource == IMPORT_SOURCE_ICS_FILE && caldavUrl == null
 
     /** True when the event isn't SYNCED. */
     val needsSync: Boolean

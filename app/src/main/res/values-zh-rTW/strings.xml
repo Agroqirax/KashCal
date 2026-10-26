@@ -88,7 +88,6 @@
     <string name="action_discard">捨棄</string>
     <string name="action_discard_confirm">捨棄變更？</string>
     <string name="action_dismiss">關閉</string>
-    <string name="action_show_all">顯示全部</string>
     <string name="action_connect">連線</string>
     <string name="action_duplicate">複製</string>
     <string name="action_share">分享</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">同步紀錄</string>
     <string name="settings_sync_history_subtitle">查看同步工作階段（過去48小時）</string>
     <string name="settings_import_subtitle">從 ICS 檔案將事件加入任一行事曆</string>
-    <string name="settings_export_subtitle">將事件儲存為 ICS 檔案</string>
     <string name="settings_birthday_reminder">生日提醒</string>
     <string name="settings_use_device_timezone">使用裝置時區</string>
     <string name="settings_section_calendars">日曆與帳戶</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">指定日期</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">可見行事曆</string>
     <string name="settings_default_calendar">預設行事曆</string>
     <string name="settings_default_event_length">預設事件時長</string>
     <string name="settings_default_event_length_hint">新活動的預設時長</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">取得行事曆</string>
     <string name="action_import_from_file">從檔案匯入事件</string>
-    <string name="action_export_local_calendar">匯出本機行事曆</string>
+    <string name="settings_export_calendars">匯出行事曆</string>
+    <string name="settings_export_calendars_subtitle">將行事曆儲存為 ICS 檔案</string>
+    <string name="export_calendar_no_events">沒有事件</string>
+    <string name="export_calendar_preparing">準備中…</string>
+    <string name="cd_export_calendar">匯出%1$s</string>
+    <string name="cd_export_calendar_preparing">正在準備%1$s</string>
+    <string name="export_calendar_chooser_title">匯出行事曆</string>
+    <string name="export_event_chooser_title">匯出事件</string>
+    <string name="export_file_failed">無法建立檔案。</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">裝置行事曆</string>
     <string name="settings_device_calendars_hint">其他應用程式的行事曆</string>
+    <string name="offline_calendars_row_label">離線行事曆</string>
+    <string name="offline_calendars_row_hint">只存放在這支手機上的行事曆</string>
+    <string name="offline_calendars_manage_note">新增、重新命名、變更顏色或刪除離線行事曆。</string>
+    <string name="offline_calendars_info">只存放在這支手機上，永不同步。備份不含事件，請匯出行事曆以保留副本。</string>
+    <string name="offline_calendars_info_cd">關於離線行事曆</string>
+    <string name="offline_calendar_default_state">預設</string>
+    <string name="offline_calendar_new">新增行事曆</string>
+    <string name="offline_calendar_new_in_picker">新增離線行事曆</string>
+    <string name="action_create">建立</string>
+    <string name="offline_calendar_rename">重新命名</string>
+    <string name="offline_calendar_color">顏色</string>
+    <string name="offline_calendar_export">匯出行事曆</string>
+    <string name="offline_calendar_builtin_info">內建行事曆無法重新命名或刪除。未選擇行事曆時，新事件會存放在這裡。</string>
+    <string name="offline_calendar_builtin_info_cd">關於內建行事曆</string>
+    <string name="offline_calendar_rename_cancel_cd">取消重新命名</string>
+    <string name="offline_calendar_rename_save_cd">儲存名稱</string>
+    <string name="offline_calendar_delete_cd">刪除%1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">要永久刪除「%2$s」及其 %1$d 個事件嗎？此動作無法復原。</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">要永久刪除「%1$s」嗎？其中沒有事件。</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">一併刪除 %1$d 個事件</item>
+    </plurals>
+    <string name="offline_calendar_deleted">已刪除%1$s</string>
+    <string name="offline_calendar_duplicate_name">已有名為「%1$s」的離線行事曆</string>
     <string name="settings_quick_event_add">智慧新增事件</string>
     <string name="settings_quick_event_add_info">用自然的方式輸入即可建立活動。輸入\"週五下午1點和 Sam 吃午餐\"，標題、日期和時間會自動填好。</string>
     <string name="settings_suggest_titles">建議事件標題</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">昨天</string>
     <string name="label_device_calendars">裝置行事曆</string>
     <string name="label_default_calendar_hint">新事件將在此行事曆中建立</string>
-    <string name="label_visible_count">%1$d / %2$d 可見</string>
     <string name="label_reminders_truncated">%1$d 個未顯示（共 %2$d 個，最多可編輯 %3$d 個）</string>
     <string name="label_found_events">找到：%1$d 個事件</string>
     <string name="placeholder_search">搜尋…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">"、"</string>
     <string name="ics_import_summary_nothing">沒有可匯入的項目</string>
-    <plurals name="exported_events">
-        <item quantity="other">已匯出 %1$d 個事件</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">%1$d 個事件</item>
     </plurals>

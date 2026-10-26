@@ -88,7 +88,6 @@
     <string name="action_discard">Forkast</string>
     <string name="action_discard_confirm">Forkast?</string>
     <string name="action_dismiss">Avvis</string>
-    <string name="action_show_all">Vis alle</string>
     <string name="action_connect">Kopla til</string>
     <string name="action_duplicate">Dupliser</string>
     <string name="action_share">Del</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Synkroniseringshistorikk</string>
     <string name="settings_sync_history_subtitle">Vis synkroniseringsøkter (siste 48 timar)</string>
     <string name="settings_import_subtitle">Legg til hendingar frå ei ICS-fil i ein valfri kalender</string>
-    <string name="settings_export_subtitle">Lagre hendingar i ei ICS-fil</string>
     <string name="settings_birthday_reminder">Bursdagspåminning</string>
     <string name="settings_use_device_timezone">Bruk tidssona til eininga</string>
     <string name="settings_section_calendars">Kalendarar &amp; kontoar</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">På dato</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Synlege kalendrar</string>
     <string name="settings_default_calendar">Standardkalender</string>
     <string name="settings_default_event_length">Standard hendingslengd</string>
     <string name="settings_default_event_length_hint">Standardlengd for nye hendingar</string>
@@ -487,7 +484,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Hent kalender</string>
     <string name="action_import_from_file">Importer hendingar frå fil</string>
-    <string name="action_export_local_calendar">Eksporter lokal kalender</string>
+    <string name="settings_export_calendars">Eksporter kalendrar</string>
+    <string name="settings_export_calendars_subtitle">Lagre ein kalender som ei ICS-fil</string>
+    <string name="export_calendar_no_events">Ingen hendingar</string>
+    <string name="export_calendar_preparing">Førebur…</string>
+    <string name="cd_export_calendar">Eksporter %1$s</string>
+    <string name="cd_export_calendar_preparing">Førebur %1$s</string>
+    <string name="export_calendar_chooser_title">Eksporter kalender</string>
+    <string name="export_event_chooser_title">Eksporter hending</string>
+    <string name="export_file_failed">Kunne ikkje opprette fila.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -616,6 +621,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Einingskalendrar</string>
     <string name="settings_device_calendars_hint">Kalendrar frå andre appar</string>
+    <string name="offline_calendars_row_label">Fråkopla kalendrar</string>
+    <string name="offline_calendars_row_hint">Kalendrar som blir på denne telefonen</string>
+    <string name="offline_calendars_manage_note">Legg til, gi nytt namn, endre farge på eller fjern dei fråkopla kalendrane dine.</string>
+    <string name="offline_calendars_info">Berre lagra på denne telefonen og aldri synkronisert. Sikkerheitskopiar inneheld ikkje hendingar, så eksporter ein kalender for å ta vare på ein kopi.</string>
+    <string name="offline_calendars_info_cd">Om fråkopla kalendrar</string>
+    <string name="offline_calendar_default_state">Standard</string>
+    <string name="offline_calendar_new">Ny kalender</string>
+    <string name="offline_calendar_new_in_picker">Ny fråkopla kalender</string>
+    <string name="action_create">Opprett</string>
+    <string name="offline_calendar_rename">Gi nytt namn</string>
+    <string name="offline_calendar_color">Farge</string>
+    <string name="offline_calendar_export">Eksporter kalender</string>
+    <string name="offline_calendar_builtin_info">Den innebygde kalenderen kan ikkje få nytt namn eller slettast. Nye hendingar hamnar her når ingen kalender er vald.</string>
+    <string name="offline_calendar_builtin_info_cd">Om den innebygde kalenderen</string>
+    <string name="offline_calendar_rename_cancel_cd">Avbryt namneendring</string>
+    <string name="offline_calendar_rename_save_cd">Lagre namn</string>
+    <string name="offline_calendar_delete_cd">Slett %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Slette \"%2$s\" og den %1$d hendinga for godt? Kan ikkje angrast.</item>
+        <item quantity="other">Slette \"%2$s\" og dei %1$d hendingane for godt? Kan ikkje angrast.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Slette \"%1$s\" for godt? Han har ingen hendingar.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Slett òg %1$d hending</item>
+        <item quantity="other">Slett òg %1$d hendingar</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s sletta</string>
+    <string name="offline_calendar_duplicate_name">Ein fråkopla kalender med namnet \"%1$s\" finst allereie</string>
     <string name="settings_quick_event_add">Smart hendingstillegg</string>
     <string name="settings_quick_event_add_info">Opprett hendingar ved å skriva naturleg. \"Lunsj med Sam fredag 13:00\" fyller inn tittel, dato og tidspunkt for deg.</string>
     <string name="settings_suggest_titles">Foreslå hendingstitlar</string>
@@ -692,7 +725,6 @@
     <string name="label_yesterday">I går</string>
     <string name="label_device_calendars">Einingskalendrar</string>
     <string name="label_default_calendar_hint">Nye hendingar vert oppretta i denne kalenderen</string>
-    <string name="label_visible_count">%1$d / %2$d synlege</string>
     <string name="label_reminders_truncated">%1$d ikkje viste (%2$d totalt, maks %3$d redigerbare)</string>
     <string name="label_found_events">Funne: %1$d hendingar</string>
     <string name="placeholder_search">Søk…</string>
@@ -874,10 +906,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Ingenting å importere</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d hending eksportert</item>
-        <item quantity="other">%1$d hendingar eksporterte</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d hending</item>
         <item quantity="other">%1$d hendingar</item>

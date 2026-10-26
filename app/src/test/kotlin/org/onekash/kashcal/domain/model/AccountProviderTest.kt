@@ -59,28 +59,6 @@ class AccountProviderTest {
         AccountProvider.fromString("")
     }
 
-    // ========== requiresSync Tests ==========
-
-    @Test
-    fun `requiresSync is false for LOCAL`() {
-        assertFalse(AccountProvider.LOCAL.requiresSync)
-    }
-
-    @Test
-    fun `requiresSync is true for ICLOUD`() {
-        assertTrue(AccountProvider.ICLOUD.requiresSync)
-    }
-
-    @Test
-    fun `requiresSync is true for ICS`() {
-        assertTrue(AccountProvider.ICS.requiresSync)
-    }
-
-    @Test
-    fun `requiresSync is true for CALDAV`() {
-        assertTrue(AccountProvider.CALDAV.requiresSync)
-    }
-
     // ========== pullOnly Tests ==========
 
     @Test

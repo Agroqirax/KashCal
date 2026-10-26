@@ -88,7 +88,6 @@
     <string name="action_discard">At</string>
     <string name="action_discard_confirm">Atılsın mı?</string>
     <string name="action_dismiss">Kapat</string>
-    <string name="action_show_all">Tümünü Göster</string>
     <string name="action_connect">Bağlan</string>
     <string name="action_duplicate">Çoğalt</string>
     <string name="action_share">Paylaş</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Eşitleme geçmişi</string>
     <string name="settings_sync_history_subtitle">Eşitleme oturumlarını görüntüle (son 48 saat)</string>
     <string name="settings_import_subtitle">Bir ICS dosyasından etkinlikleri herhangi bir takvime ekle</string>
-    <string name="settings_export_subtitle">Etkinlikleri ICS dosyasına kaydet</string>
     <string name="settings_birthday_reminder">Doğum Günü Hatırlatıcısı</string>
     <string name="settings_use_device_timezone">Cihaz saat dilimini kullan</string>
     <string name="settings_section_calendars">Takvimler ve hesaplar</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Tarihte</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Görünür Takvimler</string>
     <string name="settings_default_calendar">Varsayılan Takvim</string>
     <string name="settings_default_event_length">Varsayılan Etkinlik Süresi</string>
     <string name="settings_default_event_length_hint">Yeni etkinlikler için varsayılan süre</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Takvimi Getir</string>
     <string name="action_import_from_file">Etkinlikleri dosyadan içe aktar</string>
-    <string name="action_export_local_calendar">Yerel takvimi dışa aktar</string>
+    <string name="settings_export_calendars">Takvimleri dışa aktar</string>
+    <string name="settings_export_calendars_subtitle">Bir takvimi ICS dosyası olarak kaydet</string>
+    <string name="export_calendar_no_events">Etkinlik yok</string>
+    <string name="export_calendar_preparing">Hazırlanıyor…</string>
+    <string name="cd_export_calendar">%1$s dışa aktar</string>
+    <string name="cd_export_calendar_preparing">%1$s hazırlanıyor</string>
+    <string name="export_calendar_chooser_title">Takvimi dışa aktar</string>
+    <string name="export_event_chooser_title">Etkinliği dışa aktar</string>
+    <string name="export_file_failed">Dosya oluşturulamadı.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Cihaz Takvimleri</string>
     <string name="settings_device_calendars_hint">Diğer uygulamalardaki takvimler</string>
+    <string name="offline_calendars_row_label">Çevrimdışı takvimler</string>
+    <string name="offline_calendars_row_hint">Bu telefonda kalan takvimler</string>
+    <string name="offline_calendars_manage_note">Çevrimdışı takvimlerini ekle, yeniden adlandır, rengini değiştir veya kaldır.</string>
+    <string name="offline_calendars_info">Yalnızca bu telefonda tutulur ve asla eşitlenmez. Yedeklemeler etkinlikleri içermez; bir kopya saklamak için takvimi dışa aktar.</string>
+    <string name="offline_calendars_info_cd">Çevrimdışı takvimler hakkında</string>
+    <string name="offline_calendar_default_state">Varsayılan</string>
+    <string name="offline_calendar_new">Yeni takvim</string>
+    <string name="offline_calendar_new_in_picker">Yeni çevrimdışı takvim</string>
+    <string name="action_create">Oluştur</string>
+    <string name="offline_calendar_rename">Yeniden adlandır</string>
+    <string name="offline_calendar_color">Renk</string>
+    <string name="offline_calendar_export">Takvimi dışa aktar</string>
+    <string name="offline_calendar_builtin_info">Yerleşik takvim yeniden adlandırılamaz veya silinemez. Takvim seçilmediğinde yeni etkinlikler buraya eklenir.</string>
+    <string name="offline_calendar_builtin_info_cd">Yerleşik takvim hakkında</string>
+    <string name="offline_calendar_rename_cancel_cd">Yeniden adlandırmayı iptal et</string>
+    <string name="offline_calendar_rename_save_cd">Adı kaydet</string>
+    <string name="offline_calendar_delete_cd">Sil: %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" takvimi ve içindeki %1$d etkinlik kalıcı olarak silinsin mi? Geri alınamaz.</item>
+        <item quantity="other">\"%2$s\" takvimi ve içindeki %1$d etkinlik kalıcı olarak silinsin mi? Geri alınamaz.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" takvimi kalıcı olarak silinsin mi? Hiç etkinliği yok.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d etkinliği de sil</item>
+        <item quantity="other">%1$d etkinliği de sil</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s silindi</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" adlı bir çevrimdışı takvim zaten var</string>
     <string name="settings_quick_event_add">Akıllı etkinlik ekleme</string>
     <string name="settings_quick_event_add_info">Doğal yazarak etkinlik oluştur. \"Cuma 13.00 Sam ile öğle yemeği\" senin için başlığı, tarihi ve saati doldurur.</string>
     <string name="settings_suggest_titles">Etkinlik başlıklarını öner</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Dün</string>
     <string name="label_device_calendars">Cihaz Takvimleri</string>
     <string name="label_default_calendar_hint">Yeni etkinlikler bu takvimde oluşturulacak</string>
-    <string name="label_visible_count">%1$d / %2$d görünür</string>
     <string name="label_reminders_truncated">%1$d gösterilmiyor (%2$d toplam, en fazla %3$d düzenlenebilir)</string>
     <string name="label_found_events">Bulunan: %1$d etkinlik</string>
     <string name="placeholder_search">Ara…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">İçe aktarılacak bir şey yok</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d etkinlik dışa aktarıldı</item>
-        <item quantity="other">%1$d etkinlik dışa aktarıldı</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d etkinlik</item>
         <item quantity="other">%1$d etkinlik</item>

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.EventBusy
@@ -188,13 +189,9 @@ fun AccountSettingsScreen(
     onCalDavDiscover: () -> Unit = {},
     onCalDavSignOut: (Long) -> Unit = {},
     onNavigateBack: () -> Unit = {},
-    // Calendar settings (visibility derived from Calendar.isVisible)
+    // Calendars
     calendars: List<Calendar> = emptyList(),
     calendarGroups: List<CalendarGroup> = emptyList(),
-    onToggleCalendar: (Long, Boolean) -> Unit = { _, _ -> },
-    // Not shown in the UI; kept for future use.
-    onShowAllCalendars: () -> Unit = {},
-    onHideAllCalendars: () -> Unit = {},
     // Sync settings
     syncIntervalMs: Long = 24 * 60 * 60 * 1000L,
     onSyncIntervalChange: (Long) -> Unit = {},
@@ -232,7 +229,7 @@ fun AccountSettingsScreen(
     onDefaultEventDurationChange: (Int) -> Unit = {},
     // ICS Import/Export
     onImportCalendarFile: () -> Unit = {},
-    onExportCalendar: (Long) -> Unit = {},
+    onOpenExportCalendars: () -> Unit = {},
     // Settings backup/restore
     onBackupSettings: () -> Unit = {},
     onRestoreSettings: () -> Unit = {},
@@ -241,6 +238,10 @@ fun AccountSettingsScreen(
     onNavigateToSubscriptions: () -> Unit = {},
     onNavigateToBirthdaysAnniversaries: () -> Unit = {},
     onNavigateToDeviceCalendars: () -> Unit = {},
+    onNavigateToOfflineCalendars: () -> Unit = {},
+    // Offline calendars, the built-in included; the row shows its hint until there is more than
+    // one.
+    offlineCalendarCount: Int = 0,
     // Contact event counts (for B&A row subtitle)
     birthdayCount: Int = 0,
     anniversaryCount: Int = 0,
@@ -407,11 +408,6 @@ fun AccountSettingsScreen(
                     }
                 }
 
-                // Local calendar, for export
-                val localCalendar = remember(calendars) {
-                    calendars.find { it.caldavUrl == org.onekash.kashcal.domain.initializer.LocalCalendarInitializer.LOCAL_CALENDAR_URL }
-                }
-
                 // Add-subscription dialog: opened from this screen or by a webcal:// link
                 if (showAddSubscriptionDialog || uiState.showAddSubscriptionDialog) {
                     AddSubscriptionDialog(
@@ -498,6 +494,19 @@ fun AccountSettingsScreen(
                                 label = stringResource(R.string.settings_device_calendars),
                                 subtitle = deviceCalendarsSubtitle,
                                 onClick = onNavigateToDeviceCalendars,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
+                        }
+
+                        val offlineCalendarsSubtitle = if (offlineCalendarCount <= 1) stringResource(R.string.offline_calendars_row_hint)
+                            else pluralStringResource(R.plurals.calendar_count, offlineCalendarCount, offlineCalendarCount)
+                        row(label = stringResource(R.string.offline_calendars_row_label), subtitle = offlineCalendarsSubtitle, id = "offline-calendars") {
+                            SettingsRow(
+                                icon = Icons.Default.CloudOff,
+                                label = stringResource(R.string.offline_calendars_row_label),
+                                subtitle = offlineCalendarsSubtitle,
+                                onClick = onNavigateToOfflineCalendars,
                                 showDivider = false,
                                 searchQuery = searchQuery
                             )
@@ -797,18 +806,16 @@ fun AccountSettingsScreen(
                         header = stringResource(R.string.settings_section_data),
                         tracker = emittedTracker,
                     ) {
-                        localCalendar?.let { local ->
-                            row(label = stringResource(R.string.action_export_local_calendar), subtitle = stringResource(R.string.settings_export_subtitle), id = "export") {
-                                SettingsRow(
-                                    icon = Icons.Default.FileUpload,
-                                    label = stringResource(R.string.action_export_local_calendar),
-                                    subtitle = stringResource(R.string.settings_export_subtitle),
-                                    onClick = { onExportCalendar(local.id) },
-                                    showChevron = false,
-                                    showDivider = false,
-                                    searchQuery = searchQuery
-                                )
-                            }
+                        row(label = stringResource(R.string.settings_export_calendars), subtitle = stringResource(R.string.settings_export_calendars_subtitle), id = "export") {
+                            SettingsRow(
+                                icon = Icons.Default.FileUpload,
+                                label = stringResource(R.string.settings_export_calendars),
+                                subtitle = stringResource(R.string.settings_export_calendars_subtitle),
+                                onClick = onOpenExportCalendars,
+                                showChevron = false,
+                                showDivider = false,
+                                searchQuery = searchQuery
+                            )
                         }
                         row(label = stringResource(R.string.backup_settings_label), subtitle = stringResource(R.string.backup_settings_subtitle), id = "backup") {
                             SettingsRow(

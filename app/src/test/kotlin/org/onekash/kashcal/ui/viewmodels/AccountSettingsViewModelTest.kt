@@ -889,69 +889,6 @@ class AccountSettingsViewModelTest {
         }
     }
 
-    // ==================== Calendar Visibility Tests ====================
-
-    @Test
-    fun `onToggleCalendar calls eventCoordinator setCalendarVisibility`() = runTest {
-        calendarsFlow.value = testCalendars
-        coEvery { eventCoordinator.setCalendarVisibility(any(), any()) } returns Unit
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        viewModel.onToggleCalendar(1L, false)
-        advanceUntilIdle()
-
-        coVerify { eventCoordinator.setCalendarVisibility(1L, false) }
-    }
-
-    @Test
-    fun `onToggleCalendar shows calendar`() = runTest {
-        calendarsFlow.value = testCalendars
-        coEvery { eventCoordinator.setCalendarVisibility(any(), any()) } returns Unit
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        viewModel.onToggleCalendar(1L, true)
-        advanceUntilIdle()
-
-        coVerify { eventCoordinator.setCalendarVisibility(1L, true) }
-    }
-
-    @Test
-    fun `onShowAllCalendars sets all calendars visible via EventCoordinator`() = runTest {
-        calendarsFlow.value = testCalendars
-        coEvery { eventCoordinator.setCalendarVisibility(any(), any()) } returns Unit
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        viewModel.onShowAllCalendars()
-        advanceUntilIdle()
-
-        coVerify { eventCoordinator.setCalendarVisibility(1L, true) }
-        coVerify { eventCoordinator.setCalendarVisibility(2L, true) }
-        coVerify { eventCoordinator.setCalendarVisibility(3L, true) }
-    }
-
-    @Test
-    fun `onHideAllCalendars keeps one calendar visible via EventCoordinator`() = runTest {
-        calendarsFlow.value = testCalendars
-        coEvery { eventCoordinator.setCalendarVisibility(any(), any()) } returns Unit
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        viewModel.onHideAllCalendars()
-        advanceUntilIdle()
-
-        // The first calendar stays visible; the others are hidden.
-        coVerify { eventCoordinator.setCalendarVisibility(1L, true) }
-        coVerify { eventCoordinator.setCalendarVisibility(2L, false) }
-        coVerify { eventCoordinator.setCalendarVisibility(3L, false) }
-    }
-
     // ==================== Default Calendar Tests ====================
 
     @Test

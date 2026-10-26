@@ -88,7 +88,6 @@
     <string name="action_discard">Отфрли</string>
     <string name="action_discard_confirm">Да се отфрли?</string>
     <string name="action_dismiss">Отфрли</string>
-    <string name="action_show_all">Прикажи сè</string>
     <string name="action_connect">Поврзи</string>
     <string name="action_duplicate">Дуплирај</string>
     <string name="action_share">Сподели</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Историја на синхронизација</string>
     <string name="settings_sync_history_subtitle">Преглед на сесии за синхронизација (последни 48 часа)</string>
     <string name="settings_import_subtitle">Додај настани од ICS датотека во кој било календар</string>
-    <string name="settings_export_subtitle">Зачувај ги настаните во ICS датотека</string>
     <string name="settings_birthday_reminder">Потсетник за роденден</string>
     <string name="settings_use_device_timezone">Користи временска зона на уредот</string>
     <string name="settings_section_calendars">Календари и сметки</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">На датум</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Видливи календари</string>
     <string name="settings_default_calendar">Стандарден календар</string>
     <string name="settings_default_event_length">Стандардно траење на настан</string>
     <string name="settings_default_event_length_hint">Стандардно траење за нови настани</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Преземи календар</string>
     <string name="action_import_from_file">Увези настани од датотека</string>
-    <string name="action_export_local_calendar">Извези локален календар</string>
+    <string name="settings_export_calendars">Извези календари</string>
+    <string name="settings_export_calendars_subtitle">Зачувај календар како ICS датотека</string>
+    <string name="export_calendar_no_events">Нема настани</string>
+    <string name="export_calendar_preparing">Подготовка…</string>
+    <string name="cd_export_calendar">Извези %1$s</string>
+    <string name="cd_export_calendar_preparing">Подготовка на %1$s</string>
+    <string name="export_calendar_chooser_title">Извези календар</string>
+    <string name="export_event_chooser_title">Извези настан</string>
+    <string name="export_file_failed">Не можеше да се создаде датотеката.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Календари на уредот</string>
     <string name="settings_device_calendars_hint">Календари од други апликации</string>
+    <string name="offline_calendars_row_label">Офлајн календари</string>
+    <string name="offline_calendars_row_hint">Календари што остануваат на овој телефон</string>
+    <string name="offline_calendars_manage_note">Додавајте, преименувајте, менувајте боја или отстранувајте ги вашите офлајн календари.</string>
+    <string name="offline_calendars_info">Се чуваат само на овој телефон и никогаш не се синхронизираат. Резервните копии не ги вклучуваат настаните, па извезете го календарот за да зачувате копија.</string>
+    <string name="offline_calendars_info_cd">За офлајн календарите</string>
+    <string name="offline_calendar_default_state">Стандарден</string>
+    <string name="offline_calendar_new">Нов календар</string>
+    <string name="offline_calendar_new_in_picker">Нов офлајн календар</string>
+    <string name="action_create">Создај</string>
+    <string name="offline_calendar_rename">Преименувај</string>
+    <string name="offline_calendar_color">Боја</string>
+    <string name="offline_calendar_export">Извези календар</string>
+    <string name="offline_calendar_builtin_info">Вградениот календар не може да се преименува или избрише. Новите настани одат тука кога не е избран календар.</string>
+    <string name="offline_calendar_builtin_info_cd">За вградениот календар</string>
+    <string name="offline_calendar_rename_cancel_cd">Откажи преименување</string>
+    <string name="offline_calendar_rename_save_cd">Зачувај име</string>
+    <string name="offline_calendar_delete_cd">Избриши %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Трајно да се избрише \"%2$s\" и %1$d настан во него? Ова не може да се врати.</item>
+        <item quantity="other">Трајно да се избрише \"%2$s\" и %1$d настани во него? Ова не може да се врати.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Трајно да се избрише \"%1$s\"? Нема настани.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Избриши и %1$d настан</item>
+        <item quantity="other">Избриши и %1$d настани</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s е избришан</string>
+    <string name="offline_calendar_duplicate_name">Веќе постои офлајн календар со име \"%1$s\"</string>
     <string name="settings_quick_event_add">Паметно додавање настани</string>
     <string name="settings_quick_event_add_info">Создавајте настани со природно пишување. \"Ручек со Sam петок во 13:00\" ги пополнува наместо вас насловот, датумот и времето.</string>
     <string name="settings_suggest_titles">Предложувај наслови на настани</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Вчера</string>
     <string name="label_device_calendars">Календари на уредот</string>
     <string name="label_default_calendar_hint">Новите настани ќе се создаваат во овој календар</string>
-    <string name="label_visible_count">%1$d / %2$d видливи</string>
     <string name="label_reminders_truncated">%1$d не се прикажани (%2$d вкупно, макс. %3$d уредливи)</string>
     <string name="label_found_events">Пронајдени: %1$d настани</string>
     <string name="placeholder_search">Пребарај…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Нема ништо за увезување</string>
-    <plurals name="exported_events">
-        <item quantity="one">Извезен %1$d настан</item>
-        <item quantity="other">Извезени %1$d настани</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d настан</item>
         <item quantity="other">%1$d настани</item>

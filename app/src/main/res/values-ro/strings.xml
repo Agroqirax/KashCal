@@ -88,7 +88,6 @@
     <string name="action_discard">Renunță</string>
     <string name="action_discard_confirm">Renunți?</string>
     <string name="action_dismiss">Respinge</string>
-    <string name="action_show_all">Arată tot</string>
     <string name="action_connect">Conectează</string>
     <string name="action_duplicate">Duplică</string>
     <string name="action_share">Partajează</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Istoric sincronizări</string>
     <string name="settings_sync_history_subtitle">Vizualizează sesiunile de sincronizare (ultimele 48 de ore)</string>
     <string name="settings_import_subtitle">Adaugă evenimente dintr-un fișier ICS în orice calendar</string>
-    <string name="settings_export_subtitle">Salvează evenimentele într-un fișier ICS</string>
     <string name="settings_birthday_reminder">Memento zi de naștere</string>
     <string name="settings_use_device_timezone">Folosește fusul orar al dispozitivului</string>
     <string name="settings_section_calendars">Calendare și conturi</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">La data</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Calendare vizibile</string>
     <string name="settings_default_calendar">Calendar implicit</string>
     <string name="settings_default_event_length">Durata implicită a evenimentului</string>
     <string name="settings_default_event_length_hint">Durata implicită pentru evenimente noi</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Descarcă calendarul</string>
     <string name="action_import_from_file">Importă evenimente din fișier</string>
-    <string name="action_export_local_calendar">Exportă calendarul local</string>
+    <string name="settings_export_calendars">Exportă calendarele</string>
+    <string name="settings_export_calendars_subtitle">Salvează un calendar ca fișier ICS</string>
+    <string name="export_calendar_no_events">Niciun eveniment</string>
+    <string name="export_calendar_preparing">Se pregătește…</string>
+    <string name="cd_export_calendar">Exportă %1$s</string>
+    <string name="cd_export_calendar_preparing">Se pregătește %1$s</string>
+    <string name="export_calendar_chooser_title">Exportă calendarul</string>
+    <string name="export_event_chooser_title">Exportă evenimentul</string>
+    <string name="export_file_failed">Nu s-a putut crea fișierul.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,36 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Calendare dispozitiv</string>
     <string name="settings_device_calendars_hint">Calendare din alte aplicații</string>
+    <string name="offline_calendars_row_label">Calendare offline</string>
+    <string name="offline_calendars_row_hint">Calendare care rămân pe acest telefon</string>
+    <string name="offline_calendars_manage_note">Adaugă, redenumește, recolorează sau elimină calendarele offline.</string>
+    <string name="offline_calendars_info">Păstrate doar pe acest telefon și niciodată sincronizate. Copiile de rezervă nu includ evenimentele, așa că exportă un calendar ca să păstrezi o copie.</string>
+    <string name="offline_calendars_info_cd">Despre calendarele offline</string>
+    <string name="offline_calendar_default_state">Implicit</string>
+    <string name="offline_calendar_new">Calendar nou</string>
+    <string name="offline_calendar_new_in_picker">Calendar offline nou</string>
+    <string name="action_create">Creează</string>
+    <string name="offline_calendar_rename">Redenumește</string>
+    <string name="offline_calendar_color">Culoare</string>
+    <string name="offline_calendar_export">Exportă calendarul</string>
+    <string name="offline_calendar_builtin_info">Calendarul încorporat nu poate fi redenumit sau șters. Evenimentele noi ajung aici când nu alegi niciun calendar.</string>
+    <string name="offline_calendar_builtin_info_cd">Despre calendarul încorporat</string>
+    <string name="offline_calendar_rename_cancel_cd">Anulează redenumirea</string>
+    <string name="offline_calendar_rename_save_cd">Salvează numele</string>
+    <string name="offline_calendar_delete_cd">Șterge %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Ștergi definitiv \"%2$s\" împreună cu %1$d eveniment? Nu poate fi anulat.</item>
+        <item quantity="few">Ștergi definitiv \"%2$s\" împreună cu %1$d evenimente? Nu poate fi anulat.</item>
+        <item quantity="other">Ștergi definitiv \"%2$s\" împreună cu %1$d de evenimente? Nu poate fi anulat.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Ștergi definitiv \"%1$s\"? Nu are evenimente.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Șterge și %1$d eveniment</item>
+        <item quantity="few">Șterge și %1$d evenimente</item>
+        <item quantity="other">Șterge și %1$d de evenimente</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s a fost șters</string>
+    <string name="offline_calendar_duplicate_name">Există deja un calendar offline numit \"%1$s\"</string>
     <string name="settings_quick_event_add">Adăugare inteligentă a evenimentelor</string>
     <string name="settings_quick_event_add_info">Creează evenimente scriind natural. \"Prânz cu Sam vineri la 13:00\" completează pentru tine titlul, data și ora.</string>
     <string name="settings_suggest_titles">Sugerează titluri de evenimente</string>
@@ -694,7 +729,6 @@
     <string name="label_yesterday">Ieri</string>
     <string name="label_device_calendars">Calendare dispozitiv</string>
     <string name="label_default_calendar_hint">Evenimentele noi vor fi create în acest calendar</string>
-    <string name="label_visible_count">%1$d / %2$d vizibile</string>
     <string name="label_reminders_truncated">%1$d neafișate (%2$d total, max %3$d editabile)</string>
     <string name="label_found_events">Găsite: %1$d evenimente</string>
     <string name="placeholder_search">Caută…</string>
@@ -901,11 +935,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nimic de importat</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d eveniment exportat</item>
-        <item quantity="few">%1$d evenimente exportate</item>
-        <item quantity="other">%1$d de evenimente exportate</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d eveniment</item>
         <item quantity="few">%1$d evenimente</item>

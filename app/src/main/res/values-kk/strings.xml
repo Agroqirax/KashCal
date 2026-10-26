@@ -88,7 +88,6 @@
     <string name="action_discard">Қабылдамау</string>
     <string name="action_discard_confirm">Қабылдамай ма?</string>
     <string name="action_dismiss">Жабу</string>
-    <string name="action_show_all">Барлығын көрсету</string>
     <string name="action_connect">Қосылу</string>
     <string name="action_duplicate">Көшірмелеу</string>
     <string name="action_share">Бөлісу</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Синхрондау тарихы</string>
     <string name="settings_sync_history_subtitle">Синхрондау сеанстарын көру (соңғы 48 сағат)</string>
     <string name="settings_import_subtitle">ICS файлынан оқиғаларды кез келген күнтізбеге қосу</string>
-    <string name="settings_export_subtitle">Оқиғаларды ICS файлына сақтау</string>
     <string name="settings_birthday_reminder">Туған күн еске салғышы</string>
     <string name="settings_use_device_timezone">Құрылғы уақыт белдеуін пайдалану</string>
     <string name="settings_section_calendars">Күнтізбелер &amp; тіркелгілер</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Күнде</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Көрінетін күнтізбелер</string>
     <string name="settings_default_calendar">Әдепкі күнтізбе</string>
     <string name="settings_default_event_length">Әдепкі оқиға ұзақтығы</string>
     <string name="settings_default_event_length_hint">Жаңа оқиғалардың әдепкі ұзақтығы</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Күнтізбені жүктеу</string>
     <string name="action_import_from_file">Файлдан оқиғаларды импорттау</string>
-    <string name="action_export_local_calendar">Жергілікті күнтізбені экспорттау</string>
+    <string name="settings_export_calendars">Күнтізбелерді экспорттау</string>
+    <string name="settings_export_calendars_subtitle">Күнтізбені ICS файлы ретінде сақтау</string>
+    <string name="export_calendar_no_events">Оқиғалар жоқ</string>
+    <string name="export_calendar_preparing">Дайындалуда…</string>
+    <string name="cd_export_calendar">%1$s экспорттау</string>
+    <string name="cd_export_calendar_preparing">%1$s дайындалуда</string>
+    <string name="export_calendar_chooser_title">Күнтізбені экспорттау</string>
+    <string name="export_event_chooser_title">Оқиғаны экспорттау</string>
+    <string name="export_file_failed">Файлды жасау мүмкін болмады.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Құрылғы күнтізбелері</string>
     <string name="settings_device_calendars_hint">Басқа қолданбалардан күнтізбелер</string>
+    <string name="offline_calendars_row_label">Желіден тыс күнтізбелер</string>
+    <string name="offline_calendars_row_hint">Осы телефонда қалатын күнтізбелер</string>
+    <string name="offline_calendars_manage_note">Желіден тыс күнтізбелеріңізді қосыңыз, қайта атаңыз, түсін өзгертіңіз немесе жойыңыз.</string>
+    <string name="offline_calendars_info">Тек осы телефонда сақталады және ешқашан синхрондалмайды. Сақтық көшірмелерге оқиғалар кірмейді, сондықтан көшірмесін сақтау үшін күнтізбені экспорттаңыз.</string>
+    <string name="offline_calendars_info_cd">Желіден тыс күнтізбелер туралы</string>
+    <string name="offline_calendar_default_state">Әдепкі</string>
+    <string name="offline_calendar_new">Жаңа күнтізбе</string>
+    <string name="offline_calendar_new_in_picker">Жаңа желіден тыс күнтізбе</string>
+    <string name="action_create">Жасау</string>
+    <string name="offline_calendar_rename">Қайта атау</string>
+    <string name="offline_calendar_color">Түс</string>
+    <string name="offline_calendar_export">Күнтізбені экспорттау</string>
+    <string name="offline_calendar_builtin_info">Кірістірілген күнтізбені қайта атауға немесе жоюға болмайды. Күнтізбе таңдалмаса, жаңа оқиғалар осында түседі.</string>
+    <string name="offline_calendar_builtin_info_cd">Кірістірілген күнтізбе туралы</string>
+    <string name="offline_calendar_rename_cancel_cd">Қайта атаудан бас тарту</string>
+    <string name="offline_calendar_rename_save_cd">Атауды сақтау</string>
+    <string name="offline_calendar_delete_cd">%1$s жою</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" және оның %1$d оқиғасы біржола жойылсын ба? Қайтару мүмкін емес.</item>
+        <item quantity="other">\"%2$s\" және оның %1$d оқиғасы біржола жойылсын ба? Қайтару мүмкін емес.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" біржола жойылсын ба? Онда оқиғалар жоқ.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d оқиғаны да жою</item>
+        <item quantity="other">%1$d оқиғаны да жою</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s жойылды</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" атты желіден тыс күнтізбе бұрыннан бар</string>
     <string name="settings_quick_event_add">Ақылды оқиға қосу</string>
     <string name="settings_quick_event_add_info">Табиғи түрде теру арқылы оқиғалар жасаңыз. \"Sam-мен түскі ас жұма 13:00\" тақырыпты, күнді және уақытты сіз үшін толтырады.</string>
     <string name="settings_suggest_titles">Оқиға атауларын ұсыну</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Кеше</string>
     <string name="label_device_calendars">Құрылғы күнтізбелері</string>
     <string name="label_default_calendar_hint">Жаңа оқиғалар осы күнтізбеде жасалады</string>
-    <string name="label_visible_count">%1$d / %2$d көрінеді</string>
     <string name="label_reminders_truncated">%1$d көрсетілмейді (барлығы %2$d, макс. %3$d өңделетін)</string>
     <string name="label_found_events">Табылды: %1$d оқиға</string>
     <string name="placeholder_search">Іздеу…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Импорттайтын ештеңе жоқ</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d оқиға экспортталды</item>
-        <item quantity="other">%1$d оқиға экспортталды</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d оқиға</item>
         <item quantity="other">%1$d оқиға</item>

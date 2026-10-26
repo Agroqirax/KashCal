@@ -774,21 +774,6 @@ class HomeViewModelTest {
         coVerify { eventCoordinator.setCalendarVisibility(1L, false) }
     }
 
-    @Test
-    fun `showAllCalendars calls setCalendarVisibility for all calendars`() = runTest {
-        coEvery { eventCoordinator.setCalendarVisibility(any(), any()) } returns Unit
-
-        val viewModel = createViewModel()
-        advanceUntilIdle()
-
-        viewModel.showAllCalendars()
-        advanceUntilIdle()
-
-        // setCalendarVisibility(id, true) for each calendar.
-        coVerify { eventCoordinator.setCalendarVisibility(1L, true) }
-        coVerify { eventCoordinator.setCalendarVisibility(2L, true) }
-    }
-
     // ==================== Navigation Tests ====================
 
     @Test

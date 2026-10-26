@@ -38,7 +38,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.onekash.kashcal.ui.permission.ChangeNotificationsStep
 import org.onekash.kashcal.reminder.notification.ReminderNotificationChannels
 import org.onekash.kashcal.sync.notification.ChangeNotificationChannels
@@ -53,6 +55,7 @@ import org.onekash.kashcal.ui.components.ICloudSignInSheet
 import org.onekash.kashcal.ui.components.IcsImportSheet
 import org.onekash.kashcal.ui.components.importSummary
 import org.onekash.kashcal.ui.components.SyncHistorySheet
+import org.onekash.kashcal.ui.model.offlineCalendarIds
 import org.onekash.kashcal.ui.permission.LocalNetworkPermissionState
 import org.onekash.kashcal.ui.permission.classifyLocalNetworkAfterRequest
 import org.onekash.kashcal.ui.permission.contactSyncPermissionGranted
@@ -63,6 +66,7 @@ import org.onekash.kashcal.ui.screens.settings.AccountsScreen
 import org.onekash.kashcal.ui.screens.settings.BirthdaysAndAnniversariesScreen
 import org.onekash.kashcal.ui.screens.settings.CalDavConnectionState
 import org.onekash.kashcal.ui.screens.settings.DeviceCalendarsScreen
+import org.onekash.kashcal.ui.screens.settings.OfflineCalendarsScreen
 import org.onekash.kashcal.ui.screens.settings.toAccountUiModel
 import org.onekash.kashcal.ui.screens.settings.ICloudConnectionState
 import org.onekash.kashcal.ui.screens.settings.RestoreConfirmationDialog
@@ -74,7 +78,10 @@ import org.onekash.kashcal.ui.screens.settings.TagsScreen
 import org.onekash.kashcal.ui.theme.ColorSource
 import org.onekash.kashcal.ui.theme.KashCalTheme
 import org.onekash.kashcal.ui.theme.ThemeMode
+import org.onekash.kashcal.ui.screens.settings.ExportCalendarsRoute
 import org.onekash.kashcal.ui.viewmodels.AccountSettingsViewModel
+import org.onekash.kashcal.ui.viewmodels.CalendarExportOrigin
+import org.onekash.kashcal.ui.viewmodels.CalendarExportViewModel
 import org.onekash.kashcal.ui.viewmodels.TagsViewModel
 import org.onekash.kashcal.util.isLanHost
 import java.time.Instant
@@ -111,7 +118,9 @@ fun SettingsRoute(
     // the Settings root the user never chose.
     openTagsInitially: Boolean = false,
     onFinish: () -> Unit = {},
-    onExportCalendar: (Long) -> Unit = {},
+    // Calendar export (the Export calendars sheet and an offline calendar's Export). Null, as in
+    // tests and previews, leaves both inert.
+    calendarExportViewModel: CalendarExportViewModel? = null,
     // The five I/O lambdas below have no defaults: a no-op default would silently write an
     // empty backup or import zero events while showing a success message. A caller that
     // forgets one must fail to compile, not ship silent data loss. The other lambdas stay
@@ -137,6 +146,7 @@ fun SettingsRoute(
         val context = LocalContext.current
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val calendars by viewModel.calendars.collectAsStateWithLifecycle()
+        val offlineCalendars by viewModel.offlineCalendars.collectAsStateWithLifecycle()
         val calendarGroups by viewModel.calendarGroups.collectAsStateWithLifecycle()
         val defaultCalendar by viewModel.defaultCalendar.collectAsStateWithLifecycle()
         val writableDeviceCalendarGroups by viewModel.writableDeviceCalendarGroups.collectAsStateWithLifecycle()
@@ -387,11 +397,13 @@ fun SettingsRoute(
         // Detail-screen navigation state; rememberSaveable keeps it across config changes
         var showAccountsScreen by rememberSaveable { mutableStateOf(false) }
         var showSubscriptionsScreen by rememberSaveable { mutableStateOf(false) }
+        var showExportCalendarsSheet by rememberSaveable { mutableStateOf(false) }
         var showBirthdaysAnniversariesScreen by rememberSaveable { mutableStateOf(false) }
         // Seeded from the launch intent so a hub-initiated open lands on Tags at once;
         // rememberSaveable keeps the choice across rotation.
         var showTagsScreen by rememberSaveable { mutableStateOf(openTagsInitially) }
         var showDeviceCalendarsScreen by rememberSaveable { mutableStateOf(false) }
+        var showOfflineCalendarsScreen by rememberSaveable { mutableStateOf(false) }
 
         // ICS import state
         var icsImportFile by remember { mutableStateOf<IcsImportFile?>(null) }
@@ -459,7 +471,9 @@ fun SettingsRoute(
                 coroutineScope.launch {
                     readIcsContent(selectedUri)
                         .onSuccess { content ->
-                            val file = runCatching { IcsParserService.parseForImport(content) }.getOrNull()
+                            val file = withContext(Dispatchers.Default) {
+                                runCatching { IcsParserService.parseForImport(content) }.getOrNull()
+                            }
                             when {
                                 file == null -> viewModel.showSnackbar(icsImportInvalidMessage)
                                 file.events.isEmpty() -> viewModel.showSnackbar(icsImportNoEventsMessage)
@@ -518,7 +532,8 @@ fun SettingsRoute(
                 showBirthdaysAnniversariesScreen ||
                 showSubscriptionsScreen ||
                 showTagsScreen ||
-                showDeviceCalendarsScreen
+                showDeviceCalendarsScreen ||
+                showOfflineCalendarsScreen
         ) {
             if (showTagsScreen) {
                 closeTags()
@@ -528,6 +543,7 @@ fun SettingsRoute(
             showBirthdaysAnniversariesScreen = false
             showSubscriptionsScreen = false
             showDeviceCalendarsScreen = false
+            showOfflineCalendarsScreen = false
         }
 
         // State-based navigation between the root and detail screens, animated as a directional
@@ -538,6 +554,7 @@ fun SettingsRoute(
             subscriptions = showSubscriptionsScreen,
             tags = showTagsScreen,
             deviceCalendars = showDeviceCalendarsScreen,
+            offlineCalendars = showOfflineCalendarsScreen,
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -697,6 +714,21 @@ fun SettingsRoute(
                             onRefresh = viewModel::refreshDeviceCalendars
                         )
                     }
+                    SettingsDestination.OfflineCalendars -> {
+                        val offlineDefaultCalendarId by viewModel.offlineDefaultCalendarId.collectAsStateWithLifecycle()
+                        OfflineCalendarsScreen(
+                            calendars = offlineCalendars,
+                            defaultCalendarId = offlineDefaultCalendarId,
+                            onNavigateBack = { showOfflineCalendarsScreen = false },
+                            onCreateCalendar = viewModel::createOfflineCalendar,
+                            onRenameCalendar = viewModel::renameOfflineCalendar,
+                            onRecolorCalendar = viewModel::recolorOfflineCalendar,
+                            onExportCalendar = { id ->
+                                calendarExportViewModel?.export(id, CalendarExportOrigin.CALENDAR_SHEET)
+                            },
+                            onDeleteCalendar = viewModel::deleteOfflineCalendar,
+                        )
+                    }
                     SettingsDestination.Root -> {
                         AccountSettingsScreen(
                             uiState = uiState,
@@ -718,12 +750,9 @@ fun SettingsRoute(
                             onCalDavDiscover = viewModel::onCalDavDiscover,
                             onCalDavSignOut = viewModel::onCalDavSignOut,
                             onNavigateBack = onFinish,
-                            // Calendar settings (visibility derived from Calendar.isVisible)
+                            // Calendars
                             calendars = calendars,
                             calendarGroups = calendarGroups,
-                            onToggleCalendar = viewModel::onToggleCalendar,
-                            onShowAllCalendars = viewModel::onShowAllCalendars,
-                            onHideAllCalendars = viewModel::onHideAllCalendars,
                             // Sync settings
                             syncIntervalMs = syncIntervalMs,
                             onSyncIntervalChange = viewModel::onSyncIntervalChange,
@@ -786,7 +815,7 @@ fun SettingsRoute(
                                 backupImportLauncher.launch(arrayOf(BACKUP_MIME_TYPE))
                             },
                             // ICS Export
-                            onExportCalendar = onExportCalendar,
+                            onOpenExportCalendars = { showExportCalendarsSheet = true },
                             // Navigate to Subscriptions detail screen
                             onNavigateToSubscriptions = { viewModel.onSearchClose(); showSubscriptionsScreen = true },
                             // Navigate to Birthdays & Anniversaries detail screen
@@ -854,6 +883,8 @@ fun SettingsRoute(
                             onNavigateToAccounts = { viewModel.onSearchClose(); showAccountsScreen = true },
                             // Navigate to Device Calendars detail screen
                             onNavigateToDeviceCalendars = { viewModel.onSearchClose(); showDeviceCalendarsScreen = true },
+                            onNavigateToOfflineCalendars = { viewModel.onSearchClose(); showOfflineCalendarsScreen = true },
+                            offlineCalendarCount = offlineCalendars.size,
                             // Inline search
                             isSearchActive = isSearchActive,
                             searchQuery = searchQuery,
@@ -872,6 +903,14 @@ fun SettingsRoute(
                     .padding(16.dp)
             )
 
+            if (showExportCalendarsSheet && calendarExportViewModel != null) {
+                ExportCalendarsRoute(
+                    viewModel = calendarExportViewModel,
+                    calendarGroups = calendarGroups,
+                    onDismiss = { showExportCalendarsSheet = false },
+                )
+            }
+
             // ICS Import Sheet
             icsImportFile?.let { file ->
                 val defaultRoomCalendarId = (defaultCalendar as? DefaultCalendar.Room)?.calendarId
@@ -882,6 +921,7 @@ fun SettingsRoute(
                     defaultCalendarId = defaultRoomCalendarId,
                     deviceCalendarGroups = writableDeviceCalendarGroups,
                     defaultDeviceCalendarId = defaultDeviceCalendarId,
+                    offlineCalendarIds = remember(calendarGroups) { calendarGroups.offlineCalendarIds() },
                     loadPreview = { calendarId, isDeviceCalendar ->
                         if (isDeviceCalendar) {
                             viewModel.previewIcsImportOnDevice(file, calendarId)

@@ -88,7 +88,6 @@
     <string name="action_discard">Descartar</string>
     <string name="action_discard_confirm">Descartar els canvis?</string>
     <string name="action_dismiss">Descartar</string>
-    <string name="action_show_all">Mostrar tot</string>
     <string name="action_connect">Connectar</string>
     <string name="action_duplicate">Duplicar</string>
     <string name="action_share">Compartir</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Historial de sincronització</string>
     <string name="settings_sync_history_subtitle">Veure sessions de sincronització (últimes 48 hores)</string>
     <string name="settings_import_subtitle">Afegeix esdeveniments d\'un fitxer ICS a qualsevol calendari</string>
-    <string name="settings_export_subtitle">Desa esdeveniments en un fitxer ICS</string>
     <string name="settings_birthday_reminder">Recordatori d\'aniversari</string>
     <string name="settings_use_device_timezone">Usar zona horària del dispositiu</string>
     <string name="settings_section_calendars">Calendaris i comptes</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">A la data</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Calendaris visibles</string>
     <string name="settings_default_calendar">Calendari predeterminat</string>
     <string name="settings_default_event_length">Durada predeterminada</string>
     <string name="settings_default_event_length_hint">Durada predeterminada per als nous esdeveniments</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Obtenir calendari</string>
     <string name="action_import_from_file">Importa esdeveniments d\'un fitxer</string>
-    <string name="action_export_local_calendar">Exporta el calendari local</string>
+    <string name="settings_export_calendars">Exporta calendaris</string>
+    <string name="settings_export_calendars_subtitle">Desa un calendari com a fitxer ICS</string>
+    <string name="export_calendar_no_events">Cap esdeveniment</string>
+    <string name="export_calendar_preparing">Preparant…</string>
+    <string name="cd_export_calendar">Exporta %1$s</string>
+    <string name="cd_export_calendar_preparing">Preparant %1$s</string>
+    <string name="export_calendar_chooser_title">Exporta el calendari</string>
+    <string name="export_event_chooser_title">Exporta l\'esdeveniment</string>
+    <string name="export_file_failed">No s\'ha pogut crear el fitxer.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Calendaris del dispositiu</string>
     <string name="settings_device_calendars_hint">Calendaris d\'altres aplicacions</string>
+    <string name="offline_calendars_row_label">Calendaris fora de línia</string>
+    <string name="offline_calendars_row_hint">Calendaris que es queden en aquest telèfon</string>
+    <string name="offline_calendars_manage_note">Afegeix, canvia el nom, canvia el color o elimina els teus calendaris fora de línia.</string>
+    <string name="offline_calendars_info">Només es desen en aquest telèfon i no se sincronitzen mai. Les còpies de seguretat no inclouen els esdeveniments, així que exporta un calendari per conservar-ne una còpia.</string>
+    <string name="offline_calendars_info_cd">Quant als calendaris fora de línia</string>
+    <string name="offline_calendar_default_state">Predeterminat</string>
+    <string name="offline_calendar_new">Calendari nou</string>
+    <string name="offline_calendar_new_in_picker">Calendari fora de línia nou</string>
+    <string name="action_create">Crear</string>
+    <string name="offline_calendar_rename">Canvia el nom</string>
+    <string name="offline_calendar_color">Color</string>
+    <string name="offline_calendar_export">Exporta el calendari</string>
+    <string name="offline_calendar_builtin_info">El calendari integrat no es pot reanomenar ni eliminar. Els esdeveniments nous van aquí quan no es tria cap calendari.</string>
+    <string name="offline_calendar_builtin_info_cd">Quant al calendari integrat</string>
+    <string name="offline_calendar_rename_cancel_cd">Cancel·la el canvi de nom</string>
+    <string name="offline_calendar_rename_save_cd">Desa el nom</string>
+    <string name="offline_calendar_delete_cd">Elimina %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Vols eliminar \"%2$s\" i el seu %1$d esdeveniment per sempre? No es pot desfer.</item>
+        <item quantity="other">Vols eliminar \"%2$s\" i els seus %1$d esdeveniments per sempre? No es pot desfer.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Vols eliminar \"%1$s\" per sempre? No té cap esdeveniment.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Elimina també %1$d esdeveniment</item>
+        <item quantity="other">Elimina també %1$d esdeveniments</item>
+    </plurals>
+    <string name="offline_calendar_deleted">S\'ha eliminat %1$s</string>
+    <string name="offline_calendar_duplicate_name">Ja existeix un calendari fora de línia anomenat \"%1$s\"</string>
     <string name="settings_quick_event_add">Afegir esdeveniments intel·ligent</string>
     <string name="settings_quick_event_add_info">Crea esdeveniments escrivint de manera natural. \"Dinar amb Sam divendres a la 1 del migdia\" omple el títol, la data i l\'hora per tu.</string>
     <string name="settings_suggest_titles">Suggereix títols d\'esdeveniments</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Ahir</string>
     <string name="label_device_calendars">Calendaris del dispositiu</string>
     <string name="label_default_calendar_hint">Els nous esdeveniments es crearan en aquest calendari</string>
-    <string name="label_visible_count">%1$d / %2$d visibles</string>
     <string name="label_reminders_truncated">%1$d no mostrats (%2$d en total, màxim %3$d editables)</string>
     <string name="label_found_events">Trobats: %1$d esdeveniments</string>
     <string name="placeholder_search">Cercar…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">No hi ha res per importar</string>
-    <plurals name="exported_events">
-        <item quantity="one">S\'ha exportat %1$d esdeveniment</item>
-        <item quantity="other">S\'han exportat %1$d esdeveniments</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d esdeveniment</item>
         <item quantity="other">%1$d esdeveniments</item>

@@ -88,7 +88,6 @@
     <string name="action_discard">Loobu</string>
     <string name="action_discard_confirm">Loobu?</string>
     <string name="action_dismiss">Sulge</string>
-    <string name="action_show_all">Kuva kõik</string>
     <string name="action_connect">Ühenda</string>
     <string name="action_duplicate">Dubleeri</string>
     <string name="action_share">Jaga</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sünkroonimise ajalugu</string>
     <string name="settings_sync_history_subtitle">Vaata sünkroonimise seansse (viimased 48 tundi)</string>
     <string name="settings_import_subtitle">Lisa sündmusi ICS-failist mis tahes kalendrisse</string>
-    <string name="settings_export_subtitle">Salvesta sündmused ICS-faili</string>
     <string name="settings_birthday_reminder">Sünnipäeva meeldetuletus</string>
     <string name="settings_use_device_timezone">Kasuta seadme ajavööndit</string>
     <string name="settings_section_calendars">Kalendrid ja kontod</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Kuupäeval</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Nähtavad kalendrid</string>
     <string name="settings_default_calendar">Vaikekalender</string>
     <string name="settings_default_event_length">Sündmuse vaikepikkus</string>
     <string name="settings_default_event_length_hint">Uute sündmuste vaikepikkus</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Laadi kalender</string>
     <string name="action_import_from_file">Impordi sündmused failist</string>
-    <string name="action_export_local_calendar">Ekspordi kohalik kalender</string>
+    <string name="settings_export_calendars">Ekspordi kalendreid</string>
+    <string name="settings_export_calendars_subtitle">Salvesta kalender ICS-failina</string>
+    <string name="export_calendar_no_events">Sündmusi pole</string>
+    <string name="export_calendar_preparing">Ettevalmistamine…</string>
+    <string name="cd_export_calendar">Ekspordi %1$s</string>
+    <string name="cd_export_calendar_preparing">Ettevalmistamine %1$s</string>
+    <string name="export_calendar_chooser_title">Ekspordi kalender</string>
+    <string name="export_event_chooser_title">Ekspordi sündmus</string>
+    <string name="export_file_failed">Faili loomine ebaõnnestus.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Seadme kalendrid</string>
     <string name="settings_device_calendars_hint">Kalendrid teistest rakendustest</string>
+    <string name="offline_calendars_row_label">Võrguühenduseta kalendrid</string>
+    <string name="offline_calendars_row_hint">Kalendrid, mis jäävad sellesse telefoni</string>
+    <string name="offline_calendars_manage_note">Lisa, nimeta ümber, muuda värvi või kustuta oma võrguühenduseta kalendreid.</string>
+    <string name="offline_calendars_info">Hoitakse ainult selles telefonis ja neid ei sünkroonita kunagi. Varukoopiad ei sisalda sündmusi, seega ekspordi kalender, et koopia alles jääks.</string>
+    <string name="offline_calendars_info_cd">Teave võrguühenduseta kalendrite kohta</string>
+    <string name="offline_calendar_default_state">Vaikimisi</string>
+    <string name="offline_calendar_new">Uus kalender</string>
+    <string name="offline_calendar_new_in_picker">Uus võrguühenduseta kalender</string>
+    <string name="action_create">Loo</string>
+    <string name="offline_calendar_rename">Nimeta ümber</string>
+    <string name="offline_calendar_color">Värv</string>
+    <string name="offline_calendar_export">Ekspordi kalender</string>
+    <string name="offline_calendar_builtin_info">Sisseehitatud kalendrit ei saa ümber nimetada ega kustutada. Uued sündmused lähevad siia, kui kalendrit pole valitud.</string>
+    <string name="offline_calendar_builtin_info_cd">Teave sisseehitatud kalendri kohta</string>
+    <string name="offline_calendar_rename_cancel_cd">Tühista ümbernimetamine</string>
+    <string name="offline_calendar_rename_save_cd">Salvesta nimi</string>
+    <string name="offline_calendar_delete_cd">Kustuta %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Kas kustutada \"%2$s\" ja selle %1$d sündmus jäädavalt? Seda ei saa tagasi võtta.</item>
+        <item quantity="other">Kas kustutada \"%2$s\" ja selle %1$d sündmust jäädavalt? Seda ei saa tagasi võtta.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Kas kustutada \"%1$s\" jäädavalt? Selles pole sündmusi.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Kustuta ka %1$d sündmus</item>
+        <item quantity="other">Kustuta ka %1$d sündmust</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Kalender %1$s kustutatud</string>
+    <string name="offline_calendar_duplicate_name">Võrguühenduseta kalender nimega \"%1$s\" on juba olemas</string>
     <string name="settings_quick_event_add">Nutikas sündmuse lisamine</string>
     <string name="settings_quick_event_add_info">Loo sündmusi loomulikku teksti kirjutades. \"Lõuna Samiga reedel kell 13:00\" täidab sinu eest pealkirja, kuupäeva ja kellaaja.</string>
     <string name="settings_suggest_titles">Soovita sündmuste pealkirju</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Eile</string>
     <string name="label_device_calendars">Seadme kalendrid</string>
     <string name="label_default_calendar_hint">Uued sündmused luuakse sellesse kalendrisse</string>
-    <string name="label_visible_count">%1$d / %2$d nähtav</string>
     <string name="label_reminders_truncated">%1$d pole kuvatud (%2$d kokku, maks %3$d muudetav)</string>
     <string name="label_found_events">Leitud: %1$d sündmust</string>
     <string name="placeholder_search">Otsi…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Pole midagi importida</string>
-    <plurals name="exported_events">
-        <item quantity="one">Eksporditud %1$d sündmus</item>
-        <item quantity="other">Eksporditud %1$d sündmust</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d sündmus</item>
         <item quantity="other">%1$d sündmust</item>

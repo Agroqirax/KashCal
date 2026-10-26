@@ -88,7 +88,6 @@
     <string name="action_discard">ପରିତ୍ୟାଗ</string>
     <string name="action_discard_confirm">ପରିବର୍ତ୍ତନ ପରିତ୍ୟାଗ କରିବେ?</string>
     <string name="action_dismiss">ଖାରଜ</string>
-    <string name="action_show_all">ସମସ୍ତ ଦେଖାନ୍ତୁ</string>
     <string name="action_connect">ସଂଯୋଗ କରନ୍ତୁ</string>
     <string name="action_duplicate">ନକଲ</string>
     <string name="action_share">ଶେୟାର</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ସିଙ୍କ ଇତିହାସ</string>
     <string name="settings_sync_history_subtitle">ସିଙ୍କ ସେସନଗୁଡ଼ିକ ଦେଖନ୍ତୁ (ଶେଷ 48 ଘଣ୍ଟା)</string>
     <string name="settings_import_subtitle">ICS ଫାଇଲରୁ ଇଭେଣ୍ଟଗୁଡ଼ିକୁ ଯେକୌଣସି କ୍ୟାଲେଣ୍ଡରରେ ଯୋଡ଼ନ୍ତୁ</string>
-    <string name="settings_export_subtitle">ଇଭେଣ୍ଟଗୁଡ଼ିକୁ ICS ଫାଇଲରେ ସଞ୍ଚୟ କରନ୍ତୁ</string>
     <string name="settings_birthday_reminder">ଜନ୍ମଦିନ ରିମାଇଣ୍ଡର</string>
     <string name="settings_use_device_timezone">ଡିଭାଇସ ଟାଇମଜୋନ ବ୍ୟବହାର କରନ୍ତୁ</string>
     <string name="settings_section_calendars">କ୍ୟାଲେଣ୍ଡର ଓ ଆକାଉଣ୍ଟ</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">ତାରିଖରେ</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">ଦୃଶ୍ୟମାନ କ୍ୟାଲେଣ୍ଡର</string>
     <string name="settings_default_calendar">ଡିଫଲ୍ଟ କ୍ୟାଲେଣ୍ଡର</string>
     <string name="settings_default_event_length">ଡିଫଲ୍ଟ ଇଭେଣ୍ଟ ଅବଧି</string>
     <string name="settings_default_event_length_hint">ନୂଆ ଇଭେଣ୍ଟ ପାଇଁ ଡିଫଲ୍ଟ ଅବଧି</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">କ୍ୟାଲେଣ୍ଡର ଆଣନ୍ତୁ</string>
     <string name="action_import_from_file">ଫାଇଲରୁ ଇଭେଣ୍ଟ ଆମଦାନୀ କରନ୍ତୁ</string>
-    <string name="action_export_local_calendar">ସ୍ଥାନୀୟ କ୍ୟାଲେଣ୍ଡର ରପ୍ତାନୀ</string>
+    <string name="settings_export_calendars">କ୍ୟାଲେଣ୍ଡର ରପ୍ତାନୀ କରନ୍ତୁ</string>
+    <string name="settings_export_calendars_subtitle">କ୍ୟାଲେଣ୍ଡରକୁ ICS ଫାଇଲ ଭାବେ ସେଭ କରନ୍ତୁ</string>
+    <string name="export_calendar_no_events">ଇଭେଣ୍ଟ ନାହିଁ</string>
+    <string name="export_calendar_preparing">ପ୍ରସ୍ତୁତ ହେଉଛି…</string>
+    <string name="cd_export_calendar">%1$s ରପ୍ତାନୀ କରନ୍ତୁ</string>
+    <string name="cd_export_calendar_preparing">%1$s ପ୍ରସ୍ତୁତ ହେଉଛି</string>
+    <string name="export_calendar_chooser_title">କ୍ୟାଲେଣ୍ଡର ରପ୍ତାନୀ କରନ୍ତୁ</string>
+    <string name="export_event_chooser_title">ଇଭେଣ୍ଟ ରପ୍ତାନୀ କରନ୍ତୁ</string>
+    <string name="export_file_failed">ଫାଇଲ ତିଆରି ହୋଇପାରିଲା ନାହିଁ।</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର</string>
     <string name="settings_device_calendars_hint">ଅନ୍ୟ ଆପରୁ କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="offline_calendars_row_label">ଅଫଲାଇନ କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="offline_calendars_row_hint">ଏହି ଫୋନରେ ରହୁଥିବା କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="offline_calendars_manage_note">ଆପଣଙ୍କ ଅଫଲାଇନ କ୍ୟାଲେଣ୍ଡର ଯୋଡ଼ନ୍ତୁ, ନାମ କିମ୍ବା ରଙ୍ଗ ବଦଳାନ୍ତୁ, କିମ୍ବା ଡିଲିଟ କରନ୍ତୁ।</string>
+    <string name="offline_calendars_info">କେବଳ ଏହି ଫୋନରେ ରଖାଯାଏ ଏବଂ କେବେ ସିଙ୍କ ହୁଏ ନାହିଁ। ବ୍ୟାକଅପରେ ଇଭେଣ୍ଟ ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ, ତେଣୁ ଏକ କପି ରଖିବାକୁ କ୍ୟାଲେଣ୍ଡର ରପ୍ତାନୀ କରନ୍ତୁ।</string>
+    <string name="offline_calendars_info_cd">ଅଫଲାଇନ କ୍ୟାଲେଣ୍ଡର ବିଷୟରେ</string>
+    <string name="offline_calendar_default_state">ଡିଫଲ୍ଟ</string>
+    <string name="offline_calendar_new">ନୂଆ କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="offline_calendar_new_in_picker">ନୂଆ ଅଫଲାଇନ କ୍ୟାଲେଣ୍ଡର</string>
+    <string name="action_create">ତିଆରି କରନ୍ତୁ</string>
+    <string name="offline_calendar_rename">ନାମ ବଦଳାନ୍ତୁ</string>
+    <string name="offline_calendar_color">ରଙ୍ଗ</string>
+    <string name="offline_calendar_export">କ୍ୟାଲେଣ୍ଡର ରପ୍ତାନୀ</string>
+    <string name="offline_calendar_builtin_info">ବିଲ୍ଟ-ଇନ କ୍ୟାଲେଣ୍ଡରର ନାମ ବଦଳାଯାଇପାରିବ ନାହିଁ କିମ୍ବା ଡିଲିଟ କରାଯାଇପାରିବ ନାହିଁ। କୌଣସି କ୍ୟାଲେଣ୍ଡର ବଛା ନଗଲେ ନୂଆ ଇଭେଣ୍ଟ ଏଠାକୁ ଯାଏ।</string>
+    <string name="offline_calendar_builtin_info_cd">ବିଲ୍ଟ-ଇନ କ୍ୟାଲେଣ୍ଡର ବିଷୟରେ</string>
+    <string name="offline_calendar_rename_cancel_cd">ନାମ ବଦଳାଇବା ବାତିଲ</string>
+    <string name="offline_calendar_rename_save_cd">ନାମ ସେଭ କରନ୍ତୁ</string>
+    <string name="offline_calendar_delete_cd">%1$s ଡିଲିଟ</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" ଏବଂ ଏହାର %1$d ଇଭେଣ୍ଟ ସବୁଦିନ ପାଇଁ ଡିଲିଟ କରିବେ? ଏହାକୁ ପୂର୍ବବତ କରାଯାଇପାରିବ ନାହିଁ।</item>
+        <item quantity="other">\"%2$s\" ଏବଂ ଏହାର %1$d ଇଭେଣ୍ଟ ସବୁଦିନ ପାଇଁ ଡିଲିଟ କରିବେ? ଏହାକୁ ପୂର୍ବବତ କରାଯାଇପାରିବ ନାହିଁ।</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ସବୁଦିନ ପାଇଁ ଡିଲିଟ କରିବେ? ଏଥିରେ କୌଣସି ଇଭେଣ୍ଟ ନାହିଁ।</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ଇଭେଣ୍ଟ ମଧ୍ୟ ଡିଲିଟ କରନ୍ତୁ</item>
+        <item quantity="other">%1$d ଇଭେଣ୍ଟ ମଧ୍ୟ ଡିଲିଟ କରନ୍ତୁ</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ଡିଲିଟ ହେଲା</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" ନାମରେ ଏକ ଅଫଲାଇନ କ୍ୟାଲେଣ୍ଡର ପୂର୍ବରୁ ଅଛି</string>
     <string name="settings_quick_event_add">ସ୍ମାର୍ଟ ଇଭେଣ୍ଟ ଯୋଡ଼ିବା</string>
     <string name="settings_quick_event_add_info">ସ୍ୱାଭାବିକ ଭାବେ ଟାଇପ କରି ଇଭେଣ୍ଟ ତିଆରି କରନ୍ତୁ. \"ଶୁକ୍ରବାର ଅପରାହ୍ନ 1ଟାରେ Sam ସହିତ ମଧ୍ୟାହ୍ନ ଭୋଜନ\" ଆପଣଙ୍କ ପାଇଁ ଶୀର୍ଷକ, ତାରିଖ ଓ ସମୟ ପୂରଣ କରିଦିଏ.</string>
     <string name="settings_suggest_titles">ଇଭେଣ୍ଟ ଶୀର୍ଷକଗୁଡ଼ିକ ପରାମର୍ଶ ଦିଅନ୍ତୁ</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ଗତକାଲି</string>
     <string name="label_device_calendars">ଡିଭାଇସ କ୍ୟାଲେଣ୍ଡର</string>
     <string name="label_default_calendar_hint">ନୂଆ ଇଭେଣ୍ଟ ଏହି କ୍ୟାଲେଣ୍ଡରରେ ତିଆରି ହେବ</string>
-    <string name="label_visible_count">%1$d / %2$d ଦୃଶ୍ୟମାନ</string>
     <string name="label_reminders_truncated">%1$d ଦେଖାଯାଉନାହିଁ (%2$d ମୋଟ, ସର୍ବାଧିକ %3$d ସମ୍ପାଦନାଯୋଗ୍ୟ)</string>
     <string name="label_found_events">ମିଳିଲା: %1$d ଇଭେଣ୍ଟ</string>
     <string name="placeholder_search">ଖୋଜନ୍ତୁ…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ଆମଦାନୀ କରିବାକୁ କିଛି ନାହିଁ</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ଇଭେଣ୍ଟ ରପ୍ତାନୀ ହୋଇଛି</item>
-        <item quantity="other">%1$d ଇଭେଣ୍ଟ ରପ୍ତାନୀ ହୋଇଛି</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ଇଭେଣ୍ଟ</item>
         <item quantity="other">%1$d ଇଭେଣ୍ଟ</item>

@@ -88,7 +88,6 @@
     <string name="action_discard">Zahodit</string>
     <string name="action_discard_confirm">Zahodit?</string>
     <string name="action_dismiss">Zavřít</string>
-    <string name="action_show_all">Zobrazit vše</string>
     <string name="action_connect">Připojit</string>
     <string name="action_duplicate">Duplikovat</string>
     <string name="action_share">Sdílet</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Historie synchronizace</string>
     <string name="settings_sync_history_subtitle">Zobrazit relace synchronizace (posledních 48 hodin)</string>
     <string name="settings_import_subtitle">Přidat události ze souboru ICS do libovolného kalendáře</string>
-    <string name="settings_export_subtitle">Uložit události do souboru ICS</string>
     <string name="settings_birthday_reminder">Připomínka narozenin</string>
     <string name="settings_use_device_timezone">Použít časové pásmo zařízení</string>
     <string name="settings_section_calendars">Kalendáře a účty</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">K datu</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Viditelné kalendáře</string>
     <string name="settings_default_calendar">Výchozí kalendář</string>
     <string name="settings_default_event_length">Výchozí délka události</string>
     <string name="settings_default_event_length_hint">Výchozí délka nových událostí</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Načíst kalendář</string>
     <string name="action_import_from_file">Importovat události ze souboru</string>
-    <string name="action_export_local_calendar">Exportovat kalendář Místní</string>
+    <string name="settings_export_calendars">Exportovat kalendáře</string>
+    <string name="settings_export_calendars_subtitle">Uložit kalendář jako soubor ICS</string>
+    <string name="export_calendar_no_events">Žádné události</string>
+    <string name="export_calendar_preparing">Příprava…</string>
+    <string name="cd_export_calendar">Exportovat %1$s</string>
+    <string name="cd_export_calendar_preparing">Příprava %1$s</string>
+    <string name="export_calendar_chooser_title">Exportovat kalendář</string>
+    <string name="export_event_chooser_title">Exportovat událost</string>
+    <string name="export_file_failed">Nepodařilo se vytvořit soubor.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,38 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Kalendáře zařízení</string>
     <string name="settings_device_calendars_hint">Kalendáře z jiných aplikací</string>
+    <string name="offline_calendars_row_label">Offline kalendáře</string>
+    <string name="offline_calendars_row_hint">Kalendáře, které zůstávají v tomto telefonu</string>
+    <string name="offline_calendars_manage_note">Přidejte, přejmenujte, změňte barvu nebo smažte své offline kalendáře.</string>
+    <string name="offline_calendars_info">Uloženo jen v tomto telefonu a nikdy se nesynchronizuje. Zálohy nezahrnují události, proto kalendář exportujte, abyste si uchovali kopii.</string>
+    <string name="offline_calendars_info_cd">O offline kalendářích</string>
+    <string name="offline_calendar_default_state">Výchozí</string>
+    <string name="offline_calendar_new">Nový kalendář</string>
+    <string name="offline_calendar_new_in_picker">Nový offline kalendář</string>
+    <string name="action_create">Vytvořit</string>
+    <string name="offline_calendar_rename">Přejmenovat</string>
+    <string name="offline_calendar_color">Barva</string>
+    <string name="offline_calendar_export">Exportovat kalendář</string>
+    <string name="offline_calendar_builtin_info">Vestavěný kalendář nelze přejmenovat ani smazat. Nové události se ukládají sem, když není vybrán žádný kalendář.</string>
+    <string name="offline_calendar_builtin_info_cd">O vestavěném kalendáři</string>
+    <string name="offline_calendar_rename_cancel_cd">Zrušit přejmenování</string>
+    <string name="offline_calendar_rename_save_cd">Uložit název</string>
+    <string name="offline_calendar_delete_cd">Smazat %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Navždy smazat \"%2$s\" a jeho %1$d událost? Nelze vrátit zpět.</item>
+        <item quantity="few">Navždy smazat \"%2$s\" a jeho %1$d události? Nelze vrátit zpět.</item>
+        <item quantity="many">Navždy smazat \"%2$s\" a jeho %1$d událostí? Nelze vrátit zpět.</item>
+        <item quantity="other">Navždy smazat \"%2$s\" a jeho %1$d událostí? Nelze vrátit zpět.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Navždy smazat \"%1$s\"? Nemá žádné události.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Smazat i %1$d událost</item>
+        <item quantity="few">Smazat i %1$d události</item>
+        <item quantity="many">Smazat i %1$d událostí</item>
+        <item quantity="other">Smazat i %1$d událostí</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Smazáno: %1$s</string>
+    <string name="offline_calendar_duplicate_name">Offline kalendář s názvem \"%1$s\" už existuje</string>
     <string name="settings_quick_event_add">Chytré přidávání událostí</string>
     <string name="settings_quick_event_add_info">Vytvářejte události přirozeným psaním. \"Oběd se Sam v pátek 13:00\" za vás vyplní název, datum a čas.</string>
     <string name="settings_suggest_titles">Navrhovat názvy událostí</string>
@@ -695,7 +732,6 @@
     <string name="label_yesterday">Včera</string>
     <string name="label_device_calendars">Kalendáře zařízení</string>
     <string name="label_default_calendar_hint">Nové události budou vytvořeny v tomto kalendáři</string>
-    <string name="label_visible_count">%1$d / %2$d viditelných</string>
     <string name="label_reminders_truncated">%1$d nezobrazeno (%2$d celkem, max %3$d editovatelných)</string>
     <string name="label_found_events">Nalezeno: %1$d událostí</string>
     <string name="placeholder_search">Hledat…</string>
@@ -927,12 +963,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Není co importovat</string>
-    <plurals name="exported_events">
-        <item quantity="one">Exportována %1$d událost</item>
-        <item quantity="few">Exportovány %1$d události</item>
-        <item quantity="many">Exportováno %1$d událostí</item>
-        <item quantity="other">Exportováno %1$d událostí</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d událost</item>
         <item quantity="few">%1$d události</item>

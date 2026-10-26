@@ -66,7 +66,6 @@ import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.Event
 import org.onekash.kashcal.data.ics.IcsImportFile
 import org.onekash.kashcal.domain.ics.GroupPlan
-import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
 import org.onekash.kashcal.ui.model.CalendarGroup
 import org.onekash.kashcal.ui.model.PickerCalendar
 import org.onekash.kashcal.ui.model.localizedDisplayName
@@ -82,6 +81,8 @@ const val ICS_IMPORT_BUTTON_TAG = "ics_import_button"
  * @param calendars Room calendars; the sheet offers only the writable ones.
  * @param deviceCalendarGroups device calendars by account; the sheet offers only the writable
  *   ones.
+ * @param offlineCalendarIds ids of the offline account's Room calendars; an import into one
+ *   sends nothing, so the sheet shows no notices for it.
  * @param loadPreview reads the import plan for a calendar, writing nothing; called again for
  *   each calendar picked. A failure leaves Import available.
  * @param onImport called once with the target calendar ID and whether it is a device calendar.
@@ -94,6 +95,7 @@ fun IcsImportSheet(
     defaultCalendarId: Long?,
     deviceCalendarGroups: List<CalendarGroup>,
     defaultDeviceCalendarId: Long?,
+    offlineCalendarIds: Set<Long>,
     loadPreview: suspend (calendarId: Long, isDevice: Boolean) -> List<GroupPlan>,
     onDismiss: () -> Unit,
     onImport: (calendarId: Long, isDeviceCalendar: Boolean) -> Unit
@@ -157,12 +159,12 @@ fun IcsImportSheet(
     LaunchedEffect(selectedCalendarId, selectedIsDevice) {
         if (selectedCalendarId > 0) previewState.select(selectedCalendarId, selectedIsDevice)
     }
-    // Nothing leaves the phone from the on-phone calendar or an unsynced device calendar.
+    // Nothing leaves the phone from an offline calendar or an unsynced device calendar.
     val targetCanSend = if (selectedIsDevice) {
         (writableDeviceCalendars.find { it.id == selectedCalendarId } as? PickerCalendar.Device)
             ?.calendar?.accountType != CalendarContract.ACCOUNT_TYPE_LOCAL
     } else {
-        writableCalendars.find { it.id == selectedCalendarId }?.caldavUrl != LocalCalendarInitializer.LOCAL_CALENDAR_URL
+        selectedCalendarId !in offlineCalendarIds
     }
     var dismissedNotices by remember { mutableStateOf(emptySet<ImportNotice>()) }
 

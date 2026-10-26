@@ -88,7 +88,6 @@
     <string name="action_discard">విస్మరించు</string>
     <string name="action_discard_confirm">మార్పులను విస్మరించాలా?</string>
     <string name="action_dismiss">తీసివేయి</string>
-    <string name="action_show_all">అన్నీ చూపించు</string>
     <string name="action_connect">కనెక్ట్ చేయి</string>
     <string name="action_duplicate">నకలు</string>
     <string name="action_share">షేర్ చేయి</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">సింక్ చరిత్ర</string>
     <string name="settings_sync_history_subtitle">సింక్ సెషన్‌లు చూడు (గత 48 గంటలు)</string>
     <string name="settings_import_subtitle">ICS ఫైల్ నుండి ఈవెంట్‌లను ఏదైనా క్యాలెండర్‌కు జోడించండి</string>
-    <string name="settings_export_subtitle">ఈవెంట్‌లను ICS ఫైల్‌లో సేవ్ చేయి</string>
     <string name="settings_birthday_reminder">పుట్టినరోజు రిమైండర్</string>
     <string name="settings_use_device_timezone">పరికర టైమ్‌జోన్ ఉపయోగించు</string>
     <string name="settings_section_calendars">క్యాలెండర్లు &amp; ఖాతాలు</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">తేదీన</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">కనిపించే క్యాలెండర్లు</string>
     <string name="settings_default_calendar">డీఫాల్ట్ క్యాలెండర్</string>
     <string name="settings_default_event_length">డీఫాల్ట్ ఈవెంట్ వ్యవధి</string>
     <string name="settings_default_event_length_hint">కొత్త ఈవెంట్‌ల కోసం డిఫాల్ట్ వ్యవధి</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">క్యాలెండర్ తీసుకొచ్చు</string>
     <string name="action_import_from_file">ఫైల్ నుండి ఈవెంట్‌లను దిగుమతి చేయి</string>
-    <string name="action_export_local_calendar">స్థానిక క్యాలెండర్ ఎగుమతి చేయి</string>
+    <string name="settings_export_calendars">క్యాలెండర్‌లు ఎగుమతి చేయి</string>
+    <string name="settings_export_calendars_subtitle">క్యాలెండర్‌ను ICS ఫైల్‌గా సేవ్ చేయి</string>
+    <string name="export_calendar_no_events">ఈవెంట్‌లు లేవు</string>
+    <string name="export_calendar_preparing">సిద్ధమవుతోంది…</string>
+    <string name="cd_export_calendar">%1$s ఎగుమతి చేయి</string>
+    <string name="cd_export_calendar_preparing">%1$s సిద్ధమవుతోంది</string>
+    <string name="export_calendar_chooser_title">క్యాలెండర్ ఎగుమతి చేయి</string>
+    <string name="export_event_chooser_title">ఈవెంట్ ఎగుమతి చేయి</string>
+    <string name="export_file_failed">ఫైల్ సృష్టించలేకపోయింది.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">పరికర క్యాలెండర్లు</string>
     <string name="settings_device_calendars_hint">ఇతర యాప్‌ల నుండి క్యాలెండర్లు</string>
+    <string name="offline_calendars_row_label">ఆఫ్‌లైన్ క్యాలెండర్‌లు</string>
+    <string name="offline_calendars_row_hint">ఈ ఫోన్‌లోనే ఉండే క్యాలెండర్‌లు</string>
+    <string name="offline_calendars_manage_note">మీ ఆఫ్‌లైన్ క్యాలెండర్‌లను జోడించండి, పేరు లేదా రంగు మార్చండి, లేదా తొలగించండి.</string>
+    <string name="offline_calendars_info">ఈ ఫోన్‌లో మాత్రమే ఉంచబడతాయి, ఎప్పుడూ సింక్ కావు. బ్యాకప్‌లలో ఈవెంట్‌లు ఉండవు, కాబట్టి కాపీ ఉంచుకోవడానికి క్యాలెండర్‌ను ఎగుమతి చేయండి.</string>
+    <string name="offline_calendars_info_cd">ఆఫ్‌లైన్ క్యాలెండర్‌ల గురించి</string>
+    <string name="offline_calendar_default_state">డీఫాల్ట్</string>
+    <string name="offline_calendar_new">కొత్త క్యాలెండర్</string>
+    <string name="offline_calendar_new_in_picker">కొత్త ఆఫ్‌లైన్ క్యాలెండర్</string>
+    <string name="action_create">సృష్టించు</string>
+    <string name="offline_calendar_rename">పేరు మార్చండి</string>
+    <string name="offline_calendar_color">రంగు</string>
+    <string name="offline_calendar_export">క్యాలెండర్ ఎగుమతి చేయి</string>
+    <string name="offline_calendar_builtin_info">అంతర్నిర్మిత క్యాలెండర్ పేరు మార్చలేరు లేదా తొలగించలేరు. ఏ క్యాలెండర్ ఎంచుకోనప్పుడు కొత్త ఈవెంట్‌లు ఇక్కడికి వెళ్తాయి.</string>
+    <string name="offline_calendar_builtin_info_cd">అంతర్నిర్మిత క్యాలెండర్ గురించి</string>
+    <string name="offline_calendar_rename_cancel_cd">పేరు మార్పు రద్దు</string>
+    <string name="offline_calendar_rename_save_cd">పేరు సేవ్ చేయి</string>
+    <string name="offline_calendar_delete_cd">%1$s తొలగించు</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" మరియు దానిలోని %1$d ఈవెంట్‌ను శాశ్వతంగా తొలగించాలా? దీన్ని రద్దు చేయలేరు.</item>
+        <item quantity="other">\"%2$s\" మరియు దానిలోని %1$d ఈవెంట్‌లను శాశ్వతంగా తొలగించాలా? దీన్ని రద్దు చేయలేరు.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ను శాశ్వతంగా తొలగించాలా? దీనిలో ఈవెంట్‌లు లేవు.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ఈవెంట్‌ను కూడా తొలగించు</item>
+        <item quantity="other">%1$d ఈవెంట్‌లను కూడా తొలగించు</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s తొలగించబడింది</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" అనే పేరుతో ఆఫ్‌లైన్ క్యాలెండర్ ఇప్పటికే ఉంది</string>
     <string name="settings_quick_event_add">స్మార్ట్ ఈవెంట్ జోడింపు</string>
     <string name="settings_quick_event_add_info">సహజంగా టైప్ చేసి ఈవెంట్‌లను సృష్టించండి. \"శుక్రవారం మధ్యాహ్నం 1 గంటకు Sam‌తో లంచ్\" మీ కోసం శీర్షిక, తేదీ, సమయాన్ని పూరిస్తుంది.</string>
     <string name="settings_suggest_titles">ఈవెంట్ శీర్షికలను సూచించండి</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">నిన్న</string>
     <string name="label_device_calendars">పరికర క్యాలెండర్లు</string>
     <string name="label_default_calendar_hint">కొత్త ఈవెంట్‌లు ఈ క్యాలెండర్‌లో సృష్టించబడతాయి</string>
-    <string name="label_visible_count">%1$d / %2$d కనిపిస్తున్నాయి</string>
     <string name="label_reminders_truncated">%1$d చూపబడలేదు (%2$d మొత్తం, గరిష్టం %3$d మార్చగలవి)</string>
     <string name="label_found_events">కనుగొన్నవి: %1$d ఈవెంట్‌లు</string>
     <string name="placeholder_search">శోధించు…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">దిగుమతి చేయడానికి ఏమీ లేదు</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ఈవెంట్ ఎగుమతి చేయబడింది</item>
-        <item quantity="other">%1$d ఈవెంట్‌లు ఎగుమతి చేయబడ్డాయి</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ఈవెంట్</item>
         <item quantity="other">%1$d ఈవెంట్‌లు</item>

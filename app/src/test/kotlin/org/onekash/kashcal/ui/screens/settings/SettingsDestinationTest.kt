@@ -22,6 +22,7 @@ class SettingsDestinationTest {
         assertTrue(SettingsDestination.Subscriptions.depth > 0)
         assertTrue(SettingsDestination.Tags.depth > 0)
         assertTrue(SettingsDestination.DeviceCalendars.depth > 0)
+        assertTrue(SettingsDestination.OfflineCalendars.depth > 0)
     }
 
     @Test
@@ -31,6 +32,7 @@ class SettingsDestinationTest {
         assertTrue(SettingsDestination.Root.isForwardTo(SettingsDestination.Subscriptions))
         assertTrue(SettingsDestination.Root.isForwardTo(SettingsDestination.Tags))
         assertTrue(SettingsDestination.Root.isForwardTo(SettingsDestination.DeviceCalendars))
+        assertTrue(SettingsDestination.Root.isForwardTo(SettingsDestination.OfflineCalendars))
     }
 
     @Test
@@ -40,6 +42,7 @@ class SettingsDestinationTest {
         assertFalse(SettingsDestination.Subscriptions.isForwardTo(SettingsDestination.Root))
         assertFalse(SettingsDestination.Tags.isForwardTo(SettingsDestination.Root))
         assertFalse(SettingsDestination.DeviceCalendars.isForwardTo(SettingsDestination.Root))
+        assertFalse(SettingsDestination.OfflineCalendars.isForwardTo(SettingsDestination.Root))
     }
 
     @Test
@@ -58,6 +61,7 @@ class SettingsDestinationTest {
                 subscriptions = false,
                 tags = false,
                 deviceCalendars = false,
+                offlineCalendars = false,
             )
         )
         assertEquals(
@@ -68,6 +72,7 @@ class SettingsDestinationTest {
                 subscriptions = false,
                 tags = false,
                 deviceCalendars = false,
+                offlineCalendars = false,
             )
         )
         assertEquals(
@@ -78,6 +83,7 @@ class SettingsDestinationTest {
                 subscriptions = false,
                 tags = true,
                 deviceCalendars = false,
+                offlineCalendars = false,
             )
         )
         assertEquals(
@@ -88,6 +94,23 @@ class SettingsDestinationTest {
                 subscriptions = false,
                 tags = false,
                 deviceCalendars = true,
+                offlineCalendars = false,
+            )
+        )
+    }
+
+    @Test
+    fun `the offline calendars flag opens the Offline calendars screen`() {
+        assertEquals(1, SettingsDestination.OfflineCalendars.depth)
+        assertEquals(
+            SettingsDestination.OfflineCalendars,
+            SettingsDestination.from(
+                accounts = false,
+                birthdaysAnniversaries = false,
+                subscriptions = false,
+                tags = false,
+                deviceCalendars = false,
+                offlineCalendars = true,
             )
         )
     }

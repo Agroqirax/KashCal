@@ -88,7 +88,6 @@
     <string name="action_discard">Odbaci</string>
     <string name="action_discard_confirm">Odbaciti?</string>
     <string name="action_dismiss">Odbaci</string>
-    <string name="action_show_all">Prikaži sve</string>
     <string name="action_connect">Poveži</string>
     <string name="action_duplicate">Dupliciraj</string>
     <string name="action_share">Podijeli</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Povijest sinkronizacije</string>
     <string name="settings_sync_history_subtitle">Prikaži sesije sinkronizacije (zadnjih 48 sati)</string>
     <string name="settings_import_subtitle">Dodaj događaje iz ICS datoteke u bilo koji kalendar</string>
-    <string name="settings_export_subtitle">Spremi događaje u ICS datoteku</string>
     <string name="settings_birthday_reminder">Podsjetnik za rođendan</string>
     <string name="settings_use_device_timezone">Koristi vremensku zonu uređaja</string>
     <string name="settings_section_calendars">Kalendari i računi</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Na datum</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Vidljivi kalendari</string>
     <string name="settings_default_calendar">Zadani kalendar</string>
     <string name="settings_default_event_length">Zadano trajanje događaja</string>
     <string name="settings_default_event_length_hint">Zadana duljina novih događaja</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Dohvati kalendar</string>
     <string name="action_import_from_file">Uvezi događaje iz datoteke</string>
-    <string name="action_export_local_calendar">Izvezi kalendar Lokalni</string>
+    <string name="settings_export_calendars">Izvezi kalendare</string>
+    <string name="settings_export_calendars_subtitle">Spremi kalendar kao ICS datoteku</string>
+    <string name="export_calendar_no_events">Nema događaja</string>
+    <string name="export_calendar_preparing">Priprema…</string>
+    <string name="cd_export_calendar">Izvezi %1$s</string>
+    <string name="cd_export_calendar_preparing">Priprema %1$s</string>
+    <string name="export_calendar_chooser_title">Izvezi kalendar</string>
+    <string name="export_event_chooser_title">Izvezi događaj</string>
+    <string name="export_file_failed">Nije moguće stvoriti datoteku.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,36 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Kalendari uređaja</string>
     <string name="settings_device_calendars_hint">Kalendari iz drugih aplikacija</string>
+    <string name="offline_calendars_row_label">Kalendari izvan mreže</string>
+    <string name="offline_calendars_row_hint">Kalendari koji ostaju na ovom telefonu</string>
+    <string name="offline_calendars_manage_note">Dodaj, preimenuj, promijeni boju ili obriši svoje kalendare izvan mreže.</string>
+    <string name="offline_calendars_info">Čuvaju se samo na ovom telefonu i nikad se ne sinkroniziraju. Sigurnosne kopije ne uključuju događaje, pa izvezi kalendar ako želiš zadržati kopiju.</string>
+    <string name="offline_calendars_info_cd">O kalendarima izvan mreže</string>
+    <string name="offline_calendar_default_state">Zadani</string>
+    <string name="offline_calendar_new">Novi kalendar</string>
+    <string name="offline_calendar_new_in_picker">Novi kalendar izvan mreže</string>
+    <string name="action_create">Stvori</string>
+    <string name="offline_calendar_rename">Preimenuj</string>
+    <string name="offline_calendar_color">Boja</string>
+    <string name="offline_calendar_export">Izvezi kalendar</string>
+    <string name="offline_calendar_builtin_info">Ugrađeni kalendar ne može se preimenovati ni obrisati. Novi događaji idu ovdje kad nije odabran kalendar.</string>
+    <string name="offline_calendar_builtin_info_cd">O ugrađenom kalendaru</string>
+    <string name="offline_calendar_rename_cancel_cd">Odustani od preimenovanja</string>
+    <string name="offline_calendar_rename_save_cd">Spremi naziv</string>
+    <string name="offline_calendar_delete_cd">Obriši %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Trajno obrisati \"%2$s\" i %1$d događaj? Ne može se poništiti.</item>
+        <item quantity="few">Trajno obrisati \"%2$s\" i %1$d događaja? Ne može se poništiti.</item>
+        <item quantity="other">Trajno obrisati \"%2$s\" i %1$d događaja? Ne može se poništiti.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Trajno obrisati \"%1$s\"? Nema događaja.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Obriši i %1$d događaj</item>
+        <item quantity="few">Obriši i %1$d događaja</item>
+        <item quantity="other">Obriši i %1$d događaja</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Obrisano: %1$s</string>
+    <string name="offline_calendar_duplicate_name">Kalendar izvan mreže naziva \"%1$s\" već postoji</string>
     <string name="settings_quick_event_add">Pametno dodavanje događaja</string>
     <string name="settings_quick_event_add_info">Stvarajte događaje prirodnim pisanjem. \"Ručak sa Sam u petak 13:00\" umjesto vas ispunjava naslov, datum i vrijeme.</string>
     <string name="settings_suggest_titles">Predloži naslove događaja</string>
@@ -694,7 +729,6 @@
     <string name="label_yesterday">Jučer</string>
     <string name="label_device_calendars">Kalendari uređaja</string>
     <string name="label_default_calendar_hint">Novi događaji će se stvarati u ovom kalendaru</string>
-    <string name="label_visible_count">%1$d / %2$d vidljivih</string>
     <string name="label_reminders_truncated">%1$d neprikazanih (%2$d ukupno, maks %3$d ureditljivih)</string>
     <string name="label_found_events">Pronađeno: %1$d događaja</string>
     <string name="placeholder_search">Traži…</string>
@@ -901,11 +935,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nema ničega za uvoz</string>
-    <plurals name="exported_events">
-        <item quantity="one">Izvezen %1$d događaj</item>
-        <item quantity="few">Izvezeno %1$d događaja</item>
-        <item quantity="other">Izvezeno %1$d događaja</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d događaj</item>
         <item quantity="few">%1$d događaja</item>

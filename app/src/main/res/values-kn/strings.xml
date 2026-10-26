@@ -88,7 +88,6 @@
     <string name="action_discard">ತ್ಯಜಿಸಿ</string>
     <string name="action_discard_confirm">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಬೇಕೆ?</string>
     <string name="action_dismiss">ವಜಾಮಾಡಿ</string>
-    <string name="action_show_all">ಎಲ್ಲಾ ತೋರಿಸಿ</string>
     <string name="action_connect">ಸಂಪರ್ಕಿಸಿ</string>
     <string name="action_duplicate">ನಕಲು</string>
     <string name="action_share">ಹಂಚಿ</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">ಸಿಂಕ್ ಇತಿಹಾಸ</string>
     <string name="settings_sync_history_subtitle">ಸಿಂಕ್ ಸೆಷನ್‌ಗಳನ್ನು ನೋಡಿ (ಕೊನೆಯ 48 ಗಂಟೆಗಳು)</string>
     <string name="settings_import_subtitle">ICS ಫೈಲ್‌ನಿಂದ ಈವೆಂಟ್‌ಗಳನ್ನು ಯಾವುದೇ ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಸೇರಿಸಿ</string>
-    <string name="settings_export_subtitle">ಈವೆಂಟ್‌ಗಳನ್ನು ICS ಫೈಲ್‌ಗೆ ಉಳಿಸಿ</string>
     <string name="settings_birthday_reminder">ಹುಟ್ಟುಹಬ್ಬ ರಿಮೈಂಡರ್</string>
     <string name="settings_use_device_timezone">ಸಾಧನದ ಟೈಮ್‌ಜೋನ್ ಬಳಸಿ</string>
     <string name="settings_section_calendars">ಕ್ಯಾಲೆಂಡರ್‌ಗಳು &amp; ಖಾತೆಗಳು</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">ದಿನಾಂಕದಂದು</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">ಕಾಣಿಸುವ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
     <string name="settings_default_calendar">ಡೀಫಾಲ್ಟ್ ಕ್ಯಾಲೆಂಡರ್</string>
     <string name="settings_default_event_length">ಡೀಫಾಲ್ಟ್ ಈವೆಂಟ್ ಅವಧಿ</string>
     <string name="settings_default_event_length_hint">ಹೊಸ ಈವೆಂಟ್‌ಗಳಿಗೆ ಡೀಫಾಲ್ಟ್ ಅವಧಿ</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ಕ್ಯಾಲೆಂಡರ್ ಪಡೆಯಿರಿ</string>
     <string name="action_import_from_file">ಫೈಲ್‌ನಿಂದ ಈವೆಂಟ್‌ಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
-    <string name="action_export_local_calendar">ಸ್ಥಳೀಯ ಕ್ಯಾಲೆಂಡರ್ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="settings_export_calendars">ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡಿ</string>
+    <string name="settings_export_calendars_subtitle">ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ICS ಫೈಲ್ ಆಗಿ ಉಳಿಸಿ</string>
+    <string name="export_calendar_no_events">ಈವೆಂಟ್‌ಗಳಿಲ್ಲ</string>
+    <string name="export_calendar_preparing">ತಯಾರಿ ನಡೆಯುತ್ತಿದೆ…</string>
+    <string name="cd_export_calendar">%1$s ರಫ್ತು ಮಾಡಿ</string>
+    <string name="cd_export_calendar_preparing">%1$s ತಯಾರಿ ನಡೆಯುತ್ತಿದೆ</string>
+    <string name="export_calendar_chooser_title">ಕ್ಯಾಲೆಂಡರ್ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="export_event_chooser_title">ಈವೆಂಟ್ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="export_file_failed">ಫೈಲ್ ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
     <string name="settings_device_calendars_hint">ಇತರ ಆ್ಯಪ್‌ಗಳಿಂದ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
+    <string name="offline_calendars_row_label">ಆಫ್‌ಲೈನ್ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
+    <string name="offline_calendars_row_hint">ಈ ಫೋನ್‌ನಲ್ಲೇ ಉಳಿಯುವ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
+    <string name="offline_calendars_manage_note">ನಿಮ್ಮ ಆಫ್‌ಲೈನ್ ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಹೆಸರು ಅಥವಾ ಬಣ್ಣ ಬದಲಾಯಿಸಿ, ಅಥವಾ ಅಳಿಸಿ.</string>
+    <string name="offline_calendars_info">ಈ ಫೋನ್‌ನಲ್ಲಿ ಮಾತ್ರ ಇರಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಎಂದಿಗೂ ಸಿಂಕ್ ಆಗುವುದಿಲ್ಲ. ಬ್ಯಾಕಪ್‌ಗಳಲ್ಲಿ ಈವೆಂಟ್‌ಗಳು ಸೇರಿರುವುದಿಲ್ಲ, ಆದ್ದರಿಂದ ಪ್ರತಿಯನ್ನು ಇರಿಸಿಕೊಳ್ಳಲು ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ರಫ್ತು ಮಾಡಿ.</string>
+    <string name="offline_calendars_info_cd">ಆಫ್‌ಲೈನ್ ಕ್ಯಾಲೆಂಡರ್‌ಗಳ ಬಗ್ಗೆ</string>
+    <string name="offline_calendar_default_state">ಡೀಫಾಲ್ಟ್</string>
+    <string name="offline_calendar_new">ಹೊಸ ಕ್ಯಾಲೆಂಡರ್</string>
+    <string name="offline_calendar_new_in_picker">ಹೊಸ ಆಫ್‌ಲೈನ್ ಕ್ಯಾಲೆಂಡರ್</string>
+    <string name="action_create">ರಚಿಸಿ</string>
+    <string name="offline_calendar_rename">ಹೆಸರು ಬದಲಾಯಿಸಿ</string>
+    <string name="offline_calendar_color">ಬಣ್ಣ</string>
+    <string name="offline_calendar_export">ಕ್ಯಾಲೆಂಡರ್ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="offline_calendar_builtin_info">ಅಂತರ್ನಿರ್ಮಿತ ಕ್ಯಾಲೆಂಡರ್‌ನ ಹೆಸರು ಬದಲಾಯಿಸಲು ಅಥವಾ ಅಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಯಾವುದೇ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆ ಮಾಡದಿದ್ದಾಗ ಹೊಸ ಈವೆಂಟ್‌ಗಳು ಇಲ್ಲಿಗೆ ಹೋಗುತ್ತವೆ.</string>
+    <string name="offline_calendar_builtin_info_cd">ಅಂತರ್ನಿರ್ಮಿತ ಕ್ಯಾಲೆಂಡರ್ ಬಗ್ಗೆ</string>
+    <string name="offline_calendar_rename_cancel_cd">ಹೆಸರು ಬದಲಾವಣೆ ರದ್ದುಮಾಡಿ</string>
+    <string name="offline_calendar_rename_save_cd">ಹೆಸರು ಉಳಿಸಿ</string>
+    <string name="offline_calendar_delete_cd">%1$s ಅಳಿಸಿ</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" ಮತ್ತು ಅದರ %1$d ಈವೆಂಟ್ ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೆ? ರದ್ದುಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</item>
+        <item quantity="other">\"%2$s\" ಮತ್ತು ಅದರ %1$d ಈವೆಂಟ್‌ಗಳನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೆ? ರದ್ದುಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೆ? ಇದರಲ್ಲಿ ಯಾವುದೇ ಈವೆಂಟ್‌ಗಳಿಲ್ಲ.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ಈವೆಂಟ್ ಅನ್ನೂ ಅಳಿಸಿ</item>
+        <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳನ್ನೂ ಅಳಿಸಿ</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" ಹೆಸರಿನ ಆಫ್‌ಲೈನ್ ಕ್ಯಾಲೆಂಡರ್ ಈಗಾಗಲೇ ಇದೆ</string>
     <string name="settings_quick_event_add">ಸ್ಮಾರ್ಟ್ ಈವೆಂಟ್ ಸೇರ್ಪಡೆ</string>
     <string name="settings_quick_event_add_info">ಸಹಜವಾಗಿ ಟೈಪ್ ಮಾಡಿ ಈವೆಂಟ್‌ಗಳನ್ನು ರಚಿಸಿ. \"ಶುಕ್ರವಾರ ಮಧ್ಯಾಹ್ನ 1 ಗಂಟೆಗೆ Sam ಜೊತೆ ಊಟ\" ನಿಮಗಾಗಿ ಶೀರ್ಷಿಕೆ, ದಿನಾಂಕ ಮತ್ತು ಸಮಯವನ್ನು ಭರ್ತಿ ಮಾಡುತ್ತದೆ.</string>
     <string name="settings_suggest_titles">ಈವೆಂಟ್ ಶೀರ್ಷಿಕೆಗಳನ್ನು ಸೂಚಿಸಿ</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ನಿನ್ನೆ</string>
     <string name="label_device_calendars">ಸಾಧನ ಕ್ಯಾಲೆಂಡರ್‌ಗಳು</string>
     <string name="label_default_calendar_hint">ಹೊಸ ಈವೆಂಟ್‌ಗಳನ್ನು ಈ ಕ್ಯಾಲೆಂಡರ್‌ನಲ್ಲಿ ರಚಿಸಲಾಗುತ್ತದೆ</string>
-    <string name="label_visible_count">%1$d / %2$d ಕಾಣಿಸುತ್ತಿದೆ</string>
     <string name="label_reminders_truncated">%1$d ತೋರಿಸಿಲ್ಲ (%2$d ಒಟ್ಟು, ಗರಿಷ್ಠ %3$d ಬದಲಾಯಿಸಬಹುದು)</string>
     <string name="label_found_events">ಕಂಡುಬಂದವು: %1$d ಈವೆಂಟ್‌ಗಳು</string>
     <string name="placeholder_search">ಹುಡುಕಿ…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">ಆಮದು ಮಾಡಲು ಏನೂ ಇಲ್ಲ</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ಈವೆಂಟ್ ರಫ್ತು ಮಾಡಲಾಗಿದೆ</item>
-        <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡಲಾಗಿದೆ</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ಈವೆಂಟ್</item>
         <item quantity="other">%1$d ಈವೆಂಟ್‌ಗಳು</item>

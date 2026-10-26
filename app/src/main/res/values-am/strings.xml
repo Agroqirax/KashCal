@@ -88,7 +88,6 @@
     <string name="action_discard">አጥፋ</string>
     <string name="action_discard_confirm">ይጣል?</string>
     <string name="action_dismiss">አሰናብት</string>
-    <string name="action_show_all">ሁሉንም አሳይ</string>
     <string name="action_connect">አገናኝ</string>
     <string name="action_duplicate">ቅዳ</string>
     <string name="action_share">አጋራ</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">የማመሳሰል ታሪክ</string>
     <string name="settings_sync_history_subtitle">የማመሳሰል ክፍለ ጊዜዎችን ተመልከት (ባለፉት 48 ሰዓታት)</string>
     <string name="settings_import_subtitle">ከ ICS ፋይል ወደ ማንኛውም ቀን መቁጠሪያ ክስተቶችን ጨምር</string>
-    <string name="settings_export_subtitle">ክስተቶችን ወደ ICS ፋይል አስቀምጥ</string>
     <string name="settings_birthday_reminder">የልደት ቀን ማስታወሻ</string>
     <string name="settings_use_device_timezone">የመሳሪያ ሰዓት ክልል ተጠቀም</string>
     <string name="settings_section_calendars">የቀን መቁጠሪያዎች እና መለያዎች</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">በቀን</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">የሚታዩ ቀን መቁጠሪያዎች</string>
     <string name="settings_default_calendar">ነባሪ ቀን መቁጠሪያ</string>
     <string name="settings_default_event_length">ነባሪ የክስተት ርዝመት</string>
     <string name="settings_default_event_length_hint">ለአዲስ ክስተቶች ነባሪ ርዝመት</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">ቀን መቁጠሪያ አምጣ</string>
     <string name="action_import_from_file">ከፋይል ክስተቶችን አስገባ</string>
-    <string name="action_export_local_calendar">አካባቢያዊ ቀን መቁጠሪያ ላክ</string>
+    <string name="settings_export_calendars">የቀን መቁጠሪያዎችን ላክ</string>
+    <string name="settings_export_calendars_subtitle">የቀን መቁጠሪያን እንደ ICS ፋይል አስቀምጥ</string>
+    <string name="export_calendar_no_events">ምንም ክስተቶች የሉም</string>
+    <string name="export_calendar_preparing">በማዘጋጀት ላይ…</string>
+    <string name="cd_export_calendar">%1$s ላክ</string>
+    <string name="cd_export_calendar_preparing">%1$s በማዘጋጀት ላይ</string>
+    <string name="export_calendar_chooser_title">የቀን መቁጠሪያ ላክ</string>
+    <string name="export_event_chooser_title">ክስተት ላክ</string>
+    <string name="export_file_failed">ፋይሉን መፍጠር አልተቻለም።</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">የመሳሪያ ቀን መቁጠሪያዎች</string>
     <string name="settings_device_calendars_hint">ከሌሎች መተግበሪያዎች የቀን መቁጠሪያዎች</string>
+    <string name="offline_calendars_row_label">ከመስመር ውጭ የቀን መቁጠሪያዎች</string>
+    <string name="offline_calendars_row_hint">በዚህ ስልክ ላይ የሚቆዩ የቀን መቁጠሪያዎች</string>
+    <string name="offline_calendars_manage_note">ከመስመር ውጭ የቀን መቁጠሪያዎችዎን ያክሉ፣ እንደገና ይሰይሙ፣ ቀለም ይቀይሩ ወይም ያስወግዱ።</string>
+    <string name="offline_calendars_info">በዚህ ስልክ ላይ ብቻ ይቀመጣሉ፣ በጭራሽ አይሰምሩም። ምትኬዎች ክስተቶችን አያካትቱም፣ ስለዚህ ቅጂ ለማስቀመጥ የቀን መቁጠሪያውን ይላኩ።</string>
+    <string name="offline_calendars_info_cd">ስለ ከመስመር ውጭ የቀን መቁጠሪያዎች</string>
+    <string name="offline_calendar_default_state">ነባሪ</string>
+    <string name="offline_calendar_new">አዲስ የቀን መቁጠሪያ</string>
+    <string name="offline_calendar_new_in_picker">አዲስ ከመስመር ውጭ የቀን መቁጠሪያ</string>
+    <string name="action_create">ፍጠር</string>
+    <string name="offline_calendar_rename">እንደገና ሰይም</string>
+    <string name="offline_calendar_color">ቀለም</string>
+    <string name="offline_calendar_export">የቀን መቁጠሪያ ላክ</string>
+    <string name="offline_calendar_builtin_info">አብሮ የተሰራው የቀን መቁጠሪያ እንደገና ሊሰየም ወይም ሊሰረዝ አይችልም። ምንም የቀን መቁጠሪያ ካልተመረጠ አዲስ ክስተቶች ወደዚህ ይሄዳሉ።</string>
+    <string name="offline_calendar_builtin_info_cd">ስለ አብሮ የተሰራው የቀን መቁጠሪያ</string>
+    <string name="offline_calendar_rename_cancel_cd">እንደገና መሰየምን ሰርዝ</string>
+    <string name="offline_calendar_rename_save_cd">ስም አስቀምጥ</string>
+    <string name="offline_calendar_delete_cd">%1$s ሰርዝ</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">\"%2$s\" እና %1$d ክስተቱ ለዘለቄታው ይሰረዙ? መቀልበስ አይቻልም።</item>
+        <item quantity="other">\"%2$s\" እና %1$d ክስተቶቹ ለዘለቄታው ይሰረዙ? መቀልበስ አይቻልም።</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\" ለዘለቄታው ይሰረዝ? ምንም ክስተቶች የሉትም።</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d ክስተትንም ሰርዝ</item>
+        <item quantity="other">%1$d ክስተቶችንም ሰርዝ</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s ተሰርዟል</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" የተባለ ከመስመር ውጭ የቀን መቁጠሪያ አስቀድሞ አለ</string>
     <string name="settings_quick_event_add">ብልጥ ክስተት ማከል</string>
     <string name="settings_quick_event_add_info">በተፈጥሮ በመተየብ ክስተቶችን ይፍጠሩ። \"ከ Sam ጋር ምሳ አርብ 1pm\" ርዕሱን፣ ቀኑን እና ሰዓቱን ለእርስዎ ይሞላል።</string>
     <string name="settings_suggest_titles">የክስተት ርዕሶችን ጠቁም</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">ትናንት</string>
     <string name="label_device_calendars">የመሳሪያ ቀን መቁጠሪያዎች</string>
     <string name="label_default_calendar_hint">አዲስ ክስተቶች በዚህ ቀን መቁጠሪያ ውስጥ ይፈጠራሉ</string>
-    <string name="label_visible_count">%1$d / %2$d የሚታይ</string>
     <string name="label_reminders_truncated">%1$d አልታየም (%2$d ጠቅላላ፣ ከፍተኛ %3$d ሊስተካከል የሚችል)</string>
     <string name="label_found_events">ተገኝቷል: %1$d ክስተቶች</string>
     <string name="placeholder_search">ፈልግ…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">"፣ "</string>
     <string name="ics_import_summary_nothing">የሚገባ ምንም ነገር የለም</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d ክስተት ተልኳል</item>
-        <item quantity="other">%1$d ክስተቶች ተልከዋል</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d ክስተት</item>
         <item quantity="other">%1$d ክስተቶች</item>

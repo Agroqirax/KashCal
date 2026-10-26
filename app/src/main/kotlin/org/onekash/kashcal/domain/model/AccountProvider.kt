@@ -81,9 +81,6 @@ enum class AccountProvider(
         maxSyncRangeMonths = 0
     );
 
-    /** True for every provider except [LOCAL], including [CONTACTS], which has no server. */
-    val requiresSync: Boolean get() = this != LOCAL
-
     /** Whether this provider only pulls and never pushes. */
     val pullOnly: Boolean get() = this == ICS
 

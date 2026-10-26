@@ -35,7 +35,7 @@ data class IcsImportPreview(
 /**
  * Builds the sheet's preview from the import plan for the chosen calendar.
  *
- * @param targetCanSend false for a calendar that sends nothing (the on-phone calendar, or a
+ * @param targetCanSend false for a calendar that sends nothing (an offline calendar, or a
  *   device calendar no account syncs); it gets no notices, since nothing leaves the phone
  */
 fun buildImportPreview(plans: List<GroupPlan>, targetCanSend: Boolean): IcsImportPreview {

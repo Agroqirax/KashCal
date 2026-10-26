@@ -88,7 +88,6 @@
     <string name="action_discard">버리기</string>
     <string name="action_discard_confirm">변경사항을 버릴까요?</string>
     <string name="action_dismiss">닫기</string>
-    <string name="action_show_all">모두 보기</string>
     <string name="action_connect">연결</string>
     <string name="action_duplicate">복제</string>
     <string name="action_share">공유</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">동기화 기록</string>
     <string name="settings_sync_history_subtitle">동기화 세션 보기 (최근 48시간)</string>
     <string name="settings_import_subtitle">ICS 파일의 일정을 원하는 캘린더에 추가해요</string>
-    <string name="settings_export_subtitle">일정을 ICS 파일로 저장해요</string>
     <string name="settings_birthday_reminder">생일 알림</string>
     <string name="settings_use_device_timezone">기기 시간대 사용</string>
     <string name="settings_section_calendars">캘린더 및 계정</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">날짜 지정</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">표시할 캘린더</string>
     <string name="settings_default_calendar">기본 캘린더</string>
     <string name="settings_default_event_length">기본 일정 길이</string>
     <string name="settings_default_event_length_hint">새 일정의 기본 길이</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">캘린더 가져오기</string>
     <string name="action_import_from_file">파일에서 일정 가져오기</string>
-    <string name="action_export_local_calendar">로컬 캘린더 내보내기</string>
+    <string name="settings_export_calendars">캘린더 내보내기</string>
+    <string name="settings_export_calendars_subtitle">캘린더를 ICS 파일로 저장</string>
+    <string name="export_calendar_no_events">일정 없음</string>
+    <string name="export_calendar_preparing">준비 중…</string>
+    <string name="cd_export_calendar">%1$s 내보내기</string>
+    <string name="cd_export_calendar_preparing">%1$s 준비 중</string>
+    <string name="export_calendar_chooser_title">캘린더 내보내기</string>
+    <string name="export_event_chooser_title">일정 내보내기</string>
+    <string name="export_file_failed">파일을 만들 수 없어요.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,32 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">기기 캘린더</string>
     <string name="settings_device_calendars_hint">다른 앱의 캘린더</string>
+    <string name="offline_calendars_row_label">오프라인 캘린더</string>
+    <string name="offline_calendars_row_hint">이 휴대폰에만 저장되는 캘린더</string>
+    <string name="offline_calendars_manage_note">오프라인 캘린더를 추가하거나 이름·색상을 바꾸거나 삭제할 수 있어요.</string>
+    <string name="offline_calendars_info">이 휴대폰에만 저장되고 동기화되지 않아요. 백업에는 일정이 포함되지 않으니 사본을 남기려면 캘린더를 내보내세요.</string>
+    <string name="offline_calendars_info_cd">오프라인 캘린더 정보</string>
+    <string name="offline_calendar_default_state">기본</string>
+    <string name="offline_calendar_new">새 캘린더</string>
+    <string name="offline_calendar_new_in_picker">새 오프라인 캘린더</string>
+    <string name="action_create">만들기</string>
+    <string name="offline_calendar_rename">이름 변경</string>
+    <string name="offline_calendar_color">색상</string>
+    <string name="offline_calendar_export">캘린더 내보내기</string>
+    <string name="offline_calendar_builtin_info">기본 제공 캘린더는 이름을 바꾸거나 삭제할 수 없어요. 캘린더를 선택하지 않은 새 일정은 여기에 추가돼요.</string>
+    <string name="offline_calendar_builtin_info_cd">기본 제공 캘린더 정보</string>
+    <string name="offline_calendar_rename_cancel_cd">이름 변경 취소</string>
+    <string name="offline_calendar_rename_save_cd">이름 저장</string>
+    <string name="offline_calendar_delete_cd">%1$s 삭제</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="other">\"%2$s\"와(과) 일정 %1$d개를 영구히 삭제할까요? 되돌릴 수 없어요.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">\"%1$s\"을(를) 영구히 삭제할까요? 일정이 없어요.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="other">일정 %1$d개도 삭제</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s 삭제됨</string>
+    <string name="offline_calendar_duplicate_name">\"%1$s\" 이름의 오프라인 캘린더가 이미 있어요</string>
     <string name="settings_quick_event_add">스마트 일정 추가</string>
     <string name="settings_quick_event_add_info">자연스럽게 입력해 일정을 만들어요. \"Sam과 금요일 오후 1시 점심\"이라고 입력하면 제목, 날짜, 시간이 자동으로 채워져요.</string>
     <string name="settings_suggest_titles">일정 제목 제안</string>
@@ -692,7 +723,6 @@
     <string name="label_yesterday">어제</string>
     <string name="label_device_calendars">기기 캘린더</string>
     <string name="label_default_calendar_hint">새 일정이 이 캘린더에 만들어져요</string>
-    <string name="label_visible_count">%1$d / %2$d 표시</string>
     <string name="label_reminders_truncated">%1$d개 미표시 (전체 %2$d개, 최대 %3$d개 편집 가능)</string>
     <string name="label_found_events">발견: 일정 %1$d개</string>
     <string name="placeholder_search">검색…</string>
@@ -849,9 +879,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">가져올 항목이 없어요</string>
-    <plurals name="exported_events">
-        <item quantity="other">일정 %1$d개를 내보냈어요</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="other">일정 %1$d개</item>
     </plurals>

@@ -88,7 +88,6 @@
     <string name="action_discard">Henda</string>
     <string name="action_discard_confirm">Henda?</string>
     <string name="action_dismiss">Hunsa</string>
-    <string name="action_show_all">Sýna allt</string>
     <string name="action_connect">Tengja</string>
     <string name="action_duplicate">Afrita</string>
     <string name="action_share">Deila</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Samstillingarsaga</string>
     <string name="settings_sync_history_subtitle">Skoða samstillingarlotur (síðustu 48 klukkustundir)</string>
     <string name="settings_import_subtitle">Bæta viðburðum úr ICS-skrá við hvaða dagatal sem er</string>
-    <string name="settings_export_subtitle">Vista viðburði í ICS-skrá</string>
     <string name="settings_birthday_reminder">Afmælisáminning</string>
     <string name="settings_use_device_timezone">Nota tímabelti tækis</string>
     <string name="settings_section_calendars">Dagatöl &amp; reikningar</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Á dagsetningu</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Sýnileg dagatöl</string>
     <string name="settings_default_calendar">Sjálfgefið dagatal</string>
     <string name="settings_default_event_length">Sjálfgefin viðburðarlengd</string>
     <string name="settings_default_event_length_hint">Sjálfgefin lengd fyrir nýja viðburði</string>
@@ -487,7 +484,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Sækja dagatal</string>
     <string name="action_import_from_file">Flytja viðburði inn úr skrá</string>
-    <string name="action_export_local_calendar">Flytja út staðbundið dagatal</string>
+    <string name="settings_export_calendars">Flytja dagatöl út</string>
+    <string name="settings_export_calendars_subtitle">Vista dagatal sem ICS-skrá</string>
+    <string name="export_calendar_no_events">Engir viðburðir</string>
+    <string name="export_calendar_preparing">Undirbý…</string>
+    <string name="cd_export_calendar">Flytja %1$s út</string>
+    <string name="cd_export_calendar_preparing">Undirbý %1$s</string>
+    <string name="export_calendar_chooser_title">Flytja dagatal út</string>
+    <string name="export_event_chooser_title">Flytja viðburð út</string>
+    <string name="export_file_failed">Gat ekki búið til skrána.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -616,6 +621,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Dagatöl tækis</string>
     <string name="settings_device_calendars_hint">Dagatöl úr öðrum forritum</string>
+    <string name="offline_calendars_row_label">Ónettengd dagatöl</string>
+    <string name="offline_calendars_row_hint">Dagatöl sem eru bara í þessum síma</string>
+    <string name="offline_calendars_manage_note">Bættu við, endurnefndu, breyttu lit á eða fjarlægðu ónettengdu dagatölin þín.</string>
+    <string name="offline_calendars_info">Geymt eingöngu í þessum síma og aldrei samstillt. Öryggisafrit innihalda ekki viðburði, svo fluttu dagatal út til að eiga afrit.</string>
+    <string name="offline_calendars_info_cd">Um ónettengd dagatöl</string>
+    <string name="offline_calendar_default_state">Sjálfgefið</string>
+    <string name="offline_calendar_new">Nýtt dagatal</string>
+    <string name="offline_calendar_new_in_picker">Nýtt ónettengt dagatal</string>
+    <string name="action_create">Búa til</string>
+    <string name="offline_calendar_rename">Endurnefna</string>
+    <string name="offline_calendar_color">Litur</string>
+    <string name="offline_calendar_export">Flytja dagatal út</string>
+    <string name="offline_calendar_builtin_info">Ekki er hægt að endurnefna eða eyða innbyggða dagatalinu. Nýir viðburðir fara hingað þegar ekkert dagatal er valið.</string>
+    <string name="offline_calendar_builtin_info_cd">Um innbyggða dagatalið</string>
+    <string name="offline_calendar_rename_cancel_cd">Hætta við endurnefningu</string>
+    <string name="offline_calendar_rename_save_cd">Vista nafn</string>
+    <string name="offline_calendar_delete_cd">Eyða %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Eyða \"%2$s\" og %1$d viðburði þess varanlega? Ekki er hægt að afturkalla.</item>
+        <item quantity="other">Eyða \"%2$s\" og %1$d viðburðum þess varanlega? Ekki er hægt að afturkalla.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Eyða \"%1$s\" varanlega? Það hefur enga viðburði.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Eyða einnig %1$d viðburði</item>
+        <item quantity="other">Eyða einnig %1$d viðburðum</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s eytt</string>
+    <string name="offline_calendar_duplicate_name">Ónettengt dagatal sem heitir \"%1$s\" er þegar til</string>
     <string name="settings_quick_event_add">Snjöll viðburðaskráning</string>
     <string name="settings_quick_event_add_info">Búðu til viðburði með því að skrifa á eðlilegan hátt. \"Hádegismatur með Sam föstudag 13:00\" fyllir út heiti, dagsetningu og tíma fyrir þig.</string>
     <string name="settings_suggest_titles">Stinga upp á heiti viðburða</string>
@@ -692,7 +725,6 @@
     <string name="label_yesterday">Í gær</string>
     <string name="label_device_calendars">Dagatöl tækis</string>
     <string name="label_default_calendar_hint">Nýir viðburðir verða búnir til í þessu dagatali</string>
-    <string name="label_visible_count">%1$d / %2$d sýnileg</string>
     <string name="label_reminders_truncated">%1$d ekki sýndar (%2$d alls, hámark %3$d breytanlegar)</string>
     <string name="label_found_events">Fundust: %1$d viðburðir</string>
     <string name="placeholder_search">Leita…</string>
@@ -874,10 +906,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Ekkert að flytja inn</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d viðburður fluttur út</item>
-        <item quantity="other">%1$d viðburðir fluttir út</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d viðburður</item>
         <item quantity="other">%1$d viðburðir</item>

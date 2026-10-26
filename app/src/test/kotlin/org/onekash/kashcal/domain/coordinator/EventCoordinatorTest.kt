@@ -146,8 +146,8 @@ class EventCoordinatorTest {
         // Default local calendar setup
         coEvery { localCalendarInitializer.ensureLocalCalendarExists() } returns localCalendarId
         coEvery { localCalendarInitializer.getLocalCalendarId() } returns localCalendarId
-        every { localCalendarInitializer.isLocalCalendar(localCalendar) } returns true
-        every { localCalendarInitializer.isLocalCalendar(iCloudCalendar) } returns false
+        coEvery { localCalendarInitializer.isLocalCalendar(localCalendar) } returns true
+        coEvery { localCalendarInitializer.isLocalCalendar(iCloudCalendar) } returns false
 
         // Default calendar lookups
         coEvery { eventReader.getCalendarById(localCalendarId) } returns localCalendar
@@ -199,7 +199,7 @@ class EventCoordinatorTest {
     }
 
     @Test
-    fun `isLocalCalendar correctly identifies local calendar`() {
+    fun `isLocalCalendar correctly identifies local calendar`() = runTest {
         assertTrue(coordinator.isLocalCalendar(localCalendar))
         assertFalse(coordinator.isLocalCalendar(iCloudCalendar))
     }
@@ -1609,22 +1609,28 @@ class EventCoordinatorTest {
                 200L to listOf(exception1a, exception1b),
                 201L to listOf(exception2a)
             )
+        val guests = mapOf(300L to listOf(Attendee(eventId = 300L, address = "mailto:guest@example.test")))
+        coEvery { eventReader.getAttendeesForEventsOnce(listOf(200L, 201L, 202L, 300L, 301L, 302L)) } returns guests
 
         val result = coordinator.getCalendarEventsForExport(iCloudCalendarId)
 
         assertEquals(3, result.size)
 
         // master1 has 2 exceptions
-        assertEquals(master1, result[0].first)
-        assertEquals(listOf(exception1a, exception1b), result[0].second)
+        assertEquals(master1, result[0].event)
+        assertEquals(listOf(exception1a, exception1b), result[0].exceptions)
 
         // master2 has 1 exception
-        assertEquals(master2, result[1].first)
-        assertEquals(listOf(exception2a), result[1].second)
+        assertEquals(master2, result[1].event)
+        assertEquals(listOf(exception2a), result[1].exceptions)
 
         // standalone has no exceptions
-        assertEquals(standalone, result[2].first)
-        assertEquals(emptyList<Event>(), result[2].second)
+        assertEquals(standalone, result[2].event)
+        assertEquals(emptyList<Event>(), result[2].exceptions)
+
+        // Every row's attendees come from one batch read of masters and exceptions.
+        result.forEach { assertEquals(guests, it.attendeesByEventId) }
+        coVerify(exactly = 1) { eventReader.getAttendeesForEventsOnce(any()) }
 
         // One batch query for the recurring masters' ids, no per-master query.
         coVerify(exactly = 1) { eventReader.getExceptionsForMasters(listOf(200L, 201L)) }
@@ -1638,12 +1644,13 @@ class EventCoordinatorTest {
 
         coEvery { eventReader.getAllMasterEventsForCalendar(localCalendarId) } returns
             listOf(standalone1, standalone2)
+        coEvery { eventReader.getAttendeesForEventsOnce(listOf(200L, 201L)) } returns emptyMap()
 
         val result = coordinator.getCalendarEventsForExport(localCalendarId)
 
         assertEquals(2, result.size)
-        assertEquals(emptyList<Event>(), result[0].second)
-        assertEquals(emptyList<Event>(), result[1].second)
+        assertEquals(emptyList<Event>(), result[0].exceptions)
+        assertEquals(emptyList<Event>(), result[1].exceptions)
 
         // No recurring events, so no exception query.
         coVerify(exactly = 0) { eventReader.getExceptionsForMasters(any()) }

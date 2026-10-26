@@ -88,7 +88,6 @@
     <string name="action_discard">Caith Amach</string>
     <string name="action_discard_confirm">Caith amach na hathruithe?</string>
     <string name="action_dismiss">Díláithrigh</string>
-    <string name="action_show_all">Taispeáin Uile</string>
     <string name="action_connect">Ceangail</string>
     <string name="action_duplicate">Dúbligh</string>
     <string name="action_share">Comhroinn</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Stair sioncronúithe</string>
     <string name="settings_sync_history_subtitle">Féach ar sheisiúin sioncronúithe (48 uair an chloig siar)</string>
     <string name="settings_import_subtitle">Cuir imeachtaí ó chomhad ICS le haon fhéilire</string>
-    <string name="settings_export_subtitle">Sábháil imeachtaí chuig comhad ICS</string>
     <string name="settings_birthday_reminder">Meabhrúchán Lá Breithe</string>
     <string name="settings_use_device_timezone">Úsáid crios ama na gléine</string>
     <string name="settings_section_calendars">Féilirí agus cuntais</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Ar dháta</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Féilirí Infheicthe</string>
     <string name="settings_default_calendar">Féilire Réamhshocrú</string>
     <string name="settings_default_event_length">Fad Réamhshocrú Imeachta</string>
     <string name="settings_default_event_length_hint">Fad réamhshocraithe d\'imeachtaí nua</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Fáil Féilire</string>
     <string name="action_import_from_file">Iompórtáil imeachtaí ó chomhad</string>
-    <string name="action_export_local_calendar">Easpórtáil féilire áitiúil</string>
+    <string name="settings_export_calendars">Easpórtáil féilirí</string>
+    <string name="settings_export_calendars_subtitle">Sábháil féilire mar chomhad ICS</string>
+    <string name="export_calendar_no_events">Gan imeachtaí</string>
+    <string name="export_calendar_preparing">Ag ullmhú…</string>
+    <string name="cd_export_calendar">Easpórtáil %1$s</string>
+    <string name="cd_export_calendar_preparing">Ag ullmhú %1$s</string>
+    <string name="export_calendar_chooser_title">Easpórtáil féilire</string>
+    <string name="export_event_chooser_title">Easpórtáil imeacht</string>
+    <string name="export_file_failed">Níorbh fhéidir an comhad a chruthú.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,40 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Féilirí na Gléine</string>
     <string name="settings_device_calendars_hint">Féilirí ó aipeanna eile</string>
+    <string name="offline_calendars_row_label">Féilirí as líne</string>
+    <string name="offline_calendars_row_hint">Féilirí a fhanann ar an bhfón seo</string>
+    <string name="offline_calendars_manage_note">Cuir leis, athainmnigh, athraigh dath nó scrios do chuid féilirí as líne.</string>
+    <string name="offline_calendars_info">Ní choinnítear iad ach ar an bhfón seo agus ní shioncronaítear riamh iad. Ní chuimsíonn cúltacaí imeachtaí, mar sin easpórtáil féilire chun cóip a choinneáil.</string>
+    <string name="offline_calendars_info_cd">Faoi fhéilirí as líne</string>
+    <string name="offline_calendar_default_state">Réamhshocrú</string>
+    <string name="offline_calendar_new">Féilire nua</string>
+    <string name="offline_calendar_new_in_picker">Féilire nua as líne</string>
+    <string name="action_create">Cruthaigh</string>
+    <string name="offline_calendar_rename">Athainmnigh</string>
+    <string name="offline_calendar_color">Dath</string>
+    <string name="offline_calendar_export">Easpórtáil féilire</string>
+    <string name="offline_calendar_builtin_info">Ní féidir an féilire ionsuite a athainmniú ná a scriosadh. Téann imeachtaí nua anseo nuair nach roghnaítear féilire.</string>
+    <string name="offline_calendar_builtin_info_cd">Faoin bhféilire ionsuite</string>
+    <string name="offline_calendar_rename_cancel_cd">Cealaigh athainmniú</string>
+    <string name="offline_calendar_rename_save_cd">Sábháil ainm</string>
+    <string name="offline_calendar_delete_cd">Scrios %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">An scriosfar \"%2$s\" agus a %1$d imeacht go deo? Ní féidir é a chealú.</item>
+        <item quantity="two">An scriosfar \"%2$s\" agus a %1$d imeacht go deo? Ní féidir é a chealú.</item>
+        <item quantity="few">An scriosfar \"%2$s\" agus a %1$d imeacht go deo? Ní féidir é a chealú.</item>
+        <item quantity="many">An scriosfar \"%2$s\" agus a %1$d n-imeacht go deo? Ní féidir é a chealú.</item>
+        <item quantity="other">An scriosfar \"%2$s\" agus a %1$d imeacht go deo? Ní féidir é a chealú.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">An scriosfar \"%1$s\" go deo? Níl aon imeachtaí ann.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Scrios %1$d imeacht freisin</item>
+        <item quantity="two">Scrios %1$d imeacht freisin</item>
+        <item quantity="few">Scrios %1$d imeacht freisin</item>
+        <item quantity="many">Scrios %1$d n-imeacht freisin</item>
+        <item quantity="other">Scrios %1$d imeacht freisin</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Scriosadh %1$s</string>
+    <string name="offline_calendar_duplicate_name">Tá féilire as líne darb ainm \"%1$s\" ann cheana</string>
     <string name="settings_quick_event_add">Imeachtaí a chur leis go cliste</string>
     <string name="settings_quick_event_add_info">Cruthaigh imeachtaí trí chlóscríobh go nádúrtha. Líonann \"Lón le Sam Dé hAoine 1in\" an teideal, an dáta agus an t-am duit.</string>
     <string name="settings_suggest_titles">Mol teidil imeachtaí</string>
@@ -696,7 +735,6 @@
     <string name="label_yesterday">Inné</string>
     <string name="label_device_calendars">Féilirí na Gléine</string>
     <string name="label_default_calendar_hint">Cruthófar imeachtaí nua san fhéilire seo</string>
-    <string name="label_visible_count">%1$d / %2$d infheicthe</string>
     <string name="label_reminders_truncated">%1$d gan taispeáint (%2$d san iomlán, uasmhéid %3$d ineagarthóireachta)</string>
     <string name="label_found_events">Aimsíodh: %1$d imeacht</string>
     <string name="placeholder_search">Cuardaigh…</string>
@@ -953,13 +991,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Níl aon rud le hiompórtáil</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d imeacht eas-phortáilte</item>
-        <item quantity="two">%1$d imeacht eas-phortáilte</item>
-        <item quantity="few">%1$d imeacht eas-phortáilte</item>
-        <item quantity="many">%1$d n-imeacht eas-phortáilte</item>
-        <item quantity="other">%1$d imeacht eas-phortáilte</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d imeacht</item>
         <item quantity="two">%1$d imeacht</item>

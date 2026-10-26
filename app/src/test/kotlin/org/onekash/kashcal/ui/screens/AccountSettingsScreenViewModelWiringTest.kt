@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 import org.onekash.kashcal.data.calendar_provider.DeviceCalendar
 import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.preferences.DefaultCalendar
+import org.onekash.kashcal.domain.model.LocalCalendarSummary
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.domain.initializer.LocalCalendarInitializer
 import org.onekash.kashcal.sync.session.SyncSessionStore
@@ -98,6 +99,8 @@ class AccountSettingsScreenViewModelWiringTest {
         every { vm.calendars } returns MutableStateFlow(listOf(localCalendar))
         every { vm.calendarGroups } returns MutableStateFlow(emptyList<CalendarGroup>())
         every { vm.defaultCalendar } returns MutableStateFlow<DefaultCalendar?>(null)
+        every { vm.offlineCalendars } returns MutableStateFlow(emptyList<LocalCalendarSummary>())
+        every { vm.offlineDefaultCalendarId } returns MutableStateFlow<Long?>(null)
         every { vm.writableDeviceCalendarGroups } returns MutableStateFlow(emptyList<CalendarGroup>())
         every { vm.syncIntervalMs } returns MutableStateFlow(24 * 60 * 60 * 1000L)
         every { vm.subscriptions } returns MutableStateFlow(emptyList<IcsSubscriptionUiModel>())

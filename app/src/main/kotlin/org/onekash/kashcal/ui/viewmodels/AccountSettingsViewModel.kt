@@ -42,6 +42,7 @@ import org.onekash.kashcal.data.db.entity.Calendar
 import org.onekash.kashcal.data.db.entity.SyncLog
 import org.onekash.kashcal.data.ics.IcsSubscriptionRepository
 import org.onekash.kashcal.data.preferences.DefaultCalendar
+import org.onekash.kashcal.domain.model.LocalCalendarSummary
 import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.data.preferences.PreferencesKeys
 import org.onekash.kashcal.data.preferences.UserPreferencesRepository
@@ -212,6 +213,23 @@ class AccountSettingsViewModel @Inject constructor(
     // Default calendar (new format supporting Room and Device)
     private val _defaultCalendar = MutableStateFlow<DefaultCalendar?>(null)
     val defaultCalendar: StateFlow<DefaultCalendar?> = _defaultCalendar.asStateFlow()
+
+    /**
+     * The offline calendars with their event counts, for the Offline calendars screen and the
+     * Settings row's subtitle. The screen sorts and names them again with its own resources, so
+     * a language change shows at once.
+     */
+    val offlineCalendars: StateFlow<List<LocalCalendarSummary>> =
+        eventCoordinator.getLocalCalendarSummaries { it.localizedDisplayName(context.resources) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /**
+     * The id of the Room calendar that is the default for new events, which the Offline calendars
+     * screen tints; null for a device default, whose ids are a separate space.
+     */
+    val offlineDefaultCalendarId: StateFlow<Long?> =
+        _defaultCalendar.map { (it as? DefaultCalendar.Room)?.calendarId }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     // Writable device calendars for default calendar picker (requires WRITE_CALENDAR)
     private val _writableDeviceCalendarGroups = MutableStateFlow<List<CalendarGroup>>(emptyList())
@@ -1788,33 +1806,6 @@ class AccountSettingsViewModel @Inject constructor(
         }
     }
 
-    // ==================== Calendar Actions ====================
-
-    fun onToggleCalendar(calendarId: Long, visible: Boolean) {
-        viewModelScope.launch {
-            // The calendar's visible flag is the source of truth for which calendars show
-            eventCoordinator.setCalendarVisibility(calendarId, visible)
-        }
-    }
-
-    fun onShowAllCalendars() {
-        viewModelScope.launch {
-            _calendars.value.forEach { calendar ->
-                eventCoordinator.setCalendarVisibility(calendar.id, true)
-            }
-        }
-    }
-
-    fun onHideAllCalendars() {
-        viewModelScope.launch {
-            // At least one calendar stays visible: the first one
-            val firstCalendarId = _calendars.value.firstOrNull()?.id
-            _calendars.value.forEach { calendar ->
-                eventCoordinator.setCalendarVisibility(calendar.id, calendar.id == firstCalendarId)
-            }
-        }
-    }
-
     // ==================== Subscription Actions ====================
 
     /**
@@ -2389,6 +2380,39 @@ class AccountSettingsViewModel @Inject constructor(
             _writableDeviceCalendarGroups.value = groups
         }
     }
+
+    // ==================== Offline calendars ====================
+
+    /**
+     * Adds an offline calendar ([EventCoordinator.createLocalCalendar]) and returns its id. Runs on
+     * [applicationScope], like [deleteOfflineCalendar], so a rotation or a closed sheet can't drop
+     * the result of a create Room already saved.
+     */
+    suspend fun createOfflineCalendar(name: String, color: Int): Result<Long> {
+        val builtInName = builtInCalendarName()
+        return applicationScope.async { eventCoordinator.createLocalCalendar(name, color, builtInName) }.await()
+    }
+
+    /** Renames an offline calendar ([EventCoordinator.renameLocalCalendar]), as create does. */
+    suspend fun renameOfflineCalendar(calendarId: Long, name: String): Result<Unit> {
+        val builtInName = builtInCalendarName()
+        return applicationScope.async { eventCoordinator.renameLocalCalendar(calendarId, name, builtInName) }.await()
+    }
+
+    /** Recolors an offline calendar ([EventCoordinator.recolorLocalCalendar]). */
+    suspend fun recolorOfflineCalendar(calendarId: Long, color: Int): Result<Unit> =
+        eventCoordinator.recolorLocalCalendar(calendarId, color)
+
+    /**
+     * Deletes an offline calendar with its events ([EventCoordinator.deleteLocalCalendar]) and
+     * returns how many it had. Runs on [applicationScope], so a caller that goes away, such as the
+     * screen closing, doesn't stop it.
+     */
+    suspend fun deleteOfflineCalendar(calendarId: Long): Result<Int> =
+        applicationScope.async { eventCoordinator.deleteLocalCalendar(calendarId) }.await()
+
+    /** Returns the built-in calendar's translated label, read per call to follow the language. */
+    private fun builtInCalendarName(): String = context.getString(R.string.calendar_local)
 
     /** Sets the default calendar for new events, a Room or a device calendar. */
     fun onDefaultCalendarSelect(calendar: DefaultCalendar) {

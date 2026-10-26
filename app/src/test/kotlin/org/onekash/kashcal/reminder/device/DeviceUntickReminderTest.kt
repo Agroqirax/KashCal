@@ -160,6 +160,7 @@ class DeviceUntickReminderTest {
         }
         val eventCoordinator = mockk<EventCoordinator> {
             every { getAllCalendars() } returns MutableStateFlow(emptyList<Calendar>())
+            every { getLocalCalendarSummaries(any()) } returns flowOf(emptyList())
             every { getAllAccounts() } returns flowOf(emptyList())
             every { getICloudCalendarCount() } returns MutableStateFlow(0)
             every { getCalDavAccountCount() } returns MutableStateFlow(0)

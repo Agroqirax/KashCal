@@ -88,7 +88,6 @@
     <string name="action_discard">Elvetés</string>
     <string name="action_discard_confirm">Elveted?</string>
     <string name="action_dismiss">Elrejtés</string>
-    <string name="action_show_all">Összes mutatása</string>
     <string name="action_connect">Csatlakozás</string>
     <string name="action_duplicate">Másolat</string>
     <string name="action_share">Megosztás</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Szinkronizálási előzmények</string>
     <string name="settings_sync_history_subtitle">Szinkronizálási munkamenetek megtekintése (utolsó 48 óra)</string>
     <string name="settings_import_subtitle">Események hozzáadása ICS fájlból bármelyik naptárhoz</string>
-    <string name="settings_export_subtitle">Események mentése ICS fájlba</string>
     <string name="settings_birthday_reminder">Születésnapi emlékeztető</string>
     <string name="settings_use_device_timezone">Eszköz időzónájának használata</string>
     <string name="settings_section_calendars">Naptárak és fiókok</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Adott dátumon</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Látható naptárak</string>
     <string name="settings_default_calendar">Alapértelmezett naptár</string>
     <string name="settings_default_event_length">Alapértelmezett eseményhossz</string>
     <string name="settings_default_event_length_hint">Új események alapértelmezett hossza</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Naptár letöltése</string>
     <string name="action_import_from_file">Események importálása fájlból</string>
-    <string name="action_export_local_calendar">Helyi naptár exportálása</string>
+    <string name="settings_export_calendars">Naptárak exportálása</string>
+    <string name="settings_export_calendars_subtitle">Naptár mentése ICS fájlként</string>
+    <string name="export_calendar_no_events">Nincs esemény</string>
+    <string name="export_calendar_preparing">Előkészítés…</string>
+    <string name="cd_export_calendar">%1$s exportálása</string>
+    <string name="cd_export_calendar_preparing">%1$s előkészítése</string>
+    <string name="export_calendar_chooser_title">Naptár exportálása</string>
+    <string name="export_event_chooser_title">Esemény exportálása</string>
+    <string name="export_file_failed">Nem sikerült létrehozni a fájlt.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Eszköz naptárak</string>
     <string name="settings_device_calendars_hint">Naptárak más alkalmazásokból</string>
+    <string name="offline_calendars_row_label">Offline naptárak</string>
+    <string name="offline_calendars_row_hint">A telefonon maradó naptárak</string>
+    <string name="offline_calendars_manage_note">Offline naptáraid hozzáadása, átnevezése, átszínezése vagy eltávolítása.</string>
+    <string name="offline_calendars_info">Csak ezen a telefonon tárolódik, és soha nem szinkronizálódik. A biztonsági mentések nem tartalmazzák az eseményeket, ezért exportáld a naptárat, ha másolatot szeretnél.</string>
+    <string name="offline_calendars_info_cd">Az offline naptárakról</string>
+    <string name="offline_calendar_default_state">Alapértelmezett</string>
+    <string name="offline_calendar_new">Új naptár</string>
+    <string name="offline_calendar_new_in_picker">Új offline naptár</string>
+    <string name="action_create">Létrehozás</string>
+    <string name="offline_calendar_rename">Átnevezés</string>
+    <string name="offline_calendar_color">Szín</string>
+    <string name="offline_calendar_export">Naptár exportálása</string>
+    <string name="offline_calendar_builtin_info">A beépített naptár nem nevezhető át és nem törölhető. Ide kerülnek az új események, ha nincs naptár kiválasztva.</string>
+    <string name="offline_calendar_builtin_info_cd">A beépített naptárról</string>
+    <string name="offline_calendar_rename_cancel_cd">Átnevezés megszakítása</string>
+    <string name="offline_calendar_rename_save_cd">Név mentése</string>
+    <string name="offline_calendar_delete_cd">%1$s törlése</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Véglegesen törlöd a(z) \"%2$s\" naptárat és %1$d eseményét? Nem vonható vissza.</item>
+        <item quantity="other">Véglegesen törlöd a(z) \"%2$s\" naptárat és %1$d eseményét? Nem vonható vissza.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Véglegesen törlöd a(z) \"%1$s\" naptárat? Nincsenek benne események.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">%1$d esemény törlése is</item>
+        <item quantity="other">%1$d esemény törlése is</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s törölve</string>
+    <string name="offline_calendar_duplicate_name">Már létezik \"%1$s\" nevű offline naptár</string>
     <string name="settings_quick_event_add">Okos eseményhozzáadás</string>
     <string name="settings_quick_event_add_info">Hozz létre eseményeket természetes gépeléssel. Az \"Ebéd Sammel péntek 13:00\" kitölti helyetted a címet, a dátumot és az időpontot.</string>
     <string name="settings_suggest_titles">Eseménycímek javaslata</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Tegnap</string>
     <string name="label_device_calendars">Eszköz naptárak</string>
     <string name="label_default_calendar_hint">Az új események ebben a naptárban jönnek létre</string>
-    <string name="label_visible_count">%1$d / %2$d látható</string>
     <string name="label_reminders_truncated">%1$d nem látható (%2$d összesen, max. %3$d szerkeszthető)</string>
     <string name="label_found_events">Találat: %1$d esemény</string>
     <string name="placeholder_search">Keresés…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nincs mit importálni</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d esemény exportálva</item>
-        <item quantity="other">%1$d esemény exportálva</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d esemény</item>
         <item quantity="other">%1$d esemény</item>

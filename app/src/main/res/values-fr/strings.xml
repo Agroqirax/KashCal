@@ -88,7 +88,6 @@
     <string name="action_discard">Abandonner</string>
     <string name="action_discard_confirm">Abandonner ?</string>
     <string name="action_dismiss">Ignorer</string>
-    <string name="action_show_all">Tout afficher</string>
     <string name="action_connect">Connecter</string>
     <string name="action_duplicate">Dupliquer</string>
     <string name="action_share">Partager</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Historique de synchronisation</string>
     <string name="settings_sync_history_subtitle">Voir les sessions de synchronisation (dernières 48 heures)</string>
     <string name="settings_import_subtitle">Ajouter des événements depuis un fichier ICS dans n\'importe quel calendrier</string>
-    <string name="settings_export_subtitle">Enregistrer les événements dans un fichier ICS</string>
     <string name="settings_birthday_reminder">Rappel d\'anniversaire</string>
     <string name="settings_use_device_timezone">Utiliser le fuseau horaire de l\'appareil</string>
     <string name="settings_section_calendars">Calendriers et comptes</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">À la date</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Calendriers visibles</string>
     <string name="settings_default_calendar">Calendrier par défaut</string>
     <string name="settings_default_event_length">Durée par défaut de l\'événement</string>
     <string name="settings_default_event_length_hint">Durée par défaut des nouveaux événements</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Récupérer le calendrier</string>
     <string name="action_import_from_file">Importer des événements depuis un fichier</string>
-    <string name="action_export_local_calendar">Exporter le calendrier Local</string>
+    <string name="settings_export_calendars">Exporter les calendriers</string>
+    <string name="settings_export_calendars_subtitle">Enregistrer un calendrier en tant que fichier ICS</string>
+    <string name="export_calendar_no_events">Aucun événement</string>
+    <string name="export_calendar_preparing">Préparation…</string>
+    <string name="cd_export_calendar">Exporter %1$s</string>
+    <string name="cd_export_calendar_preparing">Préparation de %1$s</string>
+    <string name="export_calendar_chooser_title">Exporter le calendrier</string>
+    <string name="export_event_chooser_title">Exporter l\'événement</string>
+    <string name="export_file_failed">Impossible de créer le fichier.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,36 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Calendriers de l\'appareil</string>
     <string name="settings_device_calendars_hint">Calendriers d\'autres apps</string>
+    <string name="offline_calendars_row_label">Calendriers hors connexion</string>
+    <string name="offline_calendars_row_hint">Calendriers qui restent sur ce téléphone</string>
+    <string name="offline_calendars_manage_note">Ajoute, renomme, change la couleur ou supprime tes calendriers hors connexion.</string>
+    <string name="offline_calendars_info">Gardés uniquement sur ce téléphone et jamais synchronisés. Les sauvegardes n\'incluent pas les événements : exporte un calendrier pour en garder une copie.</string>
+    <string name="offline_calendars_info_cd">À propos des calendriers hors connexion</string>
+    <string name="offline_calendar_default_state">Par défaut</string>
+    <string name="offline_calendar_new">Nouveau calendrier</string>
+    <string name="offline_calendar_new_in_picker">Nouveau calendrier hors connexion</string>
+    <string name="action_create">Créer</string>
+    <string name="offline_calendar_rename">Renommer</string>
+    <string name="offline_calendar_color">Couleur</string>
+    <string name="offline_calendar_export">Exporter le calendrier</string>
+    <string name="offline_calendar_builtin_info">Le calendrier intégré ne peut être ni renommé ni supprimé. Les nouveaux événements y vont quand aucun calendrier n\'est choisi.</string>
+    <string name="offline_calendar_builtin_info_cd">À propos du calendrier intégré</string>
+    <string name="offline_calendar_rename_cancel_cd">Annuler le renommage</string>
+    <string name="offline_calendar_rename_save_cd">Enregistrer le nom</string>
+    <string name="offline_calendar_delete_cd">Supprimer %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Supprimer \"%2$s\" et son %1$d événement définitivement ? Action irréversible.</item>
+        <item quantity="many">Supprimer \"%2$s\" et ses %1$d événements définitivement ? Action irréversible.</item>
+        <item quantity="other">Supprimer \"%2$s\" et ses %1$d événements définitivement ? Action irréversible.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Supprimer \"%1$s\" définitivement ? Il ne contient aucun événement.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Supprimer aussi %1$d événement</item>
+        <item quantity="many">Supprimer aussi %1$d événements</item>
+        <item quantity="other">Supprimer aussi %1$d événements</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s supprimé</string>
+    <string name="offline_calendar_duplicate_name">Un calendrier hors connexion nommé \"%1$s\" existe déjà</string>
     <string name="settings_quick_event_add">Ajout intelligent d\'événement</string>
     <string name="settings_quick_event_add_info">Crée des événements en écrivant naturellement. \"Déjeuner avec Sam vendredi 13h00\" remplit le titre, la date et l\'heure pour toi.</string>
     <string name="settings_suggest_titles">Suggérer des titres d\'événements</string>
@@ -693,7 +728,6 @@
     <string name="label_yesterday">Hier</string>
     <string name="label_device_calendars">Calendriers de l\'appareil</string>
     <string name="label_default_calendar_hint">Les nouveaux événements seront créés dans ce calendrier</string>
-    <string name="label_visible_count">%1$d / %2$d visibles</string>
     <string name="label_reminders_truncated">%1$d non affichés (%2$d au total, %3$d modifiables max)</string>
     <string name="label_found_events">Trouvés : %1$d événements</string>
     <string name="placeholder_search">Rechercher…</string>
@@ -891,11 +925,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Rien à importer</string>
-    <plurals name="exported_events">
-        <item quantity="one">%1$d événement exporté</item>
-        <item quantity="many">%1$d événements exportés</item>
-        <item quantity="other">%1$d événements exportés</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d événement</item>
         <item quantity="many">%1$d événements</item>

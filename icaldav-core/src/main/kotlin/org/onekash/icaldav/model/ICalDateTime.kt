@@ -48,8 +48,8 @@ data class ICalDateTime(
     fun toLocalDateTime(): LocalDateTime = toZonedDateTime().toLocalDateTime()
 
     /**
-     * Returns [toLocalDate] as YYYYMMDD. `RRuleExpander` matches EXDATEs and RDATEs to
-     * occurrences by it, so a zone change here moves which day they hit.
+     * Returns [toLocalDate] as YYYYMMDD. `RRuleExpander` matches DATE values, and every value on
+     * an all-day series, to days by it, so a zone change here moves which day they hit.
      */
     fun toDayCode(): String {
         val local = toLocalDate()

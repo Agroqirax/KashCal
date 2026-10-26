@@ -1,3 +1,7 @@
+## [2026.10.26]
+
+- Fixed repeating events written in UTC showing an hour off after a daylight-saving change; events already on your phone are corrected when you update
+
 ## [2026.10.23]
 
 Somewhere on your server sits a small shelf of calendar feeds: the public holidays you subscribed to on a laptop years ago, a team's fixtures, the school terms. The server has kept every one of them safe. KashCal just never asked.

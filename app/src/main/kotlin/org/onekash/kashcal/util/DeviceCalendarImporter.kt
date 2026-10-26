@@ -206,7 +206,7 @@ private suspend fun createOnDevice(
         val created = if (file.isInvitation && uid != null && master.event.organizerEmail != null) {
             createInvitation(context, master, uid, repo, defaults)
         } else {
-            createPlain(context.calendarId, master.event, uid, repo, defaults, file.isInvitation)
+            createPlain(context.calendarId, master, uid, repo, defaults, file.isInvitation)
         }
         result += created
         group.exceptions
@@ -214,19 +214,20 @@ private suspend fun createOnDevice(
         group.components
     }
     for (component in standalone.filterNot { it.isCancelled }) {
-        result += createPlain(context.calendarId, component.event, null, repo, defaults, file.isInvitation)
+        result += createPlain(context.calendarId, component, null, repo, defaults, file.isInvitation)
     }
     return result
 }
 
 private suspend fun createPlain(
     calendarId: Long,
-    event: Event,
+    component: ImportedComponent,
     uid: String?,
     repo: CalendarProviderRepository,
     defaults: ReminderDefaults,
     isInvitation: Boolean,
 ): IcsImportResult {
+    val event = component.event
     val isRecurring = !event.rrule.isNullOrBlank()
     val created = repo.createEvent(
         calendarId = calendarId,
@@ -238,7 +239,7 @@ private suspend fun createPlain(
         isAllDay = event.isAllDay,
         rrule = event.rrule,
         duration = if (isRecurring) event.duration ?: computeDurationString(event.startTs, event.endTs, event.isAllDay) else null,
-        timezone = event.timezone ?: java.util.TimeZone.getDefault().id,
+        timezone = component.writtenZone ?: java.util.TimeZone.getDefault().id,
         reminders = remindersFor(event, defaults, isInvitation),
         uid = uid,
     )
@@ -265,7 +266,7 @@ private suspend fun createInvitation(
         isAllDay = event.isAllDay,
         rrule = event.rrule,
         duration = if (isRecurring) event.duration ?: computeDurationString(event.startTs, event.endTs, event.isAllDay) else null,
-        timezone = event.timezone ?: java.util.TimeZone.getDefault().id,
+        timezone = master.writtenZone ?: java.util.TimeZone.getDefault().id,
         reminders = remindersFor(event, defaults, isInvitation = true),
         uid = uid,
         organizer = organizer,

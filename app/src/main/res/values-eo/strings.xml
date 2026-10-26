@@ -88,7 +88,6 @@
     <string name="action_discard">Forjeti</string>
     <string name="action_discard_confirm">Ĉu forĵeti ŝanĝojn?</string>
     <string name="action_dismiss">Forigi</string>
-    <string name="action_show_all">Montri ĉion</string>
     <string name="action_connect">Konekti</string>
     <string name="action_duplicate">Duobligi</string>
     <string name="action_share">Kunhavigi</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Sinkroniga historio</string>
     <string name="settings_sync_history_subtitle">Vidi sinkronigajn seancojn (lastaj 48 horoj)</string>
     <string name="settings_import_subtitle">Aldoni eventojn el ICS-dosiero al iu ajn kalendaro</string>
-    <string name="settings_export_subtitle">Konservi eventojn al ICS-dosiero</string>
     <string name="settings_birthday_reminder">Naskig̉taga rememorigo</string>
     <string name="settings_use_device_timezone">Uzi aparatan horzonon</string>
     <string name="settings_section_calendars">Kalendaroj kaj kontoj</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Je dato</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Videblaj kalendaroj</string>
     <string name="settings_default_calendar">Defaŭlta kalendaro</string>
     <string name="settings_default_event_length">Defaŭlta eventa daŭro</string>
     <string name="settings_default_event_length_hint">Norma daŭro por novaj eventoj</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Alporti kalendaron</string>
     <string name="action_import_from_file">Importi eventojn el dosiero</string>
-    <string name="action_export_local_calendar">Eksporti lokan kalendaron</string>
+    <string name="settings_export_calendars">Eksporti kalendarojn</string>
+    <string name="settings_export_calendars_subtitle">Konservi kalendaron kiel ICS-dosiero</string>
+    <string name="export_calendar_no_events">Neniuj eventoj</string>
+    <string name="export_calendar_preparing">Preparante…</string>
+    <string name="cd_export_calendar">Eksporti %1$s</string>
+    <string name="cd_export_calendar_preparing">Preparante %1$s</string>
+    <string name="export_calendar_chooser_title">Eksporti kalendaron</string>
+    <string name="export_event_chooser_title">Eksporti eventon</string>
+    <string name="export_file_failed">Ne eblis krei la dosieron.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Aparataj kalendaroj</string>
     <string name="settings_device_calendars_hint">Kalendaroj el aliaj aplikaĵoj</string>
+    <string name="offline_calendars_row_label">Eksterretaj kalendaroj</string>
+    <string name="offline_calendars_row_hint">Kalendaroj, kiuj restas en ĉi tiu telefono</string>
+    <string name="offline_calendars_manage_note">Aldonu, renomu, rekoloru aŭ forigu viajn eksterretajn kalendarojn.</string>
+    <string name="offline_calendars_info">Konservataj nur en ĉi tiu telefono kaj neniam sinkronigataj. Savkopioj ne inkluzivas eventojn, do eksportu kalendaron por konservi kopion.</string>
+    <string name="offline_calendars_info_cd">Pri eksterretaj kalendaroj</string>
+    <string name="offline_calendar_default_state">Defaŭlta</string>
+    <string name="offline_calendar_new">Nova kalendaro</string>
+    <string name="offline_calendar_new_in_picker">Nova eksterreta kalendaro</string>
+    <string name="action_create">Krei</string>
+    <string name="offline_calendar_rename">Renomi</string>
+    <string name="offline_calendar_color">Koloro</string>
+    <string name="offline_calendar_export">Eksporti kalendaron</string>
+    <string name="offline_calendar_builtin_info">La enkonstruita kalendaro ne povas esti renomita aŭ forigita. Novaj eventoj iras ĉi tien, kiam neniu kalendaro estas elektita.</string>
+    <string name="offline_calendar_builtin_info_cd">Pri la enkonstruita kalendaro</string>
+    <string name="offline_calendar_rename_cancel_cd">Nuligi renomadon</string>
+    <string name="offline_calendar_rename_save_cd">Konservi nomon</string>
+    <string name="offline_calendar_delete_cd">Forigi %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Ĉu forigi \"%2$s\" kaj ĝian %1$d eventon por ĉiam? Ne malfareblas.</item>
+        <item quantity="other">Ĉu forigi \"%2$s\" kaj ĝiajn %1$d eventojn por ĉiam? Ne malfareblas.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Ĉu forigi \"%1$s\" por ĉiam? Ĝi ne havas eventojn.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Ankaŭ forigi %1$d eventon</item>
+        <item quantity="other">Ankaŭ forigi %1$d eventojn</item>
+    </plurals>
+    <string name="offline_calendar_deleted">%1$s forigita</string>
+    <string name="offline_calendar_duplicate_name">Eksterreta kalendaro nomita \"%1$s\" jam ekzistas</string>
     <string name="settings_quick_event_add">Inteligenta eventaldono</string>
     <string name="settings_quick_event_add_info">Kreu eventojn per natura tajpado. \"Tagmanĝo kun Sam vendredon je la 1a posttagmeze\" plenigas la titolon, daton kaj horon por vi.</string>
     <string name="settings_suggest_titles">Sugesti eventajn titolojn</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Hieraŭ</string>
     <string name="label_device_calendars">Aparataj kalendaroj</string>
     <string name="label_default_calendar_hint">Novaj eventoj estos kreataj en ĉi tiu kalendaro</string>
-    <string name="label_visible_count">%1$d / %2$d videblaj</string>
     <string name="label_reminders_truncated">%1$d ne montritaj (%2$d totale, maks. %3$d redakteblaj)</string>
     <string name="label_found_events">Trovitaj: %1$d eventoj</string>
     <string name="placeholder_search">Serĉi…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Nenio por importi</string>
-    <plurals name="exported_events">
-        <item quantity="one">Eksportita %1$d evento</item>
-        <item quantity="other">Eksportitaj %1$d eventoj</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d evento</item>
         <item quantity="other">%1$d eventoj</item>

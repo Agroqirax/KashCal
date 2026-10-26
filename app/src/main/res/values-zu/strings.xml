@@ -88,7 +88,6 @@
     <string name="action_discard">Lahla</string>
     <string name="action_discard_confirm">Kulahlwe?</string>
     <string name="action_dismiss">Chitha</string>
-    <string name="action_show_all">Bonisa Konke</string>
     <string name="action_connect">Xhuma</string>
     <string name="action_duplicate">Phinda</string>
     <string name="action_share">Yabelana</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Umlando wokuvumelanisa</string>
     <string name="settings_sync_history_subtitle">Buka izinhlelo zokuvumelanisa (amahora angama-48 edlule)</string>
     <string name="settings_import_subtitle">Engeza imicimbi esuka efayeleni le-ICS kunoma yiliphi ikhalenda</string>
-    <string name="settings_export_subtitle">Gcina imicimbi efayeleni le-ICS</string>
     <string name="settings_birthday_reminder">Isikhumbuzi Sosuku Lokuzalwa</string>
     <string name="settings_use_device_timezone">Sebenzisa indawo yesikhathi yedivayisi</string>
     <string name="settings_section_calendars">Amakhalenda &amp; ama-akhawunti</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Ngosuku</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Amakhalenda Abonayo</string>
     <string name="settings_default_calendar">Ikhalenda Ezenzakalelayo</string>
     <string name="settings_default_event_length">Ubude Bomcimbi Obuzenzakalelayo</string>
     <string name="settings_default_event_length_hint">Ubude obuzenzakalelayo bemicimbi emisha</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Landa Ikhalenda</string>
     <string name="action_import_from_file">Ngenisa imicimbi kusuka efayeleni</string>
-    <string name="action_export_local_calendar">Thumela ikhalenda Yangakini</string>
+    <string name="settings_export_calendars">Thumela amakhalenda</string>
+    <string name="settings_export_calendars_subtitle">Londoloza ikhalenda njengefayela le-ICS</string>
+    <string name="export_calendar_no_events">Ayikho imicimbi</string>
+    <string name="export_calendar_preparing">Kuyalungiselelwa…</string>
+    <string name="cd_export_calendar">Thumela i-%1$s</string>
+    <string name="cd_export_calendar_preparing">Kulungiselelwa i-%1$s</string>
+    <string name="export_calendar_chooser_title">Thumela ikhalenda</string>
+    <string name="export_event_chooser_title">Thumela umcimbi</string>
+    <string name="export_file_failed">Ayikwazanga ukwakha ifayela.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Amakhalenda Edivayisi</string>
     <string name="settings_device_calendars_hint">Amakhalenda asuka kwezinye izinhlelo</string>
+    <string name="offline_calendars_row_label">Amakhalenda angaphandle kwe-inthanethi</string>
+    <string name="offline_calendars_row_hint">Amakhalenda ahlala kule foni</string>
+    <string name="offline_calendars_manage_note">Engeza, qamba kabusha, shintsha umbala, noma ususe amakhalenda akho angaphandle kwe-inthanethi.</string>
+    <string name="offline_calendars_info">Agcinwa kule foni kuphela futhi awalokothi avumelaniswe. Izipele azifaki imicimbi, ngakho thumela ikhalenda ukuze ugcine ikhophi.</string>
+    <string name="offline_calendars_info_cd">Mayelana namakhalenda angaphandle kwe-inthanethi</string>
+    <string name="offline_calendar_default_state">Okuzenzakalelayo</string>
+    <string name="offline_calendar_new">Ikhalenda elisha</string>
+    <string name="offline_calendar_new_in_picker">Ikhalenda elisha elingaphandle kwe-inthanethi</string>
+    <string name="action_create">Dala</string>
+    <string name="offline_calendar_rename">Qamba kabusha</string>
+    <string name="offline_calendar_color">Umbala</string>
+    <string name="offline_calendar_export">Thumela ikhalenda</string>
+    <string name="offline_calendar_builtin_info">Ikhalenda elakhelwe ngaphakathi alikwazi ukuqanjwa kabusha noma ukususwa. Imicimbi emisha iya lapha uma kungakhethwanga ikhalenda.</string>
+    <string name="offline_calendar_builtin_info_cd">Mayelana nekhalenda elakhelwe ngaphakathi</string>
+    <string name="offline_calendar_rename_cancel_cd">Khansela ukuqamba kabusha</string>
+    <string name="offline_calendar_rename_save_cd">Londoloza igama</string>
+    <string name="offline_calendar_delete_cd">Susa i-%1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Susa i-\"%2$s\" nomcimbi wayo ongu-%1$d unomphela? Akukwazi ukuhlehliswa.</item>
+        <item quantity="other">Susa i-\"%2$s\" nemicimbi yayo engu-%1$d unomphela? Akukwazi ukuhlehliswa.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Susa i-\"%1$s\" unomphela? Ayinayo imicimbi.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Susa nomcimbi ongu-%1$d</item>
+        <item quantity="other">Susa nemicimbi engu-%1$d</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Kususiwe i-%1$s</string>
+    <string name="offline_calendar_duplicate_name">Ikhalenda elingaphandle kwe-inthanethi elibizwa ngokuthi \"%1$s\" selikhona kakade</string>
     <string name="settings_quick_event_add">Ukwengeza umcimbi okuhlakaniphile</string>
     <string name="settings_quick_event_add_info">Dala imicimbi ngokuthayipha ngokwemvelo. \"Isidlo sasemini no-Sam ngoLwesihlanu ngo-1pm\" igcwalisa isihloko, usuku, nesikhathi esikuvele.</string>
     <string name="settings_suggest_titles">Phakamisa izihloko zemicimbi</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Izolo</string>
     <string name="label_device_calendars">Amakhalenda Edivayisi</string>
     <string name="label_default_calendar_hint">Imicimbi emisha izokwenziwa kule khalenda</string>
-    <string name="label_visible_count">%1$d / %2$d ebonayo</string>
     <string name="label_reminders_truncated">%1$d akuboniswanga (%2$d esiphelele, okuningi %3$d okuhlelekayo)</string>
     <string name="label_found_events">Kutholwe: imicimbi engu-%1$d</string>
     <string name="placeholder_search">Sesha…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Akukho okungangeniswa</string>
-    <plurals name="exported_events">
-        <item quantity="one">Umcimbi ongu-%1$d uthunyelwe</item>
-        <item quantity="other">Imicimbi engu-%1$d ithunyelwe</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d umcimbi</item>
         <item quantity="other">%1$d imicimbi</item>

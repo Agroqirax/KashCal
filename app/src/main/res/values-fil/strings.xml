@@ -88,7 +88,6 @@
     <string name="action_discard">I-discard</string>
     <string name="action_discard_confirm">Itapon?</string>
     <string name="action_dismiss">I-dismiss</string>
-    <string name="action_show_all">Ipakita Lahat</string>
     <string name="action_connect">Ikonekta</string>
     <string name="action_duplicate">I-duplicate</string>
     <string name="action_share">I-share</string>
@@ -193,7 +192,6 @@
     <string name="settings_sync_history">Kasaysayan ng sync</string>
     <string name="settings_sync_history_subtitle">Tingnan ang mga sync session (huling 48 oras)</string>
     <string name="settings_import_subtitle">Magdagdag ng mga event mula sa ICS file sa anumang kalendaryo</string>
-    <string name="settings_export_subtitle">I-save ang mga event sa ICS file</string>
     <string name="settings_birthday_reminder">Paalala ng Kaarawan</string>
     <string name="settings_use_device_timezone">Gamitin ang timezone ng device</string>
     <string name="settings_section_calendars">Mga kalendaryo &amp; account</string>
@@ -457,7 +455,6 @@
     <string name="label_recurrence_on_date">Sa petsa</string>
 
     <!-- ==================== Settings (Additional) ==================== -->
-    <string name="settings_visible_calendars">Mga Nakikitang Kalendaryo</string>
     <string name="settings_default_calendar">Default na Kalendaryo</string>
     <string name="settings_default_event_length">Default na Haba ng Event</string>
     <string name="settings_default_event_length_hint">Default na haba para sa mga bagong kaganapan</string>
@@ -488,7 +485,15 @@
     <!-- ==================== Actions (Additional) ==================== -->
     <string name="action_fetch_calendar">Kunin ang Kalendaryo</string>
     <string name="action_import_from_file">Mag-import ng mga event mula sa file</string>
-    <string name="action_export_local_calendar">I-export ang Lokal na kalendaryo</string>
+    <string name="settings_export_calendars">I-export ang mga kalendaryo</string>
+    <string name="settings_export_calendars_subtitle">I-save ang kalendaryo bilang ICS file</string>
+    <string name="export_calendar_no_events">Walang event</string>
+    <string name="export_calendar_preparing">Naghahanda…</string>
+    <string name="cd_export_calendar">I-export ang %1$s</string>
+    <string name="cd_export_calendar_preparing">Naghahanda ng %1$s</string>
+    <string name="export_calendar_chooser_title">I-export ang kalendaryo</string>
+    <string name="export_event_chooser_title">I-export ang event</string>
+    <string name="export_file_failed">Hindi nakagawa ng file.</string>
 
     <!-- ==================== Providers ==================== -->
     <string name="provider_icloud">iCloud</string>
@@ -617,6 +622,34 @@
     <!-- ==================== Settings Screen ==================== -->
     <string name="settings_device_calendars">Mga Device Calendar</string>
     <string name="settings_device_calendars_hint">Mga kalendaryo mula sa ibang app</string>
+    <string name="offline_calendars_row_label">Mga offline na kalendaryo</string>
+    <string name="offline_calendars_row_hint">Mga kalendaryong nananatili sa phone na ito</string>
+    <string name="offline_calendars_manage_note">Magdagdag, palitan ang pangalan, palitan ang kulay o alisin ang iyong mga offline na kalendaryo.</string>
+    <string name="offline_calendars_info">Nakatago lang sa phone na ito at hindi kailanman sini-sync. Hindi kasama ang mga event sa mga backup, kaya i-export ang kalendaryo para magkaroon ng kopya.</string>
+    <string name="offline_calendars_info_cd">Tungkol sa mga offline na kalendaryo</string>
+    <string name="offline_calendar_default_state">Default</string>
+    <string name="offline_calendar_new">Bagong kalendaryo</string>
+    <string name="offline_calendar_new_in_picker">Bagong offline na kalendaryo</string>
+    <string name="action_create">Gumawa</string>
+    <string name="offline_calendar_rename">Palitan ang pangalan</string>
+    <string name="offline_calendar_color">Kulay</string>
+    <string name="offline_calendar_export">I-export ang kalendaryo</string>
+    <string name="offline_calendar_builtin_info">Hindi mapapalitan ang pangalan o mabubura ang built-in na kalendaryo. Dito napupunta ang mga bagong event kapag walang napiling kalendaryo.</string>
+    <string name="offline_calendar_builtin_info_cd">Tungkol sa built-in na kalendaryo</string>
+    <string name="offline_calendar_rename_cancel_cd">Kanselahin ang pagpapalit ng pangalan</string>
+    <string name="offline_calendar_rename_save_cd">I-save ang pangalan</string>
+    <string name="offline_calendar_delete_cd">Burahin ang %1$s</string>
+    <plurals name="offline_calendar_delete_confirm">
+        <item quantity="one">Burahin nang tuluyan ang \"%2$s\" at ang %1$d event nito? Hindi na ito maibabalik.</item>
+        <item quantity="other">Burahin nang tuluyan ang \"%2$s\" at ang %1$d event nito? Hindi na ito maibabalik.</item>
+    </plurals>
+    <string name="offline_calendar_delete_empty">Burahin nang tuluyan ang \"%1$s\"? Wala itong event.</string>
+    <plurals name="offline_calendar_delete_also">
+        <item quantity="one">Burahin din ang %1$d event</item>
+        <item quantity="other">Burahin din ang %1$d event</item>
+    </plurals>
+    <string name="offline_calendar_deleted">Nabura ang %1$s</string>
+    <string name="offline_calendar_duplicate_name">Mayroon nang offline na kalendaryong pinangalanang \"%1$s\"</string>
     <string name="settings_quick_event_add">Matalinong pagdagdag ng kaganapan</string>
     <string name="settings_quick_event_add_info">Gumawa ng mga kaganapan sa pamamagitan ng natural na pag-type. Ang \"Tanghalian kasama si Sam Biyernes ng 1pm\" ay pinupunan ang pamagat, petsa, at oras para sa iyo.</string>
     <string name="settings_suggest_titles">Magmungkahi ng mga pamagat ng event</string>
@@ -693,7 +726,6 @@
     <string name="label_yesterday">Kahapon</string>
     <string name="label_device_calendars">Mga Device Calendar</string>
     <string name="label_default_calendar_hint">Ang mga bagong event ay gagawin sa kalendaryong ito</string>
-    <string name="label_visible_count">%1$d / %2$d nakikita</string>
     <string name="label_reminders_truncated">%1$d hindi ipinakita (%2$d kabuuan, max %3$d na mae-edit)</string>
     <string name="label_found_events">Natagpuan: %1$d event</string>
     <string name="placeholder_search">Maghanap…</string>
@@ -875,10 +907,6 @@
     </plurals>
     <string name="ics_import_summary_separator">", "</string>
     <string name="ics_import_summary_nothing">Walang mai-import</string>
-    <plurals name="exported_events">
-        <item quantity="one">Na-export ang %1$d event</item>
-        <item quantity="other">Na-export ang %1$d event</item>
-    </plurals>
     <plurals name="event_count">
         <item quantity="one">%1$d event</item>
         <item quantity="other">%1$d event</item>

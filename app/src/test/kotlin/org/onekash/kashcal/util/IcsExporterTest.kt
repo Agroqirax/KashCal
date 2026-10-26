@@ -6,6 +6,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.onekash.kashcal.data.db.entity.Event
+import org.onekash.kashcal.domain.model.EventExport
 import org.onekash.kashcal.data.db.entity.SyncStatus
 import org.onekash.kashcal.sync.parser.icaldav.IcsPatcher
 
@@ -184,7 +185,8 @@ class IcsExporterTest {
             String::class.java
         )
         method.isAccessible = true
-        return method.invoke(exporter, events, calendarName) as String
+        val exports = events.map { (event, exceptions) -> EventExport(event, exceptions, emptyMap()) }
+        return method.invoke(exporter, exports, calendarName) as String
     }
 
     private fun createBasicEvent(

@@ -26,9 +26,9 @@ import org.onekash.kashcal.data.preferences.KashCalDataStore
 import org.onekash.kashcal.ui.shared.EventColorPalette
 
 /**
- * Picks the app theme's accent color, with the grid and 92-color wheel of [EventColorSheet].
- * Every selection is a concrete color: where the event sheet's first cell means "calendar
- * default" (null), this one commits the brand-teal default seed.
+ * Picks the app theme's accent color, with the grid and 92-color wheel of
+ * [EventColorPalettePanel]. Every selection is a concrete color: where the event palette's first
+ * cell means "calendar default" (null), this one commits the brand-teal default seed.
  *
  * It offers the same [EventColorPalette] as events. Any of its colors is a valid accent,
  * because the generated scheme keeps WCAG AA for any seed.

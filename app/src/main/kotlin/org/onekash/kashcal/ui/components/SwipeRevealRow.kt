@@ -171,31 +171,46 @@ fun SwipeRevealRow(
 }
 
 /**
- * The one open row of a list, by id. Opening a row closes the other. While a row is open, a tap
- * elsewhere in the list should first close it: [closeOr] runs an action only when nothing was
- * open, for taps that only close; others call [close] and then act.
+ * The one open row of a list, by id, and the row showing an inline delete confirm in place of
+ * itself, if any. Opening a row closes the other and the confirm. While a row is open or a
+ * confirm shows, a tap elsewhere in the list should first close it: [closeOr] runs an action
+ * only when nothing was open, for taps that only close; others call [close] and then act.
  */
 class RevealedRow {
     var openId: Long? by mutableStateOf(null)
         private set
 
-    /** Records [id] as open or closed after its row settles; a close for another row is ignored. */
+    /** The row showing its inline confirm, or null. */
+    var confirmingId: Long? by mutableStateOf(null)
+
+    /**
+     * Records [id] as open or closed after its row settles; a close for another row is ignored.
+     * A close leaves [confirmingId] alone: a swiped row reports closed when its confirm replaces
+     * it.
+     */
     fun set(id: Long, open: Boolean) {
         if (open) {
             openId = id
+            confirmingId = null
         } else if (openId == id) {
             openId = null
         }
     }
 
-    /** Closes the open row; returns true when one was open. */
+    /** Closes the open row and the confirm; returns true when either was showing. */
     fun close(): Boolean {
-        val was = openId != null
+        val was = openId != null || confirmingId != null
         openId = null
+        confirmingId = null
         return was
     }
 
-    /** Closes the open row, or runs [action] when none was open. */
+    /** Closes the open row but leaves a confirm showing, for a scroll that reaches its buttons. */
+    fun closeOpen() {
+        openId = null
+    }
+
+    /** Closes the open row and the confirm, or runs [action] when neither was showing. */
     fun closeOr(action: () -> Unit) {
         if (!close()) action()
     }
